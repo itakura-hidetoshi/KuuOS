@@ -1,0 +1,257 @@
+{
+  "schema": "kuuos_v166_version_bound_hunks_v1",
+  "baseline_blob": "3f8e6e2057e0676f7526172eb6211e638ab2262a",
+  "research_candidate_blob": "47d80e325f26db1b17c6c3809feb8dd654e56f5d",
+  "public_declarations": 13,
+  "preserve_historical_source": true,
+  "source_relative_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.lean",
+  "hunks": [
+    {
+      "start": 8,
+      "old": [],
+      "new": [
+        "open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22"
+      ],
+      "reason": "SSet/pairing helper namespace"
+    },
+    {
+      "start": 72,
+      "old": [],
+      "new": [
+        "/-- Evaluation of a degeneracy in the pinned standard simplex. -/",
+        "private lemma stdSimplex_sigma_apply {n d : ℕ}",
+        "    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))",
+        "    (i : Fin (d + 1)) (j : Fin (d + 2)) :",
+        "    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl",
+        ""
+      ],
+      "reason": "replace nonexistent simplex degeneracy API with explicit witness"
+    },
+    {
+      "start": 83,
+      "old": [
+        "    simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h01]"
+      ],
+      "new": [
+        "    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply, h01]"
+      ],
+      "reason": "use explicit local degeneracy lemma"
+    },
+    {
+      "start": 140,
+      "old": [
+        "    rw [s.isIndex.simplex_fst_castSucc, hq] at hmono",
+        "    change k.val ≤ km1.val at hmono",
+        "    dsimp [km1] at hmono"
+      ],
+      "new": [
+        "    change (s.x.cast s.hd).simplex.1 s.index.castSucc ≤",
+        "      (s.x.cast s.hd).simplex.1 q at hmono",
+        "    have hle : k.castSucc ≤ km1 := by",
+        "      calc",
+        "        k.castSucc = (s.x.cast s.hd).simplex.1 s.index.castSucc :=",
+        "          s.isIndex.simplex_fst_castSucc.symm",
+        "        _ ≤ (s.x.cast s.hd).simplex.1 q := hmono",
+        "        _ = km1 := hq",
+        "    change k.val ≤ km1.val at hle",
+        "    dsimp [km1] at hle"
+      ],
+      "reason": "rewrite Fin ordered vertex bound via typed calc"
+    },
+    {
+      "start": 156,
+      "old": [],
+      "new": [
+        "  change (s.x.cast s.hd).simplex.1 q ≤",
+        "    (s.x.cast s.hd).simplex.1 (t 0) at hlower"
+      ],
+      "reason": "normalize first monotonicity input"
+    },
+    {
+      "start": 159,
+      "old": [
+        "  rw [s.isIndex.simplex_fst_castSucc] at hupper"
+      ],
+      "new": [
+        "  change (s.x.cast s.hd).simplex.1 (t 0) ≤",
+        "    (s.x.cast s.hd).simplex.1 s.index.castSucc at hupper",
+        "  have hupperBound : (s.x.cast s.hd).simplex.1 (t 0) ≤ k.castSucc := by",
+        "    calc",
+        "      _ ≤ (s.x.cast s.hd).simplex.1 s.index.castSucc := hupper",
+        "      _ = k.castSucc := s.isIndex.simplex_fst_castSucc"
+      ],
+      "reason": "normalize second monotonicity input"
+    },
+    {
+      "start": 166,
+      "old": [
+        "      apply Fin.ext",
+        "      change km1.val = ((s.x.cast s.hd).simplex.1 (t 0)).val",
+        "      change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower",
+        "      change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupper",
+        "      have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by",
+        "        intro hval",
+        "        apply heq",
+        "        apply Fin.ext",
+        "        exact hval",
+        "      dsimp [km1] at hlower ⊢",
+        "      omega"
+      ],
+      "new": [
+        "      have hlt : (s.x.cast s.hd).simplex.1 (t 0) < k.castSucc :=",
+        "        lt_of_le_of_ne hupperBound heq",
+        "      apply le_antisymm",
+        "      · change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ km1.val",
+        "        change ((s.x.cast s.hd).simplex.1 (t 0)).val < k.val at hlt",
+        "        change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val - 1",
+        "        have hnat (a b : ℕ) (hab : a < b) : a ≤ b - 1 := by omega",
+        "        exact hnat _ _ hlt",
+        "      · exact hlower"
+      ],
+      "reason": "prove predecessor dichotomy without dependent rewrite"
+    },
+    {
+      "start": 195,
+      "old": [
+        "      dsimp [y]",
+        "      rw [unionProdPairingCoreTypeOneFirstCoordinateMap_apply, hpred]"
+      ],
+      "new": [
+        "      change ((s.x.cast s.hd).simplex.1 (t 0)).val + 1 = k.val",
+        "      rw [hpred]"
+      ],
+      "reason": "simplify equality under dependent first-coordinate map"
+    },
+    {
+      "start": 240,
+      "old": [
+        "    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :"
+      ],
+      "new": [
+        "    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :"
+      ],
+      "reason": "select pinned pairingCore concrete index type"
+    },
+    {
+      "start": 243,
+      "old": [
+        "        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "          .isUniquelyCodimOneFace z).index rfl)"
+      ],
+      "new": [
+        "        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl))"
+      ],
+      "reason": "select pinned pairingCore paired simplex"
+    },
+    {
+      "start": 247,
+      "old": [
+        "        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "            .isUniquelyCodimOneFace z).dim_eq).simplex.1) := by",
+        "  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢",
+        "  obtain ⟨s, rfl⟩ :=",
+        "    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z",
+        "  simpa [SSet.prodStdSimplex.pairingCore,",
+        "    unionProdPairingCoreTypeOneFirstCoordinateMap] using"
+      ],
+      "new": [
+        "        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by",
+        "  let P := SSet.prodStdSimplex.pairingCore.{u} k 1",
+        "  change P.pairing.II at z",
+        "  obtain ⟨s, rfl⟩ := P.equivII.surjective z",
+        "  have hpair : P.pairing.p (P.equivII s) = P.equivI s :=",
+        "    P.pairing_p_equivII s",
+        "  -- Equality of the actual nondegenerate type-(I) simplices, not merely",
+        "  -- equality of the pairing's subtype witnesses. Use this below under casts.",
+        "  have htypeOne :",
+        "      (P.pairing.p (P.equivII s)).val = P.type₁ s := by",
+        "    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]",
+        "  -- Normalize the actual paired simplex before comparing dependent casts.",
+        "  have hpairedN :",
+        "      (P.pairing.p (P.equivII s)).val.cast",
+        "          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq =",
+        "        P.type₁ s := by",
+        "    exact ((P.pairing.p (P.equivII s)).val.cast_eq_self _).trans htypeOne",
+        "  have hsimplex :",
+        "      ((P.pairing.p (P.equivII s)).val.cast",
+        "          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =",
+        "        P.simplex s := by",
+        "    -- The underlying SSet.S has a nondependent codomain, so transport the",
+        "    -- equality there before reflecting equality of fixed-dimensional simplices.",
+        "    apply (SSet.S.ext_iff _ _).mp",
+        "    simpa only [SSet.Subcomplex.PairingCore.type₁] using",
+        "      congrArg (fun (x : _ ) => x.toS) hpairedN",
+        "  have hindexCore :",
+        "      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =",
+        "        P.index s := by",
+        "    symm",
+        "    apply",
+        "      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff",
+        "        rfl (P.index s)).mp",
+        "    rw [hsimplex]",
+        "    -- Face equality is typed at the core dimension before its unique index",
+        "    -- is compared; no dimension-dependent rewriting crosses a cast.",
+        "    calc",
+        "      _ = (P.type₂ s).simplex := rfl",
+        "      _ = ((P.equivII s).val.cast rfl).simplex := by",
+        "        have hfaceN :",
+        "            P.type₂ s = ((P.equivII s).val.cast rfl) := by",
+        "          simp only [SSet.Subcomplex.N.cast_eq_self,",
+        "            SSet.Subcomplex.PairingCore.equivII_apply_coe]",
+        "        apply (SSet.S.ext_iff _ _).mp",
+        "        exact congrArg (fun (x : _) => x.toS) hfaceN",
+        "  have hindex :",
+        "      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =",
+        "        s.index.castSucc := by",
+        "    exact hindexCore.trans (by rfl)",
+        "  have hmap :",
+        "      SSet.yonedaEquiv.symm",
+        "        (((P.pairing.p (P.equivII s)).val.cast",
+        "          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex.1) =",
+        "        unionProdPairingCoreTypeOneFirstCoordinateMap k s := by",
+        "    rw [hsimplex]",
+        "    rfl",
+        "  -- Rewrite the core map on the *known proof* first: simplification of the",
+        "  -- dependent public pairing expression need not match the casted map syntax.",
+        "  have hscaled :="
+      ],
+      "reason": "construct explicit equality through pairingCore transport"
+    },
+    {
+      "start": 256,
+      "old": [],
+      "new": [
+        "  rw [← hmap] at hscaled",
+        "  simpa only [hindex] using hscaled"
+      ],
+      "reason": "rewrite scaled proof via typed equalities"
+    },
+    {
+      "start": 282,
+      "old": [
+        "      have hi : i = 0 := Subsingleton.elim _ _",
+        "      subst i",
+        "      simp at h0"
+      ],
+      "new": [
+        "      have hbad : i.val < 0 := hn",
+        "      exact False.elim (Nat.not_lt_zero _ hbad)"
+      ],
+      "reason": "eliminate impossible zero index from inner horn witness"
+    },
+    {
+      "start": 303,
+      "old": [
+        "      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)",
+        "        .app (op ⦋2⦌) t)"
+      ],
+      "new": [
+        "      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app",
+        "        (op ⦋2⦌) t)"
+      ],
+      "reason": "normalize first-coordinate map type elaboration"
+    }
+  ]
+}

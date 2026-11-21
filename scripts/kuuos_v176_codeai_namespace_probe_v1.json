@@ -1,0 +1,101 @@
+{
+  "schema": "kuuos_v176_codeai_namespace_probe_v1",
+  "source_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean",
+  "source_blob": "c7fd4eb959d05a2eeb430ea39a12d04ed4030ee9",
+  "legacy_unchanged": true,
+  "required_dependency_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean",
+  "required_dependency_blob": "e25e593ee859bbf66a26e8e83ee8d1a17d22659b",
+  "evidence": "All candidate states UNVERIFIED; direct Lean only",
+  "variants": [
+    {
+      "name": "imports",
+      "patches": [
+        {
+          "name": "monoidal-notation",
+          "old": "open Opposite\n",
+          "new": "open MonoidalCategory\nopen Opposite\n",
+          "count": 1
+        },
+        {
+          "name": "scaled-rpl",
+          "old": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n",
+          "new": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n",
+          "count": 1
+        },
+        {
+          "name": "typed-generator",
+          "old": "open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "count": 1
+        }
+      ],
+      "expected_blob": "6c0c68f5c98e9cda895e987dbc0e3824900a8111"
+    },
+    {
+      "name": "imports-scaled-cells",
+      "patches": [
+        {
+          "name": "monoidal-notation",
+          "old": "open Opposite\n",
+          "new": "open MonoidalCategory\nopen Opposite\n",
+          "count": 1
+        },
+        {
+          "name": "scaled-rpl",
+          "old": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n",
+          "new": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n",
+          "count": 1
+        },
+        {
+          "name": "typed-generator",
+          "old": "open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "count": 1
+        },
+        {
+          "name": "scaled-cells",
+          "old": "open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61\n",
+          "new": "open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61\nopen KUOS.DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62\n",
+          "count": 1
+        }
+      ],
+      "expected_blob": "c13f52663996645a3b428afe09435dff207e3ae6"
+    },
+    {
+      "name": "imports-explicit-rank-universe",
+      "patches": [
+        {
+          "name": "monoidal-notation",
+          "old": "open Opposite\n",
+          "new": "open MonoidalCategory\nopen Opposite\n",
+          "count": 1
+        },
+        {
+          "name": "scaled-rpl",
+          "old": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n",
+          "new": "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n",
+          "count": 1
+        },
+        {
+          "name": "typed-generator",
+          "old": "open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",
+          "count": 1
+        },
+        {
+          "name": "scaled-cells",
+          "old": "open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61\n",
+          "new": "open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61\nopen KUOS.DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62\n",
+          "count": 1
+        },
+        {
+          "name": "explicit-rank-function-universe",
+          "old": "(standardTypeABoundaryPrismRankFunction g)",
+          "new": "(standardTypeABoundaryPrismRankFunction.{u} g)",
+          "count": 5
+        }
+      ],
+      "expected_blob": "ff800a2f0cc9da950cc40caf815e71b2c19361c7"
+    }
+  ]
+}

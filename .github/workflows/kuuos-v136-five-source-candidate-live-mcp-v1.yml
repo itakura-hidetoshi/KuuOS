@@ -1,0 +1,240 @@
+name: KuuOS v1.36 five-source isolated Lean and real MCP
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v136-five-source-candidate-live-mcp-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  direct-pinned-lean-and-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '66a14d10d58eab195fc2b2c9814fdb34a4942473'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v136-five-source-mathlib-5450-v1
+      - name: Get pinned Mathlib cache
+        run: lake exe cache get
+      - name: Verify parent and import five exact GitHub research blobs into isolated CI checkout
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, pathlib, urllib.request
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root = pathlib.Path('.').resolve()
+          pins = require_pins(root)
+          assert pins['mathlib_sha'] == '5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          pairs = [
+              ('DependentOriginationMixedWhiskerPastingV1_36','74cfd1997d8c5ec0233db5ab473bf381b2367583'),
+              ('DependentOriginationMixedLeftUnitorPastingV1_36','e3d7a47a45c425040bac9f41675df049bc8ba228'),
+              ('DependentOriginationMixedRightUnitorPastingV1_36','339054b357f4799ad17e29ad6849b595240b0185'),
+              ('DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36','6a2fceb562a53d13429dc8f839d70a88547e7643'),
+              ('DependentOriginationStrongTransformationCylinderUncurryingV1_36','bf67ce6b167ecf88e877e874e3e6533c6d45de7d'),
+          ]
+          def blob(data):
+              return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          v35 = root/'formal/KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean'
+          assert blob(v35.read_bytes())=='03b35036177ebc1ef13a055073877a0c9a319976'
+          old = root/'formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean'
+          assert blob(old.read_bytes())=='9dfaadd1020fe57fb8693e43c94779b394640609'
+          out = pathlib.Path('/tmp/kuuos-v136-green-candidate')
+          out.mkdir(parents=True,exist_ok=True)
+          for stem,sha in pairs:
+              rel=pathlib.Path('formal/KUOS')/(stem+'.lean')
+              dest=root/rel
+              if stem != 'DependentOriginationStrongTransformationCylinderUncurryingV1_36':
+                  assert not dest.exists(),str(rel)
+              request=urllib.request.Request(
+                  'https://api.github.com/repos/itakura-hidetoshi/KuuOS/git/blobs/'+sha,
+                  headers={'Accept':'application/vnd.github+json','User-Agent':'KuuOS-v136-pinned-ci'})
+              with urllib.request.urlopen(request,timeout=90) as response:
+                  payload=json.load(response)
+              assert payload.get('encoding')=='base64'
+              data=base64.b64decode(payload['content'])
+              assert blob(data)==sha,stem
+              assert not any(x in data for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+              dest.write_bytes(data)
+              target=out/rel
+              target.parent.mkdir(parents=True,exist_ok=True)
+              target.write_bytes(data)
+          (out/'blobs.json').write_text(json.dumps({
+              'research_head':'ef215a76b638acadacbe628309f158ce8d7cbdb0',
+              'original_v136':'9dfaadd1020fe57fb8693e43c94779b394640609',
+              'candidate_pairs':pairs,'source_write_to_github':False,
+              'independent_certification':False},indent=2))
+          print('KUUOS_V136_RESEARCH_CANDIDATE_EXACT_SOURCE_READY_IN_CI_ONLY')
+          PY
+      - name: Direct Lean pinned v1.36 validation
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+      - name: Install live MCP requirements
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Real lean-lsp-mcp source diagnostics and direct independent gate
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          SHA="$(python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean')
+          print(hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+          )"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean \
+            --source-sha256 "$SHA" --output-dir /tmp/kuuos-v136-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import json,pathlib,shutil
+          r=json.loads(pathlib.Path('/tmp/kuuos-v136-mcp/receipt.json').read_text())
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] and not r['independent_ci_success']
+          assert not r['git_write_performed']
+          assert r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          shutil.copy2('/tmp/kuuos-v136-mcp/receipt.json','/tmp/kuuos-v136-green-candidate/mcp.json')
+          print('KUUOS_V136_REAL_MCP_AND_DIRECT_LEAN_SUCCESS')
+          PY
+      - name: Check v1.36 current-branch downstream v1.42 closure
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 20m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v136-five-source-live-mcp
+          path: /tmp/kuuos-v136-green-candidate
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-fresh-pinned-kernel-and-nine-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '66a14d10d58eab195fc2b2c9814fdb34a4942473'
+    needs: direct-pinned-lean-and-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v136-five-source-mathlib-5450-v1
+      - name: Get pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v136-five-source-live-mcp
+          path: /tmp/kuuos-v136-independent
+      - name: Recheck exact five Git blobs and real MCP receipt
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          require_pins(root)
+          base=pathlib.Path('/tmp/kuuos-v136-independent')
+          meta=json.loads((base/'blobs.json').read_text())
+          proof=json.loads((base/'mcp.json').read_text())
+          assert meta['research_head']=='ef215a76b638acadacbe628309f158ce8d7cbdb0'
+          assert proof['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert proof['source_restored'] and proof['rounds'][0]['semantic_success']
+          assert proof['rounds'][0]['direct_lean']['exit_code']==0
+          for stem,sha in meta['candidate_pairs']:
+              rel=pathlib.Path('formal/KUOS')/(stem+'.lean')
+              data=(base/rel).read_bytes()
+              check=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+              assert check==sha,stem
+              assert not any(x in data for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+              (root/rel).write_bytes(data)
+          print('KUUOS_V136_INDEPENDENT_SOURCE_AND_MCP_RECEIPT_MATCH')
+          PY
+      - name: Fresh pinned Lean dependency closure through v1.42
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+      - name: Independently audit all nine original v1.36 public declarations
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV136CandidateAxiomAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+          open KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+          #print axioms strongTransformationCylinder
+          #print axioms strongTransformationNormalLaxCylinder
+          #print axioms strongTransformationNormalLaxCylinder_zero_obj
+          #print axioms strongTransformationNormalLaxCylinder_one_obj
+          #print axioms strongTransformationDuskinCylinder
+          #print axioms sourceStrongCylinder
+          #print axioms targetStrongCylinder
+          #print axioms strongQuasiInverseNormalLaxCylinder
+          #print axioms globalDuskinRoundTripPrismRealization
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV136CandidateAxiomAudit.lean \
+            | tee /tmp/kuuos-v136-nine-public-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          log=pathlib.Path('/tmp/kuuos-v136-nine-public-axioms.log').read_text()
+          names=['strongTransformationCylinder','strongTransformationNormalLaxCylinder',
+            'strongTransformationNormalLaxCylinder_zero_obj',
+            'strongTransformationNormalLaxCylinder_one_obj',
+            'strongTransformationDuskinCylinder','sourceStrongCylinder',
+            'targetStrongCylinder','strongQuasiInverseNormalLaxCylinder',
+            'globalDuskinRoundTripPrismRealization']
+          assert all(("'"+n+"'") in log for n in names)
+          assert 'sorryAx' not in log and 'error:' not in log
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',log,re.S)
+          standard={'propext','Classical.choice','Quot.sound'}
+          for item in groups:
+              assert {x.strip() for x in item.split(',') if x.strip()}<=standard
+          assert len(groups)>=6
+          print('KUUOS_V136_NINE_PUBLIC_AXIOMS_STANDARD_ONLY')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v136-nine-declaration-axioms
+          path: /tmp/kuuos-v136-nine-public-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

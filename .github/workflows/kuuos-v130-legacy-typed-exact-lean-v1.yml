@@ -1,0 +1,111 @@
+name: KuuOS legacy v1.30 exact-typed presentation Strict Lean and six-axiom audit
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v130-legacy-typed-exact-lean-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  legacy-v130-exact-typed:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3555 && github.event.pull_request.head.ref == 'fix/kuuos-v127-v129-ulift-20261115' && github.event.pull_request.base.ref == 'fix/kuuos-v126-explicit-hom-transport-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python 3.12 for history-test tomllib
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect exact typed source, frozen legacy bytes, imports and pinned dependencies
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, re
+          def blob(raw):
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          path=Path('formal/KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean')
+          src=path.read_bytes()
+          assert blob(src)=='4f32b06a8c0e36cafc19dafae774c0077c7801bd'
+          assert blob(Path('legacy/v5.291/formal/KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean').read_bytes())=='f0a88ec76257f5f693a2060dd96cb269218dd50d'
+          assert blob(Path('formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean').read_bytes())=='3a1046a9a44cbb1ad466ef7a27a107122ea05aca'
+          assert [x for x in src.decode().splitlines() if x.startswith('import ')]==['import KUOS.DependentOriginationScaledDuskinHornTransportV1_29']
+          assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',src.decode())
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          manifest=json.loads(Path('lake-manifest.json').read_text())
+          assert [x['rev'] for x in manifest['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('LEGACY_V130_EXACT_TYPED_SOURCE_PINS_GREEN')
+          PY
+      - name: Independently check historical proof root against exact reviewed blob
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.test_public_root_restoration -v
+      - name: Install fixed Lean 4 toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake exe cache get
+      - name: Strict-build actual legacy v1.30 declaration and dependencies
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationScaledHornPresentationInvariantV1_30 2>&1 | tee /tmp/kuuos-legacy-v130-lean.log
+      - name: Independent exact six-declaration axiom audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.ScaledHornPresentationEquivalence',
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.hasScaledHornFillers_forward',
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.hasScaledHornFillers_backward',
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.hasScaledHornFillers_iff',
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.PresentationIndependentScaledFibrancy',
+              'KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.presentationIndependentScaledFibrancy',
+          ]
+          assert len(names)==6 and len(set(names))==6
+          Path('/tmp/kuuos-legacy-v130-axioms.lean').write_text(
+              'import KUOS.DependentOriginationScaledHornPresentationInvariantV1_30\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('LEGACY_V130_AXIOMS_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-legacy-v130-axioms.lean 2>&1 | tee /tmp/kuuos-legacy-v130-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-legacy-v130-axioms.log').read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(recs)==6,('COUNT',len(recs))
+          assert len({n for n,_ in recs})==6
+          allowed={'Classical.choice','Quot.sound','propext'}
+          for n,ax in recs:
+              used={x.strip() for x in ax.split(',') if x.strip()}
+              assert used <= allowed,(n,used-allowed)
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',raw)
+          print('LEGACY_V130_SIX_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
+      - name: Save exact-source Lean and axiom receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-v130-exact-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-legacy-v130-lean.log
+            /tmp/kuuos-legacy-v130-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

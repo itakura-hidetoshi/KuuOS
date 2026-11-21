@@ -1,0 +1,168 @@
+{
+  "schema": "kuuos_v175_codeai_universe_hunks_v3",
+  "baseline_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "source_blobs": {
+    "v175-v2-first-typed-pattern": "5171aa38dc1f9c779ad836d332125eb76e3fd4fa",
+    "v175-v2-cofan-descent": "bb4e5d6e2aa4e7ba89b05fa385a039a5e821eb2a",
+    "v175-v2-bmap-desc": "217ca069b5a1a6e7310c2ca0f32bcc452c92cd09",
+    "open-v149-inductive-where": "9eaf7fe74615bbd58ca4484c584b239656aba5f5"
+  },
+  "variants": [
+    {
+      "name": "v175-v3-typed-source-target",
+      "base": "open-v149-inductive-where",
+      "expected_blob": "206162efc208d705a2f074a249a086d70bc2ce7d",
+      "patches": [
+        {
+          "mode": "token",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "name": "v175-v3-typed-first-square",
+      "base": "v175-v2-first-typed-pattern",
+      "expected_blob": "74681fd75168c505d252da799598462d12e9cd7b",
+      "patches": [
+        {
+          "mode": "literal",
+          "old": "((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm",
+          "new": "((standardTypeABoundaryPrismRankFunction.{u} g).w j)",
+          "count": 1
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "name": "v175-v3-cofan-universe",
+      "base": "v175-v2-cofan-descent",
+      "expected_blob": "b5d360052904bd982290874c007cd928dcea0dfb",
+      "patches": [
+        {
+          "mode": "literal",
+          "old": "((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm",
+          "new": "((standardTypeABoundaryPrismRankFunction.{u} g).w j)",
+          "count": 1
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "name": "v175-v3-bmap-universe",
+      "base": "v175-v2-bmap-desc",
+      "expected_blob": "423f0246d9635433645dcb54f0cf8c3fb19d6ede",
+      "patches": [
+        {
+          "mode": "literal",
+          "old": "((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm",
+          "new": "((standardTypeABoundaryPrismRankFunction.{u} g).w j)",
+          "count": 1
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "mode": "token",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        }
+      ]
+    }
+  ]
+}

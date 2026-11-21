@@ -1,0 +1,282 @@
+#!/usr/bin/env python3
+"""KuuOS v1.70 CodeAI: isolate cause-separated research variants, real Lean/MCP, independent 13-axiom audit.
+All testing runs in a disposable Actions checkout; a green variant is only a candidate, not an adopted source.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import os
+import pathlib
+import re
+import tempfile
+from scripts import ci_kuuos_v164_codeai as prior
+
+NS = 'KUOS.DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70'
+REL = 'formal/' + NS.replace('.', '/') + '.lean'
+WORKFLOW = '.github/workflows/kuuos-v170-codeai-cellwise-ab-classification-real-mcp-v1.yml'
+BASE = 'c3e82af1701ba020c274fe7904c78bcdb618a342'
+RESEARCH_EXACT = '0ff7ff8615e00d26a10b5f86580c1aa98d09a81d'
+LINT_CANDIDATE = '000b106019b2940d1cd36937edca6957c270f38d'
+PATCH_PATH = 'scripts/kuuos_v170_codeai_version_bound_hunks_v1.json'
+PATCH_BLOB = '3b2fd9756a22fa33be36b893b2ef44404e73e649'
+DEPENDENCIES = {
+    'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean':
+        '8d235658c173045070a056dd9fac7627059847ed',
+    'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.lean':
+        '689d0135a4a85d25afae2dbc209a02db0cbd30d8',
+    'formal/KUOS/PinnedMathlibUnionProdProofPortV1_61.lean':
+        'ba703c0dd48e4e437cb968e077611fb50e5a154e',
+    'formal/KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean':
+        'e1101bc30b4e30a00a43a0ca6125cb1165c79227',
+}
+NAMES = [
+    "unionProdPairing_typeTwo_fst_surjective",
+    "unionProdPairing_typeTwo_index_transition",
+    "standardTypeABoundaryPrismCellPaired_fst_surjective",
+    "standardTypeABoundaryPrismCellPaired_index_transition",
+    "standardTypeABoundaryPrismCellFirstCoordinateOrdinal",
+    "standardTypeABoundaryPrismCellFirstCoordinateOrdinal_epi",
+    "standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism",
+    "standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id",
+    "standardTypeABoundaryPrismEqualGeneratorIndex",
+    "standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal",
+    "standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+    "standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal",
+    "standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_equal",
+    "standardTypeABoundaryPrismCellHornSaturatedAScaling",
+    "standardTypeABoundaryPrismCellAPushoutScaling_eq_hornSaturated_of_cell_maximal",
+    "standardTypeABoundaryPrismTransportScalingToThree",
+    "standardTypeABoundaryPrismTransportScalingToThree_maximal",
+    "standardTypeABoundaryPrismTransportScalingToThree_hornSaturated",
+    "standardTypeABoundaryPrism_generator_two_target_three_APushout_transport",
+    "StandardTypeABoundaryPrismCellQ12Factorization",
+    "StandardTypeABoundaryPrismCellQ23Factorization",
+    "standardTypeABoundaryPrismCellQ12Factorization_of_index_one",
+    "standardTypeABoundaryPrismCellQ23Factorization_of_index_two",
+    "standardTypeABoundaryPrism_cell_complete_AB_classification",
+]
+
+def candidates(baseline: str) -> dict[str, str]:
+    assert prior.blob(baseline.encode()) == BASE
+    assert prior.inventory(baseline) == NAMES and len(NAMES) == 24
+    data = json.loads(pathlib.Path(PATCH_PATH).read_text(encoding="utf-8"))
+    assert data["schema"] == "kuuos_v170_version_bound_hunks_v1"
+    assert data["source_relative_path"] == REL
+    assert data["baseline_blob"] == BASE and data["research_candidate_blob"] == RESEARCH_EXACT
+    assert data["preserve_historical_source"] is True
+    assert data["allow_private_lemmas"] is True
+    assert data["public_declarations"] == 24
+    hunks = data["hunks"]
+    assert len(hunks) == 48
+    lines = baseline.split("\n")
+    def apply_hunks(selected: set[int]) -> str:
+        cursor = 0
+        out: list[str] = []
+        for k, h in enumerate(hunks):
+            if k not in selected:
+                continue
+            start, old, new = h["start"], h["old"], h["new"]
+            assert isinstance(start, int) and isinstance(old, list) and isinstance(new, list)
+            assert all(isinstance(t, str) for t in old + new)
+            assert cursor <= start <= len(lines)
+            assert lines[start:start + len(old)] == old, ("exact old source mismatch", k)
+            out.extend(lines[cursor:start])
+            out.extend(new)
+            cursor = start + len(old)
+        out.extend(lines[cursor:])
+        return "\n".join(out)
+    groups = {
+        "pairingCore-and-private-bridges": set(range(0, 9)),
+        "universe-cell-types": {9, 11, 13, 14, 15, 16, 17, 18, 21, 25, 31, 33, 34, 36, 38, 40, 42, 43, 44, 45, 46, 47},
+        "typed-first-coordinate-rigidity": {10, 12, 19, 20, 22, 23, 24, 26, 27, 28, 29, 30},
+        "reducible-scaled-transport": {32, 35, 37, 39, 41},
+        "research-exact-all-48-hunks": set(range(48)),
+    }
+    out = {name: apply_hunks(indices) for name, indices in groups.items()}
+    assert prior.blob(out["research-exact-all-48-hunks"].encode()) == RESEARCH_EXACT
+    lint_old_1 = "    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]"
+    lint_new_1 = "    simp only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]"
+    lint_old_2 = "          simp [stdSimplex_sigma_apply, Fin.predAbove, Fin.succAbove]"
+    lint_new_2 = "          simp [stdSimplex_sigma_apply, Fin.predAbove]"
+    source_research = out["research-exact-all-48-hunks"]
+    assert source_research.count(lint_old_1) == 1 and source_research.count(lint_old_2) == 1
+    repaired = source_research.replace(lint_old_1, lint_new_1).replace(lint_old_2, lint_new_2)
+    assert prior.blob(repaired.encode()) == LINT_CANDIDATE
+    out["lint-compliant-48-hunks"] = repaired
+    expected_private = {
+        "stdSimplex_sigma_apply",
+        "interiorPairing_pairedSimplex",
+        "interiorPairing_pairedIndex",
+        "transportMaximalScaledSimplicialSet",
+        "hornSaturatedSimplexScaling",
+        "transportHornSaturatedSimplexScaling",
+    }
+    priv = re.findall(
+        r"^(?:@\[[^\]]+\]\s*)?private\s+(?:def|lemma|theorem)\s+([^\s(:]+)",
+        out["research-exact-all-48-hunks"], re.M)
+    assert set(priv) == expected_private and len(priv) == 6
+    for name, source in out.items():
+        assert prior.inventory(source) == NAMES, ("public declarations altered", name)
+    return out
+
+
+def pins(root: pathlib.Path) -> None:
+    prior.pins(root)
+    assert prior.blob((root / PATCH_PATH).read_bytes()) == PATCH_BLOB
+    assert prior.blob((root / 'legacy/v5.291' / REL).read_bytes()) == BASE
+    for p, sha in DEPENDENCIES.items():
+        assert prior.blob((root / p).read_bytes()) == sha, ('dependency SHA mismatch', p)
+
+
+def strict_build(root: pathlib.Path, out: pathlib.Path) -> None:
+    p = prior.command(root, ['lake', '-KleanArgs=-DwarningAsError=true',
+        '-KleanArgs=-DsorryAsError=true', 'build', NS], out / 'strict-build.log', 3600)
+    assert p.returncode == 0, 'direct exact-source Strict Lean failed'
+
+
+def direct(root: pathlib.Path, out: pathlib.Path) -> None:
+    from scripts.kuuos_lean_mcp_repair_loop_v1 import (
+        run_loop, mcp_tactic_provider, mask_lean_comments, FORBIDDEN_NEW)
+    pins(root)
+    target = root / REL
+    original = target.read_bytes()
+    assert prior.blob(original) == os.environ['CHECKOUT_BLOB']
+    baseline = (root / 'legacy/v5.291' / REL).read_text(encoding='utf-8')
+    variants = candidates(baseline)
+    assert original in {baseline.encode(), *(s.encode() for s in variants.values())}
+    records = []
+    manifest = None
+    try:
+        for name, source in [('baseline', baseline), *variants.items()]:
+            assert not FORBIDDEN_NEW.findall(mask_lean_comments(source)), name
+            target.write_text(source, encoding='utf-8')
+            with tempfile.TemporaryDirectory(prefix='kuuos-v170-') as tmp:
+                olean = pathlib.Path(tmp) / 'candidate.olean'
+                p = prior.command(root, ['lake', 'env', 'lean',
+                    '-DwarningAsError=true', '-Dweak.sorryAsError=true',
+                    '-o', str(olean), REL], out / (name + '.log'), 900)
+                log = p.stdout + '\n' + p.stderr
+                errors = re.findall(r'^.*\berror(?:\([^)]*\))?:.*$', log, re.M)
+                row = {
+                    'candidate': name, 'head': os.environ['SOURCE_HEAD'],
+                    'blob': prior.blob(source.encode()),
+                    'source_sha256': hashlib.sha256(source.encode()).hexdigest(),
+                    'exit_code': p.returncode, 'errors': errors,
+                    'success': p.returncode == 0 and olean.is_file()
+                        and not errors and 'sorryAx' not in log,
+                }
+                records.append(row)
+                (out / 'candidates.json').write_text(json.dumps(records, indent=2))
+                print('KUUOS_V170_DIRECT ' + json.dumps(row), flush=True)
+        assert not records[0]['success'], 'the broken baseline unexpectedly passed'
+        chosen = next((row for row in records[1:] if row['success']
+            and row['candidate'] == 'lint-compliant-48-hunks'), None)
+        assert chosen is not None, 'The two-lint-corrected v1.70 candidate did not pass direct pinned Lean'
+        source = variants[chosen['candidate']].encode()
+        target.write_bytes(source)
+        strict_build(root, out)
+        receipt = run_loop(root=root, rel_file=REL,
+            output_dir=out / 'real-mcp',
+            expected_sha256=hashlib.sha256(source).hexdigest(),
+            provider=mcp_tactic_provider, max_iterations=1)
+        (out / 'mcp.json').write_text(json.dumps(receipt, indent=2))
+        prior.verify_mcp(receipt, source)
+        (out / 'source.lean').write_bytes(source)
+        (out / 'candidate-script.py').write_bytes(
+            (root / 'scripts/ci_kuuos_v170_codeai.py').read_bytes())
+        (out / 'workflow.yml').write_bytes((root / WORKFLOW).read_bytes())
+        (out / 'repair-hunks.json').write_bytes((root / PATCH_PATH).read_bytes())
+        manifest = {
+            'head': os.environ['SOURCE_HEAD'], 'checkout_blob': prior.blob(original),
+            'selected': chosen, 'source_sha256': hashlib.sha256(source).hexdigest(),
+            'dependencies': DEPENDENCIES, 'baseline_blob': BASE,
+            'source_restored': False, 'git_write_performed': False,
+            'independent_ci_success': False,
+        }
+    finally:
+        target.write_bytes(original)
+    assert target.read_bytes() == original and manifest is not None
+    manifest['source_restored'] = True
+    (out / 'manifest.json').write_text(json.dumps(manifest, indent=2))
+    print('KUUOS_V170_DIRECT_AND_REAL_MCP_SUCCESS ' + json.dumps(manifest), flush=True)
+
+
+def independent(root: pathlib.Path, out: pathlib.Path) -> None:
+    from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments, FORBIDDEN_NEW
+    pins(root)
+    manifest = json.loads((out / 'manifest.json').read_text())
+    receipt = json.loads((out / 'mcp.json').read_text())
+    source = (out / 'source.lean').read_bytes()
+    original = (root / REL).read_bytes()
+    baseline = (root / 'legacy/v5.291' / REL).read_text(encoding='utf-8')
+    variants = candidates(baseline)
+    chosen = manifest['selected']
+    assert manifest['head'] == os.environ['SOURCE_HEAD']
+    assert manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB'] == prior.blob(original)
+    assert original in {baseline.encode(), *(s.encode() for s in variants.values())}
+    assert manifest['dependencies'] == DEPENDENCIES and manifest['baseline_blob'] == BASE
+    assert chosen['candidate'] == 'lint-compliant-48-hunks' and chosen['success'] and chosen['exit_code'] == 0
+    assert not chosen['errors']
+    assert source == variants[chosen['candidate']].encode()
+    assert prior.blob(source) == LINT_CANDIDATE
+    assert prior.blob(source) == chosen['blob']
+    assert hashlib.sha256(source).hexdigest() == chosen['source_sha256'] == manifest['source_sha256']
+    assert manifest['source_restored'] and not manifest['git_write_performed']
+    assert not manifest['independent_ci_success']
+    for output, path in [
+        ('candidate-script.py', 'scripts/ci_kuuos_v170_codeai.py'),
+        ('workflow.yml', WORKFLOW),
+        ('repair-hunks.json', PATCH_PATH),
+    ]:
+        assert (out / output).read_bytes() == (root / path).read_bytes()
+    assert not FORBIDDEN_NEW.findall(mask_lean_comments(source.decode()))
+    prior.verify_mcp(receipt, source)
+    target = root / REL
+    audit = root / 'formal/KUOS/DependentOriginationV170IndependentAudit.lean'
+    assert not audit.exists()
+    try:
+        target.write_bytes(source)
+        strict_build(root, out)
+        audit.write_text('import ' + NS + '\n'
+            + '\n'.join('#check ' + NS + '.' + n for n in NAMES) + '\n'
+            + '\n'.join('#print axioms ' + NS + '.' + n for n in NAMES) + '\n')
+        p = prior.command(root, ['lake', 'env', 'lean',
+            '-DwarningAsError=true', '-Dweak.sorryAsError=true',
+            str(audit)], out / 'axioms.log', 900)
+        log = p.stdout + '\n' + p.stderr
+        assert p.returncode == 0 and 'sorryAx' not in log and 'error:' not in log
+        rows = re.findall(
+            r"'([^']+)'\s+(?:depends on axioms:\s*\[([^\]]*)\]|does not depend on any axioms)",
+            log, re.S)
+        assert len(rows) == len(NAMES) == 24, ('axiom count', len(rows))
+        assert {n for n, _ in rows} == {NS + '.' + name for name in NAMES}
+        for _, axioms in rows:
+            assert {a.strip() for a in axioms.split(',') if a.strip()} <= {
+                'propext', 'Classical.choice', 'Quot.sound'}
+        print('KUUOS_V170_INDEPENDENT_24_DECLARATIONS_STANDARD_AXIOMS_SUCCESS',
+            flush=True)
+    finally:
+        target.write_bytes(original)
+        audit.unlink(missing_ok=True)
+    assert target.read_bytes() == original
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument('mode', choices=['direct', 'independent', 'plan'])
+    ap.add_argument('directory', type=pathlib.Path)
+    args = ap.parse_args()
+    if args.mode == 'plan':
+        print(json.dumps({name: prior.blob(s.encode()) for name, s in
+            candidates(args.directory.read_text()).items()}, indent=2))
+        return
+    root = pathlib.Path('.').resolve()
+    out = args.directory.resolve()
+    assert not out.is_relative_to(root)
+    out.mkdir(parents=True, exist_ok=True)
+    (direct if args.mode == 'direct' else independent)(root, out)
+
+
+if __name__ == '__main__':
+    main()

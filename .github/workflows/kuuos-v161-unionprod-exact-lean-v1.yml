@@ -1,0 +1,132 @@
+name: KuuOS pinned UnionProd v1.61 exact proof-port Strict Lean and nine-axiom audit
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/PinnedMathlibUnionProdProofPortV1_61.lean'
+      - 'formal/KUOS/PinnedMathlibUnionProdInnerPairingCoreV1_61.lean'
+      - 'formal/KUOS/PinnedMathlibUnionProdWeakRankV1_61.lean'
+      - 'formal/KUOS/PinnedMathlibUnionProdOpSymmetryV1_61.lean'
+      - 'formal/KUOS/PinnedMathlibUnionProdFullPairingV1_61.lean'
+      - 'formal/KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean'
+      - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v161-unionprod-exact-lean-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pinned-unionprod-v161-exact:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3555 && github.event.pull_request.head.ref == 'fix/kuuos-v127-v129-ulift-20261115' && github.event.pull_request.base.ref == 'fix/kuuos-v126-explicit-hom-transport-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python 3.12 for pinned and historical-source checks
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original legacy sources, exact imported proof blobs and fixed mathlib pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,hashlib,re
+          def blob(raw): return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          expected={
+            'PinnedMathlibUnionProdProofPortV1_61.lean': 'ba703c0dd48e4e437cb968e077611fb50e5a154e',
+            'PinnedMathlibUnionProdInnerPairingCoreV1_61.lean': 'ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d',
+            'PinnedMathlibUnionProdWeakRankV1_61.lean': '131542e0a23efa80287655656f1805b5523acabf',
+            'PinnedMathlibUnionProdOpSymmetryV1_61.lean': '6fa03ffd9b5e0bb084af47a303b275aaa27b7bda',
+            'PinnedMathlibUnionProdFullPairingV1_61.lean': 'da3cc7de1761081f15830dd0aecf9f3d23067e90',
+            'DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean': '3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6',
+            'DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean': '932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3',
+          }
+          for name,sha in expected.items():
+              data=Path('formal/KUOS',name).read_bytes()
+              assert blob(data)==sha,(name,blob(data),sha)
+              assert not re.search(r'(?m)^\s*(axiom|sorry|admit)\b',data.decode()), name
+          legacy={
+              'DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean':('e8a64f9ff6d832c7d0cc2db58b5d82fdf3134284','3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6'),
+              'DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean':('126c7e8a4e1ce615baa6c6732ac53c7160b55029','932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3')
+          }
+          for name,(old,new) in legacy.items():
+              assert blob(Path('legacy/v5.291/formal/KUOS',name).read_bytes())==old
+              assert blob(Path('formal/KUOS',name).read_bytes())==new
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [x['rev'] for x in json.loads(Path('lake-manifest.json').read_text())['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('V161_PINNED_UNIONPROD_EXACT_SOURCE_AND_LEGACY_GREEN')
+          PY
+      - name: Check retained public proof roots and exact byte exceptions
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.test_public_root_restoration -v
+      - name: Install pinned Lean4
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed Mathlib prerequisites
+        run: lake exe cache get
+      - name: Strict-build actual pinned pairing, reversal, filtration and dependencies
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.PinnedMathlibUnionProdProofPortV1_61 KUOS.PinnedMathlibUnionProdInnerPairingCoreV1_61 KUOS.PinnedMathlibUnionProdWeakRankV1_61 KUOS.PinnedMathlibUnionProdOpSymmetryV1_61 KUOS.PinnedMathlibUnionProdFullPairingV1_61 KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60 KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61 2>&1 | tee /tmp/kuuos-v161-unionprod-lean.log
+      - name: Audit nine exact declarations without sorry/new axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+              'SSet.prodStdSimplex.unionProd_anodyne',
+              'SSet.prodStdSimplex.unionProd_strongAnodyne',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_filtration_zero',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_iSup_filtration',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_cell_index_ne_zero',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_cell_index_ne_last',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_cell_index_pos',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_cell_index_lt_last',
+              'KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.standardTypeABoundaryPrism_basicCell_eq_typeA_underlying',
+          ]
+          assert len(names)==9 and len(set(names))==9
+          Path('/tmp/kuuos-v161-unionprod-axioms.lean').write_text(
+              'import KUOS.PinnedMathlibUnionProdFullPairingV1_61\n'
+              + 'import KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('V161_UNIONPROD_AXIOMS_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v161-unionprod-axioms.lean 2>&1 | tee /tmp/kuuos-v161-unionprod-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-v161-unionprod-axioms.log').read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(recs)==9,('AXIOM_COUNT',len(recs))
+          assert len({n for n,_ in recs})==9
+          allowed={'Classical.choice','Quot.sound','propext'}
+          for name,axioms in recs:
+              used={x.strip() for x in axioms.split(',') if x.strip()}
+              assert used<=allowed,(name,used-allowed)
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',raw)
+          print('V161_UNIONPROD_NINE_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
+      - name: Retain independent source and proof audit output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v161-unionprod-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v161-unionprod-lean.log
+            /tmp/kuuos-v161-unionprod-axioms.log
+          retention-days: 30
+          if-no-files-found: warn

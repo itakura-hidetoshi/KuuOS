@@ -1,0 +1,93 @@
+{
+  "schema": "kuuos_v175_codeai_gluing_hunks_v8",
+  "baseline_blob": "2436c5891989a6840a9a6fdddc0d5a96dee9dcda",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v8-sigma-congrArg",
+      "patches": [
+        {
+          "name": "Sigma-desc-congrArg",
+          "mode": "literal",
+          "old": "  apply Sigma.hom_ext\n  intro b\n  change\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j d).map)) =\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map))\n  simpa only [Sigma.ι_desc] using\n    standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b",
+          "new": "  have hmaps :\n      (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n        (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map) =\n      (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n        (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map) := by\n    funext b\n    exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b\n  exact congrArg (fun k : (b : StandardTypeABoundaryPrismRankBCell g j) →\n      (Δ[4] : SSet.{u}) ⟶\n        ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u}) => Sigma.desc k) hmaps",
+          "count": 1
+        }
+      ],
+      "base": "v175-v7-combined",
+      "expected_blob": "3ce91751ce3aa4406ecced28edabed49ec7ec0df"
+    },
+    {
+      "name": "v175-v8-sigma-congr",
+      "patches": [
+        {
+          "name": "Sigma-desc-congr",
+          "mode": "literal",
+          "old": "  apply Sigma.hom_ext\n  intro b\n  change\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j d).map)) =\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map))\n  simpa only [Sigma.ι_desc] using\n    standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b",
+          "new": "  change\n    (Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n      (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map)) =\n    (Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map))\n  congr 1\n  funext b\n  exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b",
+          "count": 1
+        }
+      ],
+      "base": "v175-v7-combined",
+      "expected_blob": "4572c66e129d15879e4f2905df79a756f5b937df"
+    },
+    {
+      "name": "v175-v8-range",
+      "patches": [
+        {
+          "name": "rank-set-Nat-succ-domain",
+          "mode": "literal",
+          "old": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n",
+          "new": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Nat.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Nat.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n",
+          "count": 1
+        }
+      ],
+      "base": "v175-v7-combined",
+      "expected_blob": "8b3c10d5d095c1ee53f36852f61b7446916e5aac"
+    },
+    {
+      "name": "v175-v8-pushout",
+      "patches": [
+        {
+          "name": "unfold-pushout-then-transport-scaling",
+          "mode": "literal",
+          "old": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "new": "  dsimp [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget] at h\n  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "count": 1
+        }
+      ],
+      "base": "v175-v7-combined",
+      "expected_blob": "1ba559ffef1c6c3f9c0f8c6bc48b7541d9ca9cee"
+    },
+    {
+      "name": "v175-v8-combined",
+      "patches": [
+        {
+          "name": "Sigma-desc-congrArg",
+          "mode": "literal",
+          "old": "  apply Sigma.hom_ext\n  intro b\n  change\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j d).map)) =\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map))\n  simpa only [Sigma.ι_desc] using\n    standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b",
+          "new": "  have hmaps :\n      (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n        (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map) =\n      (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n        (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map) := by\n    funext b\n    exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b\n  exact congrArg (fun k : (b : StandardTypeABoundaryPrismRankBCell g j) →\n      (Δ[4] : SSet.{u}) ⟶\n        ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u}) => Sigma.desc k) hmaps",
+          "count": 1
+        },
+        {
+          "name": "rank-set-Nat-succ-domain",
+          "mode": "literal",
+          "old": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n",
+          "new": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Nat.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Nat.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n",
+          "count": 1
+        },
+        {
+          "name": "unfold-pushout-then-transport-scaling",
+          "mode": "literal",
+          "old": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "new": "  dsimp [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget] at h\n  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "count": 1
+        }
+      ],
+      "base": "v175-v7-combined",
+      "expected_blob": "2f9fd7821808a84638a55d90d5535b70dac4d5bc"
+    }
+  ]
+}

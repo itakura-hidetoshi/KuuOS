@@ -8,6 +8,11 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
+open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -72,13 +77,13 @@ rank-successor pushout and its natural-number transfinite composition.
 
 /-- One raw standard cellular step: a pushout of a coproduct of standard
 A/B/C generators. -/
-def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :=
+@[reducible] def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :=
   (MorphismProperty.coproducts.{u}
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u}))).pushouts
 
 /-- The strong, unretracted standard cellular closure. -/
-def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :=
+@[reducible] def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :=
   MorphismProperty.transfiniteCompositions.{u}
     (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
 
@@ -99,7 +104,7 @@ type-(A) generator, hence already belongs to the raw standard cellular class. -/
 theorem standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellAPushoutHom g j c) := by
   have hgen :
@@ -113,43 +118,58 @@ theorem standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular
         MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAGenerator_mem_ABC
         (standardTypeABoundaryPrismCellHornIndex g j c))
-  rw [← standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] at hgen
+  have hgen' :
+      (MorphismProperty.coproducts.{u}
+        (standardScaledAnodyneGeneratorsABC :
+          MorphismProperty (ScaledSSet.{u})))
+        (scalingEnrichmentPushoutLowerMap c.horn.ι
+          (standardTypeAHornInclusion_scaled c.index)) := by
+    simpa only [standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] using hgen
   exact MorphismProperty.pushouts_mk
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})))
     (standardTypeABoundaryPrismCellA_genericPushout g j c
       (standardTypeABoundaryPrismCellACompatible_all g j c)).flip
-    hgen
+    hgen'
 
 /-! ## The two fixed B completions are also raw standard cellular steps -/
 
 /-- The fixed q12 completion is literally a pushout of the standard type-(B)
 generator. -/
 theorem standardTypeBCollapse12CompletionHom_mem_rawCellular :
-    standardABCRawCellularStep standardTypeBCollapse12CompletionHom := by
+    standardABCRawCellularStep standardTypeBCollapse12CompletionHom.{u} := by
   have hB :
       (MorphismProperty.coproducts.{u}
         (standardScaledAnodyneGeneratorsABC :
-          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :=
+          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
-      standardTypeBGenerator_mem_ABC
+      standardTypeBGenerator_mem_ABC.{u}
   exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse12Completion_isPushout hB
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})))
+    standardTypeBCollapse12Completion_isPushout.{u} hB
 
 /-- The fixed q23 completion is literally a pushout of the standard type-(B)
 generator. -/
 theorem standardTypeBCollapse23CompletionHom_mem_rawCellular :
-    standardABCRawCellularStep standardTypeBCollapse23CompletionHom := by
+    standardABCRawCellularStep standardTypeBCollapse23CompletionHom.{u} := by
   have hB :
       (MorphismProperty.coproducts.{u}
         (standardScaledAnodyneGeneratorsABC :
-          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :=
+          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
-      standardTypeBGenerator_mem_ABC
+      standardTypeBGenerator_mem_ABC.{u}
   exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse23Completion_isPushout hB
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})))
+    standardTypeBCollapse23Completion_isPushout.{u} hB
 
 /-! ## Explicit carrier/scaling isomorphisms for the exceptional three-cells -/
 
@@ -161,23 +181,9 @@ def scalingEqualityIso
     {X : SSet.{u}}
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
-    ScaledSSet.of X s ≅ ScaledSSet.of X t where
-  hom :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  inv :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  hom_inv_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
-  inv_hom_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
+    ScaledSSet.of X s ≅ ScaledSSet.of X t := by
+  cases h
+  exact Iso.refl _
 
 @[simp]
 theorem scalingEqualityIso_hom_map
@@ -185,6 +191,7 @@ theorem scalingEqualityIso_hom_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).hom.map = 𝟙 X := by
+  cases h
   rfl
 
 @[simp]
@@ -193,20 +200,56 @@ theorem scalingEqualityIso_inv_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).inv.map = 𝟙 X := by
+  cases h
   rfl
 
 /-- One-shot isomorphism from a dependent actual three-cell carrier to the
 fixed `Delta[3]` carrier carrying the v1.70 transported scaling. -/
+private noncomputable def scalingIsoOfDimensionEq
+    {n : ℕ} (h : n = 3)
+    (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
+    ScaledSSet.of (Δ[n] : SSet.{u}) s ≅
+      ScaledSSet.of (Δ[3] : SSet.{u})
+        (Eq.mp
+          (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h) s) := by
+  cases h
+  exact Iso.refl _
+
 noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3)
     (s : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
     ScaledSSet.of (Δ[c.dim + 1] : SSet.{u}) s ≅
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3 s) := by
-  subst_vars
+  exact scalingIsoOfDimensionEq h3 s
+
+/-! ## Explicit dimension-equality transport for completion morphisms -/
+
+private noncomputable def scaledCompletionTransportOfDimensionEq
+    {n : ℕ} (hn : n = 3)
+    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶
+      ScaledSSet.of (Δ[n] : SSet.{u}) t) :
+    ScaledSSet.of (Δ[3] : SSet.{u})
+        (Eq.mp (congrArg
+          (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s) ⟶
+      ScaledSSet.of (Δ[3] : SSet.{u})
+        (Eq.mp (congrArg
+          (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) t) := by
+  cases hn
+  exact f
+
+private noncomputable def scaledCompletionTransportArrowIsoOfDimensionEq
+    {n : ℕ} (hn : n = 3)
+    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶
+      ScaledSSet.of (Δ[n] : SSet.{u}) t) :
+    Arrow.mk f ≅
+      Arrow.mk (scaledCompletionTransportOfDimensionEq hn s t f) := by
+  cases hn
   exact Iso.refl _
 
 /-- Transport the identity-underlying completion arrow itself to the fixed
@@ -214,7 +257,7 @@ three-simplex carrier. -/
 noncomputable def standardTypeABoundaryPrismCellCompletionTransportToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3) :
     ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3
@@ -222,27 +265,65 @@ noncomputable def standardTypeABoundaryPrismCellCompletionTransportToThree
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3
           (standardTypeABoundaryPrismCellScaling g j c)) := by
-  subst_vars
-  exact standardTypeABoundaryPrismCellCompletionHom g j c
+  exact scaledCompletionTransportOfDimensionEq h3
+    (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+    (standardTypeABoundaryPrismCellScaling g j c)
+    (standardTypeABoundaryPrismCellCompletionHom g j c)
 
 /-- The actual dependent completion arrow and its fixed-three-simplex transport
 are isomorphic as arrows. -/
 noncomputable def standardTypeABoundaryPrismCellCompletionArrowIsoToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3) :
     Arrow.mk (standardTypeABoundaryPrismCellCompletionHom g j c) ≅
       Arrow.mk
         (standardTypeABoundaryPrismCellCompletionTransportToThree g j c h3) := by
-  refine Arrow.isoMk
-    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3
-      (standardTypeABoundaryPrismCellAPushoutScaling g j c))
-    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3
-      (standardTypeABoundaryPrismCellScaling g j c)) ?_
-  subst_vars
-  apply ScaledSSet.ScaledMap.ext
-  rfl
+  exact scaledCompletionTransportArrowIsoOfDimensionEq h3
+    (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+    (standardTypeABoundaryPrismCellScaling g j c)
+    (standardTypeABoundaryPrismCellCompletionHom g j c)
+
+/-! ## Typed invariance under dimension and scaling equalities -/
+
+private noncomputable def scaledIdentityArrowIsoOfDimensionEq
+    {n : ℕ} (hn : n = 3)
+    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (s3 t3 : ScaledSimplicialSet (Δ[3] : SSet.{u}))
+    (hs : Eq.mp
+      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s = s3)
+    (ht : Eq.mp
+      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) t = t3)
+    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶ ScaledSSet.of (Δ[n] : SSet.{u}) t)
+    (f3 : ScaledSSet.of (Δ[3] : SSet.{u}) s3 ⟶ ScaledSSet.of (Δ[3] : SSet.{u}) t3)
+    (hf : f.map = 𝟙 (Δ[n] : SSet.{u}))
+    (hf3 : f3.map = 𝟙 (Δ[3] : SSet.{u})) :
+    Arrow.mk f ≅ Arrow.mk f3 := by
+  cases hn
+  change s = s3 at hs
+  change t = t3 at ht
+  cases hs
+  cases ht
+  have hmap : f.map = f3.map := hf.trans hf3.symm
+  have heq : f = f3 := by
+    apply ScaledSSet.ScaledMap.ext
+    exact hmap
+  exact eqToIso (congrArg Arrow.mk heq)
+
+private noncomputable def scaledArrowIsoOfTargetScalingEq
+    {A : ScaledSSet.{u}} {X : SSet.{u}}
+    (s t : ScaledSimplicialSet X)
+    (h : s = t)
+    (f : A ⟶ ScaledSSet.of X s)
+    (g : A ⟶ ScaledSSet.of X t)
+    (hmap : f.map = g.map) :
+    Arrow.mk f ≅ Arrow.mk g := by
+  cases h
+  have heq : f = g := by
+    apply ScaledSSet.ScaledMap.ext
+    exact hmap
+  exact eqToIso (congrArg Arrow.mk heq)
 
 /-! ## Exceptional completion arrows are fixed q12/q23 up to arrow isomorphism -/
 
@@ -250,7 +331,7 @@ noncomputable def standardTypeABoundaryPrismCellCompletionArrowIsoToThree
 noncomputable def standardTypeABoundaryPrismCellQ12SourceIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     standardTypeABoundaryPrismCellAPushoutTarget g j c ≅
       ScaledSSet.of (Δ[3] : SSet.{u}) standardTypeBCollapse12BaseScaling :=
@@ -262,7 +343,7 @@ noncomputable def standardTypeABoundaryPrismCellQ12SourceIso
 noncomputable def standardTypeABoundaryPrismCellQ12TargetIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     standardTypeABoundaryPrismScaledCellTarget g j c ≅
       ScaledSSet.of (Δ[3] : SSet.{u}) standardTypeBCollapse12CompletedScaling :=
@@ -275,29 +356,26 @@ v1.57 q12 completion pushout. -/
 noncomputable def standardTypeABoundaryPrismCellQ12CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellCompletionHom g j c) ≅
-      Arrow.mk standardTypeBCollapse12CompletionHom := by
-  refine Arrow.isoMk
-    (standardTypeABoundaryPrismCellQ12SourceIso g j c h)
-    (standardTypeABoundaryPrismCellQ12TargetIso g j c h) ?_
-  subst_vars
-  apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeABoundaryPrismCellQ12SourceIso,
-    standardTypeABoundaryPrismCellQ12TargetIso,
-    standardTypeABoundaryPrismCellScalingIsoToThree,
-    standardTypeABoundaryPrismCellCompletionHom,
-    standardTypeBCollapse12CompletionHom,
-    standardTypeBPushoutEnrichment,
-    scalingEnrichmentPushoutTargetEnrichment,
-    scalingEqualityIso]
+      Arrow.mk standardTypeBCollapse12CompletionHom.{u} := by
+  exact scaledIdentityArrowIsoOfDimensionEq
+    h.target_three
+    (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+    (standardTypeABoundaryPrismCellScaling g j c)
+    standardTypeBCollapse12BaseScaling
+    standardTypeBCollapse12CompletedScaling
+    h.A_base h.completed_target
+    (standardTypeABoundaryPrismCellCompletionHom g j c)
+    standardTypeBCollapse12CompletionHom.{u}
+    (by rfl) (by rfl)
 
 /-- Source-object identification for a q23 exceptional cell. -/
 noncomputable def standardTypeABoundaryPrismCellQ23SourceIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     standardTypeABoundaryPrismCellAPushoutTarget g j c ≅
       ScaledSSet.of (Δ[3] : SSet.{u}) standardTypeBCollapse23BaseScaling :=
@@ -309,7 +387,7 @@ noncomputable def standardTypeABoundaryPrismCellQ23SourceIso
 noncomputable def standardTypeABoundaryPrismCellQ23TargetIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     standardTypeABoundaryPrismScaledCellTarget g j c ≅
       ScaledSSet.of (Δ[3] : SSet.{u}) standardTypeBCollapse23CompletedScaling :=
@@ -322,29 +400,26 @@ v1.57 q23 completion pushout. -/
 noncomputable def standardTypeABoundaryPrismCellQ23CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellCompletionHom g j c) ≅
-      Arrow.mk standardTypeBCollapse23CompletionHom := by
-  refine Arrow.isoMk
-    (standardTypeABoundaryPrismCellQ23SourceIso g j c h)
-    (standardTypeABoundaryPrismCellQ23TargetIso g j c h) ?_
-  subst_vars
-  apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeABoundaryPrismCellQ23SourceIso,
-    standardTypeABoundaryPrismCellQ23TargetIso,
-    standardTypeABoundaryPrismCellScalingIsoToThree,
-    standardTypeABoundaryPrismCellCompletionHom,
-    standardTypeBCollapse23CompletionHom,
-    standardTypeBPushoutEnrichment,
-    scalingEnrichmentPushoutTargetEnrichment,
-    scalingEqualityIso]
+      Arrow.mk standardTypeBCollapse23CompletionHom.{u} := by
+  exact scaledIdentityArrowIsoOfDimensionEq
+    h.target_three
+    (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+    (standardTypeABoundaryPrismCellScaling g j c)
+    standardTypeBCollapse23BaseScaling
+    standardTypeBCollapse23CompletedScaling
+    h.A_base h.completed_target
+    (standardTypeABoundaryPrismCellCompletionHom g j c)
+    standardTypeBCollapse23CompletionHom.{u}
+    (by rfl) (by rfl)
 
 /-- Every q12 exceptional completion is itself one raw standard cellular step. -/
 theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellCompletionHom g j c) := by
@@ -357,7 +432,7 @@ theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
 theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellCompletionHom g j c) := by
@@ -374,17 +449,19 @@ isomorphism on the target. -/
 noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : standardTypeABoundaryPrismCellAPushoutScaling g j c =
       standardTypeABoundaryPrismCellScaling g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellAPushoutHom g j c) ≅
       Arrow.mk (standardTypeABoundaryPrismScaledCellHom g j c) := by
-  refine Arrow.isoMk (Iso.refl _)
-    (scalingEqualityIso _ _ h) ?_
-  apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeABoundaryPrismCellAPushoutHom_map,
-    standardTypeABoundaryPrismScaledCellHom_map,
-    scalingEqualityIso]
+  exact scaledArrowIsoOfTargetScalingEq
+    (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+    (standardTypeABoundaryPrismCellScaling g j c) h
+    (standardTypeABoundaryPrismCellAPushoutHom g j c)
+    (standardTypeABoundaryPrismScaledCellHom g j c) (by
+      change c.horn.ι =
+        (standardTypeABoundaryPrismRankFunction.{u} g).basicCell j c
+      exact (standardTypeABoundaryPrism_basicCell_eq_typeA_underlying g j c).symm)
 
 /-- Every exact boundary-prism rank cell lies in the strong unretracted
 standard A/B cellular closure.  The proof uses exactly the exhaustive local
@@ -392,7 +469,7 @@ trichotomy and no additional geometric case. -/
 theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardABCStrongCellularClosure
       (standardTypeABoundaryPrismScaledCellHom g j c) := by
   have hAraw := standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular g j c
@@ -403,35 +480,50 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hAraw
   rcases standardTypeABoundaryPrismCellCompletion_complete_classification
       g j c with hpure | h12 | h23
-  · exact
-      ((standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
-        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hA
+  · have hExactRaw :
+        standardABCRawCellularStep
+          (standardTypeABoundaryPrismScaledCellHom g j c) :=
+      ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
+        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hAraw
+    exact MorphismProperty.le_transfiniteCompositions _ _ hExactRaw
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
         g j c h12
-    have hB :
+    have hcomp :
         standardABCStrongCellularClosure
-          (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions
-        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
-    have hcomp :=
-      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c) := by
+      change
+        MorphismProperty.transfiniteCompositions.{u}
+          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c)
+      exact
+        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)
+          _
+          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso
+            (.ofComp _ _ hAraw hBraw)
+            (orderIsoShrink.{u} (Fin 3)).symm).mem
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
         g j c h23
-    have hB :
+    have hcomp :
         standardABCStrongCellularClosure
-          (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions
-        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
-    have hcomp :=
-      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c) := by
+      change
+        MorphismProperty.transfiniteCompositions.{u}
+          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c)
+      exact
+        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)
+          _
+          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso
+            (.ofComp _ _ hAraw hBraw)
+            (orderIsoShrink.{u} (Fin 3)).symm).mem
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
 
@@ -440,7 +532,7 @@ standard A/B/C cellular closure. -/
 theorem standardTypeABoundaryPrismScaledCellHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardABCCellularClosure
       (standardTypeABoundaryPrismScaledCellHom g j c) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
@@ -451,7 +543,7 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_cellular
 /-- Global index of all exact cells of the natural-number rank filtration. -/
 def StandardTypeABoundaryPrismRankCellIndex
     (g : StandardTypeAHornAttachmentGeneratorIndex) : Type u :=
-  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction g).Cell j
+  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction.{u} g).Cell j
 
 /-- The complete family of exact pullback-scaled cells occurring anywhere in
 the boundary-prism rank filtration. -/

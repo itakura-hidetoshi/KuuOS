@@ -1,0 +1,425 @@
+{
+  "schema": "kuuos_v173_codeai_cause_separated_hunks_v2",
+  "base_universe_blob": "a71c8c3cb21dd34cc1985fa2cbc5cac66cfbb3f4",
+  "public_declarations_preserved": 21,
+  "source_unmodified": true,
+  "variants": [
+    {
+      "name": "typed-normalization",
+      "expected_blob": "b63fae7f95c72ea32edb26df87c8fd3255a9a46d",
+      "patches": [
+        {
+          "start": 10,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22",
+            "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49",
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 74,
+          "old": [
+            "def generatedPushoutScaling"
+          ],
+          "new": [
+            "@[reducible] def generatedPushoutScaling"
+          ]
+        },
+        {
+          "start": 145,
+          "old": [],
+          "new": [
+            "  have hP : P = P := rfl",
+            "  clear hP"
+          ]
+        },
+        {
+          "start": 165,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 194,
+          "old": [
+            "          (generatedPushout_compatibility_map f g a b w))"
+          ],
+          "new": [
+            "          (generatedPushout_compatibility_map (P := P) f g a b w))"
+          ]
+        },
+        {
+          "start": 196,
+          "old": [],
+          "new": [
+            "    change W.scaling.thin",
+            "      (((inl ≫ h.desc a.map b.map",
+            "        (generatedPushout_compatibility_map (P := P) f g a b w)).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        },
+        {
+          "start": 201,
+          "old": [
+            "          (generatedPushout_compatibility_map f g a b w))"
+          ],
+          "new": [
+            "          (generatedPushout_compatibility_map (P := P) f g a b w))"
+          ]
+        },
+        {
+          "start": 203,
+          "old": [],
+          "new": [
+            "    change W.scaling.thin",
+            "      (((inr ≫ h.desc a.map b.map",
+            "        (generatedPushout_compatibility_map (P := P) f g a b w)).app",
+            "          (op ⦋2⦌)) y)"
+          ]
+        },
+        {
+          "start": 243,
+          "old": [],
+          "new": [
+            "  change inl ≫ generatedPushoutDescMap f g inl inr h a b w = a.map"
+          ]
+        },
+        {
+          "start": 244,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 264,
+          "old": [],
+          "new": [
+            "  change inr ≫ generatedPushoutDescMap f g inl inr h a b w = b.map"
+          ]
+        },
+        {
+          "start": 265,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 316,
+          "old": [
+            "  · apply PushoutCocone.IsColimit.mk _",
+            "    · intro s",
+            "      exact generatedPushoutDesc f g inl inr h s.inl s.inr s.condition",
+            "    · intro s",
+            "      exact generatedPushout_inl_desc",
+            "        f g inl inr h s.inl s.inr s.condition",
+            "    · intro s",
+            "      exact generatedPushout_inr_desc",
+            "        f g inl inr h s.inl s.inr s.condition",
+            "    · intro s m hm₁ hm₂",
+            "      apply generatedPushout_hom_ext f g inl inr h",
+            "      · rw [hm₁, generatedPushout_inl_desc]",
+            "      · rw [hm₂, generatedPushout_inr_desc]"
+          ],
+          "new": [
+            "  · exact PushoutCocone.IsColimit.mk",
+            "      (by",
+            "        apply ScaledSSet.ScaledMap.ext",
+            "        exact h.w)",
+            "      (fun s => generatedPushoutDesc f g inl inr h s.inl s.inr s.condition)",
+            "      (fun s => generatedPushout_inl_desc",
+            "        f g inl inr h s.inl s.inr s.condition)",
+            "      (fun s => generatedPushout_inr_desc",
+            "        f g inl inr h s.inl s.inr s.condition)",
+            "      (by",
+            "        intro s m hm₁ hm₂",
+            "        apply generatedPushout_hom_ext f g inl inr h",
+            "        · exact hm₁.trans",
+            "            (generatedPushout_inl_desc",
+            "              f g inl inr h s.inl s.inr s.condition).symm",
+            "        · exact hm₂.trans",
+            "            (generatedPushout_inr_desc",
+            "              f g inl inr h s.inl s.inr s.condition).symm)"
+          ]
+        },
+        {
+          "start": 334,
+          "old": [
+            "def standardTypeABoundaryPrismRankSigmaHornScaling"
+          ],
+          "new": [
+            "@[reducible] def standardTypeABoundaryPrismRankSigmaHornScaling"
+          ]
+        },
+        {
+          "start": 345,
+          "old": [
+            "def standardTypeABoundaryPrismRankSigmaStdSimplexScaling"
+          ],
+          "new": [
+            "@[reducible] def standardTypeABoundaryPrismRankSigmaStdSimplexScaling"
+          ]
+        },
+        {
+          "start": 414,
+          "old": [],
+          "new": [
+            "    change",
+            "      (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin",
+            "        ((((standardTypeABoundaryPrismRankFunction.{u} g).m j ≫",
+            "            (standardTypeABoundaryPrismRankFunction.{u} g).b j).app",
+            "              (op ⦋2⦌)) t)"
+          ]
+        },
+        {
+          "start": 453,
+          "old": [
+            "      rw [",
+            "        (standardTypeABoundaryPrismRankFunction.{u} g).",
+            "          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]"
+          ],
+          "new": [
+            "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app",
+            "        j (op ⦋2⦌)]"
+          ]
+        },
+        {
+          "start": 480,
+          "old": [
+            "        rw [← NatTrans.comp_app_apply] at ht"
+          ],
+          "new": [
+            "        change",
+            "          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin",
+            "            (((SSet.Subcomplex.homOfLE",
+            "               ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone",
+            "                 (Order.le_succ j))) ≫",
+            "              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι).app",
+            "                (op ⦋2⦌) x) at ht"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "typed-normalization-and-pushout-target",
+      "expected_blob": "c56c403a25beb231e2a1933878d4ce4347fcd6e6",
+      "patches": [
+        {
+          "start": 10,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22",
+            "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49",
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 74,
+          "old": [
+            "def generatedPushoutScaling"
+          ],
+          "new": [
+            "@[reducible] def generatedPushoutScaling"
+          ]
+        },
+        {
+          "start": 145,
+          "old": [],
+          "new": [
+            "  have hP : P = P := rfl",
+            "  clear hP"
+          ]
+        },
+        {
+          "start": 165,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 194,
+          "old": [
+            "          (generatedPushout_compatibility_map f g a b w))"
+          ],
+          "new": [
+            "          (generatedPushout_compatibility_map (P := P) f g a b w))"
+          ]
+        },
+        {
+          "start": 196,
+          "old": [],
+          "new": [
+            "    change W.scaling.thin",
+            "      (((inl ≫ h.desc a.map b.map",
+            "        (generatedPushout_compatibility_map (P := P) f g a b w)).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        },
+        {
+          "start": 201,
+          "old": [
+            "          (generatedPushout_compatibility_map f g a b w))"
+          ],
+          "new": [
+            "          (generatedPushout_compatibility_map (P := P) f g a b w))"
+          ]
+        },
+        {
+          "start": 203,
+          "old": [],
+          "new": [
+            "    change W.scaling.thin",
+            "      (((inr ≫ h.desc a.map b.map",
+            "        (generatedPushout_compatibility_map (P := P) f g a b w)).app",
+            "          (op ⦋2⦌)) y)"
+          ]
+        },
+        {
+          "start": 243,
+          "old": [],
+          "new": [
+            "  change inl ≫ generatedPushoutDescMap f g inl inr h a b w = a.map"
+          ]
+        },
+        {
+          "start": 244,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 264,
+          "old": [],
+          "new": [
+            "  change inr ≫ generatedPushoutDescMap f g inl inr h a b w = b.map"
+          ]
+        },
+        {
+          "start": 265,
+          "old": [
+            "    (generatedPushout_compatibility_map f g a b w)"
+          ],
+          "new": [
+            "    (generatedPushout_compatibility_map (P := P) f g a b w)"
+          ]
+        },
+        {
+          "start": 316,
+          "old": [
+            "  · apply PushoutCocone.IsColimit.mk _",
+            "    · intro s",
+            "      exact generatedPushoutDesc f g inl inr h s.inl s.inr s.condition",
+            "    · intro s",
+            "      exact generatedPushout_inl_desc",
+            "        f g inl inr h s.inl s.inr s.condition",
+            "    · intro s",
+            "      exact generatedPushout_inr_desc",
+            "        f g inl inr h s.inl s.inr s.condition",
+            "    · intro s m hm₁ hm₂",
+            "      apply generatedPushout_hom_ext f g inl inr h",
+            "      · rw [hm₁, generatedPushout_inl_desc]",
+            "      · rw [hm₂, generatedPushout_inr_desc]"
+          ],
+          "new": [
+            "  · exact PushoutCocone.IsColimit.mk",
+            "      (by",
+            "        apply ScaledSSet.ScaledMap.ext",
+            "        exact h.w)",
+            "      (fun s => generatedPushoutDesc f g inl inr h s.inl s.inr s.condition)",
+            "      (fun s => generatedPushout_inl_desc",
+            "        f g inl inr h s.inl s.inr s.condition)",
+            "      (fun s => generatedPushout_inr_desc",
+            "        f g inl inr h s.inl s.inr s.condition)",
+            "      (by",
+            "        intro s m hm₁ hm₂",
+            "        apply generatedPushout_hom_ext f g inl inr h",
+            "        · exact hm₁.trans",
+            "            (generatedPushout_inl_desc",
+            "              f g inl inr h s.inl s.inr s.condition).symm",
+            "        · exact hm₂.trans",
+            "            (generatedPushout_inr_desc",
+            "              f g inl inr h s.inl s.inr s.condition).symm)"
+          ]
+        },
+        {
+          "start": 334,
+          "old": [
+            "def standardTypeABoundaryPrismRankSigmaHornScaling"
+          ],
+          "new": [
+            "@[reducible] def standardTypeABoundaryPrismRankSigmaHornScaling"
+          ]
+        },
+        {
+          "start": 345,
+          "old": [
+            "def standardTypeABoundaryPrismRankSigmaStdSimplexScaling"
+          ],
+          "new": [
+            "@[reducible] def standardTypeABoundaryPrismRankSigmaStdSimplexScaling"
+          ]
+        },
+        {
+          "start": 414,
+          "old": [],
+          "new": [
+            "    change",
+            "      (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin",
+            "        ((((standardTypeABoundaryPrismRankFunction.{u} g).m j ≫",
+            "            (standardTypeABoundaryPrismRankFunction.{u} g).b j).app",
+            "              (op ⦋2⦌)) t)"
+          ]
+        },
+        {
+          "start": 453,
+          "old": [
+            "      rw [",
+            "        (standardTypeABoundaryPrismRankFunction.{u} g).",
+            "          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]"
+          ],
+          "new": [
+            "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app",
+            "        j (op ⦋2⦌)]"
+          ]
+        },
+        {
+          "start": 480,
+          "old": [
+            "        rw [← NatTrans.comp_app_apply] at ht"
+          ],
+          "new": [
+            "        change",
+            "          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin",
+            "            (((SSet.Subcomplex.homOfLE",
+            "               ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone",
+            "                 (Order.le_succ j))) ≫",
+            "              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι).app",
+            "                (op ⦋2⦌) x) at ht"
+          ]
+        },
+        {
+          "start": 509,
+          "old": [],
+          "new": [
+            "  dsimp only [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget] at h"
+          ]
+        }
+      ]
+    }
+  ]
+}

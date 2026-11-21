@@ -1,0 +1,198 @@
+{
+  "schema": "kuuos_v175_codeai_signature_level_hunks_v6",
+  "head_before": "24152c52e58a027129a5a826c84dc83b1dfd2b2d",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v6-cofan-levels",
+      "base": "v175-v5-cofan-typed-fin3",
+      "patches": [
+        {
+          "name": "Source_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Source_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBSourceCofan.{u} g j) where",
+          "count": 1
+        },
+        {
+          "name": "Target_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Target_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBTargetCofan.{u} g j) where",
+          "count": 1
+        }
+      ],
+      "expected_blob": "c47e921ba418f1f200889baf1956f27bfd8015bc"
+    },
+    {
+      "name": "v175-v6-cofan-attachment-levels",
+      "base": "v175-v5-cofan-typed-fin3",
+      "patches": [
+        {
+          "name": "Source_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Source_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBSourceCofan.{u} g j) where",
+          "count": 1
+        },
+        {
+          "name": "Target_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Target_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBTargetCofan.{u} g j) where",
+          "count": 1
+        },
+        {
+          "name": "source_interface",
+          "mode": "literal",
+          "old": "    standardTypeABoundaryPrismRankBSourceSigma g j ⟶\n      standardTypeABoundaryPrismRankAPhase g j where",
+          "new": "    standardTypeABoundaryPrismRankBSourceSigma.{u} g j ⟶\n      standardTypeABoundaryPrismRankAPhase.{u} g j where",
+          "count": 1
+        },
+        {
+          "name": "target_interface",
+          "mode": "literal",
+          "old": "    standardTypeABoundaryPrismRankBTargetSigma g j ⟶\n      standardTypeABoundaryPrismRankStage g (j + 1) where",
+          "new": "    standardTypeABoundaryPrismRankBTargetSigma.{u} g j ⟶\n      standardTypeABoundaryPrismRankStage.{u} g (j + 1) where",
+          "count": 1
+        }
+      ],
+      "expected_blob": "45e0e11c80b7c16c3c9686a3e59a09f986d7df2f"
+    },
+    {
+      "name": "v175-v6-cofan-closure-levels",
+      "base": "v175-v5-cofan-typed-fin3",
+      "patches": [
+        {
+          "name": "Source_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Source_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBSourceCofan.{u} g j) where",
+          "count": 1
+        },
+        {
+          "name": "Target_Cofan_levels",
+          "mode": "literal",
+          "old": "    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "new": "    Cofan.{u, u, u+1} (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=",
+          "count": 1
+        },
+        {
+          "name": "Target_IsColimit_levels",
+          "mode": "literal",
+          "old": "    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where",
+          "new": "    IsColimit.{u, u, u, u+1} (standardTypeABoundaryPrismRankBTargetCofan.{u} g j) where",
+          "count": 1
+        },
+        {
+          "name": "source_interface",
+          "mode": "literal",
+          "old": "    standardTypeABoundaryPrismRankBSourceSigma g j ⟶\n      standardTypeABoundaryPrismRankAPhase g j where",
+          "new": "    standardTypeABoundaryPrismRankBSourceSigma.{u} g j ⟶\n      standardTypeABoundaryPrismRankAPhase.{u} g j where",
+          "count": 1
+        },
+        {
+          "name": "target_interface",
+          "mode": "literal",
+          "old": "    standardTypeABoundaryPrismRankBTargetSigma g j ⟶\n      standardTypeABoundaryPrismRankStage g (j + 1) where",
+          "new": "    standardTypeABoundaryPrismRankBTargetSigma.{u} g j ⟶\n      standardTypeABoundaryPrismRankStage.{u} g (j + 1) where",
+          "count": 1
+        },
+        {
+          "name": "closure_return_levels",
+          "mode": "literal",
+          "old": "    standardABCStrongCellularClosure\n      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)) := by",
+          "new": "    standardABCStrongCellularClosure.{u}\n      (standardTypeABoundaryPrismRankStageHom.{u} g (Nat.le_succ j)) := by",
+          "count": 1
+        }
+      ],
+      "expected_blob": "26b7bec49cedaed5cb95e89487e9b85cf46ee923"
+    },
+    {
+      "name": "v175-v6-best-minimal",
+      "base": "v175-v4-rank-square",
+      "patches": [
+        {
+          "name": "b_cell_parser",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "qualify_scaling_lemma",
+          "mode": "literal",
+          "old": "  apply scaling_eq_of_le_antisymm",
+          "new": "  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm",
+          "count": 1
+        },
+        {
+          "name": "fix_simpa_at",
+          "mode": "literal",
+          "old": "    · simpa at hxt\n      subst t",
+          "new": "    · simp at hxt\n      subst t",
+          "count": 1
+        },
+        {
+          "name": "replace_deprecation",
+          "mode": "literal",
+          "old": "CategoryTheory.FunctorToTypes.map_id_apply",
+          "new": "CategoryTheory.Functor.map_id_apply",
+          "count": 5
+        },
+        {
+          "name": "Fin3_instead_comp_mem",
+          "mode": "literal",
+          "old": "  have hA :\n      standardABCStrongCellularClosure\n        (standardTypeABoundaryPrismRankStageToAPhase g j) :=\n    MorphismProperty.le_transfiniteCompositions\n      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _\n      (standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j)\n  have hB :\n      standardABCStrongCellularClosure\n        (standardTypeABoundaryPrismRankAPhaseToSucc g j) :=\n    MorphismProperty.le_transfiniteCompositions\n      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _\n      (standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j)\n  have hcomp :=\n    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem\n      (standardTypeABoundaryPrismRankStageToAPhase g j)\n      (standardTypeABoundaryPrismRankAPhaseToSucc g j) hA hB\n",
+          "new": "  have hAraw := standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j\n  have hBraw := standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j\n  have hcomp :\n      standardABCStrongCellularClosure\n        (standardTypeABoundaryPrismRankStageToAPhase g j ≫\n          standardTypeABoundaryPrismRankAPhaseToSucc g j) := by\n    change MorphismProperty.transfiniteCompositions.{u}\n      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))\n      (standardTypeABoundaryPrismRankStageToAPhase g j ≫\n        standardTypeABoundaryPrismRankAPhaseToSucc g j)\n    exact\n      (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)\n        _\n        (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso\n          (.ofComp _ _ hAraw hBraw)\n          (orderIsoShrink.{u} (Fin 3)).symm).mem\n",
+          "count": 1
+        },
+        {
+          "name": "closure_return_levels",
+          "mode": "literal",
+          "old": "    standardABCStrongCellularClosure\n      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)) := by",
+          "new": "    standardABCStrongCellularClosure.{u}\n      (standardTypeABoundaryPrismRankStageHom.{u} g (Nat.le_succ j)) := by",
+          "count": 1
+        }
+      ],
+      "expected_blob": "b8e67e061568a5192737aaaef5d3911b935c8c6d"
+    }
+  ]
+}

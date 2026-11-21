@@ -1,0 +1,92 @@
+name: KuuOS v1.41 exact source native scaled terminal RLP strict Lean and 6 axioms
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v141-exact-source-six-axioms-v1.yml'
+permissions:
+  contents: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  exact-source-v141-lean-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve historic roots and exact terminal RLP proof boundary
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+          python3 - <<'PY'
+          import pathlib,hashlib
+          path=pathlib.Path('formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean')
+          src=path.read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(src)).encode()+b'\0'+src).hexdigest()=='0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6'
+          s=src.decode()
+          for phrase in ['{f g : ScaledMap X Y}','SSet.ι₀','SSet.ι₁',
+            'sourceTerminalRLP','targetTerminalRLP',
+            'theorem globalDuskinStrictFibrancy_iff :',
+            'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔']:
+              assert phrase in s,phrase
+          assert not any(x in src for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          print('KUUOS_V141_EXACT_SCALED_TERMINAL_RLP_BOUNDARY_RETAINED')
+          PY
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v141-exact-pinned-mathlib-v1
+      - name: Restore pinned Mathlib
+        run: lake exe cache get
+      - name: Exact-source pinned strict Lean v1.41
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledTerminalRLPV1_41
+      - name: Six conditional terminal RLP declarations axiom audit
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV141ExactSourceAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationScaledTerminalRLPV1_41
+          open KUOS.DependentOriginationScaledTerminalRLPV1_41
+          #print axioms ScaledSSet.ScaledMap.ext
+          #print axioms ScaledSSet.pointIsTerminal
+          #print axioms ScaledSSet.hasLiftingProperty_toPoint_iff
+          #print axioms forwardAttachmentLiftingOfTerminalRLP
+          #print axioms backwardAttachmentLiftingOfTerminalRLP
+          #print axioms CoherentNormalizedScaledTerminalRLPModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV141ExactSourceAudit.lean | tee /tmp/v141-current-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          text=pathlib.Path('/tmp/v141-current-six-axioms.log').read_text()
+          names=['ScaledSSet.ScaledMap.ext','ScaledSSet.pointIsTerminal',
+            'ScaledSSet.hasLiftingProperty_toPoint_iff',
+            'forwardAttachmentLiftingOfTerminalRLP','backwardAttachmentLiftingOfTerminalRLP',
+            'CoherentNormalizedScaledTerminalRLPModelEquivalence.globalDuskinStrictFibrancy_iff']
+          prefix='KUOS.DependentOriginationScaledTerminalRLPV1_41.'
+          for n in names:
+              assert ("'"+prefix+n+"'") in text,'missing declaration '+n
+          blocks=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',text,re.S)
+          assert len(blocks)==6,len(blocks)
+          for b in blocks:
+              assert {x.strip() for x in b.split(',') if x.strip()} <= {'propext','Classical.choice','Quot.sound'}
+          assert 'sorryAx' not in text and 'error:' not in text
+          print('KUUOS_V141_EXACT_SIX_STANDARD_AXIOMS_SUCCESS')
+          PY

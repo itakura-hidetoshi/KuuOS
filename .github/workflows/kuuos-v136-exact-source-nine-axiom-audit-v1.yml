@@ -1,0 +1,111 @@
+name: KuuOS v1.36 exact-source nine-public-declaration strict Lean
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean'
+      - 'formal/KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean'
+      - 'formal/KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean'
+      - 'formal/KUOS/DependentOriginationMixedRightUnitorPastingV1_36.lean'
+      - 'formal/KUOS/DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v136-exact-source-nine-axiom-audit-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-source-strict-lean-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact reviewed source and frozen public root regression
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v136-public-source-mathlib-5450-v1
+      - name: Fetch exact pinned Mathlib cache
+        run: lake exe cache get
+      - name: Exact-source strict pinned Lean compiler and helper imports
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+      - name: Nine public declarations and six pairwise bridge declarations axiom audit
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV136AxiomAuditV1.lean <<'LEAN'
+          import KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+          open KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
+          open KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36
+          #print axioms strongTransformationCylinder
+          #print axioms strongTransformationNormalLaxCylinder
+          #print axioms strongTransformationNormalLaxCylinder_zero_obj
+          #print axioms strongTransformationNormalLaxCylinder_one_obj
+          #print axioms strongTransformationDuskinCylinder
+          #print axioms sourceStrongCylinder
+          #print axioms targetStrongCylinder
+          #print axioms strongQuasiInverseNormalLaxCylinder
+          #print axioms globalDuskinRoundTripPrismRealization
+          #print axioms ambientNormalLaxEndo_id
+          #print axioms sourceRoundTrip_pairwise_map
+          #print axioms targetRoundTrip_pairwise_map
+          #print axioms ambientNormalLaxCylinderHomotopy
+          #print axioms sourceRoundTrip_pairwise_prism
+          #print axioms targetRoundTrip_pairwise_prism
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV136AxiomAuditV1.lean \
+            | tee /tmp/kuuos-v136-exact-source-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/kuuos-v136-exact-source-axioms.log').read_text()
+          names=['strongTransformationCylinder','strongTransformationNormalLaxCylinder',
+            'strongTransformationNormalLaxCylinder_zero_obj',
+            'strongTransformationNormalLaxCylinder_one_obj',
+            'strongTransformationDuskinCylinder','sourceStrongCylinder',
+            'targetStrongCylinder','strongQuasiInverseNormalLaxCylinder',
+            'globalDuskinRoundTripPrismRealization',
+            'ambientNormalLaxEndo_id','sourceRoundTrip_pairwise_map',
+            'targetRoundTrip_pairwise_map','ambientNormalLaxCylinderHomotopy',
+            'sourceRoundTrip_pairwise_prism','targetRoundTrip_pairwise_prism']
+          for n in names:
+              expected_module = ('KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.'
+                  if n in names[:9] else 'KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.')
+              assert ("'"+expected_module+n+"'") in s, 'missing exact axiom receipt: '+n
+          assert 'sorryAx' not in s and 'error:' not in s
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          standard={'propext','Classical.choice','Quot.sound'}
+          for item in groups:
+              assert {x.strip() for x in item.split(',') if x.strip()} <= standard
+          assert len(groups)>=12
+          print('KUUOS_V136_EXACT_SOURCE_FIFTEEN_AXIOMS_STANDARD_ONLY')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v136-exact-source-axiom-receipt
+          path: /tmp/kuuos-v136-exact-source-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

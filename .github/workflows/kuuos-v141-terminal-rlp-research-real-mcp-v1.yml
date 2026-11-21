@@ -1,0 +1,236 @@
+name: KuuOS v1.41 native scaled terminal RLP Lean and real MCP
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v141-terminal-rlp-research-real-mcp-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  isolated-v141-pinned-lean-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '6f9aa5b605128be8b7b8146e92d4127785044596'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v141-pinned-attachment-mathlib-5450-v1
+      - name: Restore pinned Mathlib cache
+        run: lake exe cache get
+      - name: Isolated v1.41 explicit native scaled terminal RLP source and conditions
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,hashlib,json,pathlib,urllib.request
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          dep=root/'formal/KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean'
+          assert blob(dep.read_bytes())=='4592abde6c597d426225a3e587751e5971f2d209'
+          target=root/'formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean'
+          old=target.read_bytes()
+          assert blob(old)=='f497ea343fd9e240a930bcd74a5464a05fdb046c'
+          sha='0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6'
+          req=urllib.request.Request('https://api.github.com/repos/itakura-hidetoshi/KuuOS/git/blobs/'+sha,
+             headers={'Accept':'application/vnd.github+json','User-Agent':'KuuOS-v141-real-Lean-MCP'})
+          with urllib.request.urlopen(req,timeout=90) as response:
+              raw=json.load(response)
+          assert raw.get('encoding')=='base64'
+          data=base64.b64decode(raw['content'])
+          assert blob(data)==sha
+          s=data.decode()
+          for phrase in ['@[reducible] def minimalScaling',
+            '@[reducible] def simplexCylinderScaling',
+            '{f g : ScaledMap X Y}','SSet.ι₀','SSet.ι₁',
+            'forwardAttachmentLiftingOfTerminalRLP',
+            'backwardAttachmentLiftingOfTerminalRLP',
+            'sourceTerminalRLP','targetTerminalRLP',
+            'theorem globalDuskinStrictFibrancy_iff :',
+            'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔',
+            'HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=']:
+              assert phrase in s,'missing typed pushout/conditional premise '+phrase
+          assert not any(x in data for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          out=pathlib.Path('/tmp/kuuos-v141-research-mcp')
+          out.mkdir(parents=True,exist_ok=True)
+          (out/'source.lean').write_bytes(data)
+          (out/'original.lean').write_bytes(old)
+          (out/'manifest.json').write_text(json.dumps({
+              'research_head':'ef215a76b638acadacbe628309f158ce8d7cbdb0',
+              'candidate_sha':sha,'original_sha':blob(old),
+              'candidate_sha256':hashlib.sha256(data).hexdigest(),
+              'no_unconditional_scaled_anodyne_claim':True,
+              'no_github_source_write':True,'independent_success':False},indent=2))
+          target.write_bytes(data)
+          print('KUUOS_V141_ACTUAL_TERMINAL_RLP_CANDIDATE_STAGED_ISOLATED')
+          PY
+      - name: Direct pinned Lean v1.41 complete source and dependencies
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 70m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledTerminalRLPV1_41 \
+            2>&1 | tee /tmp/kuuos-v141-research-mcp/direct-lean.log
+      - name: Install real lean-lsp-mcp prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Real Lean MCP source diagnostics and direct Lean recheck
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          SHA="$(python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean')
+          print(hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+          )"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean \
+            --source-sha256 "$SHA" \
+            --output-dir /tmp/kuuos-v141-live-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import hashlib,json,pathlib,shutil
+          f=pathlib.Path('/tmp/kuuos-v141-live-mcp/receipt.json')
+          r=json.loads(f.read_text())
+          source=pathlib.Path('formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean').read_bytes()
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
+          assert r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          assert r['candidate_sha256']==hashlib.sha256(source).hexdigest()
+          shutil.copy2(f,'/tmp/kuuos-v141-research-mcp/mcp.json')
+          print('KUUOS_V141_ACTUAL_TERMINAL_RLP_PINNED_LEAN_REAL_MCP_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v141-pushout-research-mcp
+          path: /tmp/kuuos-v141-research-mcp
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-v141-kernel-and-six-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '6f9aa5b605128be8b7b8146e92d4127785044596'
+    needs: isolated-v141-pinned-lean-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v141-pinned-attachment-mathlib-5450-v1
+      - name: Restore exact pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v141-pushout-research-mcp
+          path: /tmp/kuuos-v141-independent
+      - name: Exact candidate SHA and real Lean MCP receipt, independent re-check
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          p=pathlib.Path('/tmp/kuuos-v141-independent')
+          m=json.loads((p/'manifest.json').read_text())
+          r=json.loads((p/'mcp.json').read_text())
+          source=(p/'source.lean').read_bytes()
+          dest=root/'formal/KUOS/DependentOriginationScaledTerminalRLPV1_41.lean'
+          old=dest.read_bytes()
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob(old)==m['original_sha']=='f497ea343fd9e240a930bcd74a5464a05fdb046c'
+          assert blob(source)==m['candidate_sha']=='0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6'
+          assert hashlib.sha256(source).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0 and not r['rounds'][0]['errors']
+          dest.write_bytes(source)
+          print('KUUOS_V141_INDEPENDENT_TERMINAL_RLP_SOURCE_AND_REAL_MCP_MATCH')
+          PY
+      - name: Independent pinned Lean v1.41 full dependency closure
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledTerminalRLPV1_41
+      - name: Six actual endpoint and attachment proof declarations axiom audit
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV141CandidateAxiomAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationScaledTerminalRLPV1_41
+          open KUOS.DependentOriginationScaledTerminalRLPV1_41
+          #print axioms ScaledSSet.ScaledMap.ext
+          #print axioms ScaledSSet.pointIsTerminal
+          #print axioms ScaledSSet.hasLiftingProperty_toPoint_iff
+          #print axioms forwardAttachmentLiftingOfTerminalRLP
+          #print axioms backwardAttachmentLiftingOfTerminalRLP
+          #print axioms CoherentNormalizedScaledTerminalRLPModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV141CandidateAxiomAudit.lean \
+            | tee /tmp/kuuos-v141-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/kuuos-v141-six-axioms.log').read_text()
+          names=['ScaledSSet.ScaledMap.ext','ScaledSSet.pointIsTerminal',
+            'ScaledSSet.hasLiftingProperty_toPoint_iff',
+            'forwardAttachmentLiftingOfTerminalRLP','backwardAttachmentLiftingOfTerminalRLP',
+            'CoherentNormalizedScaledTerminalRLPModelEquivalence.globalDuskinStrictFibrancy_iff']
+          prefix='KUOS.DependentOriginationScaledTerminalRLPV1_41.'
+          for name in names:
+              assert ("'"+prefix+name+"'") in s,name
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          assert len(groups)==6,len(groups)
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for ax in groups:
+              assert {x.strip() for x in ax.split(',') if x.strip()}<=allowed
+          assert 'sorryAx' not in s and 'error:' not in s
+          print('KUUOS_V141_SIX_ACTUAL_TERMINAL_RLP_DECLARATIONS_STANDARD_AXIOMS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v141-independent-six-axioms
+          path: /tmp/kuuos-v141-six-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

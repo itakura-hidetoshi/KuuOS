@@ -1,0 +1,239 @@
+name: KuuOS v1.37 explicit class-bridge research candidate exact Lean + real MCP
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v137-explicit-class-bridge-candidate-live-mcp-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  direct-lean-real-mcp-v137:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '846f459e294ff305b55b08e0cde722e5850999c8'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v137-explicit-bridge-pinned-mathlib-v1
+      - name: Restore pinned Mathlib cache
+        run: lake exe cache get
+      - name: Acquire exact v1.37 research blob and verify explicit class-bridge boundaries
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,hashlib,json,pathlib,urllib.request
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          pins=require_pins(root)
+          assert pins['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          def gitblob(s):
+              return hashlib.sha1(b'blob '+str(len(s)).encode()+b'\0'+s).hexdigest()
+          v136=(root/'formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean').read_bytes()
+          assert gitblob(v136)=='bf67ce6b167ecf88e877e874e3e6533c6d45de7d'
+          source=root/'formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean'
+          original=source.read_bytes()
+          assert gitblob(original)=='aa450346c7f1d49f2d6905ec69442ca26001d4fc'
+          candidate_sha='af1bedd2bcaeac026d3554e359536d925f17cc93'
+          url='https://api.github.com/repos/itakura-hidetoshi/KuuOS/git/blobs/'+candidate_sha
+          request=urllib.request.Request(url,headers={'Accept':'application/vnd.github+json','User-Agent':'KuuOS-v137-live-MCP-candidate'})
+          with urllib.request.urlopen(request,timeout=90) as response:
+              raw=json.load(response)
+          assert raw.get('encoding')=='base64'
+          data=base64.b64decode(raw['content'])
+          assert gitblob(data)==candidate_sha
+          text=data.decode('utf-8')
+          # Final theorem remains an iff of *raw*, not lifted, Duskin horn filling.
+          assert 'theorem globalDuskinHomotopyClassFibrancy_iff :' in text
+          assert 'HasHomotopyClassScaledHornFillers\n        (duskinNerve B) (duskinScaling B) HB ↔' in text
+          assert 'HasHomotopyClassScaledHornFillers\n        (duskinNerve C) (duskinScaling C) HC := by' in text
+          # Neither source nor target raw-to-ULift condition may be fabricated.
+          for fragment in ('liftedHB : ScaledHornFamily','liftedHC : ScaledHornFamily',
+              'sourceClassBridge :','targetClassBridge :','K.sourceClassBridge.mp H',
+              'K.targetClassBridge.mp H','K.sourceClassBridge.mpr','K.targetClassBridge.mpr'):
+              assert fragment in text,'missing genuine typed compatibility premise '+fragment
+          assert 'FullScaledDuskinMapCertificate forwardNormalization.normal' in text
+          assert 'FullScaledDuskinMapCertificate backwardNormalization.normal' in text
+          assert not any(x in data for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          output=pathlib.Path('/tmp/kuuos-v137-explicit-bridge')
+          output.mkdir(parents=True,exist_ok=True)
+          (output/'candidate.lean').write_bytes(data)
+          (output/'manifest.json').write_text(json.dumps({
+              'research_head':'ef215a76b638acadacbe628309f158ce8d7cbdb0',
+              'research_blob':candidate_sha,
+              'old_parent_blob':gitblob(original),
+              'v136_blob':gitblob(v136),
+              'candidate_sha256':hashlib.sha256(data).hexdigest(),
+              'raw_final_conclusion_preserved':True,
+              'two_class_bridges_explicit':True,
+              'lean_mcp_passed':False,
+              'github_proof_write':False},indent=2)+'\n')
+          source.write_bytes(data)
+          print('KUUOS_V137_EXPLICIT_CLASS_BRIDGE_EXACT_CANDIDATE_STAGED_ISOLATED')
+          PY
+      - name: Direct Lean pinned v1.37 candidate B
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37 \
+            2>&1 | tee /tmp/kuuos-v137-explicit-bridge/direct-lean.log
+      - name: Install real lean-lsp-mcp requirements
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Actual Lean MCP diagnostics, source immutability and direct Lean recheck
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          SHA="$(python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean')
+          print(hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+          )"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean \
+            --source-sha256 "$SHA" \
+            --output-dir /tmp/kuuos-v137-explicit-bridge-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import hashlib,json,pathlib,shutil
+          r=json.loads(pathlib.Path('/tmp/kuuos-v137-explicit-bridge-mcp/receipt.json').read_text())
+          source=pathlib.Path('formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean')
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
+          assert r['rounds'][0]['semantic_success'] is True and not r['rounds'][0]['errors']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          assert r['candidate_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()
+          shutil.copy2('/tmp/kuuos-v137-explicit-bridge-mcp/receipt.json',
+                       '/tmp/kuuos-v137-explicit-bridge/mcp-receipt.json')
+          print('KUUOS_V137_EXPLICIT_CLASS_BRIDGE_REAL_MCP_DIRECT_PINNED_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v137-explicit-bridge-research-candidate
+          path: /tmp/kuuos-v137-explicit-bridge
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-v137-pinned-lean-and-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '846f459e294ff305b55b08e0cde722e5850999c8'
+    needs: direct-lean-real-mcp-v137
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v137-explicit-bridge-pinned-mathlib-v1
+      - name: Restore pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v137-explicit-bridge-research-candidate
+          path: /tmp/kuuos-v137-explicit-bridge-independent
+      - name: Independent five-point SHA and actual live MCP receipt correspondence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          path=pathlib.Path('/tmp/kuuos-v137-explicit-bridge-independent')
+          m=json.loads((path/'manifest.json').read_text())
+          p=json.loads((path/'mcp-receipt.json').read_text())
+          source=(path/'candidate.lean').read_bytes()
+          old=root/'formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean'
+          assert m['old_parent_blob']==hashlib.sha1(b'blob '+str(len(old.read_bytes())).encode()+b'\0'+old.read_bytes()).hexdigest()
+          assert m['research_blob']=='af1bedd2bcaeac026d3554e359536d925f17cc93'
+          assert m['candidate_sha256']==hashlib.sha256(source).hexdigest()==p['candidate_sha256']
+          assert p['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and p['source_restored'] and not p['independent_ci_success']
+          old.write_bytes(source)
+          print('KUUOS_V137_EXPLICIT_BRIDGE_INDEPENDENT_CANDIDATE_ADMITTED')
+          PY
+      - name: Independent exact pinned Lean kernel v1.37
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+      - name: Audit original raw final theorem and explicitly conditioned filler definitions
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV137BridgeCandidateAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+          open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+          #print axioms homotopyClassOfMap_eq_of_homotopy
+          #print axioms hasHomotopyClassScaledHornFillersOfStrict
+          #print axioms sourceHomotopyClassFillerOfRoundTrip
+          #print axioms targetHomotopyClassFillerOfRoundTrip
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.forwardHasHomotopyClassScaledHornFillers
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.backwardHasHomotopyClassScaledHornFillers
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.globalDuskinHomotopyClassFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV137BridgeCandidateAudit.lean \
+            | tee /tmp/kuuos-v137-explicit-bridge-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/kuuos-v137-explicit-bridge-axioms.log').read_text()
+          suffixes=['homotopyClassOfMap_eq_of_homotopy',
+              'hasHomotopyClassScaledHornFillersOfStrict',
+              'sourceHomotopyClassFillerOfRoundTrip','targetHomotopyClassFillerOfRoundTrip',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.forwardHasHomotopyClassScaledHornFillers',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.backwardHasHomotopyClassScaledHornFillers',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.globalDuskinHomotopyClassFibrancy_iff']
+          for n in suffixes:
+              assert ("KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37."+n+"'") in s, n
+          assert 'sorryAx' not in s and 'error:' not in s
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          allowed={'propext','Classical.choice','Quot.sound'}
+          assert len(groups)==len(suffixes),len(groups)
+          for body in groups:
+              assert {x.strip() for x in body.split(',') if x.strip()}<=allowed
+          print('KUUOS_V137_EXPLICIT_BRIDGE_SEVEN_STANDARD_AXIOMS_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v137-explicit-bridge-independent-axioms
+          path: /tmp/kuuos-v137-explicit-bridge-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,0 +1,130 @@
+name: KuuOS v1.37 bounded preserved-signature CodeAI probe
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v137-preserved-signature-direct-lean-mcp-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  candidate-a-direct-lean-and-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '27719f26f926475b478e2ef153b8280bbc0068e8'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v137-typed-probe-mathlib-5450-v1
+      - name: Restore exact pinned Mathlib cache
+        run: lake exe cache get
+      - name: Isolated CodeAI candidate A with all v1.37 declaration signatures preserved
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib,re
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          require_pins(root)
+          target=root/'formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean'
+          before=target.read_bytes()
+          old_sha=hashlib.sha1(b'blob '+str(len(before)).encode()+b'\0'+before).hexdigest()
+          assert old_sha=='aa450346c7f1d49f2d6905ec69442ca26001d4fc',old_sha
+          v136=root/'formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean'
+          c=v136.read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(c)).encode()+b'\0'+c).hexdigest()=='bf67ce6b167ecf88e877e874e3e6533c6d45de7d'
+          source=before.decode()
+          after=source
+          def replace_once(a,b):
+              global after
+              assert after.count(a)==1,'source anchor missing or repeated: '+repr(a)
+              after=after.replace(a,b,1)
+          replace_once('open Simplicial\n',
+                       'open Simplicial\nopen KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n')
+          replace_once('open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21\n',
+                       'open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21\nopen KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26\n')
+          replace_once('  congr 1\n  ext\n  rfl\n',
+                       '  congr 1\n')
+          replace_once('  KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.\n    globalDuskinRoundTripPrismRealization K',
+                       '  globalDuskinRoundTripPrismRealization K')
+          header=re.compile(r'^\s*(?:@\[[^\]]+\]\s*)?(?:(?:private|protected|noncomputable)\s+)*(?:def|theorem|lemma|structure|class|abbrev)\s+\w+')
+          def decls(s):
+              return [line.strip() for line in s.splitlines() if header.match(line)]
+          assert decls(source)==decls(after),'public/private declaration signature anchors changed'
+          assert not any(x in after for x in ('\nsorry\n','\nadmit\n','\naxiom '))
+          output=pathlib.Path('/tmp/kuuos-v137-candidate-a')
+          output.mkdir(parents=True,exist_ok=True)
+          (output/'original.lean').write_bytes(before)
+          (output/'candidate.lean').write_text(after)
+          (output/'manifest.json').write_text(json.dumps({
+              'source_head_original':'4c7ba46f42070530dbf11ccf3002b2645de4ebce',
+              'old_blob':old_sha,'candidate_sha256':hashlib.sha256(after.encode()).hexdigest(),
+              'public_declarations_preserved':True,'version':'v1.37 minimal A',
+              'candidate_mcp_authenticated':False,'github_source_write':False},indent=2))
+          target.write_text(after)
+          print('KUUOS_V137_CANDIDATE_A_PRESERVES_DECLARATIONS_IN_ISOLATED_CI_ONLY')
+          PY
+      - name: Direct pinned Lean v1.37 candidate A and full import closure
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v137-candidate-a
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37 \
+            2>&1 | tee /tmp/kuuos-v137-candidate-a/direct-lean.log
+      - name: Set up real Lean MCP
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Exact candidate Lean MCP diagnostics and direct pinned Lean recheck
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          SHA="$(python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean')
+          print(hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+          )"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean \
+            --source-sha256 "$SHA" \
+            --output-dir /tmp/kuuos-v137-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import json,pathlib,shutil
+          r=json.loads(pathlib.Path('/tmp/kuuos-v137-mcp/receipt.json').read_text())
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] and not r['git_write_performed'] and not r['independent_ci_success']
+          assert r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          shutil.copy2('/tmp/kuuos-v137-mcp/receipt.json','/tmp/kuuos-v137-candidate-a/mcp.json')
+          print('KUUOS_V137_MINIMAL_PRESERVED_SIGNATURE_REAL_MCP_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v137-preserved-signature-candidate-a
+          path: /tmp/kuuos-v137-candidate-a
+          if-no-files-found: warn
+          retention-days: 30

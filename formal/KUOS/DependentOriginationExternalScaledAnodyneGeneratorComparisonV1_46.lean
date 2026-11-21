@@ -3,6 +3,8 @@ import KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 namespace KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
@@ -105,6 +107,8 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : ScaledAnodyneGeneratorComparison E)
 
+include K
+
 /-- The canonical generated class is contained in the external generated
 class. -/
 theorem canonicalGenerated_le_externalGenerated :
@@ -137,6 +141,8 @@ theorem externalGeneratedScaledFibration_eq_canonical :
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) := by
   unfold externalGeneratedScaledFibration
   rw [← MorphismProperty.rlp_llp_rlp E]
+  change (externalGeneratedScaledAnodyne E).rlp =
+    (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u}))
   rw [K.externalGeneratedScaledAnodyne_eq_canonical]
   exact canonicalGeneratedScaledAnodyne_rlp_eq_fibration
 
@@ -145,8 +151,8 @@ canonical generator family. -/
 theorem external_rlp_eq_canonical_generators_rlp :
     E.rlp =
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp := by
-  rw [← K.externalGeneratedScaledFibration_eq_canonical]
-  rfl
+  change externalGeneratedScaledFibration E = canonicalGeneratedScaledFibration
+  exact K.externalGeneratedScaledFibration_eq_canonical
 
 /-- The external generated closure is itself a compatible v1.42 presentation. -/
 def toScaledAnodynePresentation : ScaledAnodynePresentation.{u} where
@@ -158,7 +164,7 @@ def toScaledAnodynePresentation : ScaledAnodynePresentation.{u} where
 external generated pair inherits a native Mathlib weak factorization system
 without requiring any smallness or presentability theorem for the external
 generator list. -/
-noncomputable def externalGeneratedScaledWeakFactorizationSystem :
+@[reducible] noncomputable def externalGeneratedScaledWeakFactorizationSystem :
     MorphismProperty.IsWeakFactorizationSystem
       (externalGeneratedScaledAnodyne E)
       (externalGeneratedScaledFibration E) := by

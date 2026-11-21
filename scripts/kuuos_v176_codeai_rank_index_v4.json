@@ -1,0 +1,30 @@
+{
+  "schema": "kuuos_v176_codeai_rank_index_v4",
+  "original_blob": "c7fd4eb959d05a2eeb430ea39a12d04ed4030ee9",
+  "dependency_blob": "e25e593ee859bbf66a26e8e83ee8d1a17d22659b",
+  "base_name": "bit-step-rfl-lemmas",
+  "base_blob": "6bc2b31ccc842af8253763f9e2c6d0888f2f9167",
+  "all_candidates_uncertified": true,
+  "purpose": "Test j≤k index proof in RankFunctor.map independently of scaled filtration monotonicity, then test Nat.bitCasesOn tactic restructuring; never adopt generated source.",
+  "variants": [
+    {
+      "name": "rank-map-index",
+      "operations": [
+        "map-index"
+      ]
+    },
+    {
+      "name": "rank-map-index-explicit-universe",
+      "operations": [
+        "map-index-explicit"
+      ]
+    },
+    {
+      "name": "rank-map-index-cases",
+      "operations": [
+        "map-index",
+        "bit-cases"
+      ]
+    }
+  ]
+}

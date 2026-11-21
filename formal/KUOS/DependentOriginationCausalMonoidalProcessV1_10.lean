@@ -135,7 +135,7 @@ theorem isCausal_tensor
     C.IsCausal (MonoidalCategory.tensorHom f g) := by
   unfold IsCausal at hf hg ⊢
   rw [C.discard_tensor Y₁ Y₂, C.discard_tensor X₁ X₂]
-  rw [Category.assoc]
+  rw [← Category.assoc]
   rw [MonoidalCategory.tensorHom_comp_tensorHom]
   rw [hf, hg]
 

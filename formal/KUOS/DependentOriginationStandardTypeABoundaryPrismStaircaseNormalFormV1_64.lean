@@ -75,12 +75,9 @@ def standardTypeABoundaryPrismCellPairedTop
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
     (htop : c.dim + 1 = g.n + 1) :
-    ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (g.n + 1) :=
-  Eq.mp
-    (congrArg
-      (fun d : ℕ => ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate d)
-      htop)
-    (standardTypeABoundaryPrismCellPairedNondegenerate g j c)
+    ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (g.n + 1) := by
+  rw [← htop]
+  exact standardTypeABoundaryPrismCellPairedNondegenerate g j c
 
 /-! ## Every top cell is exactly one pinned Mathlib staircase -/
 
@@ -197,7 +194,7 @@ theorem standardTypeABoundaryPrism_cell_dim_three_origin_normalForm
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
     (h3 : c.dim + 1 = 3) :
     (g.n = 3 ∧ c.dim + 1 = g.n) ∨
-      ∃ hn2 : g.n = 2,
+      ∃ _hn2 : g.n = 2,
         ∃ htop : c.dim + 1 = g.n + 1,
           ∃ r : Fin (g.n + 1),
             SSet.prodStdSimplex.nonDegenerateEquiv₁ r =

@@ -1,0 +1,104 @@
+{
+  "schema": "kuuos_v175_codeai_dimension_bridge_hunks_v11",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "base_blobs": {
+    "v175-v10-hmem-univ": "04c820e6f10dbc822bd1c764b1092e1b683c1c66",
+    "v175-v10-pushout-iso": "654f05cea1f47420e96f01616f49506973ef677b",
+    "v175-v9-all-u": "11e2a10a7de6d292b00cb6c79a530429aadc4682"
+  },
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v11-bridge-only",
+      "base": "v175-v10-hmem-univ",
+      "patches": [
+        {
+          "name": "dimension-free-scaling-iso-bridge",
+          "mode": "literal",
+          "old": "/-- The source and target maps of one B datum have exactly the same underlying\nsimplicial map. -/",
+          "new": "/-! ## Dimension-free scaling-isomorphism comparison in the actual pinned Type universe -/\n\nprivate noncomputable def localRankBScalingIsoOfDimEq\n    {n : ℕ} (hn : n = 3)\n    (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    ScaledSSet.of (Δ[n] : SSet.{u}) s ≅\n      ScaledSSet.of (Δ[3] : SSet.{u})\n        (Eq.mp\n          (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s) := by\n  cases hn\n  exact Iso.refl _\n\nprivate theorem localRankBScalingIso_inv_map_independent\n    {n : ℕ} (hn : n = 3)\n    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    (localRankBScalingIsoOfDimEq hn s).inv.map =\n      (localRankBScalingIsoOfDimEq hn t).inv.map := by\n  cases hn\n  rfl\n\nprivate theorem localRankBScalingIso_hom_inv_cross\n    {n : ℕ} (hn : n = 3)\n    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    (localRankBScalingIsoOfDimEq hn t).hom.map ≫\n      (localRankBScalingIsoOfDimEq hn s).inv.map = 𝟙 _ := by\n  cases hn\n  rfl\n\nprivate theorem localRankBCellScalingIso_inv_map_independent\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ)\n    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)\n    (h3 : c.dim + 1 = 3)\n    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :\n    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =\n      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by\n  change (localRankBScalingIsoOfDimEq h3 s).inv.map =\n    (localRankBScalingIsoOfDimEq h3 t).inv.map\n  exact localRankBScalingIso_inv_map_independent h3 s t\n\nprivate theorem localRankBCellScalingIso_hom_inv_cross\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ)\n    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)\n    (h3 : c.dim + 1 = 3)\n    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :\n    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).hom.map ≫\n      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map = 𝟙 _ := by\n  change (localRankBScalingIsoOfDimEq h3 t).hom.map ≫\n    (localRankBScalingIsoOfDimEq h3 s).inv.map = 𝟙 _\n  exact localRankBScalingIso_hom_inv_cross h3 s t\n\n/-- The source and target maps of one B datum have exactly the same underlying\nsimplicial map. -/",
+          "count": 1
+        }
+      ],
+      "expected_blob": "82f9dff7bed94d22991a5113a937373ab6d089af"
+    },
+    {
+      "name": "v175-v11-bridge-q",
+      "base": "v175-v10-hmem-univ",
+      "patches": [
+        {
+          "name": "dimension-free-scaling-iso-bridge",
+          "mode": "literal",
+          "old": "/-- The source and target maps of one B datum have exactly the same underlying\nsimplicial map. -/",
+          "new": "/-! ## Dimension-free scaling-isomorphism comparison in the actual pinned Type universe -/\n\nprivate noncomputable def localRankBScalingIsoOfDimEq\n    {n : ℕ} (hn : n = 3)\n    (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    ScaledSSet.of (Δ[n] : SSet.{u}) s ≅\n      ScaledSSet.of (Δ[3] : SSet.{u})\n        (Eq.mp\n          (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s) := by\n  cases hn\n  exact Iso.refl _\n\nprivate theorem localRankBScalingIso_inv_map_independent\n    {n : ℕ} (hn : n = 3)\n    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    (localRankBScalingIsoOfDimEq hn s).inv.map =\n      (localRankBScalingIsoOfDimEq hn t).inv.map := by\n  cases hn\n  rfl\n\nprivate theorem localRankBScalingIso_hom_inv_cross\n    {n : ℕ} (hn : n = 3)\n    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u})) :\n    (localRankBScalingIsoOfDimEq hn t).hom.map ≫\n      (localRankBScalingIsoOfDimEq hn s).inv.map = 𝟙 _ := by\n  cases hn\n  rfl\n\nprivate theorem localRankBCellScalingIso_inv_map_independent\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ)\n    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)\n    (h3 : c.dim + 1 = 3)\n    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :\n    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =\n      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by\n  change (localRankBScalingIsoOfDimEq h3 s).inv.map =\n    (localRankBScalingIsoOfDimEq h3 t).inv.map\n  exact localRankBScalingIso_inv_map_independent h3 s t\n\nprivate theorem localRankBCellScalingIso_hom_inv_cross\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ)\n    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)\n    (h3 : c.dim + 1 = 3)\n    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :\n    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).hom.map ≫\n      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map = 𝟙 _ := by\n  change (localRankBScalingIsoOfDimEq h3 t).hom.map ≫\n    (localRankBScalingIsoOfDimEq h3 s).inv.map = 𝟙 _\n  exact localRankBScalingIso_hom_inv_cross h3 s t\n\n/-- The source and target maps of one B datum have exactly the same underlying\nsimplicial map. -/",
+          "count": 1
+        },
+        {
+          "name": "q12-q23-using-bridge",
+          "mode": "literal",
+          "old": "  cases b with\n  | q12 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]\n  | q23 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]",
+          "new": "  cases b with\n  | q12 c h =>\n      have hiso :=\n        localRankBCellScalingIso_inv_map_independent g j c h.target_three\n          (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n          (standardTypeABoundaryPrismCellScaling g j c)\n      have hmap :\n          (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map =\n            (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map := by\n        simpa [standardTypeABoundaryPrismCellQ12SourceIso,\n          standardTypeABoundaryPrismCellQ12TargetIso,\n          Iso.trans_inv, scalingEqualityIso_inv_map] using hiso\n      change standardTypeBCollapse12.{u} ≫\n          (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map ≫\n            c.mapToSucc =\n        standardTypeBCollapse12.{u} ≫\n          (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map ≫\n            c.mapToSucc\n      rw [hmap]\n  | q23 c h =>\n      have hiso :=\n        localRankBCellScalingIso_inv_map_independent g j c h.target_three\n          (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n          (standardTypeABoundaryPrismCellScaling g j c)\n      have hmap :\n          (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map =\n            (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map := by\n        simpa [standardTypeABoundaryPrismCellQ23SourceIso,\n          standardTypeABoundaryPrismCellQ23TargetIso,\n          Iso.trans_inv, scalingEqualityIso_inv_map] using hiso\n      change standardTypeBCollapse23.{u} ≫\n          (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map ≫\n            c.mapToSucc =\n        standardTypeBCollapse23.{u} ≫\n          (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map ≫\n            c.mapToSucc\n      rw [hmap]",
+          "count": 1
+        }
+      ],
+      "expected_blob": "70a4c25c7794b98d52be681a567b82608a936dab"
+    },
+    {
+      "name": "v175-v11-pushout-iso-clean",
+      "base": "v175-v10-pushout-iso",
+      "patches": [
+        {
+          "name": "pushout-left-identity-goal",
+          "mode": "literal",
+          "old": "    simp only [hemap, Category.comp_id, Category.id_comp,\n      standardTypeABoundaryPrismRankAPhaseToSucc_map]",
+          "new": "    simp only [hemap, Category.id_comp,\n      standardTypeABoundaryPrismRankAPhaseToSucc_map]\n    rfl",
+          "count": 1
+        }
+      ],
+      "expected_blob": "a5be03ccb33c64210f513075eec1f0bd201f7759"
+    },
+    {
+      "name": "v175-v11-scaling-v173-rfl",
+      "base": "v175-v9-all-u",
+      "patches": [
+        {
+          "name": "rank-ht-v173-transport",
+          "mode": "literal",
+          "old": "        rw [← NatTrans.comp_app_apply] at ht\n        rw [SSet.Subcomplex.homOfLE_ι] at ht\n        exact ht",
+          "new": "        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))) ≫\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι).app\n                (op ⦋2⦌) x) at ht\n        exact ht",
+          "count": 1
+        },
+        {
+          "name": "rank-A-inl-id-rfl",
+          "mode": "literal",
+          "old": "      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)",
+          "new": "      exact Or.inr (Or.inl ⟨_, hxA, rfl⟩)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "7e3e523b9b9099268a42c6706b546ba37ba2b33f"
+    },
+    {
+      "name": "v175-v11-scaling-v173-simp",
+      "base": "v175-v9-all-u",
+      "patches": [
+        {
+          "name": "rank-ht-v173-transport",
+          "mode": "literal",
+          "old": "        rw [← NatTrans.comp_app_apply] at ht\n        rw [SSet.Subcomplex.homOfLE_ι] at ht\n        exact ht",
+          "new": "        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))) ≫\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι).app\n                (op ⦋2⦌) x) at ht\n        exact ht",
+          "count": 1
+        },
+        {
+          "name": "rank-A-inl-id-simp",
+          "mode": "literal",
+          "old": "      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)",
+          "new": "      exact Or.inr (Or.inl ⟨_, hxA, by\n        simp only [Functor.id_obj, NatTrans.id_app, id_eq,\n          CategoryTheory.Functor.map_id_apply]⟩)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "52cedc1402c3dbe42a399465c335d9b69c9da176"
+    }
+  ]
+}

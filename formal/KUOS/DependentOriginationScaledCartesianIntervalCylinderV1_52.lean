@@ -60,7 +60,7 @@ theorem scaling_eq_of_thin_iff
 
 /-- Cartesian-product scaling: a 2-simplex of `X x Y` is thin exactly when
 both coordinate 2-simplices are thin. -/
-def cartesianProductScaling
+@[reducible] def cartesianProductScaling
     {X Y : SSet.{u}}
     (sX : ScaledSimplicialSet X)
     (sY : ScaledSimplicialSet Y) :
@@ -149,6 +149,10 @@ theorem scaledSimplex_product_interval_eq_cylinder
     scaledCartesianProduct (scaledSimplex sΔ) (scaledInterval sI) =
       scaledSimplexCylinder sΔ := by
   unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder
+  change ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))
+      (cartesianProductScaling sΔ sI) =
+    ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))
+      (simplexCylinderScaling sΔ)
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]
 
 /-- Specialization to the standard type-(A) simplex scaling. -/
@@ -173,6 +177,14 @@ theorem standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product
         ((SSet.horn g.n g.i).unionProd
           (intervalEndpoint g.endpoint)).ι := by
   unfold standardTypeAEndpointPushoutProductSource
+  change pullbackScaling
+      (simplexCylinderScaling (standardTypeASimplexScaling g.i))
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι =
+    pullbackScaling
+      (cartesianProductScaling (standardTypeASimplexScaling g.i) sI)
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
     (standardTypeASimplexScaling g.i) sI]
 

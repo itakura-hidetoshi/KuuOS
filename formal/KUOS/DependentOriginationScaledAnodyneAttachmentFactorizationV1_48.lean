@@ -5,6 +5,8 @@ namespace KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
@@ -54,7 +56,7 @@ here that either piece is already standard scaled-anodyne.
 /-! ## Pulling a scaling back along a simplicial map -/
 
 /-- Pull a scaling on `Y` back along a simplicial map `f : X ⟶ Y`. -/
-def pullbackScaling
+@[reducible] def pullbackScaling
     {X Y : SSet.{u}}
     (sY : ScaledSimplicialSet Y)
     (f : X ⟶ Y) : ScaledSimplicialSet X where
@@ -81,7 +83,7 @@ theorem pullbackScaling_map
 
 /-- The scaling on the horn-cylinder attachment induced from the scaled
 cylinder along the underlying inclusion. -/
-def inducedHornCylinderAttachmentScaling
+@[reducible] def inducedHornCylinderAttachmentScaling
     {n : Nat}
     (i : Fin (n + 1))
     (ε : Fin 2)
@@ -134,9 +136,10 @@ theorem scaledHornCylinderAttachmentInclusion_factorization
         inducedScaledHornCylinderAttachmentInclusion i ε sΔ =
       scaledHornCylinderAttachmentInclusion i ε sΔ := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalToInducedHornCylinderAttachment,
-    inducedScaledHornCylinderAttachmentInclusion,
-    scaledHornCylinderAttachmentInclusion]
+  change (𝟙 (hornCylinderAttachment n i ε : SSet.{u})) ≫
+      (hornCylinderAttachment n i ε).ι =
+        (hornCylinderAttachment n i ε).ι
+  exact Category.id_comp _
 
 /-! ## Factor the canonical generator family -/
 
@@ -213,11 +216,16 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : CanonicalAttachmentFactorComparison E)
 
+include K
+
 /-- If both factors are externally generated-anodyne, then every original
 canonical attachment generator is externally generated-anodyne. -/
 theorem canonicalGenerators_le_externalGenerated :
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E := by
+  letI : (externalGeneratedScaledAnodyne E).IsMultiplicative := by
+    dsimp [externalGeneratedScaledAnodyne]
+    infer_instance
   intro A B f hf
   dsimp [scaledHornAttachmentGenerators] at hf
   cases hf with
@@ -247,6 +255,8 @@ namespace FactorizedScaledAnodyneGeneratorComparison
 variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : FactorizedScaledAnodyneGeneratorComparison E)
+
+include K
 
 /-- Factor-level comparison data canonically produces the exact v1.46
 mutual-closure comparison certificate. -/

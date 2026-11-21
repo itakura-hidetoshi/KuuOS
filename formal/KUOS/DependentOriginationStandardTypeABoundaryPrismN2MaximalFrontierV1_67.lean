@@ -54,6 +54,15 @@ scaled rank filtration.
 
 /-! ## Minimal thinness from the second adjacent repetition -/
 
+/-- The fixed Lean/mathlib standard-simplex degeneracy evaluation, stated
+locally rather than relying on an unavailable named `σ_apply` lemma. -/
+private lemma stdSimplex_sigma_apply
+    {n d : ℕ}
+    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))
+    (i : Fin (d + 1)) (j : Fin (d + 2)) :
+    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl
+
+
 /-- A standard-simplex 2-simplex whose last two vertices agree is the
 `σ 1`-degeneracy of its last face, hence is minimally thin. -/
 theorem minimalScaling_stdSimplex_thin_of_one_eq_two
@@ -65,7 +74,8 @@ theorem minimalScaling_stdSimplex_thin_of_one_eq_two
   apply SSet.stdSimplex.ext
   intro a
   fin_cases a <;>
-    simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h12]
+    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply,
+      Fin.predAbove, Fin.succAbove, h12]
 
 /-! ## The unique inner type-(A) scaling on `Delta[2]` is maximal -/
 
@@ -85,7 +95,7 @@ theorem standardTypeASimplexScaling_eq_maximal_of_dim_two
     apply Fin.ext
     exact hi
   subst i
-  apply scaling_eq_of_le_antisymm
+  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm
   · intro t _
     exact ScaledSimplicialSet.maximal_thin _ t
   · intro t _
@@ -149,7 +159,7 @@ theorem standardTypeABoundaryPrismCellScaling_eq_maximal_of_generator_dim_two
     (hn : g.n = 2) :
     standardTypeABoundaryPrismCellScaling g j c =
       ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u}) := by
-  apply scaling_eq_of_le_antisymm
+  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm
   · intro t _
     exact ScaledSimplicialSet.maximal_thin _ t
   · intro t _
@@ -168,7 +178,7 @@ outside-A condition of v1.65 is automatic. -/
 theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h2 : c.dim + 1 = 2) :
     standardTypeABoundaryPrismCellOutsideACompatible g j c := by
   have hidx :=
@@ -179,8 +189,10 @@ theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
         ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u}) :=
     standardTypeASimplexScaling_eq_maximal_of_dim_two c.index h2 hidx
   intro t _ _
-  rw [hmax]
-  exact ScaledSimplicialSet.maximal_thin _ t
+  -- Instance arguments to `thin` are implicit: rewrite through their
+  -- explicit Prop-valued projection rather than a hidden synthesized instance.
+  have hthin := congrArg (fun sc => sc.thin t) hmax
+  exact hthin.mpr (ScaledSimplicialSet.maximal_thin _ t)
 
 /-- Hence every attached 2-cell is exactly the pure type-(A) cobase change,
 with no type-(B) scaling completion. -/

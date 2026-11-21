@@ -1,0 +1,138 @@
+{
+  "schema": "kuuos_v175_codeai_glued_bridge_rank_hunks_v12",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "base_blobs": {
+    "v175-v11-bridge-q": "70a4c25c7794b98d52be681a567b82608a936dab",
+    "v175-v9-all-u": "11e2a10a7de6d292b00cb6c79a530429aadc4682"
+  },
+  "variants": [
+    {
+      "name": "v175-v12-bridge-q-rfl",
+      "base": "v175-v11-bridge-q",
+      "patches": [
+        {
+          "name": "close-q12-q23-after-map-rewrite",
+          "mode": "literal",
+          "old": "      rw [hmap]",
+          "new": "      rw [hmap]\n      rfl",
+          "count": 2
+        }
+      ],
+      "expected_blob": "f2ace60dc39e11597e705ecaae4712a4395fb22f"
+    },
+    {
+      "name": "v175-v12-bridge-q-pushout",
+      "base": "v175-v12-bridge-q-rfl",
+      "patches": [
+        {
+          "name": "v173-pushout-of_iso",
+          "mode": "literal",
+          "old": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "new": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  let e :\n      generatedPushoutTarget\n        (standardTypeABoundaryPrismRankAPhaseScaling g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅\n          standardTypeABoundaryPrismRankStage g (j + 1) :=\n    scalingEqualityIso _ _\n      (standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j)\n  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_\n  · rfl\n  · rfl\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫\n        (standardTypeABoundaryPrismRankAPhaseToSucc g j).map\n    simp only [hemap, Category.id_comp,\n      standardTypeABoundaryPrismRankAPhaseToSucc_map]\n    rfl\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankBTargetSigma g j).carrier) ≫\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    simpa only [hemap] using\n      ((Category.comp_id (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).trans\n        (Category.id_comp (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).symm)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "55eaf0de02f52cffc110ae920d4e6abab7442299"
+    },
+    {
+      "name": "v175-v12-bridge-q-thin",
+      "base": "v175-v12-bridge-q-rfl",
+      "patches": [
+        {
+          "name": "q12-thin-cross-from-free-dimension",
+          "mode": "literal",
+          "old": "        subst_vars\n        simpa [standardTypeABoundaryPrismCellQ12SourceIso,\n          standardTypeABoundaryPrismCellQ12TargetIso,\n          standardTypeABoundaryPrismCellScalingIsoToThree,\n          scalingEqualityIso] using hs",
+          "new": "        have hcast :=\n          localRankBCellScalingIso_hom_inv_cross g j c h.target_three\n            (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n            (standardTypeABoundaryPrismCellScaling g j c)\n        have hpair :\n            (standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map ≫ (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map = 𝟙 _ := by\n          simpa [standardTypeABoundaryPrismCellQ12SourceIso,\n            standardTypeABoundaryPrismCellQ12TargetIso,\n            Iso.trans_hom, Iso.trans_inv,\n            scalingEqualityIso_hom_map, scalingEqualityIso_inv_map] using hcast\n        have hp := ConcreteCategory.congr_hom (congr_app hpair (op ⦋2⦌)) z\n        have hp' :\n            (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app (op ⦋2⦌) z) = z := by\n          simpa only [NatTrans.comp_app_apply,\n            CategoryTheory.Functor.map_id_apply] using hp\n        change\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            (c.mapToSucc.app (op ⦋2⦌)\n              ((standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app (op ⦋2⦌) z))) at hs\n        rw [hp'] at hs\n        exact hs",
+          "count": 1
+        },
+        {
+          "name": "q23-thin-cross-from-free-dimension",
+          "mode": "literal",
+          "old": "        subst_vars\n        simpa [standardTypeABoundaryPrismCellQ23SourceIso,\n          standardTypeABoundaryPrismCellQ23TargetIso,\n          standardTypeABoundaryPrismCellScalingIsoToThree,\n          scalingEqualityIso] using hs",
+          "new": "        have hcast :=\n          localRankBCellScalingIso_hom_inv_cross g j c h.target_three\n            (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n            (standardTypeABoundaryPrismCellScaling g j c)\n        have hpair :\n            (standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map ≫ (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map = 𝟙 _ := by\n          simpa [standardTypeABoundaryPrismCellQ23SourceIso,\n            standardTypeABoundaryPrismCellQ23TargetIso,\n            Iso.trans_hom, Iso.trans_inv,\n            scalingEqualityIso_hom_map, scalingEqualityIso_inv_map] using hcast\n        have hp := ConcreteCategory.congr_hom (congr_app hpair (op ⦋2⦌)) z\n        have hp' :\n            (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app (op ⦋2⦌) z) = z := by\n          simpa only [NatTrans.comp_app_apply,\n            CategoryTheory.Functor.map_id_apply] using hp\n        change\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            (c.mapToSucc.app (op ⦋2⦌)\n              ((standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app (op ⦋2⦌) z))) at hs\n        rw [hp'] at hs\n        exact hs",
+          "count": 1
+        }
+      ],
+      "expected_blob": "d4e7cd7cb5fb9a8079437c61069e8ab8fc428210"
+    },
+    {
+      "name": "v175-v12-bridge-q-thin-direct",
+      "base": "v175-v12-bridge-q-rfl",
+      "patches": [
+        {
+          "name": "q12-thin-cross-pointwise",
+          "mode": "literal",
+          "old": "        subst_vars\n        simpa [standardTypeABoundaryPrismCellQ12SourceIso,\n          standardTypeABoundaryPrismCellQ12TargetIso,\n          standardTypeABoundaryPrismCellScalingIsoToThree,\n          scalingEqualityIso] using hs",
+          "new": "        have hcast :=\n          localRankBCellScalingIso_hom_inv_cross g j c h.target_three\n            (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n            (standardTypeABoundaryPrismCellScaling g j c)\n        have hp' :\n            (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app (op ⦋2⦌) z) = z := by\n          simpa [standardTypeABoundaryPrismCellQ12SourceIso,\n            standardTypeABoundaryPrismCellQ12TargetIso,\n            Iso.trans_hom, Iso.trans_inv, scalingEqualityIso_hom_map,\n            scalingEqualityIso_inv_map, NatTrans.comp_app_apply,\n            CategoryTheory.Functor.map_id_apply] using\n            (ConcreteCategory.congr_hom (congr_app hcast (op ⦋2⦌)) z)\n        change\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            (c.mapToSucc.app (op ⦋2⦌)\n              ((standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app (op ⦋2⦌) z))) at hs\n        rw [hp'] at hs\n        exact hs",
+          "count": 1
+        },
+        {
+          "name": "q23-thin-cross-pointwise",
+          "mode": "literal",
+          "old": "        subst_vars\n        simpa [standardTypeABoundaryPrismCellQ23SourceIso,\n          standardTypeABoundaryPrismCellQ23TargetIso,\n          standardTypeABoundaryPrismCellScalingIsoToThree,\n          scalingEqualityIso] using hs",
+          "new": "        have hcast :=\n          localRankBCellScalingIso_hom_inv_cross g j c h.target_three\n            (standardTypeABoundaryPrismCellAPushoutScaling g j c)\n            (standardTypeABoundaryPrismCellScaling g j c)\n        have hp' :\n            (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app (op ⦋2⦌) z) = z := by\n          simpa [standardTypeABoundaryPrismCellQ23SourceIso,\n            standardTypeABoundaryPrismCellQ23TargetIso,\n            Iso.trans_hom, Iso.trans_inv, scalingEqualityIso_hom_map,\n            scalingEqualityIso_inv_map, NatTrans.comp_app_apply,\n            CategoryTheory.Functor.map_id_apply] using\n            (ConcreteCategory.congr_hom (congr_app hcast (op ⦋2⦌)) z)\n        change\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            (c.mapToSucc.app (op ⦋2⦌)\n              ((standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map.app (op ⦋2⦌)\n                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app (op ⦋2⦌) z))) at hs\n        rw [hp'] at hs\n        exact hs",
+          "count": 1
+        }
+      ],
+      "expected_blob": "3de739fcd60eaf2f6bdf7c153ceaead6e7dfabe0"
+    },
+    {
+      "name": "v175-v12-bridge-q-thin-pushout",
+      "base": "v175-v12-bridge-q-thin",
+      "patches": [
+        {
+          "name": "v173-pushout-of_iso",
+          "mode": "literal",
+          "old": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "new": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  let e :\n      generatedPushoutTarget\n        (standardTypeABoundaryPrismRankAPhaseScaling g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅\n          standardTypeABoundaryPrismRankStage g (j + 1) :=\n    scalingEqualityIso _ _\n      (standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j)\n  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_\n  · rfl\n  · rfl\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫\n        (standardTypeABoundaryPrismRankAPhaseToSucc g j).map\n    simp only [hemap, Category.id_comp,\n      standardTypeABoundaryPrismRankAPhaseToSucc_map]\n    rfl\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankBTargetSigma g j).carrier) ≫\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    simpa only [hemap] using\n      ((Category.comp_id (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).trans\n        (Category.id_comp (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).symm)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "36d2a16a9fa2db86d8927ecf051bd20fe709d85d"
+    },
+    {
+      "name": "v175-v12-v173-decompose-rfl",
+      "base": "v175-v9-all-u",
+      "patches": [
+        {
+          "name": "reverse-inclusion-from-v173-generated-scaling",
+          "mode": "literal",
+          "old": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n    rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩\n    · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration j).ι.app\n              (op ⦋2⦌) x)\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι.app\n              (op ⦋2⦌)\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌) x)) at ht\n        rw [← NatTrans.comp_app_apply] at ht\n        rw [SSet.Subcomplex.homOfLE_ι] at ht\n        exact ht\n      have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        rw [hz] at ht\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at ht\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact ht\n",
+          "new": "  · intro t ht\n    rw [← standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at ht\n    rcases ht with hmin | ⟨x, hx, rfl⟩ | ⟨y, hy, rfl⟩\n    · exact Or.inl hmin\n    · have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map.app\n              (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by rfl⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin\n          (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n            (op ⦋2⦌) y) at hy\n        rw [hz] at hy\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at hy\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact hy\n",
+          "count": 1
+        }
+      ],
+      "expected_blob": "a9639fdc96251f3ea35b1da73aa214694224643d"
+    },
+    {
+      "name": "v175-v12-v173-decompose-simp",
+      "base": "v175-v9-all-u",
+      "patches": [
+        {
+          "name": "reverse-inclusion-from-v173-generated-scaling",
+          "mode": "literal",
+          "old": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n    rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩\n    · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration j).ι.app\n              (op ⦋2⦌) x)\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι.app\n              (op ⦋2⦌)\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌) x)) at ht\n        rw [← NatTrans.comp_app_apply] at ht\n        rw [SSet.Subcomplex.homOfLE_ι] at ht\n        exact ht\n      have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        rw [hz] at ht\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at ht\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact ht\n",
+          "new": "  · intro t ht\n    rw [← standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at ht\n    rcases ht with hmin | ⟨x, hx, rfl⟩ | ⟨y, hy, rfl⟩\n    · exact Or.inl hmin\n    · have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map.app\n              (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by simpa only [Functor.id_obj, NatTrans.id_app, id_eq, CategoryTheory.Functor.map_id_apply]⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin\n          (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n            (op ⦋2⦌) y) at hy\n        rw [hz] at hy\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at hy\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact hy\n",
+          "count": 1
+        }
+      ],
+      "expected_blob": "0f8b4a68e2bae2a6a4adb32f6f443243c9783f6e"
+    },
+    {
+      "name": "v175-v12-v173-decompose-change",
+      "base": "v175-v9-all-u",
+      "patches": [
+        {
+          "name": "reverse-inclusion-from-v173-generated-scaling",
+          "mode": "literal",
+          "old": "  · intro t ht\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t\n    change\n      t ∈\n        Set.range\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌)) ∪\n          Set.range\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n              (op ⦋2⦌)) at hmem\n    rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩\n    · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration j).ι.app\n              (op ⦋2⦌) x)\n        change\n          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι.app\n              (op ⦋2⦌)\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌) x)) at ht\n        rw [← NatTrans.comp_app_apply] at ht\n        rw [SSet.Subcomplex.homOfLE_ι] at ht\n        exact ht\n      have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((SSet.Subcomplex.homOfLE\n              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                (Order.le_succ j))).app (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        rw [hz] at ht\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at ht\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact ht\n",
+          "new": "  · intro t ht\n    change\n      (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1)).thin t at ht\n    rw [← standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at ht\n    rcases ht with hmin | ⟨x, hx, rfl⟩ | ⟨y, hy, rfl⟩\n    · exact Or.inl hmin\n    · have hxA :\n          (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n            ((standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map.app\n              (op ⦋2⦌) x) :=\n        Or.inr (Or.inl ⟨x, hx, rfl⟩)\n      exact Or.inr (Or.inl ⟨_, hxA, by simpa only [Functor.id_obj, NatTrans.id_app, id_eq, CategoryTheory.Functor.map_id_apply]⟩)\n    · obtain ⟨c, z, hz⟩ :=\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          ιSigmaStdSimplex_jointly_surjective y\n      have hb := ConcreteCategory.congr_hom\n        (congr_app c.ι_b (op ⦋2⦌)) z\n      have hzcell :\n          (standardTypeABoundaryPrismCellScaling g j c).thin z := by\n        change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin\n          (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n            (op ⦋2⦌) y) at hy\n        rw [hz] at hy\n        rw [show\n          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =\n            c.mapToSucc.app (op ⦋2⦌) z by\n              simpa only [NatTrans.comp_app_apply] using hb] at hy\n        rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]\n        exact hy\n",
+          "count": 1
+        }
+      ],
+      "expected_blob": "90986c8c3e34b1cd8009722870ec9977f85fddda"
+    }
+  ]
+}
