@@ -9,6 +9,8 @@ on:
       - 'formal/KUOS/DependentOriginationStandardTypeAEndpointConditionalDescentV1_77A.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCodeAICandidateV1_77.lean'
       - 'scripts/ci_kuuos_v177_codeai_exact_source_v1.py'
+      - 'scripts/ci_kuuos_v177_adopted_exact_source_v1.py'
+      - 'formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean'
       - 'scripts/kuuos_v176_codeai_namespace_probe_v1.json'
       - 'scripts/kuuos_v176_codeai_monotonicity_universe_v2.json'
       - 'scripts/kuuos_v176_codeai_bit_recursion_v3.json'
@@ -184,5 +186,46 @@ jobs:
         with:
           name: kuuos-v177-codeai-exact-candidate-not-adopted
           path: /tmp/kuuos-v177-codeai-exact-candidate
+          retention-days: 30
+          if-no-files-found: warn
+
+  adopted-v177-exact-source-kernel-and-47-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fixed Lean toolchain no unrequested builds
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Strict build adopted original-name module and audit 47 axioms
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v177_adopted_exact_source_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v177_adopted_exact_source_v1.py --out /tmp/kuuos-v177-adopted-exact-source-47-axioms
+      - name: Preserve 47-declaration source and strict kernel receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v177-adopted-exact-source-47-axioms
+          path: /tmp/kuuos-v177-adopted-exact-source-47-axioms
           retention-days: 30
           if-no-files-found: warn
