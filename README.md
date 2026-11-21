@@ -8,7 +8,7 @@ KuuOSの**縁起の一般理論はC60以前から存在**します。C60／陰�
 > Canonical: [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main) @ [`ac5f7db4425e`](https://github.com/itakura-hidetoshi/KuuOS/commit/ac5f7db4425e7d377abce8cadee676b4e34341a4)。  
 > 研究PRで成功したCIは、main採用・別PRの認証・行為権限を自動的に意味しません。下記の状態は観測時点のスナップショットです。
 
-**このREADMEは現行案内、[ROADMAP.md](ROADMAP.md)は今後の認証条件です。** 従来の累積記録は削除せず、[旧README全文](README-HISTORY-THROUGH-20261121.md)・[旧ROADMAP全文](ROADMAP-HISTORY-THROUGH-20261121.md)として同一Git blobを保存しています。
+**このREADMEは現行案内、[ROADMAP.md](ROADMAP.md)は今後の認証条件です。** 従来の累積記録は削除せず、[旧README全文](docs/history/README-THROUGH-20261121.md)・[旧ROADMAP全文](docs/history/ROADMAP-THROUGH-20261121.md)として同一Git blobを保存しています。
 
 ## 1. 現在の研究状態
 
@@ -98,7 +98,7 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 
 まず[四基盤](docs/KUOS_FOURFOLD_CORE_v0_1.md)、[Core Charter](docs/KUOS_CORE_CHARTER_v0_1.md)、[ROADMAP](ROADMAP.md)を読み、次に対象の[Leanソース](formal/)と[Python実装](runtime/)を照合してください。具体的な認証の根拠は各PRのHEAD・workflow・job・Leanログを優先します。変更の提案は[CONTRIBUTING.md](CONTRIBUTING.md)を参照し、未認証の箇所は`NO_DATA`として残します。
 
-**過去の経緯**：巨大な時系列を冒頭へ積み重ねていた[旧README](README-HISTORY-THROUGH-20261121.md)と[旧ROADMAP](ROADMAP-HISTORY-THROUGH-20261121.md)は参照可能です。歴史的な「次段」「最新」「SUCCESS」は**当時のHEAD限定**の記述で、2026-11-22の現行認証を表すものではありません。
+**過去の経緯**：旧版内の相対リンクを元の配置で開くときは[2026-11-21時点の元README](https://github.com/itakura-hidetoshi/KuuOS/blob/ac5f7db4425e7d377abce8cadee676b4e34341a4/README.md)と[2026-11-21時点の元ROADMAP](https://github.com/itakura-hidetoshi/KuuOS/blob/ac5f7db4425e7d377abce8cadee676b4e34341a4/ROADMAP.md)を参照してください。巨大な時系列を冒頭へ積み重ねていた[旧README](docs/history/README-THROUGH-20261121.md)と[旧ROADMAP](docs/history/ROADMAP-THROUGH-20261121.md)は参照可能です。歴史的な「次段」「最新」「SUCCESS」は**当時のHEAD限定**の記述で、2026-11-22の現行認証を表すものではありません。
 
 ## Author / License / English overview
 

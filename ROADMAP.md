@@ -7,7 +7,7 @@
 - 正本：[`main` @ `ac5f7db4425e`](https://github.com/itakura-hidetoshi/KuuOS/commit/ac5f7db4425e7d377abce8cadee676b4e34341a4)
 - 形式環境：Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`
 - 保護：[PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) はDraft・OPEN・未マージ
-- 経過記録：[ROADMAPの旧全文](ROADMAP-HISTORY-THROUGH-20261121.md)、[READMEの旧全文](README-HISTORY-THROUGH-20261121.md)（元Git blobの完全保存）
+- 経過記録：[ROADMAPの旧全文](docs/history/ROADMAP-THROUGH-20261121.md)、[READMEの旧全文](docs/history/README-THROUGH-20261121.md)（元Git blobの完全保存）
 
 ## 0. 認証状態の語彙
 
@@ -130,4 +130,4 @@
 
 ---
 
-**履歴保存について**：以前のREADME／ROADMAPは研究の長いappend-only記録であり、古い時点の「最新」「次段」などを含みます。その元バイト列を、それぞれ[README履歴](README-HISTORY-THROUGH-20261121.md)と[ROADMAP履歴](ROADMAP-HISTORY-THROUGH-20261121.md)へ**同じGit blob SHAのまま**保存しました。これらは歴史的証拠の索引であり、この文書の現行認証表を上書きしません。
+**履歴保存について**：元の相対リンクが必要な場合は[2026-11-21時点の元README](https://github.com/itakura-hidetoshi/KuuOS/blob/ac5f7db4425e7d377abce8cadee676b4e34341a4/README.md)・[2026-11-21時点の元ROADMAP](https://github.com/itakura-hidetoshi/KuuOS/blob/ac5f7db4425e7d377abce8cadee676b4e34341a4/ROADMAP.md)で読めます。以前のREADME／ROADMAPは研究の長いappend-only記録であり、古い時点の「最新」「次段」などを含みます。その元バイト列を、それぞれ[README履歴](docs/history/README-THROUGH-20261121.md)と[ROADMAP履歴](docs/history/ROADMAP-THROUGH-20261121.md)へ**同じGit blob SHAのまま**保存しました。これらは歴史的証拠の索引であり、この文書の現行認証表を上書きしません。
