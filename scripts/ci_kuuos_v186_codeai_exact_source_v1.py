@@ -24,14 +24,14 @@ ORIGINAL=ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationCompleteLa
 CANDIDATE=ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeCodeAICandidateV1_86.lean"
 HISTORICAL=ROOT / "legacy/v5.291/formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean"
 ORIGINAL_BLOB="15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b"
-CANDIDATE_BLOB="3129d3ad793ec7363105d0662318d2ee7c4a96f5"
+CANDIDATE_BLOB="a79237f7ef4c5dee13082b269207f6edff6c3036"
 PARENTS={
  "DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85":"eff1b6d74800c4d3e1f37a6806ebf88ff8b6cd0e",
  "DependentOriginationGeneratedPresentationOrderReflectionV1_84":"5c1f7e9dc8fbb12bb901f4c67f0aad99543d49b9",
  "DependentOriginationGeneratedPresentationPosetalReflectionV1_83":"3bc1f096876f8c7b799ae48f29419e6686e33c87",
 }
 PUBLIC=["orthogonalAnodyneClosure","orthogonalAnodyneClosure_apply","orthogonalAnodyneClosure_isClosed_iff","orthogonalFibrationClosure","orthogonalFibrationClosure_apply","orthogonalFibrationClosure_isClosed_iff","orthogonallySaturatedScaledAnodyneCompleteLattice","orthogonallySaturatedScaledFibrationCompleteLattice","saturatedAnodyne_iInf_val","saturatedAnodyne_iSup_val","saturatedFibration_iInf_val","saturatedFibration_iSup_val","generatedScaledAnodynePresentationCompleteLattice","presentationToSaturatedAnodyne_iSup","presentationToSaturatedAnodyne_iInf","presentationToSaturatedFibration_iSup","presentationToSaturatedFibration_iInf","generatedAnodyneClass_iSup","generatedAnodyneClass_iInf","generatedFibrationClass_iSup","generatedFibrationClass_iInf"]
-PATCH=["open KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85","open KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41"]
+PATCHES=[["open KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85","open KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41"],["    intro R A B p hp\n    intro X Y i hi","    intro R A B p hp X Y i hi"],["  generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion\n    .liftCompleteLattice","  (generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion).liftCompleteLattice"]]
 DECL=re.compile(r"(?m)^(?:@\[[^\]]+\]\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|instance|abbrev)\s+([^\s(:]+)")
 
 def execute(out: Path) -> dict:
@@ -46,10 +46,10 @@ def execute(out: Path) -> dict:
     if blob(raw)!=CANDIDATE_BLOB:
         raise AuditFailure("V186_CANDIDATE_CHANGED")
     predicted=raw_orig.decode("utf8").replace("KUOS.DependentOriginationGeneratedPresentationCompleteLatticeV1_86","KUOS.DependentOriginationGeneratedPresentationCompleteLatticeCodeAICandidateV1_86")
-    old,new=PATCH
-    if predicted.count(old)!=1:
-        raise AuditFailure("V186_PATCH_PRECONDITION")
-    predicted=predicted.replace(old,new)
+    for old,new in PATCHES:
+        if predicted.count(old)!=1:
+            raise AuditFailure("V186_PATCH_PRECONDITION "+old[:80])
+        predicted=predicted.replace(old,new)
     actual=raw.decode("utf8")
     if actual!=predicted:
         raise AuditFailure("V186_UNREVIEWED_SOURCE_EDIT")
