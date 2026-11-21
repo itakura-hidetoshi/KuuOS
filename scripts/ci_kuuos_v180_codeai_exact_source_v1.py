@@ -20,7 +20,7 @@ from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments
 MODULE = "KUOS.DependentOriginationGeneratedPresentationEndpointCodeAICandidateV1_80"
 SOURCE = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationEndpointCodeAICandidateV1_80.lean"
 ORIGINAL = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean"
-SOURCE_BLOB = "7ad26c17b4986ba2640d47eab0ed1537a88c3773"
+SOURCE_BLOB = "329dc28d69b120f400925d7cf6257b8afe9f4a27"
 ORIGINAL_BLOB = "35e1e87b699fb7f6e181103ffdbb873e36621874"
 EXPECTED_PARENTS = {
     "DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77": "d786495a68268e01634f6f8143ebe09241bffc3e",
@@ -59,6 +59,69 @@ NAMES = [
     "canonical_typeAEndpointLeibnizStable_of_positiveComparison",
     "canonical_typeAEndpointLeibnizLifting_of_positiveComparison"
 ]
+PATCHES = [
+  [
+    "theorem generatedAnodyne_eq :",
+    "theorem generatedAnodyne_eq (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "def symm :",
+    "def symm (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "def trans\n    (L : GeneratedScaledAnodynePresentationEquivalence F G) :",
+    "def trans\n    (K : GeneratedScaledAnodynePresentationEquivalence E F)\n    (L : GeneratedScaledAnodynePresentationEquivalence F G) :"
+  ],
+  [
+    "theorem generatedFibration_eq :",
+    "theorem generatedFibration_eq (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "theorem generatedAnodyne_mem_iff\n    {A B :",
+    "theorem generatedAnodyne_mem_iff\n    (K : GeneratedScaledAnodynePresentationEquivalence E F)\n    {A B :"
+  ],
+  [
+    "theorem generatedFibration_mem_iff\n    {A B :",
+    "theorem generatedFibration_mem_iff\n    (K : GeneratedScaledAnodynePresentationEquivalence E F)\n    {A B :"
+  ],
+  [
+    "theorem weakFactorizationSystem_iff :",
+    "theorem weakFactorizationSystem_iff (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "theorem typeAEndpointLeibnizGeneratorsGenerated_iff :",
+    "theorem typeAEndpointLeibnizGeneratorsGenerated_iff (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "theorem typeAEndpointLeibnizStable_iff :",
+    "theorem typeAEndpointLeibnizStable_iff (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "theorem typeAEndpointLeibnizLifting_iff :",
+    "theorem typeAEndpointLeibnizLifting_iff (K : GeneratedScaledAnodynePresentationEquivalence E F) :"
+  ],
+  [
+    "theorem fibrantForExternalGenerators_iff\n    (X :",
+    "theorem fibrantForExternalGenerators_iff\n    (K : GeneratedScaledAnodynePresentationEquivalence E F)\n    (X :"
+  ],
+  [
+    "  (K.standardTypeAExternalComparison_of_standardEquivalent)\n    .inducedTypeAAttachments_le_externalGenerated",
+    "  (K.standardTypeAExternalComparison_of_standardEquivalent).inducedTypeAAttachments_le_externalGenerated"
+  ],
+  [
+    "  (K.standardTypeAExternalComparison_of_standardEquivalent)\n    .endpointPushoutProducts_le_externalGenerated",
+    "  (K.standardTypeAExternalComparison_of_standardEquivalent).endpointPushoutProducts_le_externalGenerated"
+  ],
+  [
+    "  K.toGeneratedPresentationEquivalence\n    .typeAEndpointLeibnizStable_of_standardEquivalent",
+    "  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizStable_of_standardEquivalent\n    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)"
+  ],
+  [
+    "  K.toGeneratedPresentationEquivalence\n    .typeAEndpointLeibnizLifting_of_standardEquivalent",
+    "  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizLifting_of_standardEquivalent\n    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)"
+  ]
+]
+
 BARE_NAMES = ["GeneratedScaledAnodynePresentationEquivalence","generatedAnodyne_eq","ofGeneratedAnodyneEq","iff_generatedAnodyne_eq","refl","symm","trans","generatedFibration_eq","generatedAnodyne_mem_iff","generatedFibration_mem_iff","weakFactorizationSystem_iff","TypeAEndpointLeibnizGeneratorsGeneratedBy","TypeAEndpointLeibnizStableForPresentation","TypeAEndpointLeibnizLiftingForPresentation","typeAEndpointLeibnizGeneratorsGenerated_iff","typeAEndpointLeibnizStable_iff","typeAEndpointLeibnizLifting_iff","fibrantForExternalGenerators_iff","standardABC_typeAEndpointLeibnizGeneratorsGenerated","standardABC_typeAEndpointLeibnizStable","standardABC_typeAEndpointLeibnizLifting","typeAEndpointLeibnizGeneratorsGenerated_of_standardEquivalent","typeAEndpointLeibnizStable_of_standardEquivalent","typeAEndpointLeibnizLifting_of_standardEquivalent","standardTypeAExternalComparison_of_standardEquivalent","inducedTypeAAttachments_le_of_standardEquivalent","endpointPushoutProducts_le_of_standardEquivalent","StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence","canonical_typeAEndpointLeibnizStable_of_positiveComparison","canonical_typeAEndpointLeibnizLifting_of_positiveComparison"]
 DECL_PATTERN = re.compile(r"(?m)^(?:@\[[^\]]+\]\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|instance|abbrev)\s+([^\s(:]+)")
 
@@ -75,14 +138,17 @@ def execute(out: Path) -> dict:
     if blob(current) != SOURCE_BLOB:
         raise AuditFailure("EXACT_CANDIDATE_BLOB_MISMATCH " + blob(current))
     text = current.decode("utf8")
-    canonical = text.replace(
-        "KUOS.DependentOriginationGeneratedPresentationEndpointCodeAICandidateV1_80", "KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80"
-    ).replace(
-        "open CategoryTheory\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n",
-        "open CategoryTheory\n"
-    )
-    if canonical.encode("utf8") != ORIGINAL.read_bytes():
-        raise AuditFailure("CODEAI_CANDIDATE_NOT_ONE_NAMED_SCOPE_PATCH")
+    expected = ORIGINAL.read_text(encoding="utf8").replace(
+        "open CategoryTheory\n",
+        "open CategoryTheory\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n"
+    ).replace("KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80",
+              "KUOS.DependentOriginationGeneratedPresentationEndpointCodeAICandidateV1_80")
+    for before, after in PATCHES:
+        if expected.count(before) != 1:
+            raise AuditFailure("PATCH_ANCHOR_MISMATCH " + before[:70])
+        expected = expected.replace(before, after)
+    if text != expected:
+        raise AuditFailure("CODEAI_CANDIDATE_NOT_EXACT_RECORDED_PATCH_SET")
     masked = mask_lean_comments(text)
     if re.search(r"(?m)^\s*(?:sorry|admit|axiom)\b", masked):
         raise AuditFailure("PROOF_BYPASS")
