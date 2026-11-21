@@ -1,0 +1,50 @@
+name: KuuOS v1.85 CodeAI fixed point order isomorphisms pinned Lean and 20 axioms
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v185-codeai-fixedpoint-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v185-codeai-pinned-20-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact v1.85 validation HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Exact source, fixed Lean and all 20 public axiom reports
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v185_codeai_exact_source_v1.py --out /tmp/kuuos-v185-codeai-20
+      - name: Save 20-declaration candidate and independent proof receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v185-codeai-20
+          path: /tmp/kuuos-v185-codeai-20
+          retention-days: 30
+          if-no-files-found: warn
