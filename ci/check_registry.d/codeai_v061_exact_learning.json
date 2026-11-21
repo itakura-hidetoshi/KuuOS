@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "Only the exact registered non-formal v0.61 CodeAI research surfaces receive focused selection; unknown scripts or changed real .lean modules retain fail-closed governance.",
+      "Model-supplied .lean.txt candidate examples are never adopted formal Lean proofs; the dedicated exact-source independent Lean/MCP/8-axiom workflow remains a separate required evidence gate.",
+      "Version-bound memory replay and candidate success cannot authorize global learning, Git mutation, production proof adoption or PR merge.",
+      "Independent Verifier Ensemble v0.2 must have actual four-family, independently issued evidence before reusable learning hints are admitted."
+    ]
+  },
+  "checks": {
+    "codeai-v061-exact-learning-contract": {
+      "name": "CodeAI v0.61 exact source/CI routing and HOLD memory boundary",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_codeai_v061_governance_routing",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/kuuos-codeai-v061-exact-learning-feedback.yml",
+        "ci/check_registry.d/codeai_v061_exact_learning.json",
+        "docs/CodeAI/V061_EXACT_LEARNING_ROUTE_EVIDENCE_20261121.md",
+        "examples/codeai_v061_two_stage_private_append.lean.txt",
+        "examples/codeai_v061_two_stage_private_append_variant_b.lean.txt",
+        "examples/codeai_v061_two_stage_private_append_variant_c.lean.txt",
+        "scripts/codeai_v061_exact_real_lean_mcp.py",
+        "scripts/codeai_v061_independent_candidate_verification.py",
+        "scripts/codeai_v061_multi_candidate_portfolio.py",
+        "scripts/codeai_v061_two_stage_proof_proposal.py",
+        "scripts/codeai_v061_version_bound_learning_replay.py",
+        "tests/test_codeai_v061_governance_routing.py"
+      ],
+      "depends_on": [
+        "ci-audit-tests",
+        "runtime-full",
+        "workflow-integrity"
+      ],
+      "timeout_minutes": 7,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
