@@ -40,7 +40,7 @@ DECLARATIONS = (
     "def locallyFresh",
     "def pairFresh",
     "def appendTicket",
-    "def reserveIfPairFresh",
+    "noncomputable def reserveIfPairFresh",
     "theorem rejected_pair_leaves_ledger_unchanged",
     "theorem successful_pair_retains_previous_sequences",
     "theorem successful_pair_contains_both_keys",

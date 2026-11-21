@@ -69,3 +69,20 @@ SQLiteの再open／並行／rollback／tamperingと原本非変更の回帰、
 append-only／tighten-only／overwrite-forbidden／same-root。
 保護PR #1558はDraft/Open/未マージ。
 Preference ⇏ Descent ⇏ Authority。
+
+## 初回Strict Lean診断の修復履歴（v0.53研究PRのみ）
+
+CI #44863026853／Strict Lean job 136720538106 では、
+`reserveIfPairFresh` の `if pairFresh s a b` に
+`Decidable (pairFresh s a b)` が自動合成できず、Lean errorが発生。
+それに続く定理の `sorryAx` は**定義のelaboration failureに派生**
+した自動穴であり、原本の公理やLean命題の修正を求める障害ではない。
+
+修正版では、純粋な数学的分岐に限り
+`noncomputable def`／`by classical` と各従属証明内の
+`classical` を明示する。原本PlanOS型、命題statement、
+nonce／sequence freshness、Pythonの実際のSQLite原子トランザクション、
+公開roots、mathlib pinは変更しない。
+
+**これは新HEADの修復候補であり、成功は必ず固定Leanによる
+再コンパイルと全宣言の公理監査で再観測する。**

@@ -57,14 +57,16 @@ def appendTicket (s : LocalReplayLedger)
 
 /-- The pure mathematical analogue of an all-or-nothing pair reservation.
 It does not establish that any particular SQLite transaction committed. -/
-def reserveIfPairFresh (s : LocalReplayLedger)
-    (a b : LocalReplayTicket) : LocalReplayLedger :=
-  if pairFresh s a b then appendTicket (appendTicket s a) b else s
+noncomputable def reserveIfPairFresh (s : LocalReplayLedger)
+    (a b : LocalReplayTicket) : LocalReplayLedger := by
+  classical
+  exact if pairFresh s a b then appendTicket (appendTicket s a) b else s
 
 theorem rejected_pair_leaves_ledger_unchanged
     (s : LocalReplayLedger) (a b : LocalReplayTicket)
     (h : ¬ pairFresh s a b) :
     reserveIfPairFresh s a b = s := by
+  classical
   simp [reserveIfPairFresh, h]
 
 theorem successful_pair_retains_previous_sequences
@@ -72,6 +74,7 @@ theorem successful_pair_retains_previous_sequences
     (h : pairFresh s a b)
     (k : String × String × Nat) (hk : k ∈ s.seenSequences) :
     k ∈ (reserveIfPairFresh s a b).seenSequences := by
+  classical
   simp [reserveIfPairFresh, h, appendTicket, hk]
 
 theorem successful_pair_contains_both_keys
@@ -81,6 +84,7 @@ theorem successful_pair_contains_both_keys
     sequenceKey b ∈ (reserveIfPairFresh s a b).seenSequences ∧
     nonceKey a ∈ (reserveIfPairFresh s a b).seenNonces ∧
     nonceKey b ∈ (reserveIfPairFresh s a b).seenNonces := by
+  classical
   simp [reserveIfPairFresh, h, appendTicket]
 
 theorem fresh_pair_has_distinct_keys
