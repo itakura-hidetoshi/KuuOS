@@ -159,5 +159,81 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
         self.assertIn('"allow_git_authority":False', content)
 
 
+    def _actual_c_negative_fixture(self):
+        import hashlib
+
+        from scripts import codeai_v061_version_bound_learning_replay as replay
+
+        text = (ROOT / "examples/codeai_v061_two_stage_private_append_variant_c.lean.txt").read_text(
+            encoding="utf-8")
+        msg = "try 'simp' instead of 'simpa'"
+        log = (
+            f"/tmp/ProposedV061.lean:140:7: error: {msg}\n"
+            f"/tmp/ProposedV061.lean:159:7: error: {msg}\n"
+        )
+        c = {
+            "label": "model-c",
+            "status": "DIRECT_LEAN_REJECTED_TYPED_LINT_PENDING",
+            "source_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+            "diagnostic_digest": hashlib.sha256(log.encode("utf-8")).hexdigest(),
+            "diagnostics": [msg, msg],
+            "error_count": 2,
+            "strict_lean_exit_code": 1,
+            "proven_lean_declarations": 0,
+            "original_source_unchanged": True,
+            "independent_repair_evidence_admitted": False,
+            "reusable_repair_memory_admitted": False,
+        }
+        evidence = {
+            "source_candidate_portfolio": "model_supplied_proposals_governed_by_actual_codeai",
+            "typed_error_classification_c_admitted": False,
+            "results": [{}, {}, c],
+        }
+        evidence["evidence_digest"] = replay.stable(evidence)
+        return replay, evidence, log, text
+
+    def test_c_compiler_lint_is_bound_but_not_native_typed_classification(self) -> None:
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        receipt = replay.check_candidate_c_compiler_lint_boundary(evidence, log, text)
+        self.assertEqual([row["line"] for row in receipt["observed_diagnostics"]], [140, 159])
+        self.assertFalse(receipt["native_typed_error_classification_certified"])
+        self.assertFalse(receipt["verified_useful_memory_admitted"])
+        self.assertFalse(receipt["reusable_memory_hint"])
+        self.assertEqual(receipt["verification_guided_regeneration_receipt"], "NO_DATA")
+
+    def test_c_compiler_log_digest_tampering_is_rejected(self) -> None:
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(
+                evidence, log.replace(":159:7:", ":158:7:"), text)
+
+    def test_c_source_and_classifier_promotion_are_rejected(self) -> None:
+        from copy import deepcopy
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(evidence, log, text + "\n")
+        promoted = deepcopy(evidence)
+        promoted["typed_error_classification_c_admitted"] = True
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(promoted, log, text)
+        forged = deepcopy(evidence)
+        forged["results"][2]["reusable_repair_memory_admitted"] = True
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(forged, log, text)
+
+    def test_c_compiler_messages_cannot_become_static_preflight_findings(self) -> None:
+        from copy import deepcopy
+        import hashlib
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        forged = deepcopy(evidence)
+        altered = log.replace("try 'simp' instead of 'simpa'", "unrelated failure")
+        forged["results"][2]["diagnostic_digest"] = hashlib.sha256(
+            altered.encode("utf-8")).hexdigest()
+        forged["results"][2]["diagnostics"] = ["unrelated failure", "unrelated failure"]
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(forged, altered, text)
+
+
+
 if __name__ == "__main__":
     main()

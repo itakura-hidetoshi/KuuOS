@@ -362,6 +362,100 @@ def build_request_policy(evidence: dict, entries: list[dict], now: int):
     },memory.CORPUS_DIGEST_FIELD)
     return req,policy,corpus
 
+
+def check_candidate_c_compiler_lint_boundary(
+    evidence: dict, lean_log: str, original_source: str,
+) -> dict:
+    """Bind actual rejected C lint diagnostics to their exact Lean/compiler bytes.
+
+    A Lean elaborator/linter error is NOT a KuuOS static-preflight finding.
+    No TypedErrorClassification v0.1 certificate, regeneration receipt, or
+    verified-useful repair memory may be synthesized from this observation.
+    The compiler log and candidate bytes are consumed from separate CI
+    artifacts; the artifact transport is not an external issuer signature.
+    """
+    import re
+
+    from runtime.kuuos_codeai_typed_error_classification_schema_v0_1 import (
+        FINDING_TAXONOMY,
+    )
+    from scripts.codeai_v061_independent_candidate_verification import (
+        EXPECTED_SHA256,
+    )
+
+    assert len(evidence["results"]) == 3
+    assert evidence["source_candidate_portfolio"] == \
+        "model_supplied_proposals_governed_by_actual_codeai"
+    c = evidence["results"][2]
+    assert c["label"] == "model-c"
+    assert c["status"] == "DIRECT_LEAN_REJECTED_TYPED_LINT_PENDING"
+    assert c["source_sha256"] == EXPECTED_SHA256["model-c"]
+    assert hashlib.sha256(original_source.encode("utf-8")).hexdigest() == \
+        c["source_sha256"], "C_SOURCE_BYTES_CHANGED"
+    assert c["diagnostic_digest"] == hashlib.sha256(
+        lean_log.encode("utf-8")).hexdigest(), "C_LEAN_LOG_DIGEST_CHANGED"
+    assert c["strict_lean_exit_code"] != 0
+    assert c["proven_lean_declarations"] == 0
+    assert c["error_count"] == 2
+    assert c["original_source_unchanged"] is True
+    assert c["independent_repair_evidence_admitted"] is False
+    assert c["reusable_repair_memory_admitted"] is False
+    assert evidence["typed_error_classification_c_admitted"] is False
+
+    matches = re.findall(
+        r"(?m)^.*?\.lean:(\d+):(\d+): error: ([^\r\n]*)$",
+        lean_log,
+    )
+    assert len(matches) == 2, "C_COMPILER_DIAGNOSTIC_COUNT_MISMATCH"
+    assert [int(row[0]) for row in matches] == [140, 159], \
+        "C_COMPILER_LINE_MISMATCH"
+    messages = [row[2].strip() for row in matches]
+    assert messages == c["diagnostics"], "C_COMPILER_MESSAGE_MISMATCH"
+    assert all("try 'simp' instead of 'simpa'" in m for m in messages), \
+        "C_COMPILER_DIAGNOSTIC_KIND_MISMATCH"
+
+    lines = original_source.splitlines()
+    assert len(lines) >= 159
+    assert lines[139].strip() == "simpa only [hL] using"
+    assert lines[158].strip() == "simpa only [hR] using"
+
+    # The current original KuuOS taxonomy covers *static preflight* findings.
+    # It contains no Lean kernel/elaborator/linter diagnostic code. A matching
+    # English word must not be treated as a certified native taxonomy entry.
+    assert "lean_simp_simpa_lint" not in FINDING_TAXONOMY
+    assert "lean_elaborator_lint" not in FINDING_TAXONOMY
+
+    report = {
+        "schema": "kuuos.codeai.v061.compiler-lint-boundary.v1",
+        "source_main_sha": source.MAIN_HEAD,
+        "candidate": "model-c",
+        "candidate_source_sha256": c["source_sha256"],
+        "compiler_log_sha256": c["diagnostic_digest"],
+        "source_evidence_digest": evidence["evidence_digest"],
+        "observed_diagnostics": [
+            {"line": int(line), "column": int(col), "message": msg}
+            for (line, col, _), msg in zip(matches, messages)
+        ],
+        "observed_stage": "independent_pinned_lean_elaboration_and_lint",
+        "native_codeai_static_preflight_taxonomy_applicable": False,
+        "native_typed_error_classification_certified": False,
+        "structural_repair_cause_proved": False,
+        "repair_hypothesis": "replace redundant simpa with simp at the two observed lines; test required",
+        "verification_guided_regeneration_receipt": "NO_DATA",
+        "independently_issued_repair_receipt": "NO_DATA",
+        "candidate_formally_adopted": False,
+        "candidate_repair_executed": False,
+        "candidate_selection_authority": False,
+        "verified_useful_memory_admitted": False,
+        "reusable_memory_hint": False,
+        "global_four_family_ensemble": "NO_DATA",
+        "source_log_external_signature": "NO_DATA",
+        "host_execution_or_git_authority": False,
+    }
+    report["observation_digest"] = stable(report)
+    return report
+
+
 def main(path: Path) -> int:
     # The Memory kernel itself is a read-only lookup. The V0.61 evidence
     # promoter must be called only AFTER the separate independent verifier
@@ -380,6 +474,14 @@ def main(path: Path) -> int:
         raise RuntimeError("HOLD_NO_ACTUAL_INDEPENDENT_CI_PREDECESSOR_CONTEXT")
     evidence=load_exact_evidence(path)
     now=int(time.time())
+    # Independently replay C's actual negative compiler log, not an invented
+    # static-preflight/typed-classifier receipt or a successful repair.
+    c_log = (DEFAULT_EVIDENCE.parent / "model-c/lean.log").read_text(
+        encoding="utf-8")
+    c_source = (ROOT / "examples/codeai_v061_two_stage_private_append_variant_c.lean.txt").read_text(
+        encoding="utf-8")
+    c_boundary = check_candidate_c_compiler_lint_boundary(
+        evidence, c_log, c_source)
     ensemble_hold=check_actual_v02_ensemble_hold(evidence,now)
     entries=[build_entry(kind,evidence,now)
              for kind in memory.SUBTASK_KINDS]
@@ -458,6 +560,8 @@ def main(path: Path) -> int:
         "actual_v02_ensemble_kernel_invoked":ensemble_hold["actual_original_ensemble_v02_invoked"],
         "actual_v02_ensemble_status":ensemble_hold["actual_original_ensemble_v02_status"],
         "actual_v02_ensemble_unmet_issues":ensemble_hold["ensemble_v02_issues"],
+        "model_c_compiler_lint_boundary_digest":c_boundary["observation_digest"],
+        "model_c_native_typed_classifier_admitted":False,
         "next_candidate_memory_hint_available":False,
         "memory_weights_updated":False,
         "persistent_external_memory_curated":False,
@@ -467,6 +571,9 @@ def main(path: Path) -> int:
         "global_CI_run_complete":False,
         "host_action_authorized":False,
     }
+    (OUTPUT/"compiler-lint-boundary.json").write_text(
+        json.dumps(c_boundary,sort_keys=True,ensure_ascii=False,indent=2)+"\n",
+        encoding="utf-8")
     (OUTPUT/"independent-v02-held.json").write_text(
         json.dumps(ensemble_hold,sort_keys=True,ensure_ascii=False,indent=2)+"\n",
         encoding="utf-8")

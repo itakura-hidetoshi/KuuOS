@@ -141,3 +141,15 @@ v0.61の独立CIはNO_DATA。新規学習済みMemoryなし。
 正本main unchanged。**
 
 Preference ⇏ Descent ⇏ Authority。
+
+## 4. 2026-11-22追記 — 候補Cの生Lean診断・source境界（研究PR）
+
+[研究PR #3623](https://github.com/itakura-hidetoshi/KuuOS/pull/3623) で、候補Cの独立Lean拒否を、実CI artifactに保存された `model-c/lean.log` と、元のモデル提供Lean全文のSHA-256で再結合する **read-only compiler-lint boundary** を追加した。
+
+- 正確な候補ソースSHA、失敗ログSHA、失敗exitと `diagnostics` 2件、元Lean候補140/159行の `simpa only` を照合する。
+- log、source、line、diagnostics、status、利用許可のいずれかが改変されればfail-closed。対応する負の回帰テストを追加。
+- 元CodeAI `Typed Error Classification v0.1` の分類対象は **static preflight**。Lean elaborator/linterの出力は現在のtaxonomyに含まれず、実形式分類の受領書は発行しない。
+- `simp` への置換は**修復仮説**としてのみ残し、修復実行・独立再コンパイル・保証された原因同定とはしない。
+- `verification-guided regeneration` 用の真正な独立execution/repair受領書、4系統・組織の独立性、`verified_useful` Memory昇格は依然 **NO_DATA／HOLD**。候補Cの成功再利用ヒント、正式Lean採用、Git権限は発行しない。
+
+この追記はGitHub研究ブランチに実装した**候補コード**の説明であり、新HEADのCI completed/SUCCESSおよび独立検証が観測されるまでは認証済みと扱わない。
