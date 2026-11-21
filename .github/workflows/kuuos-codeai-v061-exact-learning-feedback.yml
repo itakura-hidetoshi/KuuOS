@@ -59,14 +59,15 @@ jobs:
           assert len(x)==4
           print('CODEAI_V061_EXACT_PARENT',src.MAIN_HEAD,src.MAIN_TREE)
           PY
-      - uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
+      # Exact Lean bootstrap already used by Governance: official release bytes
+      # are checked against fixed size and SHA256 before execution.
+      # No elan/latest download and no relaxation of kernel/proof checks.
+      - name: Validate exact pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install SHA256-audited pinned Lean and Lake
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
       - uses: actions/cache/restore@v5
         with:
           path: .lake
@@ -119,14 +120,15 @@ jobs:
         with:
           name: codeai-v061-codeai-mcp-${{ github.run_id }}-${{ github.run_attempt }}
           path: first-codeai/
-      - uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
+      # Exact Lean bootstrap already used by Governance: official release bytes
+      # are checked against fixed size and SHA256 before execution.
+      # No elan/latest download and no relaxation of kernel/proof checks.
+      - name: Validate exact pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install SHA256-audited pinned Lean and Lake
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
       - uses: actions/cache/restore@v5
         with:
           path: .lake
