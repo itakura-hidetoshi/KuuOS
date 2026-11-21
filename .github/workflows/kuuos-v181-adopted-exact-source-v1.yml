@@ -1,0 +1,57 @@
+name: KuuOS v1.81 adopted original quotient 37-declaration exact Strict Lean and axiom audit
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - '.github/workflows/kuuos-v181-adopted-exact-source-v1.yml'
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean'
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationQuotientCodeAICandidateV1_81.lean'
+      - 'scripts/ci_kuuos_v181_adopted_exact_source_v1.py'
+      - 'lean-toolchain'
+      - 'lake-manifest.json'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v181-adopted-original-name-37-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile adopted v1.81 and audit all 37 declarations
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v181_adopted_exact_source_v1.py --out /tmp/kuuos-v181-pr-adopted-37
+      - name: Upload exact-head 37-axiom proof receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v181-pr-adopted-37
+          path: /tmp/kuuos-v181-pr-adopted-37
+          retention-days: 30
+          if-no-files-found: warn
