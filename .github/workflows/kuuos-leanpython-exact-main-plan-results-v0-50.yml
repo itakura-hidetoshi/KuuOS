@@ -1,0 +1,108 @@
+name: KuuOS LeanPython Exact Main Explicit Plan Result v0.50
+
+# Dedicated, read-only, target-local source verification. This workflow
+# does not replace KuuOSFormal nor convert historical full-CI cancellation
+# into success. The PR event checks out canonical base, not the candidate.
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-exact-main-plan-results-v0-50.yml"
+      - "formal/KUOS/Architecture/LeanPythonExplicitPlanResultEvidenceV0_50.lean"
+      - "scripts/check_kuuos_lean_python_explicit_result_evidence_sources_v0_50.py"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-exact-main-plan-results-v0-50.yml"
+      - "formal/KUOS/Architecture/LeanPythonExplicitPlanResultEvidenceV0_50.lean"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-leanpython-v050-scoped-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  EXACT_CANONICAL_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.sha }}
+
+jobs:
+  original-plan-result-typing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact canonical main source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.EXACT_CANONICAL_SHA }}
+          persist-credentials: false
+      - name: Require immutable Lean and Mathlib pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          mathlib = [p for p in manifest["packages"] if p["name"] == "mathlib"]
+          assert len(mathlib) == 1 and mathlib[0]["rev"] == (
+              "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          )
+          print("PINNED_CANONICAL_DEPENDENCIES_ACCEPTED; not a proof receipt")
+          PY
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Read shared Lake workspace cache only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v050-scoped-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.EXACT_CANONICAL_SHA }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Recover pinned dependencies on cache miss
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            lake exe cache get
+          fi
+      - name: Independently compile actual source v0.49 obstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'EXACT_CANONICAL_SHA=%s\nEVENT=%s\n' "$EXACT_CANONICAL_SHA" "$GITHUB_EVENT_NAME" | tee kuuos-leanpython-v050-scoped.log
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonPlanResultObservationObstructionV0_49 \
+            2>&1 | tee -a kuuos-leanpython-v050-scoped.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+      - name: Compile integrated new v0.50 theorem on main push
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonExplicitPlanResultEvidenceV0_50 \
+            2>&1 | tee -a kuuos-leanpython-v050-scoped.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+      - name: Retain exact-head scope-limited proof log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-leanpython-v050-scoped-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-leanpython-v050-scoped.log
+          if-no-files-found: warn
+          retention-days: 14
