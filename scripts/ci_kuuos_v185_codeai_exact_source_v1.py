@@ -23,14 +23,14 @@ ORIGINAL = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationFixedPoi
 CANDIDATE = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoCodeAICandidateV1_85.lean"
 HISTORICAL = ROOT / "legacy/v5.291/formal/KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean"
 ORIGINAL_BLOB = "97e364b48eb5632ab7f9f79b051f5b665445c682"
-CANDIDATE_BLOB = "1666e8b6528e41b0c396e6cad91292c48f1947f9"
+CANDIDATE_BLOB = "ae934472e704fd5c0bab7a464d9f0c444a1880fd"
 PARENTS = {
     "DependentOriginationGeneratedPresentationOrderReflectionV1_84": "5c1f7e9dc8fbb12bb901f4c67f0aad99543d49b9",
     "DependentOriginationGeneratedPresentationPosetalReflectionV1_83": "3bc1f096876f8c7b799ae48f29419e6686e33c87",
     "DependentOriginationGeneratedPresentationQuotientInvariantV1_81": "8ba7b0e6034a2e24b44587fb477c2192cffffeca",
 }
 PUBLIC = ["OrthogonallySaturatedScaledAnodyne","IsRightOrthogonallySaturated","OrthogonallySaturatedScaledFibration","generatedAnodyneClass_isOrthogonallySaturated","generatedFibrationClass_isRightOrthogonallySaturated","presentationToSaturatedAnodyne","saturatedAnodyneToPresentation","saturatedAnodyneToPresentation_presentationToSaturatedAnodyne","presentationToSaturatedAnodyne_saturatedAnodyneToPresentation","generatedPresentationSaturatedAnodyneOrderIso","generatedPresentationSaturatedAnodyneOrderIso_apply_val","presentationToSaturatedFibration","saturatedFibrationToPresentation","saturatedFibrationToPresentation_presentationToSaturatedFibration","presentationToSaturatedFibration_saturatedFibrationToPresentation","generatedPresentationSaturatedFibrationOrderIso","generatedPresentationSaturatedFibrationOrderIso_apply_val","saturatedAnodyneFibrationOrderIso","presentation_eq_iff_saturatedAnodyne_eq","presentation_eq_iff_saturatedFibration_eq"]
-PATCH = ["open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84","open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41"]
+PATCHES = [["open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84","open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41"],["  rw [generatedAnodyneClass_presentationClass]","  change IsOrthogonallySaturated (generatedAnodyneClass P)"]]
 DECL = re.compile(r"(?m)^(?:@\[[^\]]+\]\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|instance|abbrev)\s+([^\s(:]+)")
 
 def execute(out: Path) -> dict:
@@ -47,10 +47,10 @@ def execute(out: Path) -> dict:
         raise AuditFailure("V185_CANDIDATE_BLOB_CHANGED")
     expected=raw_original.decode("utf8").replace(
         "KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85", "KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoCodeAICandidateV1_85")
-    old,new=PATCH
-    if expected.count(old)!=1:
-        raise AuditFailure("V185_PATCH_PRECONDITION")
-    expected=expected.replace(old,new)
+    for old,new in PATCHES:
+        if expected.count(old)!=1:
+            raise AuditFailure("V185_PATCH_PRECONDITION " + old[:80])
+        expected=expected.replace(old,new)
     actual=raw.decode("utf8")
     if actual!=expected:
         raise AuditFailure("V185_UNREVIEWED_SOURCE_EDIT")

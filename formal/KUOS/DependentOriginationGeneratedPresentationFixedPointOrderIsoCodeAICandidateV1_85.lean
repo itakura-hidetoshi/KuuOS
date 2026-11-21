@@ -95,7 +95,7 @@ theorem saturatedAnodyneToPresentation_presentationToSaturatedAnodyne
     (P : GeneratedScaledAnodynePresentation.{u}) :
     saturatedAnodyneToPresentation (presentationToSaturatedAnodyne P) = P := by
   apply eq_of_generatedAnodyneClass_eq
-  rw [generatedAnodyneClass_presentationClass]
+  change IsOrthogonallySaturated (generatedAnodyneClass P)
   exact generatedAnodyneClass_isOrthogonallySaturated P
 
 /-- Taking the generated left class of a saturated self-presentation returns
