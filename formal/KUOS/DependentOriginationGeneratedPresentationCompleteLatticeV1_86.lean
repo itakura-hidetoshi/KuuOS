@@ -11,6 +11,7 @@ open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
 universe u
 
@@ -85,8 +86,7 @@ def orthogonalFibrationClosure :
     exact MorphismProperty.antitone_rlp
       (MorphismProperty.antitone_llp hRS)
   le_closure' := by
-    intro R A B p hp
-    intro X Y i hi
+    intro R A B p hp X Y i hi
     exact hi p hp
   idempotent' := fun R => MorphismProperty.rlp_llp_rlp R.llp
   IsClosed := IsRightOrthogonallySaturated
@@ -166,8 +166,7 @@ theorem saturatedFibration_iSup_val
 saturated-left representatives. -/
 noncomputable instance generatedScaledAnodynePresentationCompleteLattice :
     CompleteLattice GeneratedScaledAnodynePresentation.{u} :=
-  generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion
-    .liftCompleteLattice
+  (generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion).liftCompleteLattice
 
 /-- The left fixed-point coordinate preserves arbitrary joins. -/
 @[simp]
@@ -176,7 +175,7 @@ theorem presentationToSaturatedAnodyne_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨆ i, P i) =
       ⨆ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iSup generatedPresentationSaturatedAnodyneOrderIso P
+  exact map_iSup generatedPresentationSaturatedAnodyneOrderIso.toCompleteLatticeHom P
 
 /-- The left fixed-point coordinate preserves arbitrary meets. -/
 @[simp]
@@ -185,7 +184,7 @@ theorem presentationToSaturatedAnodyne_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨅ i, P i) =
       ⨅ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iInf generatedPresentationSaturatedAnodyneOrderIso P
+  exact map_iInf generatedPresentationSaturatedAnodyneOrderIso.toCompleteLatticeHom P
 
 /-- Because the right coordinate is order reversing, a presentation join is a
 meet of generated right classes. -/
@@ -195,8 +194,7 @@ theorem presentationToSaturatedFibration_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨆ i, P i) =
       ⨅ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (map_iSup generatedPresentationSaturatedFibrationOrderIso P)
+  exact map_iSup generatedPresentationSaturatedFibrationOrderIso.toCompleteLatticeHom P
 
 /-- Dually, a presentation meet is a join in the ordinary inclusion order on
 saturated right classes. -/
@@ -206,8 +204,7 @@ theorem presentationToSaturatedFibration_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨅ i, P i) =
       ⨆ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (map_iInf generatedPresentationSaturatedFibrationOrderIso P)
+  exact map_iInf generatedPresentationSaturatedFibrationOrderIso.toCompleteLatticeHom P
 
 /-! ## Explicit left/right formulas for arbitrary lattice operations -/
 
