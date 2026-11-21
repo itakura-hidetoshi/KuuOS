@@ -8,6 +8,7 @@ open CategoryTheory.Limits
 open MonoidalCategory
 open Opposite
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
@@ -95,8 +96,8 @@ leg; in the second case it lifts to a thin triangle of the second leg. -/
 theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScalingLE
-      (standardTypeAEndpointInducedProductPullbackScaling g)
-      (standardTypeAEndpointGeneratedPushoutScaling g) := by
+      (standardTypeAEndpointInducedProductPullbackScaling.{u} g)
+      (standardTypeAEndpointGeneratedPushoutScaling.{u} g) := by
   intro t ht
   have htmem :
       t.val ∈
@@ -117,7 +118,7 @@ theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
       rfl
     refine Or.inr (Or.inr (Or.inl ⟨x, ?_, hxmap⟩))
     change
-      (standardTypeAEndpointInducedProductPullbackScaling g).thin
+      (standardTypeAEndpointInducedProductPullbackScaling.{u} g).thin
         ((SSet.Subcomplex.unionProd.ι₁
           (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
             (op ⦋2⦌) x)
@@ -134,7 +135,7 @@ theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
       rfl
     refine Or.inr (Or.inr (Or.inr ⟨x, ?_, hxmap⟩))
     change
-      (standardTypeAEndpointInducedProductPullbackScaling g).thin
+      (standardTypeAEndpointInducedProductPullbackScaling.{u} g).thin
         ((SSet.Subcomplex.unionProd.ι₂
           (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
             (op ⦋2⦌) x)
@@ -145,14 +146,14 @@ theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
 full induced pullback scaling. -/
 theorem standardTypeAEndpointGeneratedPushoutScaling_eq_induced
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAEndpointGeneratedPushoutScaling g =
-      standardTypeAEndpointInducedProductPullbackScaling g :=
+    standardTypeAEndpointGeneratedPushoutScaling.{u} g =
+      standardTypeAEndpointInducedProductPullbackScaling.{u} g :=
   scaling_eq_of_le_antisymm
     (standardTypeAEndpointGeneratedPushoutScaling_le_induced g)
     (standardTypeAEndpointInducedProductPullbackScaling_le_generated g)
 
 /-- Ambient cylinder pullback scaling on the endpoint source carrier. -/
-def standardTypeAEndpointAmbientSourceScaling
+def standardTypeAEndpointAmbientSourceScaling.{u}
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i).unionProd
@@ -166,12 +167,12 @@ def standardTypeAEndpointAmbientSourceScaling
 source used by the prism factorization. -/
 theorem standardTypeAEndpointGeneratedPushoutScaling_eq_ambient
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAEndpointGeneratedPushoutScaling g =
-      standardTypeAEndpointAmbientSourceScaling g := by
+    standardTypeAEndpointGeneratedPushoutScaling.{u} g =
+      standardTypeAEndpointAmbientSourceScaling.{u} g := by
   rw [standardTypeAEndpointGeneratedPushoutScaling_eq_induced g]
-  unfold standardTypeAEndpointInducedProductPullbackScaling
+  unfold standardTypeAEndpointInducedProductPullbackScaling.{u}
   unfold standardTypeAEndpointCylinderProductScaling
-  unfold standardTypeAEndpointAmbientSourceScaling
+  unfold standardTypeAEndpointAmbientSourceScaling.{u}
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
     (standardTypeASimplexScaling g.i)
     (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))]
@@ -183,7 +184,7 @@ def standardTypeAEndpointAmbientSource
   ScaledSSet.of
     ((SSet.horn g.n g.i).unionProd
       (intervalEndpoint g.endpoint) : SSet.{u})
-    (standardTypeAEndpointAmbientSourceScaling g)
+    (standardTypeAEndpointAmbientSourceScaling.{u} g)
 
 /-- Identity-underlying scaled isomorphism from the v1.55 categorical source
 to the ambient-pullback presentation. -/
@@ -192,8 +193,8 @@ def standardTypeAEndpointGeneratedSourceIsoAmbient
     standardTypeAEndpointGeneratedPushoutSource g ≅
       standardTypeAEndpointAmbientSource g :=
   scalingEqualityIso
-    (standardTypeAEndpointGeneratedPushoutScaling g)
-    (standardTypeAEndpointAmbientSourceScaling g)
+    (standardTypeAEndpointGeneratedPushoutScaling.{u} g)
+    (standardTypeAEndpointAmbientSourceScaling.{u} g)
     (standardTypeAEndpointGeneratedPushoutScaling_eq_ambient g)
 
 /-! ## The interval boundary is exactly its two endpoint subcomplexes -/
@@ -204,7 +205,8 @@ theorem intervalEndpoint_zero_eq_face_one :
       SSet.stdSimplex.face ({(1 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
-  rfl
+  congr 1
+  decide
 
 /-- Endpoint one is the face opposite vertex zero. -/
 theorem intervalEndpoint_one_eq_face_zero :
@@ -212,7 +214,8 @@ theorem intervalEndpoint_one_eq_face_zero :
       SSet.stdSimplex.face ({(0 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
-  rfl
+  congr 1
+  decide
 
 /-- Uniform face presentation of an interval endpoint. -/
 theorem intervalEndpoint_eq_face_rev (ε : Fin 2) :
@@ -613,7 +616,7 @@ pullback scaling. -/
 theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     generatedPushoutScaling
-      (standardTypeAEndpointAmbientSourceScaling g)
+      (standardTypeAEndpointAmbientSourceScaling.{u} g)
       (standardTypeAEndpointOppositeSimplexScaling g)
       (standardTypeAEndpointAmbientSourceToBoundary g).map
       (standardTypeAEndpointOppositeSimplexToBoundary g).map =
@@ -706,10 +709,13 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
+    standardABCRawCellularStep.{u}
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
   exact MorphismProperty.pushouts_mk
-    (standardTypeAEndpointOpposite_scaled_isPushout g)
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})))
+    (standardTypeAEndpointOpposite_scaled_isPushout g).flip
     (standardTypeAEndpointOppositeCellHom_mem_coproductsABC g)
 
 /-! ## Return to the actual v1.55 source and close the certificate -/
@@ -730,10 +736,10 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
 raw standard type-(A) cellular step. -/
 theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
+    standardABCRawCellularStep.{u}
       (standardTypeAEndpointToBoundaryPrism g) := by
   exact
-    ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
+    ((standardABCRawCellularStep.{u} : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
       (standardTypeAEndpointToBoundaryPrismArrowIsoAmbient g)).2
       (standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular g)
 
@@ -741,20 +747,20 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
 cellular closure. -/
 theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
+    standardABCStrongCellularClosure.{u}
       (standardTypeAEndpointToBoundaryPrism g) :=
   MorphismProperty.le_transfiniteCompositions
-    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
+    (standardABCRawCellularStep.{u} : MorphismProperty (ScaledSSet.{u})) _
     (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g)
 
 /-- The complete genuine scaled endpoint Leibniz map is in the strong
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
+    standardABCStrongCellularClosure.{u}
       (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
   have hcomp :=
-    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
+    (standardABCStrongCellularClosure.{u} : MorphismProperty (ScaledSSet.{u})).comp_mem
       (standardTypeAEndpointToBoundaryPrism g)
       (standardTypeABoundaryPrismToCylinder g)
       (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
