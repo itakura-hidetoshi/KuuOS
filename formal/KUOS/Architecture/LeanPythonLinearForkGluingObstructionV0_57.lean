@@ -52,9 +52,9 @@ private theorem two_prefixes_of_one_list_are_comparable
           subst y
           rcases ih ys hrest with hleft | hright
           · rcases hleft with ⟨remaining, hleft⟩
-            exact Or.inl ⟨remaining, by simpa [hleft]⟩
+            exact Or.inl ⟨remaining, by simp [hleft]⟩
           · rcases hright with ⟨remaining, hright⟩
-            exact Or.inr ⟨remaining, by simpa [hright]⟩
+            exact Or.inr ⟨remaining, by simp [hright]⟩
 
 theorem common_linear_successor_implies_comparability
     (left right : DetachedReplayWitness)
