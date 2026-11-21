@@ -231,7 +231,7 @@ theorem append_only_tagged_gluing_does_not_grant_planos_execution
     (p : MiddleWayBoundedSynthesisIntakeCertificate)
     (valid : MiddleWayBoundedSynthesisIntakeCertificateValid p)
     {s : BranchPositionSpan} {newLeft newRight : List LocalReplayTicket}
-    (e : AppendObservationRecord s newLeft newRight String) :
+    (_e : AppendObservationRecord s newLeft newRight String) :
     p.executionPermission = false ∧
     p.executionAuthorityGranted = false ∧
     p.selectionAuthorityGrantedToPlanOS = false := by
