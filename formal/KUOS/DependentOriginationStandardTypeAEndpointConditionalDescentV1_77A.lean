@@ -5,7 +5,8 @@ namespace KUOS.DependentOriginationStandardTypeAEndpointConditionalDescentV1_77A
 open CategoryTheory
 open CategoryTheory.Category
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
-open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 open KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
@@ -13,6 +14,8 @@ open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76
 
 universe u
+
+set_option maxHeartbeats 1500000
 
 /-!
 # v1.77A: conditional gluing from the missing raw endpoint A-cell
@@ -33,7 +36,7 @@ certified v1.76 boundary-to-cylinder transfinite A/B proof gives the full
 standard generated right lifting theorem by compositional orthogonality.
 The premise remains a distinct, unproved geometric obligation. -/
 theorem standardABCTypeAEndpointLeibnizLifting_of_missingRawA
-    (hA : ∀ (g : StandardTypeAHornAttachmentGeneratorIndex),
+    (hA : ∀ (g : KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49.StandardTypeAHornAttachmentGeneratorIndex),
       standardABCRawCellularStep.{u}
         (standardTypeAEndpointToBoundaryPrism.{u} g)) :
     StandardABCTypeAEndpointLeibnizLifting.{u} := by
@@ -71,7 +74,7 @@ theorem standardABCTypeAEndpointLeibnizLifting_of_missingRawA
 type-A endpoint Leibniz stability; the converse or arbitrary-canonical-family
 comparison is not asserted. -/
 theorem standardABCTypeAEndpointLeibnizStability_of_missingRawA
-    (hA : ∀ (g : StandardTypeAHornAttachmentGeneratorIndex),
+    (hA : ∀ (g : KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49.StandardTypeAHornAttachmentGeneratorIndex),
       standardABCRawCellularStep.{u}
         (standardTypeAEndpointToBoundaryPrism.{u} g)) :
     StandardABCTypeAEndpointLeibnizStability.{u} :=

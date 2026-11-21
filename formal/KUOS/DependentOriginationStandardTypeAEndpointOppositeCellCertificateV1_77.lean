@@ -153,7 +153,7 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_induced
     (standardTypeAEndpointInducedProductPullbackScaling_le_generated g)
 
 /-- Ambient cylinder pullback scaling on the endpoint source carrier. -/
-def standardTypeAEndpointAmbientSourceScaling.{u}
+def standardTypeAEndpointAmbientSourceScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i).unionProd
@@ -170,9 +170,9 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_ambient
     standardTypeAEndpointGeneratedPushoutScaling.{u} g =
       standardTypeAEndpointAmbientSourceScaling.{u} g := by
   rw [standardTypeAEndpointGeneratedPushoutScaling_eq_induced g]
-  unfold standardTypeAEndpointInducedProductPullbackScaling.{u}
+  unfold standardTypeAEndpointInducedProductPullbackScaling
   unfold standardTypeAEndpointCylinderProductScaling
-  unfold standardTypeAEndpointAmbientSourceScaling.{u}
+  unfold standardTypeAEndpointAmbientSourceScaling
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
     (standardTypeASimplexScaling g.i)
     (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))]
@@ -422,7 +422,7 @@ def pullbackScalingIso
       scaled := by
         intro t ht
         change sY.thin (e.hom.app (op ⦋2⦌) (e.inv.app (op ⦋2⦌) t))
-        rw [← NatTrans.comp_app_apply, e.hom_inv_id]
+        rw [← NatTrans.comp_app_apply, e.inv_hom_id]
         exact ht }
   hom_inv_id := by
     apply ScaledSSet.ScaledMap.ext
@@ -433,7 +433,7 @@ def pullbackScalingIso
 
 /-- Scaling on the opposite horn product transported from the literal standard
 A horn scaling. -/
-def standardTypeAEndpointOppositeCornerScaling
+@[reducible] def standardTypeAEndpointOppositeCornerScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       (standardTypeAEndpointOppositeCornerSubcomplex g : SSet.{u}) :=
@@ -442,7 +442,7 @@ def standardTypeAEndpointOppositeCornerScaling
 
 /-- Scaling on the opposite simplex product transported from the literal
 standard A simplex scaling. -/
-def standardTypeAEndpointOppositeSimplexScaling
+@[reducible] def standardTypeAEndpointOppositeSimplexScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}) :=
@@ -715,7 +715,7 @@ theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (MorphismProperty.coproducts.{u}
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})))
-    (standardTypeAEndpointOpposite_scaled_isPushout g).flip
+    (standardTypeAEndpointOpposite_scaled_isPushout g)
     (standardTypeAEndpointOppositeCellHom_mem_coproductsABC g)
 
 /-! ## Return to the actual v1.55 source and close the certificate -/
