@@ -24,7 +24,8 @@ import tempfile
 
 from scripts import codeai_v061_two_stage_proof_proposal as prior
 from scripts import codeai_v061_multi_candidate_portfolio as portfolio
-from scripts.kuuos_lean_mcp_repair_loop_v1 import source_contract, mask_lean_comments, FORBIDDEN_NEW
+from scripts.kuuos_sandbox_lean_cycle_v1 import source_contract
+from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments, FORBIDDEN_NEW
 
 ROOT=Path(__file__).resolve().parents[1]
 EVIDENCE=ROOT/"artifacts/codeai-v061-independent-verification"
