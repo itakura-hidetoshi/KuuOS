@@ -211,6 +211,21 @@ def build_request_policy(evidence: dict, entries: list[dict], now: int):
     return req,policy,corpus
 
 def main(path: Path) -> int:
+    # The Memory kernel itself is a read-only lookup. The V0.61 evidence
+    # promoter must be called only AFTER the separate independent verifier
+    # job succeeded, as expressed by this exact GitHub Actions needs chain.
+    # Environment checks are NOT cryptographic identity proof; the GitHub
+    # workflow/receipt lineage is still necessary.
+    if (
+        os.getenv("GITHUB_ACTIONS")!="true"
+        or os.getenv("GITHUB_REPOSITORY")!="itakura-hidetoshi/KuuOS"
+        or os.getenv("GITHUB_JOB")!="read-only-exact-subtask-memory-replay"
+        or os.getenv("GITHUB_WORKFLOW")!=
+          "KuuOS CodeAI v0.61 exact-source learning, Lean MCP and independent verification"
+        or not os.getenv("GITHUB_RUN_ID","").isdigit()
+        or Path(path).resolve()!=DEFAULT_EVIDENCE.resolve()
+    ):
+        raise RuntimeError("HOLD_NO_ACTUAL_INDEPENDENT_CI_PREDECESSOR_CONTEXT")
     evidence=load_exact_evidence(path)
     now=int(time.time())
     entries=[build_entry(kind,evidence,now)
@@ -281,7 +296,9 @@ def main(path: Path) -> int:
             diagnose.memory_pack["matched_entry_count"],
         "holdout_test_only_matched_count":check.memory_pack["matched_entry_count"],
         "source_covered_by_real_GitHub_CI":
-            "independent verification predecessor job completed/SUCCESS",
+            "exact-GitHub-needs-success-bound verification receipt; runner context not external signature",
+        "github_workflow_run_id":os.environ["GITHUB_RUN_ID"],
+        "github_workflow_job":os.environ["GITHUB_JOB"],
         "learning_mode":"read_only_source_bound_verified_utility_lookup",
         "memory_weights_updated":False,
         "persistent_external_memory_curated":False,
