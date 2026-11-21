@@ -115,6 +115,7 @@ theorem standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz
     scaledHornCylinderAttachmentInclusion,
     hornCylinderAttachment,
     StandardTypeAHornAttachmentGeneratorIndex.toCanonical]
+  exact Category.id_comp _
 
 /-! ## Generic orthogonal descent through an epi left factor -/
 
