@@ -126,6 +126,31 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
             with self.subTest(item=item):
                 self.assertIn(item, content)
 
+    def test_actual_four_family_ensemble_kernel_blocks_unattested_single_family(self) -> None:
+        from scripts import codeai_v061_version_bound_learning_replay as replay
+        now = 500
+        evidence = {
+            "evidence_digest": "d" * 64,
+            "results": [{
+                "status": "INDEPENDENT_FIXED_LEAN_AND_AXIOM_PASSED",
+                "axiom_declarations_checked": 8,
+                "strict_lean_exit_code": 0,
+                "sorryAx": False,
+                "source_sha256": "a" * 64,
+            }],
+        }
+        hold = replay.check_actual_v02_ensemble_hold(evidence, now)
+        self.assertTrue(hold["actual_original_ensemble_v02_invoked"])
+        self.assertEqual(hold["actual_original_ensemble_v02_status"], "blocked")
+        self.assertEqual(hold["independent_organizations_attested"], 0)
+        self.assertEqual(hold["external_verifier_issuer_authentication"], "NO_DATA")
+        self.assertFalse(hold["verified_useful"])
+        self.assertFalse(hold["reusable_memory_hint"])
+        reasons = set(hold["ensemble_v02_issues"])
+        self.assertIn("ensemble_required_family_missing", reasons)
+        self.assertIn("ensemble_insufficient_organization_count", reasons)
+        self.assertIn("ensemble_insufficient_verifier_count", reasons)
+
     def test_actual_memory_source_keeps_inconclusive_until_ensemble(self) -> None:
         content = (ROOT / "scripts/codeai_v061_version_bound_learning_replay.py").read_text(
             encoding="utf-8")

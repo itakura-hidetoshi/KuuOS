@@ -6,10 +6,11 @@ successfully and transferred the immutable evidence artifact. This step
 constructs a source-bound, append-only learning/recall receipt, NOT a model
 weight update or an independent externally curated memory database.
 
-Only the source-bound VERIFY procedure with real Lean/axiom evidence is marked
-verified_useful. The localize/diagnose/edit traces remain inconclusive pending
-separate independent usefulness adjudication. Failed candidate C is NOT given
-a repair-memory success hint or silently translated into static errors.
+All four subtasks, including VERIFY, remain inconclusive until independently
+issued four-family CodeAI verifier evidence is established. Formal Lean success
+is preserved separately and never becomes a verified-useful learning hint.
+Failed candidate C is NOT given a repair-memory success hint or silently
+translated into static errors.
 
 Actual KuuOS SubtaskLevelVersionBoundMemory runtime is invoked. Exact source
 mismatch, different subtask or holdout-derived data cannot transfer hints.
@@ -59,6 +60,154 @@ def load_exact_evidence(file: Path) -> dict:
     assert not data["subtask_memory_update_performed"]
     assert not data["all_proposals_adopted"]
     return data
+
+
+def check_actual_v02_ensemble_hold(evidence: dict, now: int) -> dict:
+    """Run the ORIGINAL KuuOS v0.2 ensemble kernel on actual v0.61 formal evidence.
+
+    This is NOT a four-family certificate. Only ONE candidate-bound type/formal
+    result exists. The separately compiled Lean result is real, but external
+    issuer attestation, reviewer organization separation, independent prompts,
+    and three complementary verification families are NO_DATA. We intentionally
+    set each unproven independence claim to False and demand fail-closed.
+    The packet's timestamp is the local replay time, NOT a GitHub-issued
+    verification timestamp. That is another reason this is not an admissible
+    external verifier certificate.
+    """
+    from runtime.kuuos_codeai_independent_verifier_ensemble_v0_2 import (
+        evaluate_independent_verifier_ensemble,
+    )
+    from runtime.kuuos_codeai_independent_verifier_ensemble_checks_v0_2 import seal
+    from runtime.kuuos_codeai_independent_verifier_ensemble_schema_v0_2 import (
+        EVIDENCE_DIGEST_FIELD, POLICY_DIGEST_FIELD, REQUEST_DIGEST_FIELD,
+        STATUS_BLOCKED,
+    )
+    from scripts.build_codeai_independent_verifier_ensemble_fixture_v0_2 import build_fixture
+
+    template = build_fixture()  # Schema/policy shape ONLY; never reuse its fake 4 packets.
+    a = evidence["results"][0]
+    assert a["status"] == "INDEPENDENT_FIXED_LEAN_AND_AXIOM_PASSED"
+    assert a["axiom_declarations_checked"] == 8
+    assert a["strict_lean_exit_code"] == 0
+    assert not a["sorryAx"]
+    digest = a["source_sha256"]
+    source_context_digest = stable({
+        "source_commit": source.MAIN_HEAD,
+        "source_tree_sha1": source.MAIN_TREE,
+        "source_git_blobs": source.SOURCE_BLOBS,
+        "candidate_sha256": digest,
+        "independent_fixed_Lean_evidence_digest": evidence["evidence_digest"],
+    })
+    request = dict(template["request"])
+    request.update(
+        request_id="v061-real-formal-only-nonadmitted",
+        request_revision="r1",
+        repository_full_name="itakura-hidetoshi/KuuOS",
+        source_commit_sha=source.MAIN_HEAD,
+        candidate_digest=digest,
+        context_pack_digest=source_context_digest,
+        request_created_epoch=now,
+    )
+    request = seal(request, REQUEST_DIGEST_FIELD)
+    policy = dict(template["policy"])
+    policy.update(
+        expected_repository_full_name=request["repository_full_name"],
+        expected_source_commit_sha=request["source_commit_sha"],
+        expected_candidate_digest=digest,
+        expected_context_pack_digest=source_context_digest,
+        allowed_verifier_ids=["github-ci-formal-one-runner"],
+        allowed_reviewer_ids=["no-attested-external-reviewer"],
+        allowed_runner_ids=["github-actions-one-verifier"],
+        evaluation_epoch=now,
+    )
+    policy = seal(policy, POLICY_DIGEST_FIELD)
+
+    # This is a DECLARED, content-bound formal observation, not an independently
+    # signed reviewer packet. The other three families are deliberately absent.
+    formal = dict(template["evidence_packets"][0])
+    checks = ["candidate-A-eight-axiom-audit", "candidate-A-pinned-Lean-compile"]
+    formal.update(
+        evidence_id="v061-formal-only-"+digest[:16],
+        verifier_id="github-ci-formal-one-runner",
+        reviewer_id="no-attested-external-reviewer",
+        runner_id="github-actions-one-verifier",
+        organization_id="single-github-origin-unattested",
+        verification_session_id="v061-formal-replay-"+digest[:12],
+        nonce="read-only-replay-"+digest[:12],
+        repository_full_name=request["repository_full_name"],
+        source_commit_sha=source.MAIN_HEAD,
+        candidate_digest=digest,
+        context_pack_digest=source_context_digest,
+        check_family="type_and_formal",
+        verification_method_digest=stable({"method":"pinned-lean-8-axioms"}),
+        environment_digest=stable({"source":"github-ci-formal-artifact","attested":False}),
+        toolchain_digest=stable({"lean":source.TOOLCHAIN,"mathlib":source.MATHLIB}),
+        protocol_digest=stable({"version":"v0.61","independence":"NO_DATA"}),
+        check_ids=checks,
+        passed_check_ids=checks,
+        failed_check_ids=[],
+        skipped_check_ids=[],
+        finding_labels=[],
+        highest_severity="none",
+        declared_outcome="passed",
+        falsification_executed=False,
+        falsification_passed=False,
+        acceptance_criteria_satisfied=True,
+        independent_from_candidate_producer=False,
+        independent_from_other_verifiers=False,
+        prompt_lineage_independent=False,
+        repair_memory_independent=False,
+        test_generation_independent=False,
+        isolated_execution_reported=False,
+        evidence_artifact_digest=evidence["evidence_digest"],
+        verification_started_epoch=now,
+        verification_completed_epoch=now,
+        kernel_executed_verification=False,
+        repository_mutation_performed=False,
+        candidate_selection_performed=False,
+        execution_authority_granted=False,
+        git_authority_granted=False,
+        correctness_proof_claimed=False,
+    )
+    formal = seal(formal, EVIDENCE_DIGEST_FIELD)
+    outcome = evaluate_independent_verifier_ensemble(
+        request=request, policy=policy, evidence_packets=[formal],
+    )
+    required = {
+        "ensemble_insufficient_verifier_count",
+        "ensemble_insufficient_organization_count",
+        "ensemble_insufficient_method_count",
+        "ensemble_required_family_missing",
+        "evidence[0]:independence_requirement_failed:independent_from_candidate_producer",
+        "evidence[0]:independence_requirement_failed:independent_from_other_verifiers",
+        "evidence[0]:independence_requirement_failed:prompt_lineage_independent",
+        "evidence[0]:independence_requirement_failed:repair_memory_independent",
+        "evidence[0]:independence_requirement_failed:test_generation_independent",
+    }
+    assert outcome.status == STATUS_BLOCKED, (outcome.status, outcome.issues)
+    assert required.issubset(set(outcome.issues)), (required, outcome.issues)
+    assert outcome.receipt is None and outcome.ensemble is None
+    return {
+        "schema":"kuuos.codeai.v061.actual-ensemble-v02-formal-only-hold.v1",
+        "source_main_sha":source.MAIN_HEAD,
+        "candidate_source_sha256":digest,
+        "independent_formal_evidence_sha256":evidence["evidence_digest"],
+        "actual_original_ensemble_v02_invoked":True,
+        "actual_original_ensemble_v02_status":outcome.status,
+        "ensemble_v02_issues":list(outcome.issues),
+        "observed_family":["type_and_formal"],
+        "unobserved_families":[
+            "adversarial_and_falsification","behavioral_and_regression",
+            "maintainability_and_static",
+        ],
+        "independent_organizations_attested":0,
+        "external_verifier_issuer_authentication":"NO_DATA",
+        "verification_epoch_is_git_signed":False,
+        "reusable_memory_hint":False,
+        "verified_useful":False,
+        "execution_or_merge_authority":False,
+    }
+
 
 def bindings(kind: str, evidence: dict) -> dict:
     # All predicates are version-scoped to the original EXACT pinned main.
@@ -231,6 +380,7 @@ def main(path: Path) -> int:
         raise RuntimeError("HOLD_NO_ACTUAL_INDEPENDENT_CI_PREDECESSOR_CONTEXT")
     evidence=load_exact_evidence(path)
     now=int(time.time())
+    ensemble_hold=check_actual_v02_ensemble_hold(evidence,now)
     entries=[build_entry(kind,evidence,now)
              for kind in memory.SUBTASK_KINDS]
     req,pol,corp=build_request_policy(evidence,entries,now)
@@ -305,6 +455,9 @@ def main(path: Path) -> int:
         "learning_mode":"read_only_source_bound_hold_until_actual_v02_ensemble",
         "verified_useful_memory_admitted":False,
         "actual_four_family_independent_verifier_ensemble_v02":"NO_DATA",
+        "actual_v02_ensemble_kernel_invoked":ensemble_hold["actual_original_ensemble_v02_invoked"],
+        "actual_v02_ensemble_status":ensemble_hold["actual_original_ensemble_v02_status"],
+        "actual_v02_ensemble_unmet_issues":ensemble_hold["ensemble_v02_issues"],
         "next_candidate_memory_hint_available":False,
         "memory_weights_updated":False,
         "persistent_external_memory_curated":False,
@@ -314,6 +467,9 @@ def main(path: Path) -> int:
         "global_CI_run_complete":False,
         "host_action_authorized":False,
     }
+    (OUTPUT/"independent-v02-held.json").write_text(
+        json.dumps(ensemble_hold,sort_keys=True,ensure_ascii=False,indent=2)+"\n",
+        encoding="utf-8")
     (OUTPUT/"receipt.json").write_text(
         json.dumps(values,sort_keys=True,ensure_ascii=False,indent=2)+"\n",
         encoding="utf-8")
