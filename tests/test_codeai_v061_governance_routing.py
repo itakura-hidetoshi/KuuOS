@@ -43,8 +43,10 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
     def setUpClass(cls) -> None:
         cls.registry = load_registry(ROOT / "ci/check_registry.yaml")
 
-    def test_exact_scoped_proposal_stays_focused_without_skipping_runtime(self) -> None:
-        result = select(self.registry, SCOPE, None)
+    def test_existing_registered_sources_use_focused_governance(self) -> None:
+        # The fragment is already installed and NOT changed in this scenario.
+        paths = [path for path in SCOPE if path != FRAGMENT]
+        result = select(self.registry, paths, None)
         self.assertEqual(result["unknown_paths"], [])
         self.assertEqual(result["unmapped_paths"], [])
         self.assertEqual(result["full_audit_trigger_paths"], [])
@@ -54,6 +56,18 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
             "codeai-v061-exact-learning-contract",
             "ci-audit-tests", "runtime-full", "workflow-integrity",
         })
+
+    def test_first_registration_of_audit_fragment_is_full_governance(self) -> None:
+        # This v0.61 PR ADDS the fragment. The central selector correctly
+        # treats it as an audit-control change, so this PR stays full/strict.
+        result = select(self.registry, SCOPE, None)
+        self.assertEqual(result["unknown_paths"], [])
+        self.assertEqual(result["unmapped_paths"], [])
+        self.assertTrue(result["full_audit_required"])
+        self.assertIn(FRAGMENT, result["full_audit_trigger_paths"])
+        self.assertTrue(result["lean_required"])
+        self.assertIn("lean-formal", ids(result))
+        self.assertIn("codeai-v061-exact-learning-contract", ids(result))
 
     def test_each_new_codeai_script_is_registered_individually(self) -> None:
         check = self.registry["checks"]["codeai-v061-exact-learning-contract"]
