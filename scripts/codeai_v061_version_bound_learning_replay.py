@@ -78,13 +78,15 @@ def bindings(kind: str, evidence: dict) -> dict:
             "exact_imported_source_git_blobs":source.SOURCE_BLOBS,
             "candidate_source_sha256":evidence["results"][0]["source_sha256"],
         }),
+        # This is only a VERSION BINDING for the currently incomplete
+        # verification slice, NOT a certified 4-family v0.2 ensemble receipt.
         "verifier_ensemble_digest":stable({
-            "independent_fixed_lean_log":evidence["results"][0]["log_sha256"],
-            "second_passing_candidate_log":evidence["results"][1]["log_sha256"],
-            "failed_candidate_diagnostic_digest":
-                evidence["results"][2]["diagnostic_digest"],
-            "actual_real_lean_mcp_local_separately_observed":True,
-            "full_GitHub_CI_run_not_part_of_the_memory_claim":True,
+            "independent_verifier_ensemble_v0_2": "NO_DATA",
+            "type_and_formal": evidence["results"][0]["log_sha256"],
+            "behavioral_and_regression": "NO_DATA",
+            "adversarial_and_falsification": "NO_DATA",
+            "maintainability_and_static": "NO_DATA",
+            "organizations_and_sessions_independent": "NO_DATA",
         }),
         "subtask_kind":kind,
         "subtask_contract_digest":stable({
@@ -131,15 +133,16 @@ def build_entry(kind: str, result: dict, now: int) -> dict:
         "entry_id":"v061-"+kind+"-observed",
         "entry_revision":"r1",
         **bindings(kind,result),
-        "outcome":(
-            memory.OUTCOME_VERIFIED_USEFUL if kind=="verify"
-            else memory.OUTCOME_INCONCLUSIVE
-        ),
+        # The fixed Lean kernel may have certified the eight declarations,
+        # but the current candidate has no independently admitted *four-
+        # family* CodeAI Verifier Ensemble v0.2 evidence. No subtask record
+        # can yet claim independently verified usefulness for a future task.
+        "outcome":memory.OUTCOME_INCONCLUSIVE,
         "evidence_created_epoch":now,
         "subtask_summary":(
-            "v0.61 verified exact fixed-Lean direct 8/8 axiom-check "
-            "procedure on model A; no main adoption or external proof authority"
-            if kind=="verify" else
+            "v0.61 fixed-Lean source-bound verification observed; missing "
+            "four-family CodeAI Independent Verifier Ensemble v0.2, so "
+            "future-usefulness NOT certified" if kind=="verify" else
             "v0.61 evidence-bound observed "+kind+
             " stage; usefulness still inconclusive, no transferable hint"
         ),
@@ -237,10 +240,10 @@ def main(path: Path) -> int:
     assert output.status==memory.STATUS_READY,(output.status,output.issues)
     pack=output.memory_pack
     assert pack is not None and output.receipt is not None
-    assert pack["matched_entry_count"]==1,pack
-    assert pack["excluded_entry_count"]==3,pack
-    assert pack["matched_entries"][0]["entry_id"]=="v061-verify-observed"
-    assert pack["recommendation"]==memory.RECOMMENDATION_AVAILABLE
+    assert pack["matched_entry_count"]==0,pack
+    assert pack["excluded_entry_count"]==4,pack
+    assert pack["matched_entries"]==[],pack
+    assert pack["recommendation"]==memory.RECOMMENDATION_NONE
     assert not pack["repair_executed"]
     assert not pack["git_authority_granted"]
     assert not pack["future_success_claimed"]
@@ -299,7 +302,10 @@ def main(path: Path) -> int:
             "exact-GitHub-needs-success-bound verification receipt; runner context not external signature",
         "github_workflow_run_id":os.environ["GITHUB_RUN_ID"],
         "github_workflow_job":os.environ["GITHUB_JOB"],
-        "learning_mode":"read_only_source_bound_verified_utility_lookup",
+        "learning_mode":"read_only_source_bound_hold_until_actual_v02_ensemble",
+        "verified_useful_memory_admitted":False,
+        "actual_four_family_independent_verifier_ensemble_v02":"NO_DATA",
+        "next_candidate_memory_hint_available":False,
         "memory_weights_updated":False,
         "persistent_external_memory_curated":False,
         "live_repository_mutated":False,
