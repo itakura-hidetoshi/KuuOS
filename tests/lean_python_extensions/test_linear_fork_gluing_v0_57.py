@@ -19,9 +19,9 @@ from runtime import (
 from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import (
     BLOCKED, NO_DATA, ROUTES,
 )
-from tests.lean_python_extensions.test_common_ancestor_fork_v0_56 import (
-    CommonAncestorForkV056Tests,
-)
+# Import the module, not its TestCase class into this module's global
+# namespace. unittest discovery otherwise collects the v0.56 class twice.
+from tests.lean_python_extensions import test_common_ancestor_fork_v0_56 as fork_fixture
 from tests.lean_python_extensions.test_local_mac_bound_plan_claims_v0_52 import KEYS
 from scripts import check_kuuos_lean_python_linear_fork_sources_v0_57 as guard
 
@@ -29,8 +29,8 @@ from scripts import check_kuuos_lean_python_linear_fork_sources_v0_57 as guard
 class LocalLinearForkGluingV057Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        CommonAncestorForkV056Tests.setUpClass()
-        cls.helper = CommonAncestorForkV056Tests(
+        fork_fixture.CommonAncestorForkV056Tests.setUpClass()
+        cls.helper = fork_fixture.CommonAncestorForkV056Tests(
             "test_six_native_routes_yield_local_fork_only"
         )
 
@@ -222,6 +222,11 @@ class LocalLinearForkGluingV057Tests(unittest.TestCase):
         for secret in KEYS.values():
             self.assertNotIn(secret, blob)
         self.assertNotIn(b"mac_sha256", blob)
+
+    def test_unittest_discovery_does_not_export_prior_testcase_class(self):
+        # Cumulative native loader checks every unittest test id is unique.
+        self.assertNotIn("CommonAncestorForkV056Tests", globals())
+        self.assertTrue(hasattr(fork_fixture, "CommonAncestorForkV056Tests"))
 
     def test_source_checker_passes(self):
         self.assertEqual(guard.check(), ())
