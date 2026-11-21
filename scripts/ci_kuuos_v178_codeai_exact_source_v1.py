@@ -20,9 +20,9 @@ from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments
 
 MODULE = "KUOS.DependentOriginationStandardABCPostEndpointCodeAICandidateV1_78"
 SOURCE = ROOT / "formal/KUOS/DependentOriginationStandardABCPostEndpointCodeAICandidateV1_78.lean"
-EXPECTED_SOURCE_BLOB = "f147bb15dd78cb514fe064fbce141610a4752b7e"
-RESEARCH_ORIGINAL_BLOB = "386378c42fe0c14c3a0fa75e0828a61c70c21c90"
-RESEARCH_ORIGINAL_HEAD = "734f77b71f0fa711fc1bb9222464d1c0e8871b23"
+EXPECTED_SOURCE_BLOB = "027d6a52619f9584cd951d4c91e153dacaba711f"
+RESEARCH_ORIGINAL_BLOB = "b406155d78506527b53549f0cf232d55f084ac86"
+RESEARCH_ORIGINAL_HEAD = "baf4d5ba6d9a7b99dbaa364e6101db6636c72a16"
 EXPECTED_DECLARATIONS = 11
 DECL_PATTERN = re.compile(
     r"(?m)^(?:@\[[^\]]+\]\s*)?(?:noncomputable\s+)?"
@@ -31,6 +31,9 @@ DECL_PATTERN = re.compile(
 
 def run(out: Path) -> dict:
     verify_inputs()  # exact certified 41-declaration v1.76 prerequisite
+    imported_v177 = ROOT / "formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean"
+    if blob(imported_v177.read_bytes()) != "d786495a68268e01634f6f8143ebe09241bffc3e":
+        raise AuditFailure("DEPENDENCY_V177_EXACT_SOURCE_MISMATCH")
     head = os.environ.get("SOURCE_HEAD", "")
     if not re.fullmatch(r"[a-f0-9]{40}", head):
         raise AuditFailure("NO_DATA_EXACT_GITHUB_HEAD")
