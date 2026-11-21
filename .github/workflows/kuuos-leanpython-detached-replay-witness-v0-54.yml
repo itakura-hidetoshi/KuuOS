@@ -120,14 +120,40 @@ jobs:
           if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.LeanPythonDetachedReplayWitnessBoundaryV0_54
-          lake env lean -DwarningAsError=true -DsorryAsError=true \
+          # In pinned Lean 4.30 the direct Lean CLI does not define
+          # sorryAsError. Preserve warning-fatal compilation and independently
+          # require every theorem's printed axiom set to be standard only.
+          lake env lean -DwarningAsError=true \
             formal/KUOS/Architecture/LeanPythonDetachedReplayWitnessBoundaryV0_54.lean \
             2>&1 | tee kuuos-v054-axioms.log
           python3 - <<'PY'
           from pathlib import Path
+          import re
           log = Path("kuuos-v054-axioms.log").read_text()
-          assert log.count("depends on axioms:") + log.count("does not depend on any axioms") >= 9
+          module = "KUOS.Architecture.LeanPythonDetachedReplayWitnessBoundaryV0_54."
+          names = {
+              "replayRoot", "selfConsistent", "callerCheckpointMatches",
+              "replayRoot_append", "supplied_checkpoint_agrees_with_replay",
+              "checkpoint_mismatch_remains_obstruction",
+              "prefix_extension_replays", "recorded_fresh_pair_contains_both_local_keys",
+              "detached_witness_grants_no_original_execution",
+          }
+          pattern = re.compile(
+              r"'" + re.escape(module) +
+              r"([A-Za-z0-9_]+)' (?:does not depend on any axioms|"
+              r"depends on axioms: \\[([^\\]]*)\\])",
+              re.MULTILINE,
+          )
+          reports = pattern.findall(log)
+          assert len(reports) == len(names), (len(reports), reports)
+          assert {name for name, _ in reports} == names
+          assert len({name for name, _ in reports}) == len(names)
+          standard = {"propext", "Classical.choice", "Quot.sound"}
+          for name, axiom_text in reports:
+              used = {a.strip() for a in axiom_text.split(",") if a.strip()}
+              assert used <= standard, (name, sorted(used - standard))
           assert "sorryAx" not in log
+          print("v0.54 direct axiom audit PASS: 9/9, standard three only, no sorryAx")
           PY
           git diff --exit-code -- lean-toolchain lake-manifest.json
       - name: Upload finite axiom evidence
