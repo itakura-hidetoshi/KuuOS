@@ -19,7 +19,7 @@ from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments
 MODULE = "KUOS.DependentOriginationGeneratedPresentationQuotientCodeAICandidateV1_81"
 CANDIDATE = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationQuotientCodeAICandidateV1_81.lean"
 ORIGINAL = ROOT / "formal/KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean"
-CANDIDATE_BLOB = "0f1335c7854443156311b2ed7e329d3405e51ec3"
+CANDIDATE_BLOB = "5128ac44f1cc7bc188ea59ffcd9a057ffaf14d61"
 ORIGINAL_BLOB = "0a2ece6612bd717cd210c0222cf5a00bc04e4f37"
 PARENTS = {
     "DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77": "d786495a68268e01634f6f8143ebe09241bffc3e",
@@ -85,6 +85,11 @@ def execute(out: Path) -> dict:
         "open CategoryTheory\n",
         "open CategoryTheory\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\n"
     ).replace("KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81", "KUOS.DependentOriginationGeneratedPresentationQuotientCodeAICandidateV1_81")
+    # Explicit syntax/API repairs only. Every original occurrence and count is pinned.
+    for before, after, count in [["open KUOS.DependentOriginationScaledTerminalRLPV1_41\n","open KUOS.DependentOriginationScaledTerminalRLPV1_41\nopen KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43\nopen KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46\nopen KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50\nopen KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55\nopen KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59\n",1],["open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.\n  GeneratedScaledAnodynePresentationEquivalence","open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence",1],["generatedPresentationSetoid (u := u)","generatedPresentationSetoid.{u}",2],["noncomputable theorem ","theorem ",3],["Quotient.sound K.toGeneratedPresentationEquivalence","Quotient.sound (KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)",1]]:
+        if expected.count(before) != count:
+            raise AuditFailure("V181_REWRITE_COUNT_MISMATCH " + before[:60])
+        expected = expected.replace(before, after)
     if candidate != expected:
         raise AuditFailure("V181_ONLY_NAMESPACE_OPEN_AND_MODULE_RENAME_ALLOWED")
     masked = mask_lean_comments(candidate)
