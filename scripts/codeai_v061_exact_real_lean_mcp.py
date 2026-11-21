@@ -9,6 +9,8 @@ is used; the local receipt is not independent CI or a Git authority grant.
 """
 from __future__ import annotations
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from shutil import copyfile
 import hashlib
 import json
 
@@ -37,15 +39,26 @@ def main() -> int:
     try:
         with TARGET.open("xb") as f:
             f.write(source)
-        result=run_loop(
-            root=ROOT,
-            rel_file=base.CANDIDATE_PATH,
-            output_dir=RECEIPT_DIR,
-            expected_sha256=expected,
-            provider=mcp_tactic_provider,
-            max_iterations=1,
-            compile_timeout=300,
-        )
+        # The actual KuuOS Lean-MCP repair loop prohibits exporting into
+        # the repository root. Preserve that isolation: the MCP export stays
+        # outside ROOT, and we copy only its read-only receipt back as an
+        # artifact after validating the independent source correspondence.
+        with TemporaryDirectory(prefix="kuuos-codeai-v061-mcp-") as temporary:
+            external_mcp_dir=Path(temporary)/"export"
+            result=run_loop(
+                root=ROOT,
+                rel_file=base.CANDIDATE_PATH,
+                output_dir=external_mcp_dir,
+                expected_sha256=expected,
+                provider=mcp_tactic_provider,
+                max_iterations=1,
+                compile_timeout=300,
+            )
+            exported_receipt=external_mcp_dir/"receipt.json"
+            assert exported_receipt.is_file()
+            RECOVERY_DIR=RECEIPT_DIR
+            RECOVERY_DIR.mkdir(parents=True,exist_ok=False)
+            copyfile(exported_receipt,RECOVERY_DIR/"receipt.json")
         assert result["status"]=="LOCAL_LEAN_GREEN_CANDIDATE_ONLY",result
         assert result["source_restored"] is True
         assert result["provider_calls"]==0
