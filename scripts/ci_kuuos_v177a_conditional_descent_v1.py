@@ -18,7 +18,7 @@ from scripts.kuuos_lean_mcp_repair_loop_v1 import mask_lean_comments
 MODULE = "KUOS.DependentOriginationStandardTypeAEndpointConditionalDescentV1_77A"
 NAMESPACE = MODULE
 SOURCE = ROOT / "formal/KUOS/DependentOriginationStandardTypeAEndpointConditionalDescentV1_77A.lean"
-EXPECTED_BLOB = "971c1482a6e0a0d98c852dc15d7e53d7b98baa6f"
+EXPECTED_BLOB = "19104c8886c8543675b1cdf0562f5aa8c1d6915c"
 DECLARATIONS = (
     "standardABCTypeAEndpointLeibnizLifting_of_missingRawA",
     "standardABCTypeAEndpointLeibnizStability_of_missingRawA",
