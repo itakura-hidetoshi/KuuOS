@@ -1,0 +1,185 @@
+name: KuuOS LeanPython Detached Replay Witness Scoped v0.54
+
+# Distinguish source-parent proof, new candidate proof, and native Python.
+# This workflow does NOT certify external checkpoint custody or global KuuOSFormal.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-leanpython-detached-replay-witness-v0-54.yml"
+      - "formal/KUOS/Architecture/LeanPythonDetachedReplayWitnessBoundaryV0_54.lean"
+      - "runtime/kuuos_lean_python_detached_replay_witness_v0_54.py"
+      - "scripts/check_kuuos_lean_python_detached_replay_sources_v0_54.py"
+      - "tests/lean_python_extensions/test_detached_replay_witness_v0_54.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-leanpython-detached-replay-witness-v0-54.yml"
+      - "formal/KUOS/Architecture/LeanPythonDetachedReplayWitnessBoundaryV0_54.lean"
+      - "runtime/kuuos_lean_python_detached_replay_witness_v0_54.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v054-detached-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-canonical-parent-v053:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact canonical parent commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+      - name: Pin check
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          packages = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          pins = [p for p in packages if p["name"] == "mathlib"]
+          assert len(pins) == 1
+          assert pins[0]["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          PY
+      - name: Install pinned Lean without rebuilding unrelated roots
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v054-parent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Verify original integrated v0.53 Strict Lean
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonLocalReplayLedgerBoundaryV0_53
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+
+  detached-candidate-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact new candidate (PR head or main push)
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Pin check
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          packages = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          pins = [p for p in packages if p["name"] == "mathlib"]
+          assert len(pins) == 1
+          assert pins[0]["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          PY
+      - name: Install pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore immutable dependencies
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v054-candidate-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Strict Lean and nine declaration axiom outputs
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonDetachedReplayWitnessBoundaryV0_54
+          # In pinned Lean 4.30 the direct Lean CLI does not define
+          # sorryAsError. Preserve warning-fatal compilation and independently
+          # require every theorem's printed axiom set to be standard only.
+          lake env lean -DwarningAsError=true \
+            formal/KUOS/Architecture/LeanPythonDetachedReplayWitnessBoundaryV0_54.lean \
+            2>&1 | tee kuuos-v054-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log = Path("kuuos-v054-axioms.log").read_text()
+          module = "KUOS.Architecture.LeanPythonDetachedReplayWitnessBoundaryV0_54."
+          names = {
+              "replayRoot", "selfConsistent", "callerCheckpointMatches",
+              "replayRoot_append", "supplied_checkpoint_agrees_with_replay",
+              "checkpoint_mismatch_remains_obstruction",
+              "prefix_extension_replays", "recorded_fresh_pair_contains_both_local_keys",
+              "detached_witness_grants_no_original_execution",
+          }
+          pattern = re.compile(
+              r"'" + re.escape(module) +
+              r"([A-Za-z0-9_]+)' (?:does not depend on any axioms|"
+              r"depends on axioms: \[([^\]]*)\])",
+              re.MULTILINE,
+          )
+          reports = pattern.findall(log)
+          assert len(reports) == len(names), (len(reports), reports)
+          assert {name for name, _ in reports} == names
+          assert len({name for name, _ in reports}) == len(names)
+          standard = {"propext", "Classical.choice", "Quot.sound"}
+          for name, axiom_text in reports:
+              used = {a.strip() for a in axiom_text.split(",") if a.strip()}
+              assert used <= standard, (name, sorted(used - standard))
+          assert "sorryAx" not in log
+          print("v0.54 direct axiom audit PASS: 9/9, standard three only, no sorryAx")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Upload finite axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v054-axioms-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-v054-axioms.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  detached-native-python:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact new source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Source blob and Python syntax integrity
+        run: |
+          set -euo pipefail
+          python3 scripts/check_kuuos_lean_python_detached_replay_sources_v0_54.py
+      - name: Test detached evidence and no-authority limits
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v \
+            tests.lean_python_extensions.test_detached_replay_witness_v0_54
