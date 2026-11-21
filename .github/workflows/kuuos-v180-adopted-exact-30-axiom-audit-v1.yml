@@ -1,0 +1,55 @@
+name: KuuOS v1.80 PR-adopted exact 30 declaration Strict Lean and axioms
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - '.github/workflows/kuuos-v180-adopted-exact-30-axiom-audit-v1.yml'
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean'
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationEndpointCodeAICandidateV1_80.lean'
+      - 'scripts/ci_kuuos_v180_adopted_exact_source_v1.py'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v180-adopted-original-name-strict-30:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile adopted v1.80 and independently audit all 30
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v180_adopted_exact_source_v1.py --out /tmp/kuuos-v180-pr-adopted-exact-30
+      - name: Upload exact-head Lean and axiom receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v180-pr-adopted-exact-30
+          path: /tmp/kuuos-v180-pr-adopted-exact-30
+          retention-days: 30
+          if-no-files-found: warn
