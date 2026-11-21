@@ -1,0 +1,196 @@
+name: KuuOS LeanPython Tagged Span Observation Gluing Scoped v0.59
+
+# Additive exact-source proof/runtime jobs, NOT full aggregate KuuOSFormal.
+# A docs-only change does not trigger this Strict Lean workflow.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-leanpython-tagged-span-gluing-v0-59.yml"
+      - "formal/KUOS/Architecture/LeanPythonTaggedSpanObservationGluingV0_59.lean"
+      - "runtime/kuuos_lean_python_tagged_span_gluing_v0_59.py"
+      - "scripts/check_kuuos_lean_python_tagged_span_sources_v0_59.py"
+      - "tests/lean_python_extensions/test_tagged_span_gluing_v0_59.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-leanpython-tagged-span-gluing-v0-59.yml"
+      - "formal/KUOS/Architecture/LeanPythonTaggedSpanObservationGluingV0_59.lean"
+      - "runtime/kuuos_lean_python_tagged_span_gluing_v0_59.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v059-prior-prefix-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-canonical-parent-v058:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact canonical v0.58 parent
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+      - name: Verify exact Lean and mathlib pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          ps = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          ms = [p for p in ps if p["name"] == "mathlib"]
+          assert len(ms) == 1
+          assert ms[0]["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          PY
+      - name: Set up immutable-source pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore shared Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v059-parent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Strictly compile original integrated v0.58 module
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonTaggedForkArchiveBoundaryV0_58
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+
+  strict-v059-lean-and-axiom-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact submitted PR head or integrated main push
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify immutable toolchain pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          ps = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          ms = [p for p in ps if p["name"] == "mathlib"]
+          assert len(ms) == 1
+          assert ms[0]["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          PY
+      - name: Install pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore immutable-source Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v059-strict-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Strict source Lean and independent 18-declaration axiom audit
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonTaggedSpanObservationGluingV0_59
+          # The pinned direct Lean CLI does not support -DsorryAsError=true.
+          # Keep the strict Lake build above and independently check axiom output.
+          lake env lean -DwarningAsError=true \
+            formal/KUOS/Architecture/LeanPythonTaggedSpanObservationGluingV0_59.lean \
+            2>&1 | tee kuuos-v059-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log = Path("kuuos-v059-axioms.log").read_text()
+          module = "KUOS.Architecture.LeanPythonTaggedSpanObservationGluingV0_59."
+          names = {
+              "leftInclusion",
+              "rightInclusion",
+              "common_position_identified",
+              "branch_private_positions_disjoint",
+              "ticketAt",
+              "spanFromArchive",
+              "archived_left_history_exact",
+              "archived_right_history_exact",
+              "overlapCompatible",
+              "glueTagged",
+              "glue_left",
+              "glue_right",
+              "tagged_gluing_unique",
+              "tagged_observation_gluing_iff",
+              "incompatible_observations_block_gluing",
+              "shared_value_disagreement_obstructs",
+              "archived_fork_remains_non_linear",
+              "tagged_span_gluing_grants_no_original_execution",
+          }
+          pattern = re.compile(
+              r"'" + re.escape(module) +
+              r"([A-Za-z0-9_]+)' (?:does not depend on any axioms|"
+              r"depends on axioms: \[([^\]]*)\])",
+              re.MULTILINE,
+          )
+          reports = pattern.findall(log)
+          assert len(reports) == len(names), (len(reports), reports)
+          assert {name for name, _ in reports} == names
+          standard = {"propext", "Classical.choice", "Quot.sound"}
+          for name, axiom_text in reports:
+              used = {a.strip() for a in axiom_text.split(",") if a.strip()}
+              assert used <= standard, (name, sorted(used - standard))
+          assert "sorryAx" not in log
+          print("v0.59 direct axiom audit PASS: 18/18 standard three only")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Upload bounded axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v059-axioms-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-v059-axioms.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  tagged-span-observations-native-python:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify old source blobs and new Python syntax
+        run: |
+          set -euo pipefail
+          python3 scripts/check_kuuos_lean_python_tagged_span_sources_v0_59.py
+      - name: Run independent tagged span-gluing regression tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v \
+            tests.lean_python_extensions.test_tagged_span_gluing_v0_59
