@@ -1,0 +1,89 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec07_verified",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "lean_verified_and_main_merged",
+  "theorem_pr": 3250,
+  "source": "formal/Kuu/LivingEngi/BirthAuthorization.lean",
+  "verified_source_sha": "6f8d4d5c831264f20e3f8bdd74377b6be86defe9",
+  "source_test_merge_tree": "8ecac9fb37da15911cf6d7c330980f652997fa75",
+  "test_merge_sha": "28d164d9f8c413005808ce989df26ff1e781b13f",
+  "merged_sha": "359bb1c59ff0c137e71979fa57e1a55b5143983d",
+  "ci": {
+    "run_id": 42348497450,
+    "conclusion": "success",
+    "lean_jobs": 10312,
+    "lean_succeeded": 10312,
+    "governance": "success",
+    "workflow_integrity": "success",
+    "independent_kuu_api": "success",
+    "new_theorems": 12,
+    "axiom_prints": 12,
+    "standard_axioms": [
+      "Quot.sound",
+      "Classical.choice",
+      "propext"
+    ],
+    "sorryAx": false,
+    "warning_count_new_lean": 0,
+    "error_count_new_lean": 0
+  },
+  "initial_failed_run": {
+    "run_id": 42348204461,
+    "source_sha": "89284c9c6f8c489197b5da039894f4b067e325ed",
+    "root_cause": "field name matches collides with Lean parser keyword",
+    "repair": "rename matches to sourceEq throughout full source only",
+    "propositions_weakened": false
+  },
+  "theorems": [
+    "birthPacket_exact",
+    "birthPacket_exists",
+    "licensedRequest_governance",
+    "licensedRequest_external",
+    "licensedRequest_exists_iff",
+    "no_request_of_governance_denied",
+    "no_request_of_external_refutation",
+    "licensedRequest_preserves_source_support",
+    "birth_exists_but_unlicensed",
+    "no_effect_without_effect_receipt",
+    "freshly_begun_bhava_has_fresh_license",
+    "revision_invalidates_fresh_only_license"
+  ],
+  "boundaries": {
+    "birth": "candidate + exact origin Bhava and input equality, not permission",
+    "governance": "supplied separately and indexed by whole source Bhava, input, scope and candidate",
+    "external_receipt": "caller supplied Type valued witness, independently from governance",
+    "request": "combines governed candidate and external receipt, not executed effect",
+    "effect_record": "requires additional effect receipt, still only records supplied evidence",
+    "revision": "particular fresh-only receipt does not survive nonempty history; no general prohibition on reauthorization"
+  },
+  "negative_certificates": [
+    "birth_without_external_has_no_request",
+    "no_governance_implies_no_request",
+    "no_external_receipt_nonexistence_proof_implies_no_request",
+    "no_effect_receipt_implies_no_effect_record",
+    "fresh_only_receipt_invalid_after_revision"
+  ],
+  "source_preservation": [
+    "independent_Kuu_imports_only",
+    "no_orig_F55_P77_GK5CG_Type_history_edit",
+    "same_root_KuuOSFormal_107",
+    "toolchain_Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "protected_PR_1558_Draft_Open_Unmerged"
+  ],
+  "open": [
+    "LEC-08 non-Markov recurrence observation/recoverability",
+    "LEC-09 original source Type-history comparison",
+    "general higher descent/obstructions beyond flat framed model"
+  ],
+  "authority_disclaimers": [
+    "Mathematical presence of a receipt type does not establish cryptographic or institutional validity",
+    "No actual ActOS invocation",
+    "No physical effect",
+    "No clinical authority",
+    "No AI internal weight training"
+  ],
+  "record": "docs/formal/LEC-07-birth-authorization-verified-20261107.md"
+}
