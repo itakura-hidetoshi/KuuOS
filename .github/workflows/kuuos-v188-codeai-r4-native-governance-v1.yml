@@ -1,0 +1,34 @@
+name: KuuOS v1.88 R4 real native CodeAI source-bound governance
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v188-r4-native-codeai-governance-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  native-codeai-r4-governed-synthesis:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Actual KuuOS CodeAI source-bound R4 acceptance and authority rejection
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_kuuos_v188_codeai_r4_native_governance_v1.py
+      - name: Preserve native CodeAI candidate/rejection receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v188-r4-native-codeai-receipt
+          path: artifacts/codeai-v188-r4-native-governance
+          retention-days: 30
+          if-no-files-found: warn
