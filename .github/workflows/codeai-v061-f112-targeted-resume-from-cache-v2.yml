@@ -1,0 +1,162 @@
+name: CodeAI v0.61 F112 exact saved-cache resume v2
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-targeted-resume-from-cache-v2.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-targeted-resume-v2-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  import-closure-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Checkout exact source without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Seal original source, public root, CodeAI candidate and fixed toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/codeai-v061-f112-dependency-resume-v2
+          python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          expected={
+            "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean":"928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+            "formal/KuuOSFormal.lean":"87ee2a7f541e48482e0d76f2abf819932c42f188",
+            "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean":"c70aa395d14d873c686008bd80c835c059f936d5",
+          }
+          actual={}
+          for p,sha in expected.items():
+            x=Path(p).read_bytes()
+            blob=hashlib.sha1(b"blob "+str(len(x)).encode()+b"\0"+x).hexdigest()
+            assert blob==sha, "exact-source-identity-mismatch:"+p
+            actual[p]=dict(blob=blob,sha256=hashlib.sha256(x).hexdigest())
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          packages=json.loads(Path("lake-manifest.json").read_text())["packages"]
+          assert [x["rev"] for x in packages if x["name"]=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          d={"schema":"codeai.v061.f112.targeted_dependency_resume.v2",
+            "root":"itakura-hidetoshi/KuuOS",
+            "head":os.getenv("GITHUB_SHA"),
+            "predecessor_head":"ff9e912974442103378ff4656ab96cbe0f5bf893",
+            "predecessor_run":45022009695,
+            "minimum_restored_olean_count":175,
+            "source":actual,
+            "lean":"v4.30.0-rc2",
+            "mathlib":"5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+            "target_modules":[
+              "Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity",
+              "Kuu.F112.PolygonNativeF55P94DConservativeTowerDescent"
+            ],
+            "changes_to_formal":False,
+            "changes_to_public_root":False,
+            "full_library_certified":False,
+            "memory":"HOLD","merge_authority":False}
+          p=Path("artifacts/codeai-v061-f112-dependency-resume-v2/manifest.json")
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_RECOVERY_SEALED",json.dumps(d,sort_keys=True))
+          PY
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib checkout and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Restore exact F112 artifact cache saved by predecessor run
+        id: staged
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-f112-target-imports-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-ff9e912974442103378ff4656ab96cbe0f5bf893-45022009695-1
+          fail-on-cache-miss: true
+      - name: Reject missing or empty previous F112 prefix before compiling
+        shell: bash
+        env:
+          RESTORED: ${{steps.staged.outputs.cache-hit}}
+        run: |
+          set -euo pipefail
+          [[ "$RESTORED" == "true" ]] || { echo 'NO_DATA: previous exact source/pin cache not restored'; exit 1; }
+          test -d .lake/build/lib/lean
+          count="$(find .lake/build/lib/lean -name '*.olean' | wc -l)"
+          echo "CODEAI_F112_RESTORED_EXACT_CACHE count=$count"
+          [[ "$count" -ge 175 ]] || { echo 'NO_DATA: expected 175 previously built oleans not present'; exit 1; }
+      - name: Boundedly compile only the two imported F112 dependencies
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="artifacts/codeai-v061-f112-dependency-resume-v2"
+          before="$(find .lake/build/lib/lean -name '*.olean' 2>/dev/null | wc -l || true)"
+          echo "CODEAI_F112_RECOVERY_BEFORE oleans=$before"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 11m lake build \
+            Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity \
+            Kuu.F112.PolygonNativeF55P94DConservativeTowerDescent \
+            > "$dir/build.log" 2>&1
+          rc=$?
+          set -e
+          after="$(find .lake/build/lib/lean -name '*.olean' 2>/dev/null | wc -l || true)"
+          delta="$((after-before))"
+          secs="$(( $(date +%s) - started ))"
+          echo "CODEAI_F112_RECOVERY_BUILD rc=$rc before=$before after=$after delta=$delta seconds=$secs"
+          printf 'build_rc=%s\n' "$rc" >> "$GITHUB_OUTPUT"
+          if [[ "$delta" -gt 0 ]]; then
+            echo 'progress=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'progress=false' >> "$GITHUB_OUTPUT"
+          fi
+          export CODEAI_BEFORE="$before" CODEAI_AFTER="$after" CODEAI_DELTA="$delta" CODEAI_RC="$rc" CODEAI_SECONDS="$secs"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path("artifacts/codeai-v061-f112-dependency-resume-v2/manifest.json")
+          d=json.loads(p.read_text())
+          d["build_observation"]={
+            "exit":int(os.environ["CODEAI_RC"]),
+            "before_oleans":int(os.environ["CODEAI_BEFORE"]),
+            "after_oleans":int(os.environ["CODEAI_AFTER"]),
+            "new_oleans":int(os.environ["CODEAI_DELTA"]),
+            "seconds":int(os.environ["CODEAI_SECONDS"]),
+            "certification":"LOCAL_DEPENDENCY_SUCCESS_ONLY" if os.environ["CODEAI_RC"]=="0" else "HOLD",
+            "source_module": "NOT_TESTED",
+          }
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          PY
+          tail -n 50 "$dir/build.log" || true
+      - name: Save only newly progressed source/toolchain-bounded F112 build prefix
+        if: always() && steps.build.outputs.progress == 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-f112-target-imports-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}-${{github.run_id}}-${{github.run_attempt}}
+      - name: Archive exact source, diagnostic and compilation progress receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-import-resume-v2-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-dependency-resume-v2/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Keep incomplete dependency compilation blocked
+        if: always()
+        shell: bash
+        env:
+          BUILD_RC: ${{steps.build.outputs.build_rc}}
+        run: |
+          set -euo pipefail
+          if [[ "$BUILD_RC" != "0" ]]; then
+            echo "CODEAI_F112_IMPORT_CLOSURE_HOLD build_exit=$BUILD_RC"
+            exit 1
+          fi
+          echo "CODEAI_F112_IMPORT_CLOSURE_LOCAL_SUCCESS_NO_FULL_ROOT_CERTIFICATION"
