@@ -15,6 +15,8 @@ open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationCanonicalFibrationThinReflectionV1_92
 open KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
+open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 /-!
 # A concrete additive double-delooping non-thin Duskin witness v1.95
@@ -51,7 +53,7 @@ proof.  No presentation inequality is concluded unconditionally.
 /-! ## The one-cell hom-category with additive natural 2-cells -/
 
 /-- The unique 1-cell in the additive double delooping. -/
-inductive NatOneCell : Type
+inductive NatOneCell : Type where
   | star
   deriving DecidableEq
 
@@ -62,27 +64,43 @@ instance : Subsingleton NatOneCell :=
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
-instance : Category NatOneCell where
+@[reducible] instance : Category NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
-  id_comp := by intro; exact Nat.zero_add _
-  comp_id := by intro; exact Nat.add_zero _
-  assoc := by intro; exact Nat.add_assoc _ _ _
+  id_comp := by intros; omega
+  comp_id := by intros; omega
+  assoc := by intros; omega
+
+example (f g : NatOneCell) : (f ⟶ g) = Nat := by rfl
 
 @[simp]
-theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
+theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = (0 : ℕ) := rfl
 
 @[simp]
 theorem comp_eq_add {f g h : NatOneCell} (α : f ⟶ g) (β : g ⟶ h) :
-    α ≫ β = α + β := rfl
+    α ≫ β = Nat.add (α : ℕ) (β : ℕ) := rfl
+
+/-- In the additive-Nat hom-category every isomorphism has zero inverse. -/
+theorem iso_inv_zero {f g : NatOneCell} (e : f ≅ g) :
+    (e.inv : Nat) = Nat.zero := by
+  have heq : e.hom ≫ e.inv = 𝟙 f := e.hom_inv_id
+  change Nat.add (e.hom : Nat) (e.inv : Nat) = Nat.zero at heq
+  exact Nat.eq_zero_of_add_eq_zero_left heq
+
+/-- All isomorphisms in the additive-Nat hom-category have zero underlying 2-cell. -/
+theorem iso_hom_zero {f g : NatOneCell} (e : f ≅ g) :
+    (e.hom : Nat) = Nat.zero := by
+  have heq : e.hom ≫ e.inv = 𝟙 f := e.hom_inv_id
+  change Nat.add (e.hom : Nat) (e.inv : Nat) = Nat.zero at heq
+  exact Nat.eq_zero_of_add_eq_zero_right heq
 
 end NatOneCell
 
 /-! ## The additive double delooping bicategory -/
 
 /-- The unique object of the additive double delooping. -/
-inductive NatDoubleDelooping : Type
+inductive NatDoubleDelooping : Type where
   | star
   deriving DecidableEq
 
@@ -98,7 +116,7 @@ instance : Bicategory NatDoubleDelooping where
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
-  whiskerLeft _ η := η
+  whiskerLeft _ _ _ η := η
   whiskerRight η _ := η
   associator _ _ _ := Iso.refl _
   leftUnitor _ := Iso.refl _
@@ -129,18 +147,25 @@ instance : Bicategory.Strict NatDoubleDelooping where
   rightUnitor_eqToIso _ := rfl
   associator_eqToIso _ _ _ := rfl
 
+/-- Typed additive natural two-cell with value one. -/
+def oneTwoCell :
+    (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star := Nat.succ 0
+
 /-- The 2-cell `1` is not invertible in the additive natural hom-category. -/
 theorem one_twoCell_not_isIso :
     ¬ IsIso
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
+      oneTwoCell := by
   intro h
   letI : IsIso
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := h
+      oneTwoCell := h
   have hinv := IsIso.hom_inv_id
-    (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star)
-  change 1 + inv
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) = 0 at hinv
-  omega
+    oneTwoCell
+  change Nat.add (Nat.succ Nat.zero) (inv oneTwoCell : Nat) =
+      Nat.zero at hinv
+  have hsucc : Nat.succ (inv oneTwoCell : Nat) = Nat.zero :=
+    ((Nat.succ_add 0 (inv oneTwoCell : Nat)).trans
+      (congrArg Nat.succ (Nat.zero_add _))).symm.trans hinv
+  exact Nat.noConfusion hsucc
 
 end NatDoubleDelooping
 
@@ -160,22 +185,38 @@ def natNoninvertibleTriangleCore :
   obj _ := NatDoubleDelooping.star
   map _ := NatOneCell.star
   map_id _ := rfl
-  map₂ _ := 0
+  map₂ _ := Nat.zero
   map₂_id _ := rfl
   map₂_comp _ _ := rfl
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b c f f' η g
+    change Nat.add (natTriangleMapComp f g) Nat.zero =
+      Nat.add Nat.zero (natTriangleMapComp f' g)
+    calc
+      _ = natTriangleMapComp f g := Nat.add_zero _
+      _ = natTriangleMapComp f' g := rfl
+      _ = _ := (Nat.zero_add _).symm
   mapComp_naturality_right := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b c f g g' η
+    change Nat.add (natTriangleMapComp f g) Nat.zero =
+      Nat.add Nat.zero (natTriangleMapComp f g')
+    calc
+      _ = natTriangleMapComp f g := Nat.add_zero _
+      _ = natTriangleMapComp f g' := rfl
+      _ = _ := (Nat.zero_add _).symm
   map₂_leftUnitor := by
     intros
-    simp [natTriangleMapComp]
+    simp [natTriangleMapComp, NatOneCell.comp_eq_add,
+      NatOneCell.id_eq_zero, NatOneCell.iso_inv_zero]
+    change (Nat.zero : Nat) = Nat.add Nat.zero Nat.zero
+    rfl
   map₂_rightUnitor := by
     intros
-    simp [natTriangleMapComp]
+    simp [natTriangleMapComp, NatOneCell.comp_eq_add,
+      NatOneCell.id_eq_zero, NatOneCell.iso_inv_zero]
+    change (Nat.zero : Nat) = Nat.add Nat.zero Nat.zero
+    rfl
   map₂_associator := by
     intro a b c d f g h
     have hab : a.as ≤ b.as := f.as.le
@@ -185,8 +226,17 @@ def natNoninvertibleTriangleCore :
     have hb := b.as.isLt
     have hc := c.as.isLt
     have hd := d.as.isLt
-    simp only [natTriangleMapComp]
-    split_ifs <;> omega
+    simp only [natTriangleMapComp, NatOneCell.comp_eq_add,
+      NatOneCell.iso_hom_zero, Nat.add_zero, Nat.zero_add]
+    change
+      Nat.add (Nat.add
+        (if a.as < b.as ∧ b.as < c.as then 1 else 0)
+        (if a.as < c.as ∧ c.as < d.as then 1 else 0)) Nat.zero =
+      Nat.add Nat.zero
+        (Nat.add
+          (if b.as < c.as ∧ c.as < d.as then 1 else 0)
+          (if a.as < b.as ∧ b.as < d.as then 1 else 0))
+    split_ifs <;> simp_all <;> omega
 
 /-- The concrete Duskin 2-simplex with comparison label `1`. -/
 def natNoninvertibleTriangle :
@@ -196,8 +246,9 @@ def natNoninvertibleTriangle :
 @[simp]
 theorem natNoninvertibleTriangle_comparison :
     duskinComparison natNoninvertibleTriangle =
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
-  rfl
+      NatDoubleDelooping.oneTwoCell := by
+  change natTriangleMapComp edge01 edge12 = NatDoubleDelooping.oneTwoCell
+  simp [natTriangleMapComp, edge01, edge12, NatDoubleDelooping.oneTwoCell]
 
 /-- Its intrinsic comparison 2-cell is not invertible. -/
 theorem natNoninvertibleTriangle_comparison_not_isIso :
@@ -264,9 +315,9 @@ theorem certificate_terminal_not_reflects
 /-- Therefore the certificate opens the entire v1.94 pure-scaling waypoint. -/
 theorem not_standardArbitraryScalingObstructionClosed_of_certificate
     (C : NatDoubleDeloopingStandardSeparatorCertificate) :
-    ¬ StandardArbitraryScalingObstructionClosed := by
+    ¬ StandardArbitraryScalingObstructionClosed.{0} := by
   apply
-    (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting).2
+    (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting.{0}).2
   refine ⟨natDoubleDeloopingScaledDuskin, ScaledSSet.point,
     ScaledSSet.toPoint natDoubleDeloopingScaledDuskin,
     natNoninvertibleTriangle, C.standardRight, ?_, ?_⟩
@@ -277,8 +328,8 @@ theorem not_standardArbitraryScalingObstructionClosed_of_certificate
 order `canonical <= standard`. -/
 theorem not_canonicalKuuOS_le_standardABC_of_certificate
     (C : NatDoubleDeloopingStandardSeparatorCertificate) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
-  exact not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting
+    ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} := by
+  exact not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting.{0}
     C.standardRight natNoninvertibleTriangle
     (ScaledSimplicialSet.maximal_thin _ _)
     (natNoninvertibleTriangle_not_thin_of_nondegenerate C.nondegenerate)

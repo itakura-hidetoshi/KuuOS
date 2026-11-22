@@ -1,0 +1,120 @@
+name: KuuOS v1.95 R21 adopted exact-head 20-name Lean axiom audit
+
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - '.github/workflows/kuuos-v195-r21-adopted-exact-20-named-axioms.yml'
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean'
+      - 'tests/test_public_root_restoration.py'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  adopted-v195-r21-20-named-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact push HEAD
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify exact source, pinned toolchain, dependency blobs, and declaration names
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, pathlib, re
+          p = pathlib.Path('formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean')
+          b = p.read_bytes()
+          def blob(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          assert blob(b) == '490286e6415136425d295436e62d3abccdeffbaf', blob(b)
+          assert pathlib.Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.30.0-rc2'
+          manifest = json.loads(pathlib.Path('lake-manifest.json').read_text())
+          assert [x['rev'] for x in manifest['packages'] if x['name'] == 'mathlib'] == ['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          deps = {
+              'DependentOriginationSingleTriangleScalingFiltrationV1_90.lean': '2b7be9f91504f33a25013858ccb917ac983e54fa',
+              'DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean': 'f95fbb08959e5357efadd467e653cb2e3e3ff48e',
+              'DependentOriginationCanonicalFibrationThinReflectionV1_92.lean': '2c1fcdab3579415d9f9591558db23c6b4a52e7e1',
+              'DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean': '0e26a3d0e9f07c8cf61d0f6590833321e0cbd429',
+              'DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean': 'abf21d554de77771723f044f9fb98e2b7396a20e',
+          }
+          for path, sha in deps.items():
+              data = (pathlib.Path('formal/KUOS') / path).read_bytes()
+              assert blob(data) == sha, (path, blob(data))
+          rx = re.compile(r'^(?:(?:@\[[^\n]*\])\s*)?(?:(?:noncomputable|private|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|class|abbrev|inductive)\s+([^\s(:]+)')
+          namespaces, names = [], []
+          for line in b.decode().splitlines():
+              stripped = line.strip()
+              if stripped.startswith('namespace '):
+                  namespaces.append(stripped.split()[1])
+                  continue
+              if stripped.startswith('end '):
+                  name = stripped.split()[1]
+                  if namespaces and namespaces[-1] == name:
+                      namespaces.pop()
+                  continue
+              m = rx.match(line)
+              if m:
+                  names.append('.'.join(namespaces + [m.group(1)]))
+          assert len(names) == 20, (len(names), names)
+          pathlib.Path('/tmp/v195-r21-declarations.json').write_text(json.dumps(names))
+          pathlib.Path('/tmp/v195-r21-axioms.lean').write_text(
+              'import KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95\n'
+              + ''.join('#print axioms ' + n + '\n' for n in names))
+          print('EXACT_R21_SOURCE_BLOB', blob(b), 'NAMED_DECLARATIONS', len(names))
+          PY
+      - name: Strict Lean build on independent runner
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
+      - name: Kernel and named-declaration axiom audit
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/v195-r21-axioms.lean > /tmp/v195-r21-axioms.log 2>&1
+          python3 - <<'PY'
+          import json, pathlib, re
+          s = pathlib.Path('/tmp/v195-r21-axioms.log').read_text()
+          names = json.loads(pathlib.Path('/tmp/v195-r21-declarations.json').read_text())
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          found = set()
+          for name in names:
+              yes = re.search("'" + re.escape(name) + r"'\s+depends on axioms:\s*\[([^\]]*)\]", s, re.S)
+              no = re.search("'" + re.escape(name) + r"'\s+does not depend on any axioms", s)
+              assert yes or no, ('MISSING_AXIOM_EVIDENCE', name)
+              axioms = {x.strip() for x in yes.group(1).split(',') if x.strip()} if yes else set()
+              assert axioms <= allowed, (name, axioms - allowed)
+              found.update(axioms)
+          assert 'sorryAx' not in s
+          assert not re.search(r'(?:error|warning):', s), s[-1600:]
+          print('INDEPENDENT_V195_R21_20_NAMED_GREEN', len(names), sorted(found), 'sorryAx=0 warning=0 error=0')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v195-r21-independent-20-named-axioms
+          path: |
+            /tmp/v195-r21-declarations.json
+            /tmp/v195-r21-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
