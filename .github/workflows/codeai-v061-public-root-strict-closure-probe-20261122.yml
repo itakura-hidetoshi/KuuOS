@@ -19,7 +19,7 @@ env:
 jobs:
   strict-public-root-olean:
     runs-on: ubuntu-24.04
-    timeout-minutes: 110
+    timeout-minutes: 65
     steps:
       - name: Checkout exact research commit without write credentials
         uses: actions/checkout@v6
@@ -90,13 +90,27 @@ jobs:
           assert [p["rev"] for p in packages if p["name"]=="mathlib"] == ["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
           PY
 
-      - name: Strictly compile actual public-root import closure with Lake olean facet
+      - name: Strictly compile and instrument public-root closure with bounded live progress observation
         shell: bash
         run: |
           set -euo pipefail
           echo "LEAN_ROUTE=bounded-exact-public-root-olean-pr3629; NOT full library"
           echo "MAIN_FULL_LIBRARY_GOVERNANCE_REQUIRED=TRUE"
-          timeout --signal=TERM --kill-after=30s 95m \
+          # CodeAI Environment/Livelock gate: capture live active Lean jobs,
+          # rather than treating 45m of silent parallel builds as new evidence.
+          # This is a bounded diagnostic rerun using the same branch-scoped
+          # certified-dependency prefix, not a relaxed proof admission.
+          (
+            while true; do
+              echo "CODEAI_V061_DIAGNOSTIC_PROCESS_SNAPSHOT $(date -u +%FT%TZ)"
+              ps -eo pid,ppid,etimes,pcpu,pmem,rss,stat,args --sort=-rss |
+                grep -E '[l]ean|[l]ake|PID' | head -n 45 || true
+              sleep 180
+            done
+          ) > codeai-v061-build-processes.log 2>&1 &
+          monitor_pid=$!
+          trap 'kill "${monitor_pid}" 2>/dev/null || true' EXIT
+          timeout --signal=TERM --kill-after=30s 45m \
             lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
             build +KuuOSFormal:olean 2>&1 | tee codeai-v061-public-root-closure.log
           if grep -Fq "PANIC at " codeai-v061-public-root-closure.log; then
@@ -118,6 +132,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: codeai-v061-public-root-closure-${{ github.run_id }}-${{ github.run_attempt }}
-          path: codeai-v061-public-root-closure.log
+          path: |
+            codeai-v061-public-root-closure.log
+            codeai-v061-build-processes.log
           retention-days: 30
           if-no-files-found: warn
