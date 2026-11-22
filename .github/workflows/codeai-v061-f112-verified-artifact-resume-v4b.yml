@@ -1,0 +1,226 @@
+name: CodeAI v0.61 F112 verified artifact import and bounded Lean resume v4b
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-verified-artifact-resume-v4b.yml"]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-v061-f112-archive-resume-v4b-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  import-closure-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 24
+    steps:
+      - name: Checkout exact source without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Seal original source, public root, CodeAI candidate and fixed toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/codeai-v061-f112-durable-v3
+          python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          expected={
+            "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean":"928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+            "formal/KuuOSFormal.lean":"87ee2a7f541e48482e0d76f2abf819932c42f188",
+            "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean":"c70aa395d14d873c686008bd80c835c059f936d5",
+          }
+          actual={}
+          for p,sha in expected.items():
+            x=Path(p).read_bytes()
+            blob=hashlib.sha1(b"blob "+str(len(x)).encode()+b"\0"+x).hexdigest()
+            assert blob==sha, "exact-source-identity-mismatch:"+p
+            actual[p]=dict(blob=blob,sha256=hashlib.sha256(x).hexdigest())
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          packages=json.loads(Path("lake-manifest.json").read_text())["packages"]
+          assert [x["rev"] for x in packages if x["name"]=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          d={"schema":"codeai.v061.f112.durable_olean_progress.v3",
+            "root":"itakura-hidetoshi/KuuOS",
+            "head":os.getenv("GITHUB_SHA"),
+            "source":actual,
+            "lean":"v4.30.0-rc2",
+            "mathlib":"5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+            "target_modules":[
+              "Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity",
+              "Kuu.F112.PolygonNativeF55P94DConservativeTowerDescent"
+            ],
+            "changes_to_formal":False,
+            "changes_to_public_root":False,
+            "full_library_certified":False,
+            "memory":"HOLD","merge_authority":False}
+          p=Path("artifacts/codeai-v061-f112-durable-v3/manifest.json")
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_RECOVERY_SEALED",json.dumps(d,sort_keys=True))
+          PY
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib checkout and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Fetch immutable v3 F112 archive from independent preceding GitHub run
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-durable-olean-prefix-45032734078-1
+          run-id: 45032734078
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-v3-input
+      - name: Verify exact original source and SHA256 of all 177 restored .oleans
+        id: restore
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-v3-input \
+            --expected-producer-head 5df23cfa5806b01e111ffdec5fb6f3f87c5c08ed \
+            --receipt-path artifacts/codeai-v061-f112-durable-v3/replay-verified.json \
+            | tee artifacts/codeai-v061-f112-durable-v3/replay-verified.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path('artifacts/codeai-v061-f112-durable-v3/replay-verified.json').read_text())
+          assert r['artifact_integrity_verified'] is True
+          assert r['olean_count']==177
+          assert r['root_strict_lean_certified'] is False
+          PY
+          echo 'verified=true' >> "$GITHUB_OUTPUT"
+      - name: Boundedly compile only the two imported F112 dependencies
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="artifacts/codeai-v061-f112-durable-v3"
+          before="$(find .lake/build/lib/lean -name '*.olean' 2>/dev/null | wc -l || true)"
+          echo "CODEAI_F112_RECOVERY_BEFORE oleans=$before"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 12m lake build \
+            Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity \
+            Kuu.F112.PolygonNativeF55P94DConservativeTowerDescent \
+            > "$dir/build.log" 2>&1
+          rc=$?
+          set -e
+          after="$(find .lake/build/lib/lean -name '*.olean' 2>/dev/null | wc -l || true)"
+          delta="$((after-before))"
+          secs="$(( $(date +%s) - started ))"
+          echo "CODEAI_F112_RECOVERY_BUILD rc=$rc before=$before after=$after delta=$delta seconds=$secs"
+          printf 'build_rc=%s\n' "$rc" >> "$GITHUB_OUTPUT"
+          if [[ "$delta" -gt 0 ]]; then
+            echo 'progress=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'progress=false' >> "$GITHUB_OUTPUT"
+          fi
+          export CODEAI_BEFORE="$before" CODEAI_AFTER="$after" CODEAI_DELTA="$delta" CODEAI_RC="$rc" CODEAI_SECONDS="$secs"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path("artifacts/codeai-v061-f112-durable-v3/manifest.json")
+          d=json.loads(p.read_text())
+          d["build_observation"]={
+            "exit":int(os.environ["CODEAI_RC"]),
+            "before_oleans":int(os.environ["CODEAI_BEFORE"]),
+            "after_oleans":int(os.environ["CODEAI_AFTER"]),
+            "new_oleans":int(os.environ["CODEAI_DELTA"]),
+            "seconds":int(os.environ["CODEAI_SECONDS"]),
+            "certification":"LOCAL_DEPENDENCY_SUCCESS_ONLY" if os.environ["CODEAI_RC"]=="0" else "HOLD",
+            "source_module": "NOT_TESTED",
+          }
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          PY
+          tail -n 50 "$dir/build.log" || true
+      - name: Direct strict Lean compile of original 14-cell only after imports SUCCESS
+        id: direct
+        if: steps.build.outputs.build_rc == '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="artifacts/codeai-v061-f112-durable-v3"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 4m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean \
+            > "$out/direct-original.log" 2>&1
+          rc=$?
+          set -e
+          echo "CODEAI_F112_V4_DIRECT_ORIGINAL exit=$rc elapsed=$(( $(date +%s)-started ))"
+          echo "direct_rc=$rc" >> "$GITHUB_OUTPUT"
+          tail -n 60 "$out/direct-original.log" || true
+      - name: Seal recoverable .olean tree as independently downloadable Zstandard tar
+        if: always() && steps.build.outputs.progress == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="artifacts/codeai-v061-f112-durable-v3"
+          test -d .lake/build/lib/lean
+          test "$(find .lake/build/lib/lean -name '*.olean' | wc -l)" -gt 0
+          tar --zstd -cf "$dir/lake-build-prefix.tar.zst" -C .lake build
+          test -s "$dir/lake-build-prefix.tar.zst"
+          (cd "$dir" && sha256sum lake-build-prefix.tar.zst > lake-build-prefix.tar.zst.sha256)
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path("artifacts/codeai-v061-f112-durable-v3")
+          data=json.loads((p/"manifest.json").read_text())
+          files=sorted(Path(".lake/build/lib/lean").rglob("*.olean"))
+          if not files: raise SystemExit("NO_DATA: empty artifact prefix")
+          records=[{"path":f.as_posix(),"sha256":hashlib.sha256(f.read_bytes()).hexdigest(),"size_bytes":f.stat().st_size} for f in files]
+          (p/"olean-index.json").write_text(json.dumps(records,sort_keys=True,indent=2)+"\n")
+          archive=p/"lake-build-prefix.tar.zst"
+          data["archive"]={
+            "format":"tar.zst","bytes":archive.stat().st_size,
+            "sha256":hashlib.sha256(archive.read_bytes()).hexdigest(),
+            "index_sha256":hashlib.sha256((p/"olean-index.json").read_bytes()).hexdigest(),
+            "olean_count":len(records),"scope":"targeted F112 dependencies; no canonical source change",
+            "formal_certification":"HOLD"
+          }
+          (p/"manifest.json").write_text(json.dumps(data,sort_keys=True,indent=2)+"\n")
+          print("CODEAI_F112_DURABLE_PREFIX",json.dumps(data["archive"],sort_keys=True))
+          PY
+      - name: Upload durable F112 build prefix, hash manifest and complete raw build log
+        if: always() && steps.build.outputs.progress == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-v4b-olean-prefix-${{github.run_id}}-${{github.run_attempt}}
+          path: |
+            artifacts/codeai-v061-f112-durable-v3/manifest.json
+            artifacts/codeai-v061-f112-durable-v3/olean-index.json
+            artifacts/codeai-v061-f112-durable-v3/lake-build-prefix.tar.zst
+            artifacts/codeai-v061-f112-durable-v3/lake-build-prefix.tar.zst.sha256
+            artifacts/codeai-v061-f112-durable-v3/build.log
+          retention-days: 30
+          if-no-files-found: error
+      - name: Archive exact source, diagnostic and compilation progress receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-v4-evidence-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-durable-v3/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Require same-source independent import and original Lean success
+        if: always()
+        env:
+          RESTORED: ${{steps.restore.outputs.verified}}
+          IMPORT_RC: ${{steps.build.outputs.build_rc}}
+          DIRECT_RC: ${{steps.direct.outputs.direct_rc}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$RESTORED" != "true" ]]; then echo "F112_INTEGRITY_HOLD"; exit 1; fi
+          if [[ "$IMPORT_RC" != "0" ]]; then echo "F112_DEPENDENCY_HOLD rc=$IMPORT_RC"; exit 1; fi
+          if [[ "$DIRECT_RC" != "0" ]]; then echo "F112_DIRECT_SOURCE_HOLD rc=$DIRECT_RC"; exit 1; fi
+          echo "F112_LOCAL_SOURCE_ONLY_CERTIFIED; full_KuuOSFormal_and_PR3629=HOLD"
