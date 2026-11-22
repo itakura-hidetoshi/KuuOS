@@ -1,0 +1,119 @@
+name: CodeAI v0.61 F112 original 13D six-module micro-pasting independent Lean
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-micro-pasting-strict.yml"]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-v061-f112-micro-pasting-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  micro-source-pinned-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    steps:
+      - name: Checkout precise source without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate six exact unchanged original theorem bodies into scratch modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_thirteen_micro_source_probe.py
+          python3 scripts/codeai_v061_f112_thirteen_micro_source_probe.py
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore immutable mathlib and imported .oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Download pinned 193-olean predecessor package
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-micro-import
+      - name: Independently check full source hashes and all 193 .oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/codeai-v061-f112-thirteen-micro-source
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-micro-import \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path artifacts/codeai-v061-f112-thirteen-micro-source/replay.json \
+            | tee artifacts/codeai-v061-f112-thirteen-micro-source/replay.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          r=json.loads(Path("artifacts/codeai-v061-f112-thirteen-micro-source/replay.json").read_text())
+          assert r["artifact_integrity_verified"] and r["olean_count"]==193
+          assert r["root_strict_lean_certified"] is False
+          PY
+      - name: Compile all exact generic and six dependent 13D original declarations as individual modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          lib=".lake/build/lib/lean/Kuu/F112"
+          out=artifacts/codeai-v061-f112-thirteen-micro-source
+          mkdir -p "$lib" "$out"
+          run_lean() {
+            local name="$1" timeout_duration="$2" src="formal/Kuu/F112/$1.lean"
+            local started=$(date +%s)
+            set +e
+            timeout --signal=TERM --kill-after=15s "$timeout_duration" lake env lean \
+              -DwarningAsError=true -Dweak.sorryAsError=true \
+              -o "$lib/$name.olean" "$src" > "$out/$name.log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\n' "$rc" > "$out/$name-exit.txt"
+            echo "CODEAI_MICRO_EXACT_RESULT $name exit=$rc seconds=$(( $(date +%s)-started ))"
+            tail -n 20 "$out/$name.log" || true
+            if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+            test -s "$lib/$name.olean"
+          }
+          run_lean CodeAIV061F112ThirteenMicroCoreProbe 3m
+          run_lean CodeAIV061F112ThirteenMicroStage00Probe 2m
+          run_lean CodeAIV061F112ThirteenMicroStage01Probe 5m
+          run_lean CodeAIV061F112ThirteenMicroStage02Probe 5m
+          run_lean CodeAIV061F112ThirteenMicroStage03Probe 4m
+          run_lean CodeAIV061F112ThirteenMicroStage04Probe 4m
+          run_lean CodeAIV061F112ThirteenMicroStage05Probe 4m
+          test ! -e "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean"
+          cat > "$out/OriginalImportShim.lean" <<'LEAN'
+          import Kuu.F112.CodeAIV061F112ThirteenMicroStage05Probe
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteenLeftFirst
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteenRightFirst
+          #print axioms Kuu.F112.Physical.nativeK5PentagonatorFourteen_raw_ne
+          LEAN
+          set +e
+          timeout --signal=TERM --kill-after=15s 2m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean" \
+            "$out/OriginalImportShim.lean" > "$out/original-import.log" 2>&1
+          rc=$?
+          set -e
+          printf '%s\n' "$rc" > "$out/original-import-exit.txt"
+          echo "CODEAI_MICRO_ORIGINAL_IMPORT_SHIM exit=$rc"
+          tail -n 20 "$out/original-import.log" || true
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+          test -s "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean"
+          echo "CODEAI_MICRO_13D_ALL_ORIGINAL_DECLARATIONS_LOCAL_SUCCESS_NOT_ADOPTED"
+      - name: Archive complete source-digests and Lean diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-micro-pasting-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-thirteen-micro-source/
+          retention-days: 30
+          if-no-files-found: error
