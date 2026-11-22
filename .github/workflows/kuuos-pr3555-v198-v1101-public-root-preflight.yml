@@ -1,0 +1,45 @@
+name: KuuOS PR3555 v1.98–v1.101 public proof root pin preflight
+
+on:
+  push:
+    branches:
+      - 'research/pr3555-v198-v1101-root-preflight-20261123'
+    paths:
+      - '.github/workflows/kuuos-pr3555-v198-v1101-public-root-preflight.yml'
+      - 'tests/test_public_root_restoration.py'
+
+permissions:
+  contents: read
+
+jobs:
+  independent-root-pin-preflight:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check pinned source blobs at exact HEAD
+        run: |
+          python3 - <<'PY'
+          import hashlib,pathlib
+          defs = {
+              'DependentOriginationDoubleDeloopingTypeBTerminalRLPV1_98.lean': 'b0a04000b3f074cfb8346d5f9e2c83cf7c6d4e6d',
+              'DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99.lean': 'dfbbfa7a1b2d82619ae9985a54a140ed0c13a3f1',
+              'DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean': 'aa3ed4bab199eade4b6adb0c5dd76fac887e7924',
+              'DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean': 'c1eff27a2e2b1abaf869e1b2e7f59869e33c3558',
+          }
+          for path,expected in defs.items():
+              raw=(pathlib.Path('formal/KUOS')/path).read_bytes()
+              actual=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+              assert actual==expected,(path,actual,expected)
+          print('PR3555_V198_V1101_EXACT_SOURCE_PIN_SUCCESS',len(defs))
+          PY
+      - name: Test Public Proof Roots with staged pins
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest -v tests.test_public_root_restoration
+          echo 'PR3555_V198_V1101_PUBLIC_ROOT_PREFLIGHT_SUCCESS'
