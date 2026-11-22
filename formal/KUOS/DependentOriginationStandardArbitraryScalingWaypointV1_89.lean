@@ -3,6 +3,8 @@ import KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_8
 namespace KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -14,6 +16,8 @@ open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 
 universe u
+
+noncomputable section
 
 /-!
 # The standard arbitrary-scaling waypoint v1.89
@@ -87,7 +91,7 @@ def arbitrarySimplexScalingPresentation :
 because every one of its generators is already in the canonical generated
 left class by the v1.88 retract theorem. -/
 theorem arbitrarySimplexScalingPresentation_le_canonicalKuuOS :
-    arbitrarySimplexScalingPresentation.{u} <= canonicalKuuOSPresentation := by
+    arbitrarySimplexScalingPresentation.{u} <= canonicalKuuOSPresentation.{u} := by
   change
     presentationClass
         (simplexScalingEnrichments : MorphismProperty (ScaledSSet.{u})) <=
@@ -105,10 +109,10 @@ theorem arbitrarySimplexScalingPresentation_le_canonicalKuuOS :
 /-- Pure scaling lies below the standard presentation exactly when every pure
 scaling generator is standard-generated. -/
 theorem arbitrarySimplexScalingPresentation_le_standardABC_iff :
-    arbitrarySimplexScalingPresentation.{u} <= standardABCPresentation <->
+    arbitrarySimplexScalingPresentation.{u} <= standardABCPresentation.{u} <->
       (simplexScalingEnrichments : MorphismProperty (ScaledSSet.{u})) <=
         standardGeneratedScaledAnodyneABC := by
-  simpa [arbitrarySimplexScalingPresentation, standardABCPresentation,
+  simpa [arbitrarySimplexScalingPresentation.{u}, standardABCPresentation.{u},
     externalGeneratedScaledAnodyne, standardGeneratedScaledAnodyneABC] using
     (presentationClass_le_iff_generators_le_generated
       (simplexScalingEnrichments : MorphismProperty (ScaledSSet.{u}))
@@ -120,24 +124,24 @@ theorem arbitrarySimplexScalingPresentation_le_standardABC_iff :
 /-- Adjoin the complete pure-scaling presentation to the standard A/B/C point. -/
 def standardArbitraryScalingWaypoint :
     GeneratedScaledAnodynePresentation.{u} :=
-  standardABCPresentation ⊔ arbitrarySimplexScalingPresentation
+  standardABCPresentation.{u} ⊔ arbitrarySimplexScalingPresentation.{u}
 
 /-- Standard lies below its scaling-adjusted waypoint. -/
 theorem standardABC_le_arbitraryScalingWaypoint :
-    standardABCPresentation <= standardArbitraryScalingWaypoint.{u} := by
+    standardABCPresentation.{u} <= standardArbitraryScalingWaypoint.{u} := by
   exact le_sup_left
 
 /-- The pure-scaling point also lies below the waypoint. -/
 theorem arbitrarySimplexScalingPresentation_le_waypoint :
     arbitrarySimplexScalingPresentation.{u} <=
-      standardArbitraryScalingWaypoint := by
+      standardArbitraryScalingWaypoint.{u} := by
   exact le_sup_right
 
 /-- The waypoint stays below the original standard/canonical upper envelope.
 This uses only the unconditional v1.88 inclusion `A <= C`. -/
 theorem arbitraryScalingWaypoint_le_upperEnvelope :
     standardArbitraryScalingWaypoint.{u} <=
-      standardCanonicalUpperEnvelope := by
+      standardCanonicalUpperEnvelope.{u} := by
   unfold standardArbitraryScalingWaypoint standardCanonicalUpperEnvelope
   exact sup_le le_sup_left
     (arbitrarySimplexScalingPresentation_le_canonicalKuuOS.trans le_sup_right)
@@ -145,7 +149,7 @@ theorem arbitraryScalingWaypoint_le_upperEnvelope :
 /-- Hence the original lower envelope lies below the waypoint. -/
 theorem lowerEnvelope_le_arbitraryScalingWaypoint :
     standardCanonicalLowerEnvelope.{u} <=
-      standardArbitraryScalingWaypoint := by
+      standardArbitraryScalingWaypoint.{u} := by
   exact lowerEnvelope_le_standardABC.trans
     standardABC_le_arbitraryScalingWaypoint
 
@@ -153,7 +157,7 @@ theorem lowerEnvelope_le_arbitraryScalingWaypoint :
 presentation gap. -/
 theorem arbitraryScalingWaypoint_mem_standardCanonicalInterval :
     standardArbitraryScalingWaypoint.{u} ∈
-      standardCanonicalPresentationInterval := by
+      standardCanonicalPresentationInterval.{u} := by
   exact
     ⟨lowerEnvelope_le_arbitraryScalingWaypoint,
       arbitraryScalingWaypoint_le_upperEnvelope⟩
@@ -162,8 +166,8 @@ theorem arbitraryScalingWaypoint_mem_standardCanonicalInterval :
 upper envelope.  Pure scaling introduces no theory above the canonical point
 because it is already canonical-generated. -/
 theorem arbitraryScalingWaypoint_sup_canonical_eq_upperEnvelope :
-    standardArbitraryScalingWaypoint.{u} ⊔ canonicalKuuOSPresentation =
-      standardCanonicalUpperEnvelope := by
+    standardArbitraryScalingWaypoint.{u} ⊔ canonicalKuuOSPresentation.{u} =
+      standardCanonicalUpperEnvelope.{u} := by
   apply le_antisymm
   · exact sup_le
       arbitraryScalingWaypoint_le_upperEnvelope
@@ -175,8 +179,8 @@ theorem arbitraryScalingWaypoint_sup_canonical_eq_upperEnvelope :
 
 /-- Standard is exactly the meet of itself with the scaling waypoint. -/
 theorem standardABC_inf_arbitraryScalingWaypoint :
-    standardABCPresentation ⊓ standardArbitraryScalingWaypoint.{u} =
-      standardABCPresentation := by
+    standardABCPresentation.{u} ⊓ standardArbitraryScalingWaypoint.{u} =
+      standardABCPresentation.{u} := by
   exact inf_eq_left.mpr standardABC_le_arbitraryScalingWaypoint
 
 /-! ## Closing the pure-scaling layer -/
@@ -184,13 +188,13 @@ theorem standardABC_inf_arbitraryScalingWaypoint :
 /-- The pure-scaling obstruction is closed when adjoining all arbitrary
 simplex scaling enrichments does not move the standard presentation point. -/
 def StandardArbitraryScalingObstructionClosed : Prop :=
-  standardArbitraryScalingWaypoint.{u} = standardABCPresentation
+  standardArbitraryScalingWaypoint.{u} = standardABCPresentation.{u}
 
 /-- Closing the scaling layer is exactly containment of the pure-scaling
 presentation in the standard point. -/
 theorem standardArbitraryScalingObstructionClosed_iff_presentation_le :
     StandardArbitraryScalingObstructionClosed.{u} <->
-      arbitrarySimplexScalingPresentation <= standardABCPresentation := by
+      arbitrarySimplexScalingPresentation.{u} <= standardABCPresentation.{u} := by
   unfold StandardArbitraryScalingObstructionClosed
   unfold standardArbitraryScalingWaypoint
   exact sup_eq_left
@@ -207,7 +211,7 @@ theorem standardArbitraryScalingObstructionClosed_iff_generators_le :
 /-- Any canonical-to-standard comparison necessarily closes the pure-scaling
 layer, by the intrinsic retract theorem of v1.88. -/
 theorem standardArbitraryScalingObstructionClosed_of_canonicalKuuOS_le_standardABC
-    (h : canonicalKuuOSPresentation <= standardABCPresentation) :
+    (h : canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u}) :
     StandardArbitraryScalingObstructionClosed.{u} := by
   apply standardArbitraryScalingObstructionClosed_iff_generators_le.2
   exact
@@ -238,13 +242,13 @@ theorem standardArbitraryScalingObstructionClosed_of_gapClosed
 /-- Residual forward geometry after the complete pure-scaling presentation has
 already been adjoined to the standard point. -/
 def CanonicalBelowStandardAfterArbitraryScaling : Prop :=
-  canonicalKuuOSPresentation <= standardArbitraryScalingWaypoint.{u}
+  canonicalKuuOSPresentation.{u} <= standardArbitraryScalingWaypoint.{u}
 
 /-- The canonical-to-standard direction factors exactly into closure of the
 pure-scaling layer and the residual comparison against the scaling-adjusted
 waypoint. -/
 theorem canonicalKuuOS_le_standardABC_iff_scalingClosed_and_residual :
-    canonicalKuuOSPresentation <= standardABCPresentation <->
+    canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u} <->
       StandardArbitraryScalingObstructionClosed.{u} /\
         CanonicalBelowStandardAfterArbitraryScaling.{u} := by
   constructor
@@ -252,7 +256,9 @@ theorem canonicalKuuOS_le_standardABC_iff_scalingClosed_and_residual :
     constructor
     · exact
         standardArbitraryScalingObstructionClosed_of_canonicalKuuOS_le_standardABC h
-    · exact h.trans standardABC_le_arbitraryScalingWaypoint
+    · change canonicalKuuOSPresentation.{u} ≤
+        standardArbitraryScalingWaypoint.{u}
+      exact h.trans standardABC_le_arbitraryScalingWaypoint
   · rintro ⟨hscale, hresidual⟩
     unfold CanonicalBelowStandardAfterArbitraryScaling at hresidual
     unfold StandardArbitraryScalingObstructionClosed at hscale
@@ -262,7 +268,7 @@ theorem canonicalKuuOS_le_standardABC_iff_scalingClosed_and_residual :
 impossible. -/
 theorem not_canonicalKuuOS_le_standardABC_of_scalingObstruction_open
     (hopen : ¬ StandardArbitraryScalingObstructionClosed.{u}) :
-    ¬ canonicalKuuOSPresentation <= standardABCPresentation := by
+    ¬ canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u} := by
   intro h
   exact hopen
     (standardArbitraryScalingObstructionClosed_of_canonicalKuuOS_le_standardABC h)
@@ -334,4 +340,5 @@ that layer is settled does the residual attachment geometry need to be
 analyzed.
 -/
 
+end
 end KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
