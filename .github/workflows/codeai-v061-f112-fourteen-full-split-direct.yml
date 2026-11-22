@@ -1,4 +1,4 @@
-name: CodeAI v0.61 F112 direct Lean fourteen-cell split and original import smoke
+name: KuuOS CodeAI v0.61 F112 GitHub sandbox Lean MCP then independent 14D CI
 on:
   push:
     branches: [research/codeai-v061-public-root-closure-probe-20261122]
@@ -12,9 +12,9 @@ concurrency:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
 jobs:
-  direct-fourteen-source-decomposition:
+  github-sandbox-direct-lean-mcp:
     runs-on: ubuntu-24.04
-    timeout-minutes: 28
+    timeout-minutes: 40
     steps:
       - name: Checkout research source exactly without credentials
         uses: actions/checkout@v6
@@ -112,6 +112,18 @@ jobs:
           tail -n 30 "$d/import-smoke.log" || true
           if [[ "$rc" != "0" ]]; then exit "$rc"; fi
           echo "CODEAI_14D_FULL_SPLIT_DIRECT_SUCCESS (NOT ORIGINAL UNCHANGED MONOLITH OR FULL ROOT CERTIFICATION)"
+      - name: Install actual pinned Lean-LSP MCP launcher for GitHub sandbox
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Reobserve exact compiled 14D source-typed import through real Lean MCP 0.30.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_fourteen_real_mcp_probe.py
       - name: Persist original-source SHA, complete lean outputs, diagnostics and explicit hold
         if: always()
         uses: actions/upload-artifact@v4
@@ -120,3 +132,125 @@ jobs:
           path: artifacts/codeai-v061-f112-fourteen-full-decomposition/
           retention-days: 30
           if-no-files-found: error
+
+  independent-fixed-fourteen-cell:
+    needs: github-sandbox-direct-lean-mcp
+    if: ${{ needs.github-sandbox-direct-lean-mcp.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Independent fresh checkout of exact original GitHub source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Read only first sandbox evidence (NO compiled 14D oleans)
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-fourteen-full-split-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-sandbox/
+      - name: Generate exact generic 14D prefix plus all original five-stage theorems and audits
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_full_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase generate
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib only
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Fetch exact 193-olean predecessor source archive
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-fourteen-full-import
+      - name: Verify whole original source, actual fixed versions and every imported .olean digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-fourteen-full-decomposition"
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-fourteen-full-import \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path "$folder/replay.json" | tee "$folder/replay.log"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("artifacts/codeai-v061-f112-fourteen-full-decomposition/replay.json").read_text())
+          assert x["artifact_integrity_verified"] and x["olean_count"]==193
+          assert x["root_strict_lean_certified"] is False
+          PY
+      - name: Compile exact complete full 14D source split and canonical import using scratch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          d="artifacts/codeai-v061-f112-fourteen-full-decomposition"
+          lib=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$lib"
+          run_lean() {
+            local name="$1" duration="$2" output="$3" source="$4"
+            local start="$(date +%s)"
+            set +e
+            timeout --signal=TERM --kill-after=15s "$duration" lake env lean \
+              -DwarningAsError=true -Dweak.sorryAsError=true \
+              -o "$output" "$source" > "$d/$name.log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\n' "$rc" > "$d/$name-exit.txt"
+            echo "CODEAI_14D_FULL_SPLIT_STAGE name=$name rc=$rc seconds=$(( $(date +%s)-start ))"
+            tail -n 45 "$d/$name.log" || true
+            if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+            test -s "$output"
+          }
+          run_lean generic_core 4m \
+            "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
+          run_lean full_five_stage 16m \
+            "$lib/CodeAIV061F112FourteenFullTailProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFullTailProbe.lean
+          test ! -e "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"
+          python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase shim
+          run_lean original_module_import_shim 2m \
+            "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean" \
+            "$d/CanonicalShimScratch.lean"
+          cat > "$d/OriginalImportSmoke.lean" <<'LEAN'
+          import Kuu.F112.PolygonNativeF55P94DK5FourteenCellNonabelianPasting
+          #check Kuu.F112.Physical.nativeK5PentagonatorFifteenLeftFirst
+          #check Kuu.F112.Physical.nativeK5PentagonatorFifteenRightFirst
+          #check Kuu.F112.Physical.nativeK5PentagonatorFifteen_integerBlind
+          #check Kuu.F112.Physical.nativeK5PentagonatorFifteen_history_ne
+          #check Kuu.F112.Physical.nativeK5PentagonatorFifteen_raw_ne
+          #print axioms Kuu.F112.Physical.nativeK5PentagonatorFifteen_raw_ne
+          LEAN
+          set +e
+          timeout --signal=TERM --kill-after=15s 2m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            "$d/OriginalImportSmoke.lean" > "$d/import-smoke.log" 2>&1
+          rc=$?
+          set -e
+          printf '%s\n' "$rc" > "$d/import-smoke-exit.txt"
+          echo "CODEAI_14D_FULL_SPLIT_IMPORT_SMOKE rc=$rc"
+          tail -n 30 "$d/import-smoke.log" || true
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+          echo "CODEAI_14D_FULL_SPLIT_DIRECT_SUCCESS (NOT ORIGINAL UNCHANGED MONOLITH OR FULL ROOT CERTIFICATION)"
+      - name: Compare independent source/axiom results to GitHub sandbox
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_fourteen_independent_audit.py
+      - name: Archive independent source digests, complete Lean outputs, axiom audit, HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-fourteen-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/codeai-v061-f112-fourteen-full-decomposition/
+          retention-days: 30
+          if-no-files-found: warn
