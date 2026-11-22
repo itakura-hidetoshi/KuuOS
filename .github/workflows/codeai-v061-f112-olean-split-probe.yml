@@ -1,0 +1,102 @@
+name: CodeAI v0.61 F112 source-sealed strict olean split
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-olean-split-probe.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-olean-split-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  split-source-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [exchange-only, after-left, full-tail]
+    steps:
+      - name: Checkout pinned research branch without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Create source-hash-sealed diagnostic modules (NOT admitted)
+        env:
+          PART: ${{matrix.part}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_strict_olean_split_probe.py
+          python3 scripts/codeai_v061_f112_strict_olean_split_probe.py --part "$PART"
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install exact pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore source-bounded build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-
+      - name: Restore immutable pinned mathlib and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Compile exact 14-cell prefix to a distinct olean, then isolated five-stage
+        env:
+          PART: ${{matrix.part}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-olean-split/$PART"
+          output=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$output"
+          core="formal/Kuu/F112/CodeAIV061F112CoreProbe.lean"
+          tail="formal/Kuu/F112/CodeAIV061F112FiveStageTailProbe.lean"
+          echo "CODEAI_F112_OLEAN_SPLIT_CORE_START part=$PART"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 4m \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$output/CodeAIV061F112CoreProbe.olean" "$core" > "$folder/core-lean.log" 2>&1
+          core_rc=$?
+          set -e
+          core_seconds="$(( $(date +%s) - started ))"
+          echo "CODEAI_F112_OLEAN_SPLIT_CORE_FINISH part=$PART exit=$core_rc seconds=$core_seconds"
+          printf '%s\n' "$core_rc" > "$folder/core-exit.txt"
+          if [[ "$core_rc" != 0 ]]; then
+            tail -n 60 "$folder/core-lean.log" || true
+            exit "$core_rc"
+          fi
+          test -s "$output/CodeAIV061F112CoreProbe.olean"
+          started="$(date +%s)"
+          echo "CODEAI_F112_OLEAN_SPLIT_TAIL_START part=$PART"
+          set +e
+          timeout --signal=TERM --kill-after=20s 8m \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$output/CodeAIV061F112FiveStageTailProbe.olean" "$tail" > "$folder/tail-lean.log" 2>&1
+          tail_rc=$?
+          set -e
+          tail_seconds="$(( $(date +%s) - started ))"
+          echo "CODEAI_F112_OLEAN_SPLIT_TAIL_FINISH part=$PART exit=$tail_rc seconds=$tail_seconds"
+          printf '%s\n' "$tail_rc" > "$folder/tail-exit.txt"
+          echo "CODEAI_F112_OLEAN_SPLIT_OVERALL part=$PART core=$core_rc tail=$tail_rc"
+          tail -n 60 "$folder/tail-lean.log" || true
+          if [[ "$tail_rc" == 0 ]]; then
+            test -s "$output/CodeAIV061F112FiveStageTailProbe.olean"
+          fi
+          exit "$tail_rc"
+      - name: Archive original-source identity and independent raw Lean logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-olean-split-${{matrix.part}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-olean-split/${{matrix.part}}/
+          retention-days: 30
+          if-no-files-found: error
