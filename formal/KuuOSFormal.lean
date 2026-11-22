@@ -720,6 +720,7 @@ import KuuOSFormal.HistoricalNativeF55CommonShadowLEC12
 import KuuOSFormal.HistoricalNativeF54F47SupportLEC13
 import KuuOSFormal.SwallowtailWitnessTransportLEC13
 import KuuOSFormal.LivingEngiRealHexagonSquareLEC14
+import KUOS.Architecture.LeanPythonTwoStagePrivateAppendModelCandidateAV0_61
 
 /-!
 Public aggregate: retain every previously published proof and its original
