@@ -130,7 +130,7 @@ jobs:
           dir="artifacts/codeai-v061-p94-bisect/${PART}"
           set +e
           timeout --signal=TERM --kill-after=20s 12m \
-            lake env lean -DwarningAsError=true -DsorryAsError=true \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
               "${dir}/PrefixProbe.lean" > "${dir}/lean.log" 2>&1
           status=$?
           set -e
