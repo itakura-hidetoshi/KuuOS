@@ -80,14 +80,14 @@ jobs:
                   if m:results.append('.'.join(ns+[m.group(1)]))
               return results
           curr=names(raw.decode())
-          orig=names((root/'DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean').read_text())
+          orig=names((root/'DependentOriginationDoubleDeloopingTypeBTerminalRLPV1_98.lean').read_text())
           assert len(curr)==len(orig)==22,(len(curr),len(orig))
           assert [x.rsplit('.',1)[-1] for x in curr]==[x.rsplit('.',1)[-1] for x in orig]
           pathlib.Path('/tmp/v198-r7-names.json').write_text(json.dumps(curr))
           pathlib.Path('/tmp/v198-r7-axioms.lean').write_text(
               'import KUOS.DependentOriginationDoubleDeloopingTypeBTerminalRLPCodeAICandidateR7V1_98\n'
               + ''.join('#print axioms '+x+'\n' for x in curr))
-          print('EXACT_V197_SOURCE',blob(raw),'DECLARATIONS',len(curr),'DEPENDENCIES',len(deps))
+          print('EXACT_V198_SOURCE',blob(raw),'DECLARATIONS',len(curr),'DEPENDENCIES',len(deps))
           PY
       - name: Independently build fixed v1.96 and R3 Strict Lean
         run: |
