@@ -53,7 +53,7 @@ def main():
         raise RuntimeError("V190_R1_ORIGINAL_DEPENDENCY_OR_OWNER_CHANGED")
     owner=(ROOT/OWNER).read_text()
     if ("namespace KUOS.DependentOriginationNativeInfinityTwoScaledV1_19" not in owner or
-        "structure ScaledSimplicialSet" not in owner):
+        "class ScaledSimplicialSet" not in owner):
         raise RuntimeError("V190_R1_PINNED_TYPE_OWNER_UNCONFIRMED")
     if (ROOT/CANDIDATE).exists():
         raise RuntimeError("V190_R1_CANDIDATE_MUST_BE_UNCOMMITTED")
