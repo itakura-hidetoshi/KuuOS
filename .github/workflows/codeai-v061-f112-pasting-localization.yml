@@ -1,0 +1,120 @@
+name: CodeAI v0.61 F112 exact fourteen-pasting lemma bisect
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-pasting-localization.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-pasting-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  strict-lemma-prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [pasting-defs, elementary, inequality, finite-filler]
+    steps:
+      - name: Checkout exact source without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Seal original sources and generate no-admission proof-bound prefix
+        env:
+          PART: ${{ matrix.part }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,os,json
+          path=Path("formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean")
+          raw=path.read_bytes()
+          def blob(b):
+              return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+          assert blob(raw)=="928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c"
+          assert blob(Path("formal/KuuOSFormal.lean").read_bytes())=="87ee2a7f541e48482e0d76f2abf819932c42f188"
+          assert blob(Path("formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean").read_bytes())=="c70aa395d14d873c686008bd80c835c059f936d5"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mathlib=[p for p in json.loads(Path("lake-manifest.json").read_text())["packages"] if p["name"]=="mathlib"]
+          assert len(mathlib)==1 and mathlib[0]["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          markers={
+            "pasting-defs":"theorem nativeK5FourteenPasting_leftWord",
+            "elementary":"/-- The exact free-group noncommutativity established in the prior",
+            "inequality":"/-- For ANY original thirteen-cell critical pair with distinct",
+            "finite-filler":"/-- Independently adjoined fourteen-cell comparison cannot retract"
+          }
+          part=os.environ["PART"]
+          text=raw.decode()
+          assert text.count(markers[part])==1, "source bound marker absent or ambiguous"
+          prefix=text.split(markers[part],1)[0]
+          assert prefix.count("section GenuineFourteenPasting")==1
+          fragment=prefix+"\nend GenuineFourteenPasting\nend\nend Kuu.F112.Physical\n"
+          out=Path("artifacts/codeai-v061-p94-lemma-bisect")/part
+          out.mkdir(parents=True,exist_ok=True)
+          (out/"PrefixProbe.lean").write_text(fragment)
+          (out/"manifest.json").write_text(json.dumps({
+            "source_path":str(path),"part":part,
+            "source_git_blob":"928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+            "source_prefix_lines":len(prefix.splitlines()),
+            "diagnostic_sha256":hashlib.sha256(fragment.encode()).hexdigest(),
+            "unchanged_original_proof":True,"formal_admission":False,
+            "status":"TEST_REQUIRED","memory":"HOLD","full_root":"HOLD"
+          },sort_keys=True,indent=2)+"\n")
+          PY
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore source-bounded project build prefix
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore immutable pinned mathlib checkout and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Strictly elaborate local proof fragment
+        env:
+          PART: ${{ matrix.part }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="artifacts/codeai-v061-p94-lemma-bisect/${PART}"
+          set +e
+          timeout --signal=TERM --kill-after=20s 9m \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true "${dir}/PrefixProbe.lean" \
+            > "${dir}/lean.log" 2>&1
+          rc=$?
+          set -e
+          export CODEAI_LEAN_RC="${rc}"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          p=Path("artifacts/codeai-v061-p94-lemma-bisect")/os.environ["PART"]/"manifest.json"
+          m=json.loads(p.read_text())
+          m["strict_lean_exit"]=int(os.environ["CODEAI_LEAN_RC"])
+          m["strict_fragment_success"]=int(os.environ["CODEAI_LEAN_RC"])==0
+          m["full_original_source_certified"]=False
+          p.write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_14_CELL_LEMMA_BISECT",json.dumps(m,sort_keys=True))
+          PY
+          tail -n 40 "${dir}/lean.log" || true
+          exit "${rc}"
+      - name: Archive exact diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-p94-lemma-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/codeai-v061-p94-lemma-bisect/${{ matrix.part }}/
+          retention-days: 30
+          if-no-files-found: error
