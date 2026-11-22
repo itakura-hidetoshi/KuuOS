@@ -60,7 +60,7 @@ jobs:
         run: |
           set -uo pipefail
           set +e
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102 > /tmp/v1102-direct-R1.log 2>&1
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR1V1_102 > /tmp/v1102-direct-R1.log 2>&1
           rc=$?
           set -e
           python3 - <<'PY'
