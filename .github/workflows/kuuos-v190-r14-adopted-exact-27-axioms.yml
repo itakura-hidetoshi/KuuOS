@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/kuuos-v190-r14-adopted-exact-27-axioms.yml'
       - 'formal/KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean'
+      - 'tests/test_public_root_restoration.py'
 
 permissions:
   contents: read
