@@ -74,7 +74,7 @@ def main() -> None:
     # the executable returned 0 and managed to write an .olean.
     # Prior 13D logs demonstrate why process exit status alone is insufficient.
     unexpected = [line[:300] for line in all_log.splitlines() if
-                  re.search(r"(?i)(?:PANIC at |Lean panicked|^\\s*(?:error|warning):)", line)]
+                  re.search(r"(?i)(?:PANIC at |Lean panicked|^\s*(?:error|warning):)", line)]
     assert not unexpected, ("Lean internal diagnostic obstruction", unexpected[:5])
 
     out = {
