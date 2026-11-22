@@ -1,0 +1,239 @@
+"""Fail-closed PR governance routing for KuuOS native CodeAI v0.61.
+
+The dedicated GitHub CI must still run both independent pinned Lean verifiers;
+this selector regression does not claim that Python checks prove Lean code.
+"""
+from __future__ import annotations
+
+from pathlib import Path
+from unittest import TestCase, main
+from unittest.mock import patch
+
+from scripts.select_impacted_checks import load_registry, select
+
+ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW = ".github/workflows/kuuos-codeai-v061-exact-learning-feedback.yml"
+FRAGMENT = "ci/check_registry.d/codeai_v061_exact_learning.json"
+TEST = "tests/test_codeai_v061_governance_routing.py"
+SCRIPTS = (
+    "scripts/codeai_v061_exact_real_lean_mcp.py",
+    "scripts/codeai_v061_independent_candidate_verification.py",
+    "scripts/codeai_v061_multi_candidate_portfolio.py",
+    "scripts/codeai_v061_two_stage_proof_proposal.py",
+    "scripts/codeai_v061_version_bound_learning_replay.py",
+)
+EXAMPLES = (
+    "examples/codeai_v061_two_stage_private_append.lean.txt",
+    "examples/codeai_v061_two_stage_private_append_variant_b.lean.txt",
+    "examples/codeai_v061_two_stage_private_append_variant_c.lean.txt",
+)
+SCOPE = sorted((
+    WORKFLOW, FRAGMENT, TEST,
+    "docs/CodeAI/V061_EXACT_LEARNING_ROUTE_EVIDENCE_20261121.md",
+    *SCRIPTS, *EXAMPLES,
+))
+
+
+def ids(result: dict) -> set[str]:
+    return {row["id"] for row in result["selected_checks"]}
+
+
+class CodeAIV061GovernanceRoutingTests(TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.registry = load_registry(ROOT / "ci/check_registry.yaml")
+
+    def test_existing_registered_sources_use_focused_governance(self) -> None:
+        # The fragment is already installed and NOT changed in this scenario.
+        paths = [path for path in SCOPE if path != FRAGMENT]
+        result = select(self.registry, paths, None)
+        self.assertEqual(result["unknown_paths"], [])
+        self.assertEqual(result["unmapped_paths"], [])
+        self.assertEqual(result["full_audit_trigger_paths"], [])
+        self.assertFalse(result["full_audit_required"])
+        self.assertFalse(result["lean_required"])  # No real formal/**/*.lean changed.
+        self.assertEqual(ids(result), {
+            "codeai-v061-exact-learning-contract",
+            "ci-audit-tests", "runtime-full", "workflow-integrity",
+        })
+
+    def test_first_registration_of_audit_fragment_is_full_governance(self) -> None:
+        # This v0.61 PR ADDS the fragment. The central selector correctly
+        # treats it as an audit-control change, so this PR stays full/strict.
+        result = select(self.registry, SCOPE, None)
+        self.assertEqual(result["unknown_paths"], [])
+        self.assertEqual(result["unmapped_paths"], [])
+        self.assertTrue(result["full_audit_required"])
+        self.assertIn(FRAGMENT, result["full_audit_trigger_paths"])
+        self.assertTrue(result["lean_required"])
+        self.assertIn("lean-formal", ids(result))
+        self.assertIn("codeai-v061-exact-learning-contract", ids(result))
+
+    def test_each_new_codeai_script_is_registered_individually(self) -> None:
+        check = self.registry["checks"]["codeai-v061-exact-learning-contract"]
+        self.assertTrue(check["pr_required"])
+        self.assertTrue(check["full_audit_member"])
+        self.assertEqual(set(check["depends_on"]), {
+            "ci-audit-tests", "runtime-full", "workflow-integrity",
+        })
+        for path in (*SCRIPTS, *EXAMPLES, WORKFLOW, FRAGMENT, TEST):
+            with self.subTest(path=path):
+                self.assertIn(path, check["paths"])
+                self.assertIn("codeai-v061-exact-learning-contract",
+                              ids(select(self.registry, [path], None)))
+
+    def test_new_unregistered_script_remains_full_audit(self) -> None:
+        path = "scripts/codeai_v061_unregistered_future_repair.py"
+        result = select(self.registry, SCOPE + [path], None)
+        self.assertTrue(result["full_audit_required"])
+        self.assertIn(path, result["unmapped_paths"])
+        self.assertTrue(result["lean_required"])
+        self.assertIn("lean-formal", ids(result))
+
+    def test_actual_formal_lean_change_still_requires_strict_lean(self) -> None:
+        proof = "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendV0_61.lean"
+        with patch("scripts.select_impacted_checks.select_lean_targets",
+                   return_value=(["KuuOSFormal"], "synthetic-proof-file")):
+            result = select(self.registry, SCOPE + [proof], None)
+        self.assertTrue(result["lean_required"])
+        self.assertIn("lean-formal", ids(result))
+
+    def test_toolchain_and_governance_controls_fail_closed(self) -> None:
+        for path in ("lean-toolchain", "lake-manifest.json",
+                     "ci/check_registry.yaml",
+                     ".github/workflows/pr-governance-gate.yml"):
+            with self.subTest(path=path):
+                result = select(self.registry, SCOPE + [path], None)
+                self.assertTrue(result["lean_required"])
+                self.assertIn("lean-formal", ids(result))
+                if path in ("ci/check_registry.yaml",
+                            ".github/workflows/pr-governance-gate.yml"):
+                    self.assertTrue(result["full_audit_required"])
+
+    def test_actual_independent_lean_and_memory_workflow_is_retained(self) -> None:
+        content = (ROOT / WORKFLOW).read_text(encoding="utf-8")
+        for item in (
+            "native-codeai-direct-then-real-lean-mcp:",
+            "independent-fixed-kernel-and-eight-axioms:",
+            "read-only-exact-subtask-memory-replay:",
+            "needs: native-codeai-direct-then-real-lean-mcp",
+            "needs: independent-fixed-kernel-and-eight-axioms",
+            "-DwarningAsError=true", "-DsorryAsError=true",
+            "codeai_v061_independent_candidate_verification.py",
+            "codeai_v061_exact_real_lean_mcp.py",
+            "codeai_v061_version_bound_learning_replay.py",
+        ):
+            with self.subTest(item=item):
+                self.assertIn(item, content)
+
+    def test_actual_four_family_ensemble_kernel_blocks_unattested_single_family(self) -> None:
+        from scripts import codeai_v061_version_bound_learning_replay as replay
+        now = 500
+        evidence = {
+            "evidence_digest": "d" * 64,
+            "results": [{
+                "status": "INDEPENDENT_FIXED_LEAN_AND_AXIOM_PASSED",
+                "axiom_declarations_checked": 8,
+                "strict_lean_exit_code": 0,
+                "sorryAx": False,
+                "source_sha256": "a" * 64,
+            }],
+        }
+        hold = replay.check_actual_v02_ensemble_hold(evidence, now)
+        self.assertTrue(hold["actual_original_ensemble_v02_invoked"])
+        self.assertEqual(hold["actual_original_ensemble_v02_status"], "blocked")
+        self.assertEqual(hold["independent_organizations_attested"], 0)
+        self.assertEqual(hold["external_verifier_issuer_authentication"], "NO_DATA")
+        self.assertFalse(hold["verified_useful"])
+        self.assertFalse(hold["reusable_memory_hint"])
+        reasons = set(hold["ensemble_v02_issues"])
+        self.assertIn("ensemble_required_family_missing", reasons)
+        self.assertIn("ensemble_insufficient_organization_count", reasons)
+        self.assertIn("ensemble_insufficient_verifier_count", reasons)
+
+    def test_actual_memory_source_keeps_inconclusive_until_ensemble(self) -> None:
+        content = (ROOT / "scripts/codeai_v061_version_bound_learning_replay.py").read_text(
+            encoding="utf-8")
+        self.assertIn('"outcome":memory.OUTCOME_INCONCLUSIVE', content)
+        self.assertIn('"independent_verifier_ensemble_v0_2": "NO_DATA"', content)
+        self.assertIn('"allow_git_authority":False', content)
+
+
+    def _actual_c_negative_fixture(self):
+        import hashlib
+
+        from scripts import codeai_v061_version_bound_learning_replay as replay
+
+        text = (ROOT / "examples/codeai_v061_two_stage_private_append_variant_c.lean.txt").read_text(
+            encoding="utf-8")
+        msg = "try 'simp' instead of 'simpa'"
+        log = (
+            f"/tmp/ProposedV061.lean:140:7: error: {msg}\n"
+            f"/tmp/ProposedV061.lean:159:7: error: {msg}\n"
+        )
+        c = {
+            "label": "model-c",
+            "status": "DIRECT_LEAN_REJECTED_TYPED_LINT_PENDING",
+            "source_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+            "diagnostic_digest": hashlib.sha256(log.encode("utf-8")).hexdigest(),
+            "diagnostics": [msg, msg],
+            "error_count": 2,
+            "strict_lean_exit_code": 1,
+            "proven_lean_declarations": 0,
+            "original_source_unchanged": True,
+            "independent_repair_evidence_admitted": False,
+            "reusable_repair_memory_admitted": False,
+        }
+        evidence = {
+            "source_candidate_portfolio": "model_supplied_proposals_governed_by_actual_codeai",
+            "typed_error_classification_c_admitted": False,
+            "results": [{}, {}, c],
+        }
+        evidence["evidence_digest"] = replay.stable(evidence)
+        return replay, evidence, log, text
+
+    def test_c_compiler_lint_is_bound_but_not_native_typed_classification(self) -> None:
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        receipt = replay.check_candidate_c_compiler_lint_boundary(evidence, log, text)
+        self.assertEqual([row["line"] for row in receipt["observed_diagnostics"]], [140, 159])
+        self.assertFalse(receipt["native_typed_error_classification_certified"])
+        self.assertFalse(receipt["verified_useful_memory_admitted"])
+        self.assertFalse(receipt["reusable_memory_hint"])
+        self.assertEqual(receipt["verification_guided_regeneration_receipt"], "NO_DATA")
+
+    def test_c_compiler_log_digest_tampering_is_rejected(self) -> None:
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(
+                evidence, log.replace(":159:7:", ":158:7:"), text)
+
+    def test_c_source_and_classifier_promotion_are_rejected(self) -> None:
+        from copy import deepcopy
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(evidence, log, text + "\n")
+        promoted = deepcopy(evidence)
+        promoted["typed_error_classification_c_admitted"] = True
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(promoted, log, text)
+        forged = deepcopy(evidence)
+        forged["results"][2]["reusable_repair_memory_admitted"] = True
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(forged, log, text)
+
+    def test_c_compiler_messages_cannot_become_static_preflight_findings(self) -> None:
+        from copy import deepcopy
+        import hashlib
+        replay, evidence, log, text = self._actual_c_negative_fixture()
+        forged = deepcopy(evidence)
+        altered = log.replace("try 'simp' instead of 'simpa'", "unrelated failure")
+        forged["results"][2]["diagnostic_digest"] = hashlib.sha256(
+            altered.encode("utf-8")).hexdigest()
+        forged["results"][2]["diagnostics"] = ["unrelated failure", "unrelated failure"]
+        with self.assertRaises(AssertionError):
+            replay.check_candidate_c_compiler_lint_boundary(forged, altered, text)
+
+
+
+if __name__ == "__main__":
+    main()

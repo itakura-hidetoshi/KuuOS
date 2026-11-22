@@ -1,0 +1,211 @@
+name: KuuOS CodeAI v0.61 exact-source learning, Lean MCP and independent verification
+
+# Candidate-source research only. Does NOT adopt proofs into the formal root.
+# Documentation-only changes do NOT trigger strict Lean.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-codeai-v061-exact-learning-feedback.yml"
+      - "scripts/codeai_v061_two_stage_proof_proposal.py"
+      - "scripts/codeai_v061_multi_candidate_portfolio.py"
+      - "scripts/codeai_v061_independent_candidate_verification.py"
+      - "scripts/codeai_v061_exact_real_lean_mcp.py"
+      - "scripts/codeai_v061_version_bound_learning_replay.py"
+      - "examples/codeai_v061_two_stage_private_append*.lean.txt"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/kuuos-codeai-v061-exact-learning-feedback.yml"
+      - "scripts/codeai_v061_*.py"
+      - "examples/codeai_v061_two_stage_private_append*.lean.txt"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeai-v061-exact-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: '.'
+
+jobs:
+  native-codeai-direct-then-real-lean-mcp:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact GitHub proposal HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enforce exact canonical main, Lean and Mathlib pins
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from scripts import codeai_v061_two_stage_proof_proposal as src
+          import os
+          x=src._read_pinned_snapshot()
+          base=os.getenv('PR_BASE_SHA','')
+          assert not base or base==src.MAIN_HEAD, (base,src.MAIN_HEAD)
+          assert len(x)==4
+          print('CODEAI_V061_EXACT_PARENT',src.MAIN_HEAD,src.MAIN_TREE)
+          PY
+      # Exact Lean bootstrap already used by Governance: official release bytes
+      # are checked against fixed size and SHA256 before execution.
+      # No elan/latest download and no relaxation of kernel/proof checks.
+      - name: Validate exact pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install SHA256-audited pinned Lean and Lake
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-codeai-v061-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Verify original v0.60 Lean dependency
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.Architecture.LeanPythonTaggedPrivateAppendInvarianceV0_60
+      - name: Run actual CodeAI kernels and direct Lean/axiom check on A B C
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_independent_candidate_verification.py
+      - name: Install real Lean-LSP MCP 0.30.0 launcher prerequisites
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Reobserve fixed-Lean-green A with real Lean MCP and restore source
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_exact_real_lean_mcp.py
+      - name: Archive CodeAI candidates, errors and real MCP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-codeai-mcp-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: warn
+
+  independent-fixed-kernel-and-eight-axioms:
+    needs: native-codeai-direct-then-real-lean-mcp
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Fresh separate runner at exact candidate HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-codeai-mcp-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-codeai/
+      # Exact Lean bootstrap already used by Governance: official release bytes
+      # are checked against fixed size and SHA256 before execution.
+      # No elan/latest download and no relaxation of kernel/proof checks.
+      - name: Validate exact pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install SHA256-audited pinned Lean and Lake
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-codeai-v061-independent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Compile the untouched original canonical v0.60 Lean module
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.Architecture.LeanPythonTaggedPrivateAppendInvarianceV0_60
+      - name: Independently run CodeAI candidate direct Lean and 8-axiom checks
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_independent_candidate_verification.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          first=json.loads(Path('first-codeai/codeai-v061-independent-verification/verified-candidates.json').read_text())
+          fresh=json.loads(Path('artifacts/codeai-v061-independent-verification/verified-candidates.json').read_text())
+          mcp=json.loads(Path('first-codeai/codeai-v061-real-mcp-a/summary.json').read_text())
+          assert first['canonical_parent_main']==fresh['canonical_parent_main']
+          assert first['canonical_parent_tree_sha1']==fresh['canonical_parent_tree_sha1']
+          assert len(first['results'])==len(fresh['results'])==3
+          for x,y in zip(first['results'],fresh['results']):
+              assert (x['label'],x['source_sha256'],x['status'])==(y['label'],y['source_sha256'],y['status'])
+              assert x['error_count']==y['error_count']
+              assert x.get('axiom_declarations_checked',0)==y.get('axiom_declarations_checked',0)
+              assert x.get('diagnostics',[])==y.get('diagnostics',[])
+          assert mcp['actual_kernel_status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert mcp['local_candidate_sha256']==fresh['results'][0]['source_sha256']
+          assert mcp['semantic_success'] and not mcp['partial'] and mcp['errors']==0
+          assert mcp['candidate_source_restored']
+          assert not mcp['independent_CI_proof_claimed']
+          print('CODEAI_V061_TWO_INDEPENDENT_FIXED_KERNEL_GATES_CORRESPONDENCE_SUCCESS')
+          PY
+      - name: Publish strictly independent proof and diagnostic artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-independent-lean-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: warn
+
+  read-only-exact-subtask-memory-replay:
+    needs: independent-fixed-kernel-and-eight-axioms
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Read exact GitHub candidate HEAD without Git effects
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-independent-lean-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+      - name: Exercise original version-bound and subtask-memory contract fixtures
+        run: |
+          set -euo pipefail
+          python3 scripts/check_codeai_version_bound_repair_memory_v0_1.py
+          python3 scripts/check_codeai_subtask_level_version_bound_memory_v0_1.py
+      - name: Recompute actual memory pack; reject stale, wrong-subtask and holdout hints
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_version_bound_learning_replay.py --evidence artifacts/codeai-v061-independent-verification/verified-candidates.json
+      - name: Publish exact source-bound read-only memory evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-memory-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/codeai-v061-learning-replay/
+          retention-days: 30
+          if-no-files-found: warn
