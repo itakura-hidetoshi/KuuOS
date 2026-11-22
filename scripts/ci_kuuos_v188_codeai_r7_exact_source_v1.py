@@ -97,12 +97,12 @@ def audit():
         | exact (SSet.ι₀_fst (Δ[n] : SSet.{u}))
         | exact (SSet.ι₁_fst (Δ[n] : SSet.{u}))"""
     source_ns="KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR3V1_88"
-    target_ns="KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR7V1_88"
+    target_ns="KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR6V1_88"
     if source3.count(source_ns)!=2 or source3.count(old1)!=1 or source3.count(old2)!=1:
         raise RuntimeError("V188_R7_REVIEWED_SOURCE_RECONSTRUCTION_ANCHOR_MISSING")
     predicted=source3.replace(old1,"").replace(old2,next2).replace(source_ns,target_ns)
-    if raw.decode("utf8")!=predicted:
-        raise RuntimeError("V188_R7_CANDIDATE_NOT_EXACT_R3_GOAL_GLUING")
+    if PREVIOUS_R6.read_text(encoding="utf8")!=predicted:
+        raise RuntimeError("V188_R7_PARENT_R6_NOT_EXACT_R3_GOAL_GLUING")
     previous=PREVIOUS_R6.read_text(encoding="utf8")
     source_ns="KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR6V1_88"
     next_ns="KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR7V1_88"
