@@ -45,7 +45,7 @@ jobs:
           original=Path("formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean")
           raw=original.read_bytes()
           def git_blob(data):
-              return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\\0"+data).hexdigest()
+              return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
           assert git_blob(raw)=="928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c", "exact_original_F112_blob_mismatch"
           root=Path("formal/KuuOSFormal.lean").read_bytes()
           assert git_blob(root)=="87ee2a7f541e48482e0d76f2abf819932c42f188", "original_public_root_mutated"
@@ -65,11 +65,11 @@ jobs:
           text=raw.decode("utf-8")
           assert text.count(marker)==1,(part,"nonunique_cutpoint")
           prefix=text.split(marker,1)[0]
-          assert prefix.startswith("import Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity\\n")
+          assert prefix.startswith("import Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity\n")
           assert "sorry" not in re.sub(r"/-.*?-/", "", prefix,flags=re.S)
           # All cuts are outside nested theorem/section blocks; one unnamed
           # noncomputable section and the main namespace remain open.
-          fragment=prefix+"\\nend\\nend Kuu.F112.Physical\\n"
+          fragment=prefix+"\nend\nend Kuu.F112.Physical\n"
           folder=Path("artifacts/codeai-v061-p94-bisect")/part
           folder.mkdir(parents=True,exist_ok=True)
           source_file=folder/"PrefixProbe.lean"
@@ -89,7 +89,7 @@ jobs:
             "memory_verified_useful":"HOLD",
             "git_merge_authority":False
           }
-          (folder/"metadata.json").write_text(json.dumps(meta,sort_keys=True,indent=2)+"\\n")
+          (folder/"metadata.json").write_text(json.dumps(meta,sort_keys=True,indent=2)+"\n")
           print("CODEAI_P94_VERSION_BOUND_DIAGNOSTIC",json.dumps(meta,sort_keys=True))
           PY
 
@@ -147,7 +147,7 @@ jobs:
           d["timed_out"]=d["isolated_strict_lean_exit"]==124
           d["full_module_verification"]="NOT_TESTED"
           d["full_public_root_verification"]="NOT_TESTED"
-          p.write_text(json.dumps(d,sort_keys=True,indent=2)+"\\n")
+          p.write_text(json.dumps(d,sort_keys=True,indent=2)+"\n")
           print("CODEAI_F112_DIAGNOSTIC_RESULT",json.dumps(d,sort_keys=True))
           PY
           tail -n 36 "${dir}/lean.log" || true
