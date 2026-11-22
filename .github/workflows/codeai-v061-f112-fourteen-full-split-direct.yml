@@ -156,9 +156,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: codeai-v061-f112-fourteen-full-split-${{github.run_id}}-${{github.run_attempt}}
-          path: |
-            artifacts/codeai-v061-f112-fourteen-full-decomposition/
-            artifacts/codeai-v061-f112-thirteen-full-decomposition/
+          path: artifacts/codeai-v061-f112-fourteen-full-decomposition/
           retention-days: 30
           if-no-files-found: error
 
@@ -306,8 +304,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: codeai-v061-f112-fourteen-independent-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            artifacts/codeai-v061-f112-fourteen-full-decomposition/
-            artifacts/codeai-v061-f112-thirteen-full-decomposition/
+          path: artifacts/codeai-v061-f112-fourteen-full-decomposition/
           retention-days: 30
           if-no-files-found: warn
