@@ -1,0 +1,153 @@
+name: KuuOS v0.61 exact-source formal candidate A independent Lean and 8 axioms
+
+# The model-supplied Lean candidate is copied as an IDENTICAL Git blob
+# under a DISTINCT formal filename. Historical candidate-generation guards
+# and the original proof-source snapshot are not changed by this workflow.
+# This does NOT adopt the candidate into KuuOSFormal or establish
+# Lean-to-CPython refinement, four-family verifier independence, or authority.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean"
+      - ".github/workflows/kuuos-v061-formal-candidate-a.yml"
+      - "examples/codeai_v061_two_stage_private_append.lean.txt"
+  push:
+    branches: [main]
+    paths:
+      - "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean"
+      - ".github/workflows/kuuos-v061-formal-candidate-a.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v061-formal-candidate-a-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: '.'
+
+jobs:
+  exact-original-source-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact GitHub source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check actual source bytes, Git blob, proof declarations and pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+          from scripts import codeai_v061_two_stage_proof_proposal as prior
+          from scripts.codeai_v061_independent_candidate_verification import (
+              EXPECTED_SHA256, AXIOMS,
+          )
+          from scripts.kuuos_sandbox_lean_cycle_v1 import without_comments_strings
+          original = Path("examples/codeai_v061_two_stage_private_append.lean.txt").read_bytes()
+          adopted = Path("formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean").read_bytes()
+          digest = hashlib.sha256(original).hexdigest()
+          assert digest == EXPECTED_SHA256["model-a"]
+          assert original == adopted, "v061_actual_formal_candidate_not_identical"
+          def git_blob(data):
+              return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+          assert git_blob(original) == "c70aa395d14d873c686008bd80c835c059f936d5"
+          assert git_blob(adopted) == git_blob(original)
+          text = adopted.decode("utf-8")
+          assert text.startswith("import Mathlib\n") and text.endswith("\n")
+          assert text.count("#print axioms ") == len(prior.AXIOM_NAMES) == 8
+          for name in prior.AXIOM_NAMES:
+              assert "#print axioms KUOS.Architecture.LeanPythonTwoStagePrivateAppendV0_61." + name in text
+          stripped = without_comments_strings(text)
+          assert all(marker not in stripped for marker in (
+              "\nsorry", "\nadmit", "\naxiom ", "\nunsafe "
+          )), "forbidden_proof_escape"
+          assert Path("lean-toolchain").read_text().strip() == prior.TOOLCHAIN
+          manifest = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          mathlib = [p for p in manifest if p["name"] == "mathlib"]
+          assert len(mathlib) == 1 and mathlib[0]["rev"] == prior.MATHLIB
+          assert "import KUOS.Architecture.LeanPythonTwoStagePrivateAppendModelCandidateAV0_61" not in Path("formal/KuuOSFormal.lean").read_text()
+          assert AXIOMS == {"propext", "Classical.choice", "Quot.sound"}
+          print("V061_MODEL_A_EXACT_BYTE_IDENTICAL_GIT_BLOB_AND_8_DECLARATIONS")
+          print("FORMAL_CANDIDATE_NOT_PUBLIC_ROOT_OR_MEMORY_PROMOTION")
+          PY
+
+  independent-fixed-lean-and-eight-axioms:
+    needs: exact-original-source-identity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Independently checkout exact GitHub proposal HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate SHA256-audited pinned Lean bootstrap
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean and Lake from audited official release bytes
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore exact Lean Lake dependency cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v061-formal-a-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Compile actual committed new formal module with original assumptions
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonTwoStagePrivateAppendModelCandidateAV0_61
+      - name: Independently inspect all eight actual pinned Lean axiom reports
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean \
+            2>&1 | tee v061-model-a-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          from scripts.codeai_v061_independent_candidate_verification import (
+              PATTERN, AXIOMS,
+          )
+          from scripts import codeai_v061_two_stage_proof_proposal as source
+          text=Path("v061-model-a-axioms.log").read_text(encoding="utf-8")
+          reports=PATTERN.findall(text)
+          names=[a for a,_ in reports]
+          assert len(names)==8, ("incomplete_axiom_count", names)
+          assert len(set(names))==8 and set(names)==set(source.AXIOM_NAMES)
+          used={a.strip() for _,raw in reports for a in raw.split(",") if a.strip()}
+          assert used<=AXIOMS, ("additional_axioms", sorted(used-AXIOMS))
+          assert "sorryAx" not in text
+          assert re.search(r"(?m)^.*\.lean:\d+:\d+: (?:error|warning):",text) is None
+          print("V061_REAL_COMMITTED_MODEL_A_PINNED_LEAN_EIGHT_AXIOMS_CERTIFIED",sorted(used))
+          print("NO_CLAIM_OF_FOUR_FAMILY_INDEPENDENCE_OR_LEAN_PYTHON_REFINEMENT")
+          PY
+      - name: Archive independent full direct axiom log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v061-formal-a-axioms-${{ github.run_id }}-${{ github.run_attempt }}
+          path: v061-model-a-axioms.log
+          retention-days: 30
+          if-no-files-found: warn
