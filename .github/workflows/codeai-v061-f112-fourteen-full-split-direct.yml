@@ -8,9 +8,10 @@ permissions:
   actions: read
 concurrency:
   group: codeai-v061-fourteen-full-${{github.ref}}
-  cancel-in-progress: false
+  cancel-in-progress: true
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: '.'
 jobs:
   github-sandbox-direct-lean-mcp:
     runs-on: ubuntu-24.04
