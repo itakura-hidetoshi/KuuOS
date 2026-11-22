@@ -1,0 +1,106 @@
+name: KuuOS v1.90 R2 actual Lean MCP GetElem-notation-error guided native CodeAI and independent 27 Lean axioms
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v190-codeai-r2-delta-notation-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v190-r2-real-mcp-codeai:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 110
+    steps:
+      - name: Checkout exact research source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check syntax, exact original Lean source and pinned research dependencies
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v190_r2_real_mcp_codeai_v1.py scripts/ci_kuuos_v190_r2_after_mcp_native_codeai_v1.py scripts/ci_kuuos_v190_r2_independent_generated_v1.py
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+      - name: Install actual Lean MCP version-pinned launch environment
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore pinned mathlib and v1.89 certified import closure
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
+      - name: Actual archived R1 failed v1.90 Lean -> full source -> typed MCP -> deterministically generated R2 -> real CodeAI -> pinned Lean
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_kuuos_v190_r2_real_mcp_codeai_v1.py
+      - name: Preserve exact source, diagnostics, negative evidence, and generated R2
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v190-r2-real-mcp-codeai-feedback
+          path: /tmp/kuuos-v190-r2-real-mcp-codeai
+          retention-days: 30
+          if-no-files-found: warn
+  v190-r2-independent-27:
+    needs: v190-r2-real-mcp-codeai
+    runs-on: ubuntu-22.04
+    timeout-minutes: 105
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore pinned mathlib on distinct runner
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v190-r2-real-mcp-codeai-feedback
+          path: /tmp/kuuos-v190-r2-upstream
+      - name: Independently verify generated CodeAI R2 exact source and 27 public axioms
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_kuuos_v190_r2_independent_generated_v1.py
+      - name: Preserve independent strict Lean evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v190-r2-independent-27
+          path: /tmp/kuuos-v190-r2-independent
+          retention-days: 30
+          if-no-files-found: warn
