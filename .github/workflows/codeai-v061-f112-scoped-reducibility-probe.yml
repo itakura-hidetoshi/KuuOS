@@ -1,0 +1,128 @@
+name: CodeAI v0.61 F112 scoped reducibility diagnosis
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-scoped-reducibility-probe.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-reducibility-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 11
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [freeze-thirteen-witness, freeze-fourteen-witness]
+    steps:
+      - name: Checkout exact source without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate exact source-sealed local modules
+        shell: bash
+        env:
+          VARIANT: ${{matrix.variant}}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/codeai_v061_f112_strict_olean_split_probe.py --part after-left
+          python3 - <<'PY'
+          import os,json,hashlib
+          from pathlib import Path
+          v=os.environ["VARIANT"]
+          variants={
+            "freeze-thirteen-witness":"attribute [irreducible] nativeK5PentagonatorFourteenExchangeThirteen",
+            "freeze-fourteen-witness":"attribute [irreducible] nativeK5PentagonatorFourteenExchange",
+          }
+          assert v in variants
+          original=Path("formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean").read_bytes()
+          sha=hashlib.sha1(b"blob "+str(len(original)).encode()+b"\0"+original).hexdigest()
+          assert sha=="928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c"
+          tail=Path("formal/Kuu/F112/CodeAIV061F112FiveStageTailProbe.lean")
+          before=tail.read_text()
+          marker="def nativeK5PentagonatorFifteenLeftFirst :="
+          assert before.count(marker)==1
+          changed=before.replace(marker,variants[v]+"\n\n"+marker,1)
+          assert changed.count(marker)==1 and "sorry" not in changed and "admit" not in changed
+          tail.write_text(changed)
+          dest=Path("artifacts/codeai-v061-f112-reducibility")/v
+          dest.mkdir(parents=True,exist_ok=True)
+          m={
+            "schema":"codeai.v061.f112.probe_reducibility.v1",
+            "source_git_blob":sha,
+            "source_sha256":hashlib.sha256(original).hexdigest(),
+            "original_definition_preserved":True,
+            "attribute_scoped_to_generated_probe_only":True,
+            "variant":v,
+            "local_attribute":variants[v],
+            "before_sha256":hashlib.sha256(before.encode()).hexdigest(),
+            "after_sha256":hashlib.sha256(changed.encode()).hexdigest(),
+            "toolchain":"v4.30.0-rc2",
+            "mathlib":"5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+            "no_admission":True,"memory":"HOLD","full_root":"HOLD","merge_authority":False
+          }
+          (dest/"manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_REDUCIBILITY_PREPARED",json.dumps(m,sort_keys=True))
+          PY
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore source-bounded prior project build prefix
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-
+      - name: Restore immutable pinned mathlib and compiled imports
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Compile 14-cell core then run scoped transparency test
+        shell: bash
+        env:
+          VARIANT: ${{matrix.variant}}
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-reducibility/$VARIANT"
+          out=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$out"
+          start="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=15s 3m \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$out/CodeAIV061F112CoreProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112CoreProbe.lean > "$folder/core.log" 2>&1
+          a=$?
+          set -e
+          printf '%s\n' "$a" > "$folder/core-exit.txt"
+          echo "CODEAI_REDUCIBILITY_CORE variant=$VARIANT exit=$a seconds=$(( $(date +%s)-start ))"
+          if [[ "$a" != 0 ]]; then tail -n 50 "$folder/core.log" || true; exit "$a"; fi
+          test -s "$out/CodeAIV061F112CoreProbe.olean"
+          start="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=15s 3m \
+            lake env lean --profile -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/Kuu/F112/CodeAIV061F112FiveStageTailProbe.lean > "$folder/tail.log" 2>&1
+          b=$?
+          set -e
+          printf '%s\n' "$b" > "$folder/tail-exit.txt"
+          echo "CODEAI_REDUCIBILITY_TAIL variant=$VARIANT exit=$b seconds=$(( $(date +%s)-start ))"
+          tail -n 80 "$folder/tail.log" || true
+          if [[ "$b" == 0 ]]; then echo "CODEAI_REDUCIBILITY_LOCAL_SUCCESS_ONLY"; fi
+          exit "$b"
+      - name: Archive both exact-source and diagnostic proofs and raw logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-reducibility-${{matrix.variant}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-reducibility/${{matrix.variant}}/
+          retention-days: 30
+          if-no-files-found: error
