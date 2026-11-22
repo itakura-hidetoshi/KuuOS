@@ -53,7 +53,7 @@ def main() -> None:
     assert json.loads((OUT / "replay.json").read_text())["olean_count"] == 193
 
     # Audit print commands from ALL unchanged original 14D declarations, not a subset.
-    expected = re.findall(r"(?m)^#print axioms ([A-Za-z0-9_.]+)\\s*$", raw)
+    expected = re.findall(r"(?m)^#print axioms ([A-Za-z0-9_.]+)\s*$", raw)
     assert len(expected) >= 20 and len(set(expected)) == len(expected), expected
     all_log = "\n".join((
         (OUT / "generic_core.log").read_text(),
@@ -66,7 +66,7 @@ def main() -> None:
         )
     allowed = {"propext", "Classical.choice", "Quot.sound"}
     actual = set()
-    for record in re.findall(r"depends on axioms:\\s*\\[([^\\]]*)\\]", all_log, flags=re.S):
+    for record in re.findall(r"depends on axioms:\s*\[([^\]]*)\]", all_log, flags=re.S):
         actual.update(a.strip() for a in record.split(",") if a.strip())
     assert actual.issubset(allowed), ("unapproved axioms", sorted(actual - allowed))
     assert "sorryAx" not in actual and "sorryAx" not in all_log
