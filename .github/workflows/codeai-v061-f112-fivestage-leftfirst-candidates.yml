@@ -1,0 +1,90 @@
+name: CodeAI v0.61 F112 source-sealed left-first candidate comparison
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-fivestage-leftfirst-candidates.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-leftfirst-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  source-bound-candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate: [direct-square, local-let, typed-result]
+    steps:
+      - name: Checkout exact isolated research source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate source-bound CodeAI candidate, no formal admission
+        env:
+          CANDIDATE: ${{matrix.candidate}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_fivestage_leftfirst_candidate_probe.py
+          python3 scripts/codeai_v061_f112_fivestage_leftfirst_candidate_probe.py \
+            --candidate "$CANDIDATE" \
+            --output "artifacts/codeai-v061-f112-leftfirst/$CANDIDATE"
+      - name: Validate pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore previously observed source-bounded project cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-
+      - name: Restore immutable pinned mathlib checkout and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Strictly elaborate one local candidate only
+        env:
+          CANDIDATE: ${{matrix.candidate}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-leftfirst/$CANDIDATE"
+          set +e
+          timeout --signal=TERM --kill-after=20s 7m \
+            lake env lean -DwarningAsError=true -Dweak.sorryAsError=true "$folder/Candidate.lean" \
+            > "$folder/lean.log" 2>&1
+          status=$?
+          set -e
+          export CODEAI_LEAN_RC="$status"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          folder=Path("artifacts/codeai-v061-f112-leftfirst")/os.environ["CANDIDATE"]
+          file=folder/"manifest.json"
+          d=json.loads(file.read_text())
+          d["strict_local_exit"]=int(os.environ["CODEAI_LEAN_RC"])
+          d["strict_local_success"]=d["strict_local_exit"]==0
+          d["timed_out"]=d["strict_local_exit"]==124
+          d["full_original_module"]="HOLD"
+          d["verified_useful_memory"]="HOLD"
+          file.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_LEFTFIRST_RESULT",json.dumps(d,sort_keys=True))
+          PY
+          tail -n 50 "$folder/lean.log" || true
+          exit "$status"
+      - name: Archive candidates, exact pins, and raw diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-leftfirst-${{matrix.candidate}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-leftfirst/${{matrix.candidate}}/
+          retention-days: 30
+          if-no-files-found: error
