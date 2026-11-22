@@ -1,0 +1,163 @@
+name: CodeAI v0.61 F112 P94 14-cell source-prefix bisect
+
+# Research-only: byte-verified source slicing for compiler cost diagnosis.
+# Truncated files CANNOT be used as theorem or public-root certification.
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths:
+      - ".github/workflows/codeai-v061-f112-fourteen-prefix-bisect.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeai-v061-p94-bisect-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-original-source-prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [imports-only, history-word, both-observers, fourteen-pasting, all-declarations]
+    steps:
+      - name: Checkout fixed research branch without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Generate source-bound isolated Lean diagnostic (NOT a proof)
+        shell: bash
+        env:
+          PART: ${{ matrix.part }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, json, hashlib, re
+          part=os.environ["PART"]
+          original=Path("formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean")
+          raw=original.read_bytes()
+          def git_blob(data):
+              return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\\0"+data).hexdigest()
+          assert git_blob(raw)=="928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c", "exact_original_F112_blob_mismatch"
+          root=Path("formal/KuuOSFormal.lean").read_bytes()
+          assert git_blob(root)=="87ee2a7f541e48482e0d76f2abf819932c42f188", "original_public_root_mutated"
+          model=Path("formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean").read_bytes()
+          assert git_blob(model)=="c70aa395d14d873c686008bd80c835c059f936d5", "original_CodeAI_model_mutated"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mathlib=[p for p in json.loads(Path("lake-manifest.json").read_text())["packages"] if p["name"]=="mathlib"]
+          assert len(mathlib)==1 and mathlib[0]["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          markers={
+            "imports-only": "abbrev NativeK5FourteenHistoryWord :=",
+            "history-word": "/-- Scalar fourteen-cell exchange count, forgetting noncommutative",
+            "both-observers": "section GenuineFourteenPasting",
+            "fourteen-pasting": "section GenuineFiveStage",
+            "all-declarations": "-- Audit each newly declared computation and theorem, not just selected claims."
+          }
+          marker=markers[part]
+          text=raw.decode("utf-8")
+          assert text.count(marker)==1,(part,"nonunique_cutpoint")
+          prefix=text.split(marker,1)[0]
+          assert prefix.startswith("import Kuu.F112.PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity\\n")
+          assert "sorry" not in re.sub(r"/-.*?-/", "", prefix,flags=re.S)
+          # All cuts are outside nested theorem/section blocks; one unnamed
+          # noncomputable section and the main namespace remain open.
+          fragment=prefix+"\\nend\\nend Kuu.F112.Physical\\n"
+          folder=Path("artifacts/codeai-v061-p94-bisect")/part
+          folder.mkdir(parents=True,exist_ok=True)
+          source_file=folder/"PrefixProbe.lean"
+          source_file.write_text(fragment)
+          meta={
+            "schema":"codeai.v061.f112.source_prefix_diagnostic.v1",
+            "part":part,
+            "source_path":str(original),
+            "source_git_blob":"928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+            "root_git_blob":"87ee2a7f541e48482e0d76f2abf819932c42f188",
+            "modelA_git_blob":"c70aa395d14d873c686008bd80c835c059f936d5",
+            "source_prefix_lines":len(prefix.splitlines()),
+            "source_prefix_sha256":hashlib.sha256(fragment.encode()).hexdigest(),
+            "original_source_preserved":True,
+            "declaration_slicing_is_not_certification":True,
+            "formal_four_family_evidence":"HOLD",
+            "memory_verified_useful":"HOLD",
+            "git_merge_authority":False
+          }
+          (folder/"metadata.json").write_text(json.dumps(meta,sort_keys=True,indent=2)+"\\n")
+          print("CODEAI_P94_VERSION_BOUND_DIAGNOSTIC",json.dumps(meta,sort_keys=True))
+          PY
+
+      - name: Validate SHA256 pinned Lean bootstrap syntax
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+
+      - name: Install exact pinned Lean release
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+
+      - name: Restore previously observed PR3629 research build prefix
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Resolve exact mathlib from pinned manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mathlib=[x for x in json.loads(Path("lake-manifest.json").read_text())["packages"] if x["name"]=="mathlib"]
+          assert len(mathlib)==1 and mathlib[0]["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          PY
+
+      - name: Independently elaborate exact-source prefix (strict, bounded)
+        shell: bash
+        env:
+          PART: ${{ matrix.part }}
+        run: |
+          set -euo pipefail
+          dir="artifacts/codeai-v061-p94-bisect/${PART}"
+          set +e
+          timeout --signal=TERM --kill-after=20s 12m \
+            lake env lean -DwarningAsError=true -DsorryAsError=true \
+              "${dir}/PrefixProbe.lean" > "${dir}/lean.log" 2>&1
+          status=$?
+          set -e
+          export CODEAI_LEAN_RC="${status}"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,json
+          part=os.environ["PART"]
+          folder=Path("artifacts/codeai-v061-p94-bisect")/part
+          p=folder/"metadata.json"
+          d=json.loads(p.read_text())
+          d["isolated_strict_lean_exit"]=int(os.environ["CODEAI_LEAN_RC"])
+          d["diagnostic_prefix_passed"]=d["isolated_strict_lean_exit"]==0
+          d["timed_out"]=d["isolated_strict_lean_exit"]==124
+          d["full_module_verification"]="NOT_TESTED"
+          d["full_public_root_verification"]="NOT_TESTED"
+          p.write_text(json.dumps(d,sort_keys=True,indent=2)+"\\n")
+          print("CODEAI_F112_DIAGNOSTIC_RESULT",json.dumps(d,sort_keys=True))
+          PY
+          tail -n 36 "${dir}/lean.log" || true
+          exit "${status}"
+
+      - name: Archive per-variant source, exact manifest and raw Lean output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-p94-bisect-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/codeai-v061-p94-bisect/${{ matrix.part }}/
+          retention-days: 30
+          if-no-files-found: error
