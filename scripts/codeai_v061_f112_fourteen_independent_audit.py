@@ -70,6 +70,12 @@ def main() -> None:
         actual.update(a.strip() for a in record.split(",") if a.strip())
     assert actual.issubset(allowed), ("unapproved axioms", sorted(actual - allowed))
     assert "sorryAx" not in actual and "sorryAx" not in all_log
+    # Treat Lean internal PANIC / externally printed errors as HOLD even when
+    # the executable returned 0 and managed to write an .olean.
+    # Prior 13D logs demonstrate why process exit status alone is insufficient.
+    unexpected = [line[:300] for line in all_log.splitlines() if
+                  re.search(r"(?i)(?:PANIC at |Lean panicked|^\\s*(?:error|warning):)", line)]
+    assert not unexpected, ("Lean internal diagnostic obstruction", unexpected[:5])
 
     out = {
         "schema": "kuuos.codeai.v061.f112.fourteen.independent.v1",
@@ -86,7 +92,7 @@ def main() -> None:
         "memory_verified_useful": False,
         "axioms_audited": len(expected),
         "allowed_axioms": sorted(actual),
-        "nonfatal_lean_panic_in_logs": "PANIC at " in all_log,
+        "lean_internal_panic_or_error": False,
         "source_invariant_fields": list(EXPECTED_SOURCE_FIELDS),
     }
     (OUT / "independent-receipt.json").write_text(json.dumps(out, sort_keys=True, indent=2) + "\n")
