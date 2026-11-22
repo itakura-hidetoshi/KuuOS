@@ -4,7 +4,7 @@
 
 この文書は、新旧の「次段」を時系列に積み上げた履歴ではなく、**canonical mainに採用された範囲、独立CIで認証された範囲、開いている研究PR、未解決obstruction、次の受入条件**を同時に読むためのロードマップです。
 
-- 正本：[`main` @ `ac5f7db4425e`](https://github.com/itakura-hidetoshi/KuuOS/commit/ac5f7db4425e7d377abce8cadee676b4e34341a4)
+- 正本：[`main` @ `7783385afd17`](https://github.com/itakura-hidetoshi/KuuOS/commit/7783385afd17de3b4f8953aa373ef619f5d9cc9b)
 - 形式環境：Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`
 - 保護：[PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) はDraft・OPEN・未マージ
 - 経過記録：[ROADMAPの旧全文](docs/history/ROADMAP-THROUGH-20261121.md)、[READMEの旧全文](docs/history/README-THROUGH-20261121.md)（元Git blobの完全保存）
@@ -35,7 +35,19 @@
 
 **未証明：** 全OSのLean↔Python双方向意味保存、元の全PlanOS出力の外部真正性、実worldとの同一性、無条件のexecution authority。
 
-### 1.2 Qi／高次縁起の段階的形式化
+### 1.2 CodeAI v0.61研究系とLean→Python v0.61ランタイム
+
+次の3PRは、固定Leanでの候補検証から元Pythonの2段階private追記の検査・adapterまで、**研究コードとしてmainへ統合済み**。
+
+| 統合PR | 内容 | 統合コミット／認証 |
+| --- | --- | --- |
+| [#3623](https://github.com/itakura-hidetoshi/KuuOS/pull/3623) | モデル提供A/B/C候補、実CodeAIカーネル、直接Lean・実Lean MCP・別runner8宣言公理監査、候補Cの失敗診断拘束、Memory v0.2 HOLD | [`21add81e`](https://github.com/itakura-hidetoshi/KuuOS/commit/21add81e8e039553ab2f697ef8d3da1588887651)；[専用CI #44960507603](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44960507603) 3/3 SUCCESS、[Governance #44960507526](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44960507526) attempt 3 SUCCESS |
+| [#3625](https://github.com/itakura-hidetoshi/KuuOS/pull/3625) | v0.53実SQLite、v0.58 tagged fork、v0.60の元監査による6経路2段階追記・不一致の回帰試験 | [`0dca3cc8`](https://github.com/itakura-hidetoshi/KuuOS/commit/0dca3cc8a69ef523946a9ad4e07d0cc8f7394925)；[Governance #44968469873](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44968469873) SUCCESS、16/16 CodeAIテスト |
+| [#3626](https://github.com/itakura-hidetoshi/KuuOS/pull/3626) | [2段階private追記Python adapter](runtime/kuuos_lean_python_two_stage_private_append_v0_61.py)：元v0.60監査を第1段、第2段、初期→最終で照合し中間観測不一致・改変を拒否 | [`7783385a`](https://github.com/itakura-hidetoshi/KuuOS/commit/7783385afd17de3b4f8953aa373ef619f5d9cc9b)；[Governance #44974469696](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44974469696) SUCCESS、23/23 CodeAIテスト |
+
+**未認証の境界：** A/Bの近接したtacticを独立した数学的戦略と見なさない。Cのlintは修復成功にしない。独立検証器v0.2は実行したが4系統・独立した組織／検証者／prompt／test／Memory来歴がなく`blocked`。そのため`verified_useful` Memory昇格はHOLDであり、モデルの重み更新も実施していない。Lean v0.61の完全な本番形式モジュールと、元Python runtimeとの一般的な意味保存証明も**NO_DATA**。研究ソースがmainに存在することはこれらの命題の認証にはならない。
+
+### 1.3 Qi／高次縁起の段階的形式化
 
 真正raw／Type値、依存endpoint、比較、quotient、局所compatibility、obstructionを段階的に追跡する。例：[Qi v5.96の形式記録](docs/formal/Qi-v5_96-mixed-strict-unit-provenance-obstruction-verified-20261111.md)および[統合済PR #3520](https://github.com/itakura-hidetoshi/KuuOS/pull/3520)。
 
@@ -45,41 +57,25 @@
 
 ## 2. 開いている研究PRと直接の作業
 
-### Track A — KuuOS-native CodeAI v0.61
+### Track A — KuuOS-native CodeAI v0.61の次段階
 
-**研究PR [#3623](https://github.com/itakura-hidetoshi/KuuOS/pull/3623)**：Draft／OPEN／未マージ。研究HEAD `6dee9e0792ca435373a8e22641023b031718ad4b`。
+**実装PR #3623／#3625／#3626はMERGED。** 各PRの指定HEAD・指定ジョブでのCI成功と、[README](README.md)・上記1.2の統合記録を参照する。以下は**未認証条件**であり、mainマージによって解消したとは扱わない。
 
-**2026-11-22の同一HEAD認証：**
+1. 候補A/Bがモデルから提供された近接全文であることを保ち、別の生成戦略・独立した検証者／組織／session／methodの真正な来歴を取得する。現在の2候補を独立した2つの数学的証明手法とは称しない。
+2. 元Lean Cの`simpa only` 2件について、実ログ・source SHAに拘束された負の診断を維持。静的Typed Error Classificationの別証拠を満たさない限り、修復成功・学習成功として登録しない。
+3. 正式な4系統（Type/Formal、Behavioral/Regression、Adversarial/Falsification、Maintainability/Static）の**個別発行受領書**を、同一source/candidate/contextと独立した検証者・組織・test/prompt/Memory来歴へ紐付ける。Python回帰テスト16/23件SUCCESSは、独立発行者の証明書と同一ではない。
+4. [`evaluate_independent_verifier_ensemble`](runtime/kuuos_codeai_independent_verifier_ensemble_v0_2.py)を実受領書で再評価し、未充足の間は`blocked`／HOLDを保持。受領書の真正性・時間・依存条件を満たした場合に限り、その対象subtaskだけの`verified_useful` Memory再利用を別ゲートで審査する。
+5. 既存CodeAIのtyped repair、bounded cycle、独立公理監査、専門ルーティングの間で、失敗理由・修復履歴・再検証結果を版固定で渡し、未証明の自律学習やモデル重み更新を主張しない。
+6. v0.61の`.lean.txt`候補を**正式Leanモジュールに採用する別PR**は、元の完全な型・imports・依存署名・固定mathlib API、公理監査、採用後Strict Lean／sourceとtest-mergeの来歴を独立に認証すること。現行mainのPython adapterとの完全精密化はさらに別の証明義務とする。
 
-| 検証 | 実測 | 判定 |
-| --- | --- | --- |
-| CodeAI候補生成・直接Lean・実Lean MCP | [CI #44950277004](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44950277004)の第1job | SUCCESS |
-| 別runnerによる候補A/Bの8宣言ずつのLean・公理監査 | 同runの第2job | SUCCESS（指定範囲） |
-| 版固定Subtask Memoryとv0.2独立評価器を実際に実行 | 同runの第3job | SUCCESS：**`blocked`／HOLDを確認** |
-| PR Governance | [CI #44950276948](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44950276948) | **30/30 SUCCESS** |
-| 4系統独立検証・検証者／組織／prompt来歴の真正性 | 証拠不足 | **NO_DATA** |
-| `verified_useful` Memory再利用／正式Lean採用／マージ | 独立性条件未充足 | **HOLD** |
-
-専用CIで生じたElan HTTP 403は、既存のSHA-256検証付き固定Lean bootstrapへ切り替えて修復された。Lean／mathlib pin・証明本文・公理監査条件は変更していない。
-
-**次の実装・認証条件（順序付き）：**
-
-1. 3候補がモデルから事前提供された全文であることを保持し、**ライブCodeAI生成**の達成と混同しない。
-2. A/Bは1箇所のtacticが異なる近接候補であり、**数学的に独立した2戦略**という主張は保留。異なる生成来歴・方法・独立検証を実際に得る。
-3. Cの2件の`simp/simpa`厳格lintを、全ソース・imports・型付き原因を確認した独立Typed Error Classificationで評価する。失敗候補から成功Memoryを作らない。
-4. Behavioral/Regression、Adversarial/Falsification、Maintainability/Staticを独立した証拠経路で試験し、Type/Formalと合わせて4系統・独立主体・環境・追跡可能な証拠パケットを揃える。
-5. `evaluate_independent_verifier_ensemble`の実受領書を同一source／candidate／版へ結び、失敗時`BLOCKED`のまま保持。すべての条件が通った場合のみ、**その対象subtask**に限ってMemory昇格を改めて審査する。
-6. 型付き候補再生成・bounded repair・trajectory-specialist routingを実CodeAI kernelと接続して試験する。モデル重み更新を実装したと称さない。
-7. **別PRで**v0.61 Leanソースの正式採用を審査する場合は、採用後HEADの全依存・全公理を再認証し、source／test-merge tree一致を確認する。
-
-**禁止条件：** 現時点での`verified_useful`発行、旧版Memoryの無条件転用、PR #3623のマージ、形式証明から自動的にexecution authorityを発行すること。
+**禁止条件：** 4系統独立性未成立での`verified_useful`、旧版Memoryの無条件転用、形式証明からの自動execution authority、未認証候補を全KuuOSの真理とみなすこと。
 
 ### Track B — Dependent Origination v1.x（元の型付き証拠・endpoint RLP）
 
-**修復PR [#3555](https://github.com/itakura-hidetoshi/KuuOS/pull/3555)**：Draft／OPEN／未マージ。観測HEAD `cae0b90098e8528a13994b0b074493fc810146b3`。
+**修復PR [#3555](https://github.com/itakura-hidetoshi/KuuOS/pull/3555)**：Draft／OPEN／未マージ。観測HEAD `70a8489ee23a2c7569d923b5325c35ea405b6b3c`。
 
 - mainには[`DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean`](formal/KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean)等の形式ソースが存在する。しかし**ソースの存在 ≠ PR上の修正版の全体独立認証**。
-- 当該HEADの[Public Proof Roots CI #44955916210](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44955916210)は**completed／FAILURE**。関連する他の修復ゲートにもFAILUREや進行中のものがある。PR全体を認証済みにしてはならない。
+- 当該HEADの[Public Proof Roots CI #44969721638](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44969721638)は**completed／SUCCESS**。他にも個別SUCCESSはあるが、PR全体のGovernance・採用後Lean認証を独立に確認するまでは全体を認証済みとしない。
 - v1.83のgenerated-presentation posetal reflection、真正endpointのLeibniz／anodyne比較、Type-(A)/(B)/(C)の幾何条件、forward endpoint RLPを、**元Lean全文／imports／dependent signatures／固定mathlib API**から判定する。
 - 仮定を緩めた別命題、単なる名称変更、`True`の再包装、形式的な空虚witnessによって元の要求を満たしたと称しない。
 - 特定presentationにおける局所的構成と、全fiberでの一般構成、既存のobstructionを明確に分ける。
@@ -88,7 +84,7 @@
 
 ### Track C — Lean→Pythonの実OSへの接続
 
-**現行の正本進捗：v0.60採用済。** 課題は証明を単純にPythonへ書き写すことではなく、**元Lean命題と元Python OS処理の対応関係**を構成し、差異が出る地点を明示すること。
+**現行の正本進捗：v0.60のLean/Pythonと、v0.61の条件付きPython adapterがmainへ採用済。** 課題は証明を単純にPythonへ書き写すことではなく、**元Lean命題と元Python OS処理の対応関係**を構成し、差異が出る地点を明示すること。
 
 | 優先する接続 | 必要な証拠 | 現状の注意点 |
 | --- | --- | --- |
