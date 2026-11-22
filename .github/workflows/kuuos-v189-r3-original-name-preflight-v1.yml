@@ -1,0 +1,50 @@
+name: KuuOS v1.89 R3 actual MCP-generated original-name Strict Lean 22-axiom preflight
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v189-r3-original-name-preflight-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v189-r3-original-name-independent:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact original-name preflight HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Independently verify original R3 module name, frozen history, exact source and all 22 public axioms
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v189_r3_original_name_preflight_v1.py
+      - name: Preserve R3 original-name CI kernel receipt and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v189-r3-original-name-22
+          path: /tmp/kuuos-v189-r3-original-name-22
+          retention-days: 30
+          if-no-files-found: warn
