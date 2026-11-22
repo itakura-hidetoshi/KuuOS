@@ -1,0 +1,123 @@
+name: CodeAI v0.61 public-root strict dependency closure probe
+
+# Isolated diagnostic; the canonical Governance full-library gate is NOT replaced.
+on:
+  push:
+    branches:
+      - research/codeai-v061-public-root-closure-probe-20261122
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeai-v061-public-root-closure-probe-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  strict-public-root-olean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - name: Checkout exact research commit without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Seal unchanged root, original CodeAI A source and exact pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          def blob(data):
+              return hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\0" + data).hexdigest()
+          root = Path("formal/KuuOSFormal.lean").read_bytes()
+          model = Path("formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean").read_bytes()
+          assert blob(root) == "87ee2a7f541e48482e0d76f2abf819932c42f188", "PR3629_ROOT_SOURCE_CHANGED"
+          assert blob(model) == "c70aa395d14d873c686008bd80c835c059f936d5", "CODEAI_A_SOURCE_CHANGED"
+          assert root.count(b"import KUOS.Architecture.LeanPythonTwoStagePrivateAppendModelCandidateAV0_61\n") == 1
+          assert model.count(b"#print axioms ") == 8
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          packages = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          mathlib = [p for p in packages if p["name"] == "mathlib"]
+          assert len(mathlib) == 1 and mathlib[0]["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          print("EXACT_PR3629_ROOT_AND_CODEAI_A_SOURCE_AND_PINS_SEALED")
+          print("READ_ONLY_CANDIDATE_PROBE_NOT_FULL_LIBRARY_OR_MERGE_CERTIFICATION")
+          PY
+
+      - name: Validate pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+
+      - name: Install pinned Lean from verified official release bytes
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+
+      - name: Restore trusted main Lake cache when present
+        id: lake-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Restore isolated probe dependency-prefix cache
+        id: probe-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Resolve exact pinned Lake dependencies when missing
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          packages = json.loads(Path("lake-manifest.json").read_text())["packages"]
+          assert [p["rev"] for p in packages if p["name"]=="mathlib"] == ["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          PY
+
+      - name: Strictly compile actual public-root import closure with Lake olean facet
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "LEAN_ROUTE=bounded-exact-public-root-olean-pr3629; NOT full library"
+          echo "MAIN_FULL_LIBRARY_GOVERNANCE_REQUIRED=TRUE"
+          timeout --signal=TERM --kill-after=30s 95m \
+            lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build +KuuOSFormal:olean 2>&1 | tee codeai-v061-public-root-closure.log
+          if grep -Fq "PANIC at " codeai-v061-public-root-closure.log; then
+            echo "LEAN_INTERNAL_PANIC_OBSERVED_NO_GREEN_RECEIPT" >&2
+            exit 1
+          fi
+          echo "EXACT_PUBLIC_ROOT_DEPENDENCY_CLOSURE_STRICT_COMPILE_SUCCESS"
+          echo "NO_CLAIM_OF_FULL_LIBRARY_OR_FOUR_FAMILY_OR_MEMORY_PROMOTION"
+
+      - name: Save only isolated probe project overlay
+        if: always() && !cancelled()
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Archive bounded independent Lean log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-public-root-closure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: codeai-v061-public-root-closure.log
+          retention-days: 30
+          if-no-files-found: warn
