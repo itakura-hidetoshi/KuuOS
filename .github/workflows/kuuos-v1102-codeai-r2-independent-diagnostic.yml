@@ -1,0 +1,85 @@
+name: KuuOS v1.102 CodeAI R2 direct Strict Lean structural diagnosis
+
+on:
+  push:
+    branches:
+      - 'research/v1.102-codeai-r2-structure-20261123'
+    paths:
+      - '.github/workflows/kuuos-v1102-codeai-r2-independent-diagnostic.yml'
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR2V1_102.lean'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeai-v1102-r2-strict-diagnostic:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact HEAD
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Check exact sources and fixed Lean/mathlib environment
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('formal/KUOS')
+          def blob(p):
+              b=p.read_bytes()
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob(root/'DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR2V1_102.lean')=='641800b1d4f2c1763a0bcb3cccc23b80d666a245'
+          assert blob(root/'DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean')=='7274ceba97bb4bf7b3aaffa9862952d79cf6f4c3'
+          assert blob(root/'DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean')=='c1eff27a2e2b1abaf869e1b2e7f59869e33c3558'
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          m=json.loads(Path('lake-manifest.json').read_text())
+          assert [x['rev'] for x in m['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('V1102_R2_DIAGNOSTIC_FIXED_SOURCE_PIN_SUCCESS')
+          PY
+      - name: Restore mathlib and direct Lean dependencies
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+      - name: CodeAI full-file direct Strict Lean diagnostic
+        run: |
+          set -uo pipefail
+          set +e
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR2V1_102 > /tmp/v1102-direct-R2.log 2>&1
+          rc=$?
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('/tmp/v1102-direct-R2.log').read_text()
+          items=re.findall(r'^error: (.*)',s,re.M)
+          filtered=[x for x in items if 'V1_102.lean:' in x]
+          print('V1102_R2_DIRECT_DIAGNOSTICS',len(filtered))
+          for item in filtered:
+              print('LEAN4_DIAGNOSTIC',item)
+          print('BUILD_SUCCESS','Build completed successfully' in s)
+          print('FULL_LOG_ARTIFACT','/tmp/v1102-direct-R2.log')
+          PY
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v1102-codeai-R2-full-lean-diagnostics
+          path: /tmp/v1102-direct-R2.log
+          if-no-files-found: warn
+          retention-days: 30
