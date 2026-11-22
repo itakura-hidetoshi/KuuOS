@@ -44,11 +44,11 @@ jobs:
           src = pathlib.Path('formal/KUOS/DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92.lean')
           raw = src.read_bytes()
           blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
-          assert blob == 'c22ee5b3aca32cd7bb621611379c7b33750781e4', blob
+          assert blob == 'c22ee5b3aca32cd7bb621618379c7b33750781e4', blob
           assert pathlib.Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.30.0-rc2'
           manifest = json.loads(pathlib.Path('lake-manifest.json').read_text())
           mathlib = [p['rev'] for p in manifest['packages'] if p['name'] == 'mathlib']
-          assert mathlib == ['5450b53e5ddc75d46411fabb605edbf36bd0beb6'], mathlib
+          assert mathlib == ['5450b53e5ddc75d46418fabb605edbf36bd0beb6'], mathlib
           names = re.findall(r'^(?:(?:@\[[^\n]*\])\s*)?(?:(?:noncomputable|private|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|class|instance|abbrev)\s+([^\s(:]+)', raw.decode(), re.M)
           assert len(names) == 11, (len(names), names)
           prefix = 'KUOS.DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92'
