@@ -16,7 +16,6 @@ import re
 import sys
 import tempfile
 
-from scripts import ci_kuuos_v187_codeai_exact_source_v1 as r1
 from scripts.ci_kuuos_v176_exact_source_audit_v1 import (
     AuditFailure, ROOT, STANDARD_AXIOMS, blob, run_logged, verify_inputs,
 )
@@ -31,9 +30,44 @@ CANDIDATE_BLOB = "1ba284fa92c153bb28defc4c84d1bd23d4e01522"
 HISTORICAL_BLOB = "88181c3c721c129e2aa628406e3fbf77a89d4f91"
 CERTIFIED_CANDIDATE_HEAD = "c91890d14b966addfd55dcaeff6c5e198eb8f49e"
 CERTIFIED_CANDIDATE_RUN = 44964695827
-PARENTS = r1.PARENTS
-PUBLIC = r1.PUBLIC
-DECL = r1.DECL
+PARENTS = {
+    "DependentOriginationGeneratedPresentationCompleteLatticeV1_86": "57e4436f389928864ebd75ef4b6a0a535b8d51c8",
+    "DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85": "eff1b6d74800c4d3e1f37a6806ebf88ff8b6cd0e",
+    "DependentOriginationGeneratedPresentationOrderReflectionV1_84": "5c1f7e9dc8fbb12bb901f4c67f0aad99543d49b9",
+}
+PUBLIC = [
+    "standardCanonicalLowerEnvelope",
+    "standardCanonicalUpperEnvelope",
+    "standardCanonicalPresentationInterval",
+    "lowerEnvelope_le_standardABC",
+    "lowerEnvelope_le_canonicalKuuOS",
+    "standardABC_le_upperEnvelope",
+    "canonicalKuuOS_le_upperEnvelope",
+    "le_lowerEnvelope_iff",
+    "upperEnvelope_le_iff",
+    "mem_standardCanonicalPresentationInterval_iff",
+    "standardABCPresentation_mem_interval",
+    "canonicalKuuOSPresentation_mem_interval",
+    "canonicalKuuOS_le_standardABC_iff_lowerEnvelope_eq_canonical",
+    "canonicalKuuOS_le_standardABC_iff_upperEnvelope_eq_standard",
+    "canonicalKuuOS_le_standardABC_iff_envelopes",
+    "standardABC_le_canonicalKuuOS_iff_lowerEnvelope_eq_standard",
+    "standardABC_le_canonicalKuuOS_iff_upperEnvelope_eq_canonical",
+    "standardABC_le_canonicalKuuOS_iff_envelopes",
+    "interval_eq_of_canonicalKuuOS_le_standardABC",
+    "interval_eq_of_standardABC_le_canonicalKuuOS",
+    "StandardCanonicalPresentationGapClosed",
+    "standardCanonicalPresentationGapClosed_iff",
+    "standardCanonicalPresentationGapClosed_iff_mutual_le",
+    "standardCanonicalPresentationGapClosed_iff_direct_generator_inclusions",
+    "interval_eq_of_positiveResidual",
+    "interval_eq_of_generatorwiseReverse",
+    "standardCanonicalPresentationGapClosed_iff_generatorwiseReverse_of_positiveResidual",
+]
+DECL = re.compile(
+    r"(?m)^(?:@\\[[^\\]]+\\]\\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\\s+)*"
+    r"(?:theorem|def|lemma|structure|instance|abbrev)\\s+([^\\s(:]+)"
+)
 OLD_NS = "KUOS.DependentOriginationStandardCanonicalPresentationGapCodeAICandidateR2V1_87"
 NEW_NS = "KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87"
 
