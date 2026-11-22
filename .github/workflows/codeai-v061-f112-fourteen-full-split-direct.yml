@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
-  PYTHONPATH: '.'
+  PYTHONPATH: '.' # required for source-bound scripts.* imports in both independent runners
 jobs:
   github-sandbox-direct-lean-mcp:
     runs-on: ubuntu-24.04
@@ -26,6 +26,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_full_source_split.py
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_real_mcp_probe.py scripts/codeai_v061_f112_fourteen_independent_audit.py
           python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase generate
       - name: Install pinned Lean
         run: bash scripts/bootstrap_pinned_lean_ci.sh
@@ -155,6 +156,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_full_source_split.py
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_real_mcp_probe.py scripts/codeai_v061_f112_fourteen_independent_audit.py
           python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase generate
       - name: Install pinned Lean
         run: bash scripts/bootstrap_pinned_lean_ci.sh
