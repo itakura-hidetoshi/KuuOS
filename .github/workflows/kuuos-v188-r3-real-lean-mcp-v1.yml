@@ -1,0 +1,89 @@
+name: KuuOS v1.88 R3 real Lean MCP source-bound semantic verification
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v188-r3-real-lean-mcp-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v188-r3-source-bound-lean-mcp:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Fixed pins and exact candidate source / original preservation
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          from scripts.ci_kuuos_v176_exact_source_audit_v1 import blob
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=Path('.').resolve()
+          require_pins(root)
+          f=root/'formal/KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR3V1_88.lean'
+          raw=f.read_bytes()
+          assert blob(raw)=='ddf2a7f102d5c111126c85f0d2be5ce49972cb97'
+          assert hashlib.sha256(raw).hexdigest()=='cd014bc1c0d8ebe528169f41593f3a57f97c1a4831b445f23016db6de5ef402d'
+          r2=root/'formal/KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR2V1_88.lean'
+          assert blob(r2.read_bytes())=='7b81ca36340ee69493df68a7d3671645c2f161e9'
+          original=root/'formal/KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88.lean'
+          assert blob(original.read_bytes())=='ba6190c2b2f9dac0febfb6357e908e81601c79a1'
+          print('KUUOS_V188_R3_REAL_MCP_EXACT_SOURCE_AND_PINS_GREEN')
+          PY
+          lake exe cache get
+      - name: Install real lean-lsp-mcp 0.30.0 stdio transport prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Source-restoring real Lean MCP semantic diagnostics and direct gate
+        run: |
+          set -euo pipefail
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file 'formal/KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractCodeAICandidateR3V1_88.lean' \
+            --source-sha256 cd014bc1c0d8ebe528169f41593f3a57f97c1a4831b445f23016db6de5ef402d \
+            --output-dir /tmp/kuuos-v188-r3-real-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/kuuos-v188-r3-real-mcp/receipt.json').read_text())
+          assert r['source_restored'] is True and r['git_write_performed'] is False
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert len(r['rounds'])==1 and r['rounds'][0]['semantic_success']
+          assert r['rounds'][0]['errors']==0 and r['rounds'][0]['partial'] is False
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          print('KUUOS_V188_R3_REAL_LEAN_MCP_GREEN_PROPOSAL_ONLY')
+          PY
+      - name: Preserve real MCP receipt, diagnostics and source restoration
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v188-r3-real-lean-mcp
+          path: /tmp/kuuos-v188-r3-real-mcp
+          retention-days: 30
+          if-no-files-found: warn
