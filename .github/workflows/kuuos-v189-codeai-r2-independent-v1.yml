@@ -1,0 +1,49 @@
+name: KuuOS v1.89 CodeAI R2 independent Strict Lean 22 axioms
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v189-codeai-r2-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v189-r2-22-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Exact R1-to-R2 two fixes and pinned Strict Lean 22 axioms
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v189_codeai_r2_exact_source_v1.py
+      - name: Preserve R2 kernel evidence and negative diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v189-r2-independent-22
+          path: /tmp/kuuos-v189-r2-lean22
+          retention-days: 30
+          if-no-files-found: warn
