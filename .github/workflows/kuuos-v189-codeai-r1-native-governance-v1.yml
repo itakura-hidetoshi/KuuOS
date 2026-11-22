@@ -1,0 +1,32 @@
+name: KuuOS v1.89 R1 actual CodeAI CANDIDATE/REJECT governance
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v189-codeai-r1-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v189-r1-native-codeai:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Actual CodeAI repository observation and source-bound proposal versus false authority
+        run: python3 scripts/ci_kuuos_v189_codeai_r1_native_governance_v1.py
+      - name: Preserve CodeAI source-bound governance receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v189-r1-native-codeai
+          path: artifacts/codeai-v189-r1-native-governance
+          retention-days: 30
+          if-no-files-found: warn
