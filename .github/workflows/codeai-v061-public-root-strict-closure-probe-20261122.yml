@@ -1,10 +1,10 @@
 name: CodeAI v0.61 public-root strict dependency closure probe
 
 # Isolated diagnostic; the canonical Governance full-library gate is NOT replaced.
+# Previous bounded full-root diagnostics are preserved; do not retrigger them
+# on unrelated diagnostic commits. Explicit re-entry only.
 on:
-  push:
-    branches:
-      - research/codeai-v061-public-root-closure-probe-20261122
+  workflow_dispatch:
 
 permissions:
   contents: read
