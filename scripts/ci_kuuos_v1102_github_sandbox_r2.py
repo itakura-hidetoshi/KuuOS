@@ -20,7 +20,7 @@ SOURCE = Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensiona
 R2 = Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR2V1_102.lean")
 ORIGINAL_BLOB = "7274ceba97bb4bf7b3aaffa9862952d79cf6f4c3"
 R2_BLOB = "641800b1d4f2c1763a0bcb3cccc23b80d666a245"
-BASE_PR_HEAD = "92608af59fa6eb4f3fc2b755e755d7b2a6cad2e3"
+# The exact sandbox checkout HEAD is read from GITHUB_SHA at runtime.
 ORIGINAL_NS = "KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102"
 R2_NS = "KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR2V1_102"
 RECEIPTS = Path("/tmp/kuuos-v1102-r2-sandbox-receipts")
@@ -183,7 +183,7 @@ def main() -> int:
     }, indent=2) + "\n")
     args = argparse.Namespace(
         project_root=str(ROOT), source=str(SOURCE),
-        source_blob=ORIGINAL_BLOB, source_head=BASE_PR_HEAD,
+        source_blob=ORIGINAL_BLOB, source_head=os.environ.get("GITHUB_SHA"),
         namespace=ORIGINAL_NS, candidates_dir=str(INBOX),
         receipt_dir=str(RECEIPTS), admission=str(admission),
         max_attempts=1, timeout_seconds=700, idle_seconds=0,
