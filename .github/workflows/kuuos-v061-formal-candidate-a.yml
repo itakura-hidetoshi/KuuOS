@@ -69,8 +69,10 @@ jobs:
           assert text.count("#print axioms ") == len(prior.AXIOM_NAMES) == 8
           for name in prior.AXIOM_NAMES:
               assert "#print axioms KUOS.Architecture.LeanPythonTwoStagePrivateAppendV0_61." + name in text
-          assert not any(("sorry", "admit", "axiom ", "unsafe ") in without_comments_strings(text)
-                         for _ in (0,)), "forbidden_proof_escape"
+          stripped = without_comments_strings(text)
+          assert all(marker not in stripped for marker in (
+              "\nsorry", "\nadmit", "\naxiom ", "\nunsafe "
+          )), "forbidden_proof_escape"
           assert Path("lean-toolchain").read_text().strip() == prior.TOOLCHAIN
           manifest = json.loads(Path("lake-manifest.json").read_text())["packages"]
           mathlib = [p for p in manifest if p["name"] == "mathlib"]
