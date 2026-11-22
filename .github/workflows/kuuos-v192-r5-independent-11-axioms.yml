@@ -1,0 +1,103 @@
+name: KuuOS v1.92 R5 independent exact 11-axiom Strict Lean
+
+on:
+  push:
+    branches:
+      - 'research/v1.92-r5-direct-lean-provisional-20261122'
+    paths:
+      - '.github/workflows/kuuos-v192-r5-independent-11-axioms.yml'
+      - 'formal/KUOS/DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92.lean'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  independent-v192-r5-strict-and-11-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact push HEAD
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify pinned source, toolchain and create 11-declaration audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, pathlib, re
+          src = pathlib.Path('formal/KUOS/DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92.lean')
+          raw = src.read_bytes()
+          blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+          assert blob == 'c22ee5b3aca32cd7bb621611379c7b33750781e4', blob
+          assert pathlib.Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.30.0-rc2'
+          manifest = json.loads(pathlib.Path('lake-manifest.json').read_text())
+          mathlib = [p['rev'] for p in manifest['packages'] if p['name'] == 'mathlib']
+          assert mathlib == ['5450b53e5ddc75d46411fabb605edbf36bd0beb6'], mathlib
+          names = re.findall(r'^(?:(?:@\[[^\n]*\])\s*)?(?:(?:noncomputable|private|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|class|instance|abbrev)\s+([^\s(:]+)', raw.decode(), re.M)
+          assert len(names) == 11, (len(names), names)
+          prefix = 'KUOS.DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92'
+          pathlib.Path('/tmp/v192-r5-declarations.json').write_text(json.dumps([prefix + '.' + n for n in names]))
+          pathlib.Path('/tmp/v192-r5-axioms.lean').write_text(
+              'import ' + prefix + '\n' + ''.join('#print axioms ' + prefix + '.' + n + '\n' for n in names)
+          )
+          dep = pathlib.Path('formal/KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean').read_bytes()
+          dep_blob = hashlib.sha1(b'blob ' + str(len(dep)).encode() + b'\0' + dep).hexdigest()
+          assert dep_blob == '2b7be9f91504f33a25013858ccb917ac983e54fa', dep_blob
+          dep91 = pathlib.Path('formal/KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean').read_bytes()
+          dep91_blob = hashlib.sha1(b'blob ' + str(len(dep91)).encode() + b'\0' + dep91).hexdigest()
+          assert dep91_blob == 'f95fbb08959e5357efadd467e653cb2e3e3ff48e', dep91_blob
+          print('EXACT_SOURCE_BLOB', blob, 'DEPENDENCY_BLOB', dep_blob, 'DECLARATIONS', len(names))
+          PY
+      - name: Build v1.90/v1.91 dependencies and R5 with fixed strict Lean
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationSingleTriangleScalingFiltrationV1_90
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCanonicalFibrationThinReflectionCodeAICandidateR5V1_92
+      - name: Independently audit all 11 declarations and forbidden axioms
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/v192-r5-axioms.lean > /tmp/v192-r5-axioms.log 2>&1
+          python3 - <<'PY'
+          import json, pathlib, re
+          log = pathlib.Path('/tmp/v192-r5-axioms.log').read_text()
+          names = json.loads(pathlib.Path('/tmp/v192-r5-declarations.json').read_text())
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          seen = set()
+          for name in names:
+              yes = re.search("'" + re.escape(name) + r"'\s+depends on axioms:\s*\[([^\]]*)\]", log, re.S)
+              no = re.search("'" + re.escape(name) + r"'\s+does not depend on any axioms", log)
+              assert yes or no, ('MISSING_AXIOM_EVIDENCE', name)
+              axioms = {x.strip() for x in yes.group(1).split(',') if x.strip()} if yes else set()
+              assert axioms <= allowed, (name, sorted(axioms - allowed))
+              seen.update(axioms)
+          assert 'sorryAx' not in log
+          assert not re.search(r'(?:error|warning):', log), log[-1500:]
+          print('INDEPENDENT_R5_STRICT_11_GREEN', len(names), sorted(seen), 'sorryAx=0 warning=0 error=0')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v192-r5-independent-11-axiom-receipt
+          path: |
+            /tmp/v192-r5-declarations.json
+            /tmp/v192-r5-axioms.log
+          retention-days: 30
+          if-no-files-found: warn
