@@ -235,5 +235,145 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
 
 
 
+    @staticmethod
+    def _actual_native_two_stage_snapshots(route):
+        """Build THREE genuine v0.53 SQLite observations, not mock certificates.
+
+        The original v0.56 / v0.58 archive and v0.60 audit implementations
+        are reused unchanged. All branch-private rows are appended, never
+        rewritten or collapsed into a single chronological branch.
+        """
+        import shutil
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        from runtime import kuuos_lean_python_tagged_fork_archive_v0_58 as tagged
+        from tests.lean_python_extensions import (
+            test_common_ancestor_fork_v0_56 as origin,
+        )
+
+        origin.CommonAncestorForkV056Tests.setUpClass()
+        helper = origin.CommonAncestorForkV056Tests(
+            "test_six_native_routes_yield_local_fork_only"
+        )
+
+        def append_pair(db, n):
+            return helper._commit(
+                db, route,
+                seq={"first": n, "second": n + 1},
+                nonce={
+                    "first": f"{1000 + n:032x}",
+                    "second": f"{2000 + n:032x}",
+                },
+            )
+
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            original = root / "ancestor.sqlite"
+            left = root / "left.sqlite"
+            right = root / "right.sqlite"
+            helper._commit(original, route)
+            ancestor = helper._manifest(original)
+            shutil.copyfile(original, left)
+            shutil.copyfile(original, right)
+
+            archives = []
+            for left_sequence, right_sequence in ((9, 11), (13, 15), (17, 19)):
+                append_pair(left, left_sequence)
+                append_pair(right, right_sequence)
+                actual = tagged.build_local_tagged_fork_archive(
+                    ancestor, helper._manifest(left), helper._manifest(right)
+                )
+                assert actual.archive is not None, actual
+                archives.append(actual.archive)
+
+        shared = len(ancestor["entries"])
+        def annotations(archive):
+            left_rows = len(archive["branches"][0]["snapshot"]["entries"])
+            right_rows = len(archive["branches"][1]["snapshot"]["entries"])
+            common = [f"same-ancestor-{i}" for i in range(shared)]
+            lv = common + [f"left-private-{i}" for i in range(left_rows - shared)]
+            rv = common + [f"right-private-{i}" for i in range(right_rows - shared)]
+            return lv, rv
+
+        return tuple(archives), tuple(annotations(a) for a in archives)
+
+    def test_v061_two_stage_behavioral_regression_all_native_six_routes(self) -> None:
+        """Behavioral evidence, not a Lean/Python refinement certificate."""
+        from runtime import kuuos_lean_python_tagged_private_append_v0_60 as native
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import ROUTES
+
+        for route, _, _, _ in ROUTES:
+            with self.subTest(native_route=route):
+                (old, mid, final), (a, b, c) = self._actual_native_two_stage_snapshots(route)
+                first = native.audit_tagged_private_append(old, mid, *a, *b)
+                second = native.audit_tagged_private_append(mid, final, *b, *c)
+                self.assertEqual(first.status, native.PRESERVED_COMPATIBILITY)
+                self.assertEqual(second.status, native.PRESERVED_COMPATIBILITY)
+                self.assertEqual(first.mismatch_indices, ())
+                self.assertEqual(second.mismatch_indices, ())
+                self.assertTrue(first.overlap_status_invariant_verified)
+                self.assertTrue(second.overlap_status_invariant_verified)
+                self.assertTrue(first.all_old_rows_and_annotations_preserved)
+                self.assertTrue(second.all_old_rows_and_annotations_preserved)
+                self.assertTrue(first.old_fork_obstruction_preserved)
+                self.assertTrue(second.old_fork_obstruction_preserved)
+                self.assertTrue(second.new_overlap_compatible)
+                self.assertEqual(
+                    (first.appended_left_rows, first.appended_right_rows), (2, 2))
+                self.assertEqual(
+                    (second.appended_left_rows, second.appended_right_rows), (2, 2))
+                self.assertFalse(first.linear_history_descended)
+                self.assertFalse(second.global_descent_certified)
+                self.assertFalse(second.original_lean_python_refinement_proved)
+                self.assertFalse(second.host_execution_authorized)
+                self.assertIsNone(second.selected_successor)
+
+    def test_v061_two_stage_adversarial_shared_mismatch_remains_obstruction(self) -> None:
+        from runtime import kuuos_lean_python_tagged_private_append_v0_60 as native
+
+        (old, mid, final), (a, b, c) = self._actual_native_two_stage_snapshots("retain")
+        a[1][0] = "shared-conflict"
+        b[1][0] = "shared-conflict"
+        c[1][0] = "shared-conflict"
+        first = native.audit_tagged_private_append(old, mid, *a, *b)
+        second = native.audit_tagged_private_append(mid, final, *b, *c)
+        self.assertEqual(first.status, native.PRESERVED_MISMATCH)
+        self.assertEqual(second.status, native.PRESERVED_MISMATCH)
+        self.assertEqual(first.mismatch_indices, (0,))
+        self.assertEqual(second.mismatch_indices, (0,))
+        self.assertFalse(second.new_overlap_compatible)
+        self.assertIsNone(second.newly_glued)
+        self.assertFalse(second.host_execution_authorized)
+
+        # One changed old observation in stage 2 must NOT erase that mismatch.
+        corrupt = [list(c[0]), list(c[1])]
+        corrupt[1][0] = c[0][0]
+        reject = native.audit_tagged_private_append(mid, final, *b, *corrupt)
+        self.assertEqual(reject.status, native.OBSERVATION_REWRITE)
+        self.assertFalse(reject.overlap_status_invariant_verified)
+
+    def test_v061_behavioral_source_provenance_is_exact_but_not_refinement(self) -> None:
+        """Binding actual model-provided Lean A/B does not prove Python semantics."""
+        import hashlib
+        from scripts.codeai_v061_independent_candidate_verification import EXPECTED_SHA256
+        from scripts.codeai_v061_multi_candidate_portfolio import INPUTS
+        from scripts import codeai_v061_two_stage_proof_proposal as source
+
+        self.assertEqual(source.TOOLCHAIN, "leanprover/lean4:v4.30.0-rc2")
+        self.assertEqual(
+            source.MATHLIB,
+            "5450b53e5ddc75d46418fabb605edbf36bd0beb6")
+        self.assertEqual(set(EXPECTED_SHA256), {k for k, _ in INPUTS})
+        for label, path in INPUTS:
+            content = (ROOT / path).read_bytes()
+            self.assertEqual(hashlib.sha256(content).hexdigest(), EXPECTED_SHA256[label])
+        # Both models give the same eight types; syntactic/behavioral inspection
+        # makes NO claim of independently generated proof strategies.
+        self.assertIn("two_stage_tagged_gluing_iff", (ROOT / INPUTS[0][1]).read_text())
+        self.assertIn("two_stage_obstruction_persists", (ROOT / INPUTS[0][1]).read_text())
+
+
+
 if __name__ == "__main__":
     main()
