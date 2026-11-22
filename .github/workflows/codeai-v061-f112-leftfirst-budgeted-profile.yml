@@ -1,0 +1,140 @@
+name: CodeAI v0.61 F112 left-first bounded elaboration profile
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-leftfirst-budgeted-profile.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-leftfirst-profile-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  exact-source-budgeted-profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        heartbeat_budget: [150000, 600000]
+    steps:
+      - name: Checkout exact research source without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Seal immutable source and build strictly diagnostic 14D prefix and five-stage tail
+        shell: bash
+        env:
+          HEARTBEAT_BUDGET: ${{matrix.heartbeat_budget}}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/codeai_v061_f112_strict_olean_split_probe.py --part after-left
+          python3 - <<'PY'
+          import json,os,hashlib
+          from pathlib import Path
+          budget=int(os.environ["HEARTBEAT_BUDGET"])
+          assert budget in {150000,600000}
+          folder=Path("artifacts/codeai-v061-f112-olean-split/after-left")
+          manifest=json.loads((folder/"manifest.json").read_text())
+          assert manifest["original_blob"]=="928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c"
+          path=Path("formal/Kuu/F112/CodeAIV061F112FiveStageTailProbe.lean")
+          old=path.read_text()
+          target="def nativeK5PentagonatorFifteenLeftFirst :="
+          assert old.count(target)==1
+          assert "set_option maxHeartbeats 4000000" in old
+          changed=old.replace(target,f"set_option maxHeartbeats {budget}\n\n"+target,1)
+          path.write_text(changed)
+          assert old != changed and changed.count(target)==1
+          assert changed.startswith("import Kuu.F112.CodeAIV061F112CoreProbe")
+          manifest.update({
+            "profile_schema":"codeai.v061.f112.bounded_elab_profile.v1",
+            "probe_target":"LeftFirst specialization, original signature unchanged",
+            "heartbeat_budget":budget,
+            "unmodified_tail_sha256":hashlib.sha256(old.encode()).hexdigest(),
+            "budgeted_tail_sha256":hashlib.sha256(changed.encode()).hexdigest(),
+            "source_promotion":False,
+            "strict_local_status":"TEST_REQUIRED",
+            "verified_useful_memory":"HOLD",
+            "full_root":"HOLD"
+          })
+          dest=Path("artifacts/codeai-v061-f112-elab-profile")/str(budget)
+          dest.mkdir(parents=True,exist_ok=True)
+          (dest/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_PROFILE_PREPARED",json.dumps(manifest,sort_keys=True))
+          PY
+      - name: Validate exact pinned Lean bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore exact-source-bounded KuuOS project build prefix
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-
+      - name: Restore pinned mathlib checkout and oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Independently elaborate core then profile only original five-stage LeftFirst
+        shell: bash
+        env:
+          HEARTBEAT_BUDGET: ${{matrix.heartbeat_budget}}
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-elab-profile/$HEARTBEAT_BUDGET"
+          core="formal/Kuu/F112/CodeAIV061F112CoreProbe.lean"
+          tailfile="formal/Kuu/F112/CodeAIV061F112FiveStageTailProbe.lean"
+          output=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$output"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 3m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$output/CodeAIV061F112CoreProbe.olean" "$core" > "$folder/core.log" 2>&1
+          core_rc=$?
+          set -e
+          core_seconds="$(( $(date +%s) - started ))"
+          echo "CODEAI_F112_PROFILE_CORE exit=$core_rc seconds=$core_seconds budget=$HEARTBEAT_BUDGET"
+          if [[ "$core_rc" != 0 ]]; then
+            tail -n 60 "$folder/core.log" || true
+            exit "$core_rc"
+          fi
+          test -s "$output/CodeAIV061F112CoreProbe.olean"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 3m lake env lean --profile \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            "$tailfile" > "$folder/tail.log" 2>&1
+          tail_rc=$?
+          set -e
+          tail_seconds="$(( $(date +%s) - started ))"
+          export CODEAI_TAIL_RC="$tail_rc" CODEAI_TAIL_SECONDS="$tail_seconds"
+          python3 - <<'PY'
+          import json,os,hashlib
+          from pathlib import Path
+          p=Path("artifacts/codeai-v061-f112-elab-profile")/os.environ["HEARTBEAT_BUDGET"]
+          m=json.loads((p/"manifest.json").read_text())
+          r=int(os.environ["CODEAI_TAIL_RC"])
+          output=(p/"tail.log").read_bytes()
+          m.update({"tail_exit":r,"tail_seconds":int(os.environ["CODEAI_TAIL_SECONDS"]),
+            "tail_log_sha256":hashlib.sha256(output).hexdigest(),
+            "kind":"TIMEOUT" if r==124 else ("LOCAL_SUCCESS_ONLY" if r==0 else "LEAN_DIAGNOSTIC_FAILURE"),
+            "full_root":"HOLD","memory":"HOLD","original_353_line_file_verified":False})
+          (p/"manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
+          print("CODEAI_F112_PROFILE_RESULT",json.dumps(m,sort_keys=True))
+          PY
+          tail -n 90 "$folder/tail.log" || true
+          exit "$tail_rc"
+      - name: Archive original-source-pinned profile and complete diagnostic text
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-elab-profile-${{matrix.heartbeat_budget}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-elab-profile/${{matrix.heartbeat_budget}}/
+          retention-days: 30
+          if-no-files-found: error
