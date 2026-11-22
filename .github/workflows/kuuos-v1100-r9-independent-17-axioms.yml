@@ -84,7 +84,7 @@ jobs:
                   if m:results.append('.'.join(ns+[m.group(1)]))
               return results
           curr=names(raw.decode())
-          orig=names((root/'DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99.lean').read_text())
+          orig=names((root/'DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean').read_text())
           assert len(curr)==len(orig)==17,(len(curr),len(orig))
           assert [x.rsplit('.',1)[-1] for x in curr]==[x.rsplit('.',1)[-1] for x in orig]
           pathlib.Path('/tmp/v1100-r9-names.json').write_text(json.dumps(curr))
@@ -93,7 +93,7 @@ jobs:
               + ''.join('#print axioms '+x+'\n' for x in curr))
           print('EXACT_V1100_SOURCE',blob(raw),'DECLARATIONS',len(curr),'DEPENDENCIES',len(deps))
           PY
-      - name: Independently build fixed v1.96 and R3 Strict Lean
+      - name: Independently build fixed v1.99 and v1.100 R9 Strict Lean
         run: |
           set -euo pipefail
           lake exe cache get
