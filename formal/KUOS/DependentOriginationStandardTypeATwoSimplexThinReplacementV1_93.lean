@@ -8,6 +8,7 @@ open CategoryTheory.Category
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -24,7 +25,7 @@ Versions v1.91-v1.92 showed that the arbitrary-scaling canonical presentation
 contains the atomic enrichment
 
 ```text
-(Delta[2], minimal) -> (Delta[2], minimal + {id_2})
+(Δ[2], minimal) -> (Δ[2], minimal + {id_2})
 ```
 
 and therefore every canonical right map *reflects* thin 2-simplices.
@@ -69,7 +70,7 @@ theorem standardTypeATwoHorn_every_two_simplex_minimally_thin
       t ∈ (Λ[2, (1 : Fin 3)] : SSet.{u}).degenerate 2 := by
     rw [SSet.degenerate_eq_univ_of_hasDimensionLT
       (Λ[2, (1 : Fin 3)] : SSet.{u}) 2 2]
-    simp
+    exact Set.mem_univ _
   rw [SSet.degenerate_eq_iUnion_range_σ] at hdeg
   simp only [Set.mem_iUnion, Set.mem_range] at hdeg
   rcases hdeg with ⟨i, x, rfl⟩
@@ -93,37 +94,47 @@ theorem standardTypeATwoHornMap_scaled
 `n = 2, i = 1`. -/
 theorem identityTwoSimplex_isStandardTypeADistinguishedTriangle :
     IsStandardTypeADistinguishedTriangle
-      (1 : Fin 3) (identityTwoSimplex : (Delta[2] : SSet.{u}).obj (op ⦋2⦌)) := by
-  simp [IsStandardTypeADistinguishedTriangle, identityTwoSimplex]
+      (1 : Fin 3) (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) := by
+  unfold IsStandardTypeADistinguishedTriangle
+  constructor
+  · rfl
+  constructor
+  · rfl
+  · rfl
 
 /-- Hence the identity triangle is thin in the standard type-(A) simplex
 scaling in dimension two. -/
 theorem identityTwoSimplex_standardTypeA_thin :
     (standardTypeASimplexScaling (1 : Fin 3)).thin
-      (identityTwoSimplex : (Delta[2] : SSet.{u}).obj (op ⦋2⦌)) := by
+      (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) := by
   exact Or.inr identityTwoSimplex_isStandardTypeADistinguishedTriangle
 
-/-- In `Delta[2]` the distinguished type-(A) triangle is unique: it is the
+/-- In `Δ[2]` the distinguished type-(A) triangle is unique: it is the
 Yoneda identity triangle. -/
 theorem standardTypeATwo_distinguished_eq_identity
-    (t : (Delta[2] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[2] : SSet.{u}).obj (op ⦋2⦌))
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
   ext j
-  fin_cases j <;> apply Fin.ext <;>
-    simp [identityTwoSimplex] <;> omega
+  fin_cases j
+  · change (t 0).val = 0
+    omega
+  · change (t 1).val = 1
+    exact congrArg Fin.val h1
+  · change (t 2).val = 2
+    omega
 
-/-- A map out of the standard type-(A) `Delta[2]` is scaled as soon as the
+/-- A map out of the standard type-(A) `Δ[2]` is scaled as soon as the
 image of the identity triangle is thin.  The minimally thin triangles are
 automatic and the only additional type-(A) triangle is `id_2`. -/
 theorem standardTypeATwoSimplexMap_scaled_of_identity_thin
     {Y : ScaledSSet.{u}}
-    (f : (Delta[2] : SSet.{u}) ⟶ Y.carrier)
+    (f : (Δ[2] : SSet.{u}) ⟶ Y.carrier)
     (hthin :
       Y.scaling.thin
         (f.app (op ⦋2⦌)
-          (identityTwoSimplex : (Delta[2] : SSet.{u}).obj (op ⦋2⦌)))) :
+          (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)))) :
     IsScaledMap
       (standardTypeASimplexScaling (1 : Fin 3)) Y.scaling f := by
   intro t ht
@@ -135,15 +146,15 @@ theorem standardTypeATwoSimplexMap_scaled_of_identity_thin
 /-! ## Inner-horn and image relations on two-simplices -/
 
 /-- Two 2-simplices have the same standard inner horn when their Yoneda maps
-agree after restriction along `Lambda[2,1] -> Delta[2]`. -/
+agree after restriction along `Lambda[2,1] -> Δ[2]`. -/
 def SameStandardTypeAInnerHorn
     {X : ScaledSSet.{u}}
     (σ τ : X.carrier.obj (op ⦋2⦌)) : Prop :=
   (Λ[2, (1 : Fin 3)].ι :
-      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Delta[2] : SSet.{u})) ≫
+      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
       SSet.yonedaEquiv.symm σ =
     (Λ[2, (1 : Fin 3)].ι :
-      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Delta[2] : SSet.{u})) ≫
+      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
       SSet.yonedaEquiv.symm τ
 
 /-- Two source 2-simplices have the same image under a scaled morphism. -/
@@ -186,10 +197,14 @@ theorem thinReplacement_of_standardTypeATwoRLP
       (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex) p) :
     HasStandardTypeAThinReplacement p := by
   intro σ hσ
+  have hId :
+      (SSet.yonedaEquiv.symm σ).app (op ⦋2⦌)
+        (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) = σ := by
+    simpa [identityTwoSimplex, SSet.yonedaEquiv_symm_app_objEquiv_symm]
   let f : standardTypeAScaledHorn standardTypeATwoSimplexIndex ⟶ X :=
     { map :=
         (Λ[2, (1 : Fin 3)].ι :
-          (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Delta[2] : SSet.{u})) ≫
+          (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
           SSet.yonedaEquiv.symm σ
       scaled := by
         exact standardTypeATwoHornMap_scaled _ }
@@ -197,23 +212,51 @@ theorem thinReplacement_of_standardTypeATwoRLP
     { map := SSet.yonedaEquiv.symm σ ≫ p.map
       scaled := by
         apply standardTypeATwoSimplexMap_scaled_of_identity_thin
-        simpa [identityTwoSimplex] using hσ }
+        have heval :
+            (SSet.yonedaEquiv.symm σ ≫ p.map).app (op ⦋2⦌)
+              (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) =
+                p.map.app (op ⦋2⦌) σ := by
+          change p.map.app (op ⦋2⦌)
+            ((SSet.yonedaEquiv.symm σ).app (op ⦋2⦌) identityTwoSimplex) =
+              p.map.app (op ⦋2⦌) σ
+          rw [hId]
+        exact heval.symm ▸ hσ }
   let sq : CommSq f
       (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex)
       p g :=
     { w := by
         apply ScaledSSet.ScaledMap.ext
-        simp [f, g, standardTypeATwoSimplexIndex,
-          standardTypeAScaledHornGeneratorHom, Category.assoc] }
+        change f.map ≫ p.map =
+          (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex).map ≫
+            g.map
+        have hYoneda := SSet.yonedaEquiv_symm_comp σ p.map
+        have hcomp :
+            (Λ[2, (1 : Fin 3)].ι :
+              (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+                SSet.yonedaEquiv.symm (p.map.app (op ⦋2⦌) σ) =
+              (Λ[2, (1 : Fin 3)].ι ≫ SSet.yonedaEquiv.symm σ) ≫ p.map := by
+          calc
+            _ = (Λ[2, (1 : Fin 3)].ι :
+                (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+                  (SSet.yonedaEquiv.symm σ ≫ p.map) := by
+                    rw [hYoneda]
+            _ = _ := (Category.assoc _ _ _).symm
+        simpa only [f, g, standardTypeATwoSimplexIndex,
+          standardTypeAScaledHornGeneratorHom]
+          using (Category.assoc
+            (Λ[2, (1 : Fin 3)].ι :
+              (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))
+            (SSet.yonedaEquiv.symm σ) p.map) }
   rcases (hp.sq_hasLift sq).exists_lift with ⟨L⟩
   let τ : X.carrier.obj (op ⦋2⦌) :=
     L.l.map.app (op ⦋2⦌)
-      (identityTwoSimplex : (Delta[2] : SSet.{u}).obj (op ⦋2⦌))
+      (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌))
   refine ⟨τ, ?_, ?_, ?_⟩
   · exact L.l.scaled _ identityTwoSimplex_standardTypeA_thin
   · have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
     have hYoneda : SSet.yonedaEquiv.symm τ = L.l.map := by
-      simp [τ, identityTwoSimplex]
+      apply SSet.yonedaEquiv.symm_apply_eq.mpr
+      rfl
     dsimp [SameStandardTypeAInnerHorn]
     rw [hYoneda]
     simpa [f, standardTypeATwoSimplexIndex,
@@ -221,8 +264,9 @@ theorem thinReplacement_of_standardTypeATwoRLP
   · have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
     have hpoint := ConcreteCategory.congr_hom
       (congr_app hright (op ⦋2⦌))
-      (identityTwoSimplex : (Delta[2] : SSet.{u}).obj (op ⦋2⦌))
-    simpa [SameTwoSimplexImage, τ, g, identityTwoSimplex] using hpoint
+      (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌))
+    change p.map.app (op ⦋2⦌) τ = p.map.app (op ⦋2⦌) σ
+    exact hpoint.trans (congrArg (p.map.app (op ⦋2⦌)) hId)
 
 /-- Every map in the complete standard A/B/C right class therefore has the
 degree-two thin-replacement property. -/
