@@ -1,0 +1,49 @@
+name: KuuOS v1.88 CodeAI R6 gluing successful local proof pieces, 22 axioms
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v188-codeai-r6-component-gluing-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v188-r6-source-bound-independent-22:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Exact R3-to-R6 proof gluing and 22 public pinned Lean axioms
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v188_codeai_r6_exact_source_v1.py
+      - name: Save exact source proof or obstruction
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v188-codeai-r6-22
+          path: /tmp/kuuos-v188-r6-22
+          retention-days: 30
+          if-no-files-found: warn
