@@ -217,6 +217,30 @@ class TacticLineLocatorRegressions(unittest.TestCase):
         self.assertEqual(loop.choose_tactic_line(source, 3), 5)
         self.assertEqual(loop.choose_tactic_line(source, 4), 5)
 
+    def test_v189_simpa_invalid_argument_reports_tactic_head(self):
+        # Real v1.89 R2 diagnostic was at the simpa unfolding list.
+        # The original locator skipped simpa entirely, silently omitting
+        # the lean_goal and lean_multi_attempt observation.
+        source = (
+            "namespace Demo\n"
+            "theorem scaling : True := by\n"
+            "  simpa [scalingPresentation.{u}, standardPresentation.{u},\n"
+            "    generatedScaling] using h\n"
+            "end Demo\n"
+        )
+        self.assertEqual(loop.choose_tactic_line(source, 3), 3)
+        self.assertEqual(loop.choose_tactic_line(source, 4), 3)
+
+    def test_simpa_locator_does_not_cross_lean_declarations(self):
+        source = (
+            "theorem first : True := by\n"
+            "  exact True.intro\n"
+            "theorem second : True := by\n"
+            "  simpa using h\n"
+        )
+        self.assertEqual(loop.choose_tactic_line(source, 4), 4)
+        self.assertEqual(loop.choose_tactic_line(source, 2), 2)
+
     def test_skip_in_different_declaration_not_selected(self):
         source = (
             "theorem first : True := by\n"

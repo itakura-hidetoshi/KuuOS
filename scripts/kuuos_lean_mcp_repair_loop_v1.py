@@ -201,7 +201,9 @@ def choose_tactic_line(source: str, reported_line: object) -> int | None:
     Lean can report an unclosed goal at an earlier apply even when the
     actual unresolved tactic is a skip two lines later. Prioritize a
     nearby skip inside the same declaration, then use nearest-tactic
-    fallback. Only post-edit Lean validation establishes success.
+    fallback. Recognize both simp and simpa as tactic heads; Lean may
+    report an invalid simp argument at the continuation line. Only post-edit
+    Lean validation establishes success.
     """
     lines = source.splitlines()
     if type(reported_line) is not int or not (1 <= reported_line <= len(lines)):
@@ -217,7 +219,7 @@ def choose_tactic_line(source: str, reported_line: object) -> int | None:
     first = max(declaration_start, reported_line - 9)
     last = min(declaration_end, reported_line + 12)
     tactic = re.compile(
-        r"^ {2,}(?:skip|simp|rw|exact|apply|aesop|intro|rfl|assumption|constructor)\b"
+        r"^ {2,}(?:skip|simpa|simp|rw|exact|apply|aesop|intro|rfl|assumption|constructor)\b"
     )
     choices = [i for i in range(first, last) if tactic.match(lines[i])]
     if not choices:
