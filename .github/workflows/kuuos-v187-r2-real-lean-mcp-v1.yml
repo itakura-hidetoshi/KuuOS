@@ -1,0 +1,87 @@
+name: KuuOS v1.87 R2 real Lean MCP source-bound gate
+on:
+  push:
+    branches:
+      - 'validation/kuuos-v187-r2-real-lean-mcp-20261122'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v187-r2-real-lean-mcp:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify immutable CodeAI R2 candidate and fixed toolchain
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          from scripts.ci_kuuos_v176_exact_source_audit_v1 import blob
+          root=Path('.').resolve()
+          require_pins(root)
+          target=root/'formal/KUOS/DependentOriginationStandardCanonicalPresentationGapCodeAICandidateR2V1_87.lean'
+          data=target.read_bytes()
+          assert blob(data)=='1ba284fa92c153bb28defc4c84d1bd23d4e01522'
+          assert hashlib.sha256(data).hexdigest()=='c12d59e73edd4946d1dfc3f9444dafeb81cdc076f67bf452f2d447e56a30cd52'
+          orig=root/'formal/KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean'
+          assert blob(orig.read_bytes())=='88181c3c721c129e2aa628406e3fbf77a89d4f91'
+          print('KUUOS_V187_R2_IMMUTABLE_SOURCE_AND_PINS_VERIFIED')
+          PY
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardCanonicalPresentationGapCodeAICandidateR2V1_87
+      - name: Install locked external read-only Lean MCP transport
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Real Lean MCP diagnostics and direct Lean recheck without source adoption
+        run: |
+          set -euo pipefail
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationStandardCanonicalPresentationGapCodeAICandidateR2V1_87.lean \
+            --source-sha256 c12d59e73edd4946d1dfc3f9444dafeb81cdc076f67bf452f2d447e56a30cd52 \
+            --output-dir /tmp/kuuos-v187-r2-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path('/tmp/kuuos-v187-r2-mcp/receipt.json').read_text())
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY',r
+          assert r['source_restored'] and not r['git_write_performed'] and not r['independent_ci_success']
+          assert len(r['rounds'])==1 and r['rounds'][0]['semantic_success']
+          assert r['rounds'][0]['partial'] is False and r['rounds'][0]['errors']==0
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          print('KUUOS_V187_R2_REAL_LEAN_MCP_GREEN_PROPOSAL_ONLY')
+          PY
+      - name: Upload exact source-bound real Lean MCP evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v187-r2-real-lean-mcp
+          path: /tmp/kuuos-v187-r2-mcp
+          retention-days: 30
+          if-no-files-found: warn
