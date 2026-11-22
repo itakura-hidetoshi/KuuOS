@@ -1,0 +1,104 @@
+name: CodeAI v0.61 F112 precompiled generic helper comparison
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-critical-helper-probe.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: codeai-v061-f112-critical-helper-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  source-sealed-critical-helper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [generic-helper, named-argument]
+    steps:
+      - name: Checkout exact source without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Produce original-source-bound diagnostic Lean modules
+        shell: bash
+        env:
+          VARIANT: ${{matrix.variant}}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_strict_olean_split_probe.py scripts/codeai_v061_f112_critical_helper_probe.py
+          PYTHONPATH=. python3 -m scripts.codeai_v061_f112_critical_helper_probe --variant "$VARIANT"
+      - name: Validate pinned Lean
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore source-hash-bounded workspace build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-${{github.sha}}
+          restore-keys: |
+            codeai-v061-root-closure-probe-${{runner.os}}-${{runner.arch}}-${{hashFiles('lean-toolchain')}}-${{hashFiles('lake-manifest.json')}}-
+      - name: Restore pinned mathlib and compiled imports
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+      - name: Elaborate exact generic 14-cell helper, then five-stage specialization
+        shell: bash
+        env:
+          VARIANT: ${{matrix.variant}}
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-critical-helper/$VARIANT"
+          out=".lake/build/lib/lean/Kuu/F112"
+          core="formal/Kuu/F112/CodeAIV061F112CriticalHelperCoreProbe.lean"
+          tail="formal/Kuu/F112/CodeAIV061F112CriticalHelperTailProbe.lean"
+          mkdir -p "$out"
+          echo "CODEAI_F112_GENERIC_HELPER_CORE_START variant=$VARIANT"
+          started="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=20s 5m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$out/CodeAIV061F112CriticalHelperCoreProbe.olean" "$core" \
+            > "$folder/core-lean.log" 2>&1
+          core_rc=$?
+          set -e
+          core_seconds="$(( $(date +%s) - started ))"
+          printf '%s\n' "$core_rc" > "$folder/core-exit.txt"
+          echo "CODEAI_F112_GENERIC_HELPER_CORE_FINISH variant=$VARIANT exit=$core_rc seconds=$core_seconds"
+          if [[ "$core_rc" != 0 ]]; then
+            tail -n 90 "$folder/core-lean.log" || true
+            exit "$core_rc"
+          fi
+          test -s "$out/CodeAIV061F112CriticalHelperCoreProbe.olean"
+          started="$(date +%s)"
+          echo "CODEAI_F112_GENERIC_HELPER_TAIL_START variant=$VARIANT"
+          set +e
+          timeout --signal=TERM --kill-after=20s 7m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$out/CodeAIV061F112CriticalHelperTailProbe.olean" "$tail" \
+            > "$folder/tail-lean.log" 2>&1
+          tail_rc=$?
+          set -e
+          tail_seconds="$(( $(date +%s) - started ))"
+          printf '%s\n' "$tail_rc" > "$folder/tail-exit.txt"
+          echo "CODEAI_F112_GENERIC_HELPER_TAIL_FINISH variant=$VARIANT exit=$tail_rc seconds=$tail_seconds"
+          tail -n 90 "$folder/tail-lean.log" || true
+          if [[ "$tail_rc" == 0 ]]; then
+            test -s "$out/CodeAIV061F112CriticalHelperTailProbe.olean"
+            echo "CODEAI_F112_GENERIC_HELPER_LOCAL_ONLY_SUCCESS variant=$VARIANT"
+          fi
+          exit "$tail_rc"
+      - name: Archive source-bound candidate and unfiltered Lean logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-critical-helper-${{matrix.variant}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-critical-helper/${{matrix.variant}}/
+          retention-days: 30
+          if-no-files-found: error
