@@ -8,6 +8,7 @@ open CategoryTheory.Category
 open MonoidalCategory
 open CartesianMonoidalCategory
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
@@ -17,6 +18,7 @@ open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
+open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 
 universe u
 
@@ -33,13 +35,13 @@ factorization of v1.48.  For every simplex scaling `sDelta`, every horn index,
 and either endpoint, the identity-underlying enrichment
 
 ```text
-(Delta[n], minimal) -> (Delta[n], sDelta)
+(Δ[n], minimal) -> (Δ[n], sDelta)
 ```
 
 is an arrow retract of the corresponding canonical horn-cylinder attachment
 
 ```text
-(minimal attachment) -> (Delta[n] x Delta[1], cylinder(sDelta)).
+(minimal attachment) -> (Δ[n] x Δ[1], cylinder(sDelta)).
 ```
 
 The retract is geometric.  The section uses the chosen endpoint face, while
@@ -59,13 +61,13 @@ by the canonical generator family itself.
 
 /-- A standard simplex equipped with the minimal scaling. -/
 def minimallyScaledSimplex (n : Nat) : ScaledSSet.{u} :=
-  ScaledSSet.of (Delta[n] : SSet.{u}) (minimalScaling _)
+  ScaledSSet.of (Δ[n] : SSet.{u}) (minimalScaling _)
 
 /-- Identity-underlying enrichment from the minimal simplex scaling to an
 arbitrary chosen scaling. -/
 def minimalToChosenSimplexScaling
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     minimallyScaledSimplex n ⟶ scaledSimplex sDelta where
   map := 𝟙 _
   scaled := minimalScaling_map _ _
@@ -73,7 +75,7 @@ def minimalToChosenSimplexScaling
 @[simp]
 theorem minimalToChosenSimplexScaling_map
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     (minimalToChosenSimplexScaling sDelta).map = 𝟙 _ := by
   rfl
 
@@ -94,12 +96,10 @@ noncomputable def minimalSimplexIntoAttachment
 scaled cylinder. -/
 noncomputable def chosenScaledEndpoint
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u}))
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
     (endpoint : Fin 2) :
     scaledSimplex sDelta ⟶ scaledSimplexCylinder sDelta := by
-  fin_cases endpoint
-  · exact scaledEndpointZero sDelta
-  · exact scaledEndpointOne sDelta
+  exact if endpoint = 0 then scaledEndpointZero sDelta else scaledEndpointOne sDelta
 
 /-- First projection from the minimally scaled attachment back to the minimally
 scaled simplex.  Minimal source scaling makes the projection automatically a
@@ -118,7 +118,7 @@ noncomputable def minimalAttachmentFirstProjection
 /-- First projection from the scaled cylinder to the chosen scaled simplex. -/
 def scaledCylinderFirstProjection
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplexCylinder sDelta ⟶ scaledSimplex sDelta where
   map := CartesianMonoidalCategory.fst _ _
   scaled := by
@@ -134,7 +134,7 @@ noncomputable def simplexScalingToAttachmentArrow
     {n : Nat}
     (i : Fin (n + 1))
     (endpoint : Fin 2)
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     Arrow.mk (minimalToChosenSimplexScaling sDelta) ⟶
       Arrow.mk (scaledHornCylinderAttachmentInclusion i endpoint sDelta) :=
   Arrow.homMk
@@ -142,17 +142,20 @@ noncomputable def simplexScalingToAttachmentArrow
     (chosenScaledEndpoint sDelta endpoint)
     (by
       apply ScaledSSet.ScaledMap.ext
-      fin_cases endpoint <;>
-        simp [minimalSimplexIntoAttachment, chosenScaledEndpoint,
-          minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion])
+      fin_cases endpoint
+      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
+          minimalToChosenSimplexScaling, scaledHornCylinderAttachmentInclusion]
+          using (endpointIntoAttachment_ι_zero n i)
+      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
+          minimalToChosenSimplexScaling, scaledHornCylinderAttachmentInclusion]
+          using (endpointIntoAttachment_ι_one n i))
 
 /-- First projections give the reverse arrow-category morphism. -/
 noncomputable def attachmentToSimplexScalingArrow
     {n : Nat}
     (i : Fin (n + 1))
     (endpoint : Fin 2)
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     Arrow.mk (scaledHornCylinderAttachmentInclusion i endpoint sDelta) ⟶
       Arrow.mk (minimalToChosenSimplexScaling sDelta) :=
   Arrow.homMk
@@ -162,7 +165,8 @@ noncomputable def attachmentToSimplexScalingArrow
       apply ScaledSSet.ScaledMap.ext
       simp [minimalAttachmentFirstProjection, scaledCylinderFirstProjection,
         minimalToChosenSimplexScaling,
-        scaledHornCylinderAttachmentInclusion, Category.assoc])
+        scaledHornCylinderAttachmentInclusion, Category.assoc]
+      all_goals simp only [Category.comp_id])
 
 /-- The minimal-to-chosen simplex scaling enrichment is an arrow retract of
 any canonical attachment carrying that simplex scaling. -/
@@ -170,7 +174,7 @@ noncomputable def minimalToChosenSimplexScaling_retractArrow
     {n : Nat}
     (i : Fin (n + 1))
     (endpoint : Fin 2)
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     RetractArrow
       (minimalToChosenSimplexScaling sDelta)
       (scaledHornCylinderAttachmentInclusion i endpoint sDelta) where
@@ -187,12 +191,16 @@ noncomputable def minimalToChosenSimplexScaling_retractArrow
           chosenScaledEndpoint,
           scaledCylinderFirstProjection,
           Category.assoc]
+      all_goals simp only [← Category.assoc,
+        endpointIntoAttachment_ι_zero, endpointIntoAttachment_ι_one,
+        SSet.ι₀_fst, SSet.ι₁_fst]
     · apply ScaledSSet.ScaledMap.ext
       fin_cases endpoint <;>
         simp [simplexScalingToAttachmentArrow,
           attachmentToSimplexScalingArrow,
           chosenScaledEndpoint,
           scaledCylinderFirstProjection]
+      all_goals simp only [SSet.ι₀_fst, SSet.ι₁_fst]
 
 /-! ## Retract-stable left classes see the scaling enrichment -/
 
@@ -204,7 +212,7 @@ theorem minimalToChosenSimplexScaling_mem_of_attachment_mem
     {n : Nat}
     (i : Fin (n + 1))
     (endpoint : Fin 2)
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u}))
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
     (hmem : P (scaledHornCylinderAttachmentInclusion i endpoint sDelta)) :
     P (minimalToChosenSimplexScaling sDelta) := by
   exact MorphismProperty.of_retract
@@ -216,7 +224,7 @@ theorem minimalToChosenSimplexScaling_mem_of_attachment_mem
 canonical generated left class. -/
 theorem minimalToChosenSimplexScaling_mem_canonicalGenerated
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (minimalToChosenSimplexScaling sDelta) := by
   let g : ScaledHornAttachmentGeneratorIndex.{u} :=
@@ -235,7 +243,7 @@ theorem minimalToChosenSimplexScaling_mem_canonicalGenerated
 /-- Index for one arbitrary simplex scaling enrichment. -/
 structure SimplexScalingEnrichmentIndex where
   n : Nat
-  simplexScaling : ScaledSimplicialSet (Delta[n] : SSet.{u})
+  simplexScaling : ScaledSimplicialSet (Δ[n] : SSet.{u})
 
 /-- The enrichment map represented by one index. -/
 def simplexScalingEnrichmentHom
@@ -296,7 +304,7 @@ theorem simplexScalingEnrichments_le_standardGenerated_of_canonicalGenerators_le
 
 /-- The quotient-order form of the same necessary condition. -/
 theorem simplexScalingEnrichments_le_standardGenerated_of_canonicalKuuOS_le_standardABC
-    (h : canonicalKuuOSPresentation ≤ standardABCPresentation) :
+    (h : canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u}) :
     (simplexScalingEnrichments : MorphismProperty (ScaledSSet.{u})) ≤
       standardGeneratedScaledAnodyneABC := by
   exact
@@ -322,7 +330,7 @@ theorem not_canonicalKuuOS_le_standardABC_of_scalingEnrichment_not_mem
     (hnot :
       ¬ standardGeneratedScaledAnodyneABC
         (simplexScalingEnrichmentHom q)) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
+    ¬ canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} := by
   intro h
   have hall :=
     simplexScalingEnrichments_le_standardGenerated_of_canonicalKuuOS_le_standardABC h
