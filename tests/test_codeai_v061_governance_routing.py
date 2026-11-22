@@ -375,5 +375,127 @@ class CodeAIV061GovernanceRoutingTests(TestCase):
 
 
 
+    @staticmethod
+    def _v061_two_stage_runtime_inputs(route="retain"):
+        from tests.test_codeai_v061_governance_routing import (
+            CodeAIV061GovernanceRoutingTests as previous,
+        )
+        (old, middle, final), (a, b, c) = previous._actual_native_two_stage_snapshots(route)
+        return {
+            "original_archive": old,
+            "first_new_archive": middle,
+            "second_old_archive": middle,
+            "final_archive": final,
+            "original_left_values": a[0],
+            "original_right_values": a[1],
+            "first_new_left_values": b[0],
+            "first_new_right_values": b[1],
+            "second_old_left_values": list(b[0]),
+            "second_old_right_values": list(b[1]),
+            "final_left_values": c[0],
+            "final_right_values": c[1],
+        }
+
+    def test_v061_runtime_two_stage_native_six_routes(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import ROUTES
+        for route, _, _, _ in ROUTES:
+            with self.subTest(route=route):
+                x = adapter.audit_two_stage_private_append(
+                    **self._v061_two_stage_runtime_inputs(route))
+                self.assertEqual(x.status, adapter.COMPATIBLE)
+                self.assertTrue(x.exact_intermediate_archive_values)
+                self.assertTrue(x.exact_intermediate_observation_values)
+                self.assertTrue(x.both_native_stages_verified)
+                self.assertTrue(x.direct_original_to_final_verified)
+                self.assertTrue(x.sequential_append_counts_equal_direct)
+                self.assertTrue(x.complete_history_concat_equal_final)
+                self.assertTrue(x.original_final_compatibility_equivalence_observed)
+                self.assertTrue(x.old_private_observations_retained)
+                self.assertTrue(x.original_branch_fork_obstruction_retained)
+                self.assertEqual(x.mismatch_indices, ())
+                self.assertFalse(x.original_lean_python_refinement_proved)
+                self.assertFalse(x.source_history_issuer_authenticated)
+                self.assertFalse(x.linear_history_descended)
+                self.assertFalse(x.global_descent_certified)
+                self.assertFalse(x.host_execution_authorized)
+                self.assertFalse(x.git_authority_granted)
+                self.assertIsNone(x.selected_successor)
+
+    def test_v061_runtime_two_stage_obstruction_persists(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        x = self._v061_two_stage_runtime_inputs()
+        for key in (
+            "original_right_values", "first_new_right_values",
+            "second_old_right_values", "final_right_values",
+        ):
+            x[key][0] = "original-shared-conflict"
+        z = adapter.audit_two_stage_private_append(**x)
+        self.assertEqual(z.status, adapter.SHARED_MISMATCH)
+        self.assertEqual(z.mismatch_indices, (0,))
+        self.assertTrue(z.shared_obstruction_persists)
+        self.assertFalse(z.first_stage.old_overlap_compatible)
+        self.assertFalse(z.second_stage.old_overlap_compatible)
+        self.assertFalse(z.original_to_final.new_overlap_compatible)
+        self.assertFalse(z.host_execution_authorized)
+        self.assertFalse(z.global_descent_certified)
+
+    def test_v061_runtime_checkpoint_value_obstruction_remains(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        x = self._v061_two_stage_runtime_inputs()
+        z = adapter.audit_two_stage_private_append(
+            **x, separately_supplied_original_archive_sha256="0" * 64)
+        self.assertEqual(z.status, adapter.CHECKPOINT_OBSTRUCTION)
+        self.assertTrue(z.checkpoint_value_obstruction_retained)
+        self.assertFalse(z.source_history_issuer_authenticated)
+        self.assertFalse(z.independent_checkpoint_custody_authenticated)
+        self.assertFalse(z.global_descent_certified)
+
+    def test_v061_runtime_intermediate_observation_disagreement_blocks(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import BLOCKED
+        x = self._v061_two_stage_runtime_inputs()
+        x["second_old_right_values"][0] = "NOT_THE_FIRST_STAGE_OUTPUT"
+        z = adapter.audit_two_stage_private_append(**x)
+        self.assertEqual(z.status, BLOCKED)
+        self.assertIn("intermediate_left_or_right_observation_map_mismatch", z.issues)
+        self.assertFalse(z.both_native_stages_verified)
+        self.assertFalse(z.host_execution_authorized)
+
+    def test_v061_runtime_intermediate_complete_archive_disagreement_blocks(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import BLOCKED
+        x = self._v061_two_stage_runtime_inputs()
+        x["second_old_archive"] = x["original_archive"]
+        z = adapter.audit_two_stage_private_append(**x)
+        self.assertEqual(z.status, BLOCKED)
+        self.assertIn("intermediate_complete_archive_values_mismatch", z.issues)
+        self.assertFalse(z.exact_intermediate_archive_values)
+        self.assertFalse(z.both_native_stages_verified)
+
+    def test_v061_runtime_second_stage_rewrite_remains_rejected(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        from runtime import kuuos_lean_python_tagged_private_append_v0_60 as original
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import BLOCKED
+        x = self._v061_two_stage_runtime_inputs()
+        x["final_right_values"][0] = "rewrite-instead-of-append"
+        z = adapter.audit_two_stage_private_append(**x)
+        self.assertEqual(z.status, BLOCKED)
+        self.assertEqual(z.second_stage.status, original.OBSERVATION_REWRITE)
+        self.assertEqual(z.original_to_final.status, original.OBSERVATION_REWRITE)
+        self.assertFalse(z.old_private_observations_retained)
+        self.assertFalse(z.host_execution_authorized)
+
+    def test_v061_runtime_missing_evidence_does_not_become_success(self) -> None:
+        from runtime import kuuos_lean_python_two_stage_private_append_v0_61 as adapter
+        from runtime.kuuos_lean_python_middle_way_verify_plan_six_routes_v0_45 import NO_DATA
+        x = self._v061_two_stage_runtime_inputs()
+        x["original_archive"] = None
+        z = adapter.audit_two_stage_private_append(**x)
+        self.assertEqual(z.status, NO_DATA)
+        self.assertFalse(z.direct_original_to_final_verified)
+        self.assertFalse(z.original_final_compatibility_equivalence_observed)
+
+
 if __name__ == "__main__":
     main()
