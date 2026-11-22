@@ -65,8 +65,8 @@ PUBLIC = [
     "standardCanonicalPresentationGapClosed_iff_generatorwiseReverse_of_positiveResidual",
 ]
 DECL = re.compile(
-    r"(?m)^(?:@\\[[^\\]]+\\]\\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\\s+)*"
-    r"(?:theorem|def|lemma|structure|instance|abbrev)\\s+([^\\s(:]+)"
+    r"(?m)^(?:@\[[^\]]+\]\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\s+)*"
+    r"(?:theorem|def|lemma|structure|instance|abbrev)\s+([^\s(:]+)"
 )
 OLD_NS = "KUOS.DependentOriginationStandardCanonicalPresentationGapCodeAICandidateR2V1_87"
 NEW_NS = "KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87"
