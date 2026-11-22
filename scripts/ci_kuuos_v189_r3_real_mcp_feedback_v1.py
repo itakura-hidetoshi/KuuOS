@@ -119,6 +119,14 @@ def main():
         record["mcp_rounds"]=loop.get("rounds",[])
         record["mcp_provider_calls"]=loop.get("provider_calls",0)
         record["feedback_driven_proposals"]=proposed
+        record["actual_goal_observed"]=any("goal_digest" in item for item in loop.get("rounds",[]))
+        record["actual_multi_attempt_observed"]=any("preliminary_tactic_details" in item for item in loop.get("rounds",[]))
+        record["selected_tactic_line"]=next((item.get("selected_tactic_line") for item in loop.get("rounds",[])
+             if item.get("selected_tactic_line") is not None),None)
+        if (not record["actual_goal_observed"] or not record["actual_multi_attempt_observed"]
+            or record["selected_tactic_line"] is None):
+            record["status"]="HOLD_NO_TYPED_GOAL_AND_TACTIC_PROBES"
+            return 2
         if loop["status"]!="LOCAL_LEAN_GREEN_CANDIDATE_ONLY":
             record["status"]="HOLD_MCP_OR_LEAN_ELABORATION"
             return 2
