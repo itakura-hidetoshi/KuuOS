@@ -1,0 +1,122 @@
+name: CodeAI v0.61 F112 exact full thirteen-cell split and original import smoke
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-thirteen-full-split-smoke.yml"]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-v061-thirteen-full-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  full-thirteen-source-decomposition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - name: Checkout research source exactly without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate exact generic 13D prefix plus all original five-stage theorems and audits
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_thirteen_full_source_split.py
+          python3 scripts/codeai_v061_f112_thirteen_full_source_split.py --phase generate
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib only
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Fetch exact 193-olean predecessor source archive
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-thirteen-full-import
+      - name: Verify whole original source, actual fixed versions and every imported .olean digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-thirteen-full-decomposition"
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-thirteen-full-import \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path "$folder/replay.json" | tee "$folder/replay.log"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("artifacts/codeai-v061-f112-thirteen-full-decomposition/replay.json").read_text())
+          assert x["artifact_integrity_verified"] and x["olean_count"]==193
+          assert x["root_strict_lean_certified"] is False
+          PY
+      - name: Compile exact complete full 13D source split and canonical import using scratch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          d="artifacts/codeai-v061-f112-thirteen-full-decomposition"
+          lib=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$lib"
+          run_lean() {
+            local name="$1" duration="$2" output="$3" source="$4"
+            local start="$(date +%s)"
+            set +e
+            timeout --signal=TERM --kill-after=15s "$duration" lake env lean \
+              -DwarningAsError=true -Dweak.sorryAsError=true \
+              -o "$output" "$source" > "$d/$name.log" 2>&1
+            local rc=$?
+            set -e
+            printf '%s\n' "$rc" > "$d/$name-exit.txt"
+            echo "CODEAI_13D_FULL_SPLIT_STAGE name=$name rc=$rc seconds=$(( $(date +%s)-start ))"
+            tail -n 45 "$d/$name.log" || true
+            if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+            test -s "$output"
+          }
+          run_lean generic_core 3m \
+            "$lib/CodeAIV061F112ThirteenFullCoreProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112ThirteenFullCoreProbe.lean
+          run_lean full_five_stage 10m \
+            "$lib/CodeAIV061F112ThirteenFullTailProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112ThirteenFullTailProbe.lean
+          test ! -e "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean"
+          python3 scripts/codeai_v061_f112_thirteen_full_source_split.py --phase shim
+          run_lean original_module_import_shim 2m \
+            "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean" \
+            "$d/CanonicalShimScratch.lean"
+          cat > "$d/OriginalImportSmoke.lean" <<'LEAN'
+          import Kuu.F112.PolygonNativeF55P94DK5ThirteenCellNonabelianPasting
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteenLeftFirst
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteenRightFirst
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteen_integerBlind
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteen_history_ne
+          #check Kuu.F112.Physical.nativeK5PentagonatorFourteen_raw_ne
+          #print axioms Kuu.F112.Physical.nativeK5PentagonatorFourteen_raw_ne
+          LEAN
+          set +e
+          timeout --signal=TERM --kill-after=15s 2m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            "$d/OriginalImportSmoke.lean" > "$d/import-smoke.log" 2>&1
+          rc=$?
+          set -e
+          printf '%s\n' "$rc" > "$d/import-smoke-exit.txt"
+          echo "CODEAI_13D_FULL_SPLIT_IMPORT_SMOKE rc=$rc"
+          tail -n 30 "$d/import-smoke.log" || true
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+          echo "CODEAI_13D_FULL_SPLIT_ALL_LOCAL_SUCCESS (NOT 14D OR ORIGINAL MODULE CERTIFICATION)"
+      - name: Persist original-source SHA, complete lean outputs, diagnostics and explicit hold
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-thirteen-full-split-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-thirteen-full-decomposition/
+          retention-days: 30
+          if-no-files-found: error
