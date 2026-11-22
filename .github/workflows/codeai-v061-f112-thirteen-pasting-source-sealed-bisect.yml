@@ -1,0 +1,119 @@
+name: CodeAI v0.61 F112 13D source-sealed specific LeftFirst bisection
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-thirteen-pasting-source-sealed-bisect.yml"]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-v061-f112-thirteen-bisect-${{github.ref}}
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  local-candidate-strict-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [original-left, witness-let, typed-result, direct-square]
+    steps:
+      - name: Checkout source-pinned research checkout without write credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate source-locked 13D candidate and exact 13D general core
+        env:
+          VARIANT: ${{matrix.variant}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_thirteen_pasting_source_sealed_bisect.py
+          python3 scripts/codeai_v061_f112_thirteen_pasting_source_sealed_bisect.py --variant "$VARIANT"
+      - name: Validate fixed toolchain bootstrap
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore immutable pinned mathlib checkout and mathlib oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Download exact prior independent 193-olean source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-13d-prior-archive
+      - name: Verify exact original source and all 193 imported .olean hashes
+        shell: bash
+        env:
+          VARIANT: ${{matrix.variant}}
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-13d-source-sealed-bisect/$VARIANT"
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-13d-prior-archive \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path "$folder/replay.json" \
+            | tee "$folder/replay.log"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          path=Path("artifacts/codeai-v061-f112-13d-source-sealed-bisect")/os.environ["VARIANT"]/"replay.json"
+          d=json.loads(path.read_text())
+          assert d["artifact_integrity_verified"] is True and d["olean_count"]==193
+          assert d["root_strict_lean_certified"] is False
+          print("CODEAI_THIRTEEN_EXACT_IMPORT_REPLAY_OK 193",flush=True)
+          PY
+      - name: Independently compile general 13-cell core then exact diagnostic specialization
+        env:
+          VARIANT: ${{matrix.variant}}
+        shell: bash
+        run: |
+          set -euo pipefail
+          folder="artifacts/codeai-v061-f112-13d-source-sealed-bisect/$VARIANT"
+          lib=".lake/build/lib/lean/Kuu/F112"
+          mkdir -p "$lib"
+          core="formal/Kuu/F112/CodeAIV061F112ThirteenCoreProbe.lean"
+          target="formal/Kuu/F112/CodeAIV061F112ThirteenVariantProbe.lean"
+          start="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=15s 3m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$lib/CodeAIV061F112ThirteenCoreProbe.olean" "$core" > "$folder/core-lean.log" 2>&1
+          a=$?
+          set -e
+          printf '%s\n' "$a" > "$folder/core-exit.txt"
+          echo "CODEAI_THIRTEEN_GENERAL_CORE variant=$VARIANT exit=$a seconds=$(( $(date +%s)-start ))"
+          if [[ "$a" != 0 ]]; then tail -n 65 "$folder/core-lean.log" || true; exit "$a"; fi
+          test -s "$lib/CodeAIV061F112ThirteenCoreProbe.olean"
+          start="$(date +%s)"
+          set +e
+          timeout --signal=TERM --kill-after=15s 3m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$lib/CodeAIV061F112ThirteenVariantProbe.olean" "$target" > "$folder/specialization-lean.log" 2>&1
+          b=$?
+          set -e
+          printf '%s\n' "$b" > "$folder/specialization-exit.txt"
+          echo "CODEAI_THIRTEEN_FIVE_STAGE variant=$VARIANT exit=$b seconds=$(( $(date +%s)-start ))"
+          tail -n 90 "$folder/specialization-lean.log" || true
+          if [[ "$b" == 0 ]]; then
+            test -s "$lib/CodeAIV061F112ThirteenVariantProbe.olean"
+            echo "CODEAI_THIRTEEN_LOCAL_PROBE_SUCCESS_ONLY variant=$VARIANT (NOT_FULL_ORIGINAL_MODULE)"
+          fi
+          exit "$b"
+      - name: Archive source hashes, exact pins, direct Lean logs and HOLD state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-thirteen-bisect-${{matrix.variant}}-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-13d-source-sealed-bisect/${{matrix.variant}}/
+          retention-days: 30
+          if-no-files-found: error
