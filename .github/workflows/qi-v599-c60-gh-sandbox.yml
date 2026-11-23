@@ -1,0 +1,174 @@
+name: Qi v5.99 C60 CodeAI GitHub sandbox then independent Lean
+
+on:
+  pull_request:
+    branches:
+      - research/qi-v5-99-c60-gauge-original-source-bridge-20261123
+    paths:
+      - '.github/workflows/qi-v599-c60-gh-sandbox.yml'
+      - 'formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE: formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean
+  SOURCE_BLOB: 82b5a9fdf5f8239346d7c96600c20919a1eef093
+  FROZEN_PARENT_HEAD: c016c9a2a628350f0da1cdb0a9bb915a5ffe5568
+  TARGET: KUOS.Architecture.QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99
+
+jobs:
+  sandbox-direct:
+    name: CodeAI sandbox direct Lean and full axiom audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 48
+    outputs:
+      green: ${{ steps.audit.outputs.green }}
+    steps:
+      - name: Exact-head checkout; do not mutate repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Confirm Git blob, full source, pins, 19 axiom statements
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, re
+          from pathlib import Path
+          from scripts.kuuos_sandbox_lean_cycle_v1 import without_comments_strings
+          b=Path(os.environ['SOURCE']).read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob==os.environ['SOURCE_BLOB'],('SOURCE_BLOB_MISMATCH',blob)
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          packages=json.loads(Path('lake-manifest.json').read_text())['packages']
+          assert [p['rev'] for p in packages if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          s=b.decode('utf8')
+          assert 'import KUOS.Architecture.QiWuxingGK5CHP77ReversedUnitFreeContextFaithfulnessV5_98' in s
+          assert 'import KUOS.Architecture.QiWuxingNativeC60GaugeV3_4' in s
+          assert 'import KUOS.Architecture.QiWuxingPentagonUnifiedV3_5' not in s
+          names=re.findall(r'(?m)^#print axioms PentagonAdjoinedSixCell\.(selectedV599\w+)\s*$',s)
+          assert len(names)==len(set(names))==19,('AXIOM_COUNT',len(names))
+          assert not re.search(r'\b(?:sorry|admit|axiom|unsafe|native_decide)\b',without_comments_strings(s))
+          print('CODEAI_FROZEN_PARENT_HEAD',os.environ['FROZEN_PARENT_HEAD'])
+          print('CODEAI_SOURCE_BLOB',blob,'SOURCE_SHA256',hashlib.sha256(b).hexdigest())
+          print('CODEAI_DECLARATIONS',len(names))
+          PY
+      - name: Install exact signed Lean release v4.30.0-rc2
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore validated canonical main cached artifacts
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: qi-v599-sandbox-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore only needed Lean dependencies, never full F112 public root
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test ! -d .lake/packages/mathlib; then lake update; fi
+          if test ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
+            KUOS.Architecture.QiWuxingNativeC60GaugeV3_4 \
+            KUOS.Architecture.QiWuxingGK5CHP77ReversedUnitFreeContextFaithfulnessV5_98 \
+            2>&1 | tee /tmp/qi-v599-sandbox-deps.log
+      - name: Direct Lean on exact candidate source
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o /tmp/qi-v599-sandbox-direct.olean "$SOURCE" \
+            2>&1 | tee /tmp/qi-v599-sandbox-direct.log
+      - name: Fail closed unless all 19 real axiom outputs are allowed
+        id: audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,re
+          from pathlib import Path
+          s=Path(os.environ['SOURCE']).read_text()
+          log=Path('/tmp/qi-v599-sandbox-direct.log').read_text(errors='replace')
+          names=set(re.findall(r'(?m)^#print axioms PentagonAdjoinedSixCell\.(selectedV599\w+)\s*$',s))
+          matches=re.findall(r"'([^']+)' (does not depend on any axioms|depends on axioms: \[([^\]]*)\])",log,re.S)
+          reports={name.rsplit('.',1)[-1]:(ax if tag.startswith('depends') else '') for name,tag,ax in matches if name.rsplit('.',1)[-1].startswith('selectedV599')}
+          assert len(names)==len(reports)==19,(names,reports)
+          assert names==set(reports),('MISSING_REPORT',names-set(reports))
+          allowed={'propext','Classical.choice','Quot.sound'}
+          axioms={x.strip() for value in reports.values() for x in value.split(',') if x.strip()}
+          assert axioms<=allowed,('NONSTANDARD_AXIOMS',axioms-allowed)
+          assert 'sorryAx' not in log
+          assert not re.search(r'\berror:|\bwarning:',log)
+          assert Path('/tmp/qi-v599-sandbox-direct.olean').is_file()
+          print('LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY',json.dumps({'source_blob':os.environ['SOURCE_BLOB'],'checked':len(reports),'axioms':sorted(axioms),'independent_ci_success':False,'authority':'LOCAL_ONLY'}))
+          PY
+          echo "green=true" >> "$GITHUB_OUTPUT"
+      - name: Preserve isolated local failures and green receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-v599-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            /tmp/qi-v599-sandbox-deps.log
+            /tmp/qi-v599-sandbox-direct.log
+          if-no-files-found: warn
+
+  independent-lean:
+    name: Independent fixed-source Lean after sandbox GREEN ONLY
+    needs: sandbox-direct
+    if: needs.sandbox-direct.result == 'success' && needs.sandbox-direct.outputs.green == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 48
+    steps:
+      - name: Fresh separate runner checkout of exactly same head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Reverify immutable candidate Git blob and pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          b=Path(os.environ['SOURCE']).read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==os.environ['SOURCE_BLOB']
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          m=json.loads(Path('lake-manifest.json').read_text())['packages']
+          assert [p['rev'] for p in m if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('INDEPENDENT_PIN_AND_BLOB_OK')
+          PY
+      - run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: qi-v599-independent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Independent Lake kernel build of same original declarations
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test ! -d .lake/packages/mathlib; then lake update; fi
+          if test ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build "$TARGET" \
+            2>&1 | tee /tmp/qi-v599-independent.log
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('/tmp/qi-v599-independent.log').read_text(errors='replace')
+          assert 'Build completed successfully' in s
+          assert 'sorryAx' not in s and 'error: ' not in s
+          print('INDEPENDENT_EXACT_SOURCE_GREEN')
+          PY
+      - name: Preserve separate runner independent log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-v599-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/qi-v599-independent.log
+          if-no-files-found: warn
