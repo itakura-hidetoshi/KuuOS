@@ -7,6 +7,7 @@ on:
     paths:
       - 'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean'
       - 'tests/test_public_root_restoration.py'
+      - 'scripts/kuuos_sandbox_lean_cycle_v1.py'
       - '.github/workflows/kuuos-v1104-adopted-exact-21-axioms.yml'
   workflow_dispatch:
 
