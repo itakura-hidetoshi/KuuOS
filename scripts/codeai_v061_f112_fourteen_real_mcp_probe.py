@@ -36,8 +36,15 @@ def main() -> int:
     manifest = json.loads((OUT / "manifest.json").read_text())
     assert manifest["parent_original_git_blob"] == SOURCE_BLOB
     assert manifest["parent_original_sha256"] == before_sha
+    five_stage = json.loads((OUT / "five-stage/manifest.json").read_text())
+    assert five_stage["original_fourteen_source_blob"] == SOURCE_BLOB
+    assert five_stage["original_fourteen_sha256"] == before_sha
+    assert five_stage["original_theorem_declarations_and_bodies_unchanged"] is True
+    assert five_stage["original_axiom_audits"] == 21
     assert TARGET.is_file() and "nativeK5PentagonatorFifteen_raw_ne" in TARGET.read_text()
-    for name in ("generic_core", "full_five_stage", "original_module_import_shim"):
+    for name in ("generic_core", "fourteen_five_exchange", "fourteen_five_leftfirst",
+                 "fourteen_five_rightfirst", "fourteen_five_theorems",
+                 "original_module_import_shim"):
         assert (OUT / (name + "-exit.txt")).read_text().strip() == "0", name
     assert (OUT / "import-smoke-exit.txt").read_text().strip() == "0"
 
