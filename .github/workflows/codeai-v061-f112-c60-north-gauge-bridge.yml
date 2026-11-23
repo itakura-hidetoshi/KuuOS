@@ -15,7 +15,7 @@ env:
 jobs:
   sandbox-local-source-lean:
     runs-on: ubuntu-24.04
-    timeout-minutes: 85
+    timeout-minutes: 120
     steps:
       - name: Sandbox checkout of exact research HEAD
         uses: actions/checkout@v6
@@ -37,29 +37,13 @@ jobs:
           if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
           if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
           test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
-      - name: Read pinned 193-olean source archive (acceleration, not certification)
-        uses: actions/download-artifact@v4
-        with:
-          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
-          run-id: 45039809757
-          repository: itakura-hidetoshi/KuuOS
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          path: artifacts/codeai-v061-f112-c60-north-import
-      - name: Check original pin and every archived olean digest
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
-            --artifact-dir artifacts/codeai-v061-f112-c60-north-import \
-            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
-            --receipt-path artifacts/codeai-v061-f112-c60-north-gauge/olean-replay.json
-      - name: Build original physical C60 gauge and original typed K5 nine-face boundary
+      - name: Build ORIGINAL canonical main C60 physical gauge and typed K5 (no inherited research-root cache)
         shell: bash
         run: |
           set -euo pipefail
           out=artifacts/codeai-v061-f112-c60-north-gauge
           set +e
-          timeout --signal=TERM --kill-after=15s 55m \
+          timeout --signal=TERM --kill-after=15s 95m \
             lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build \
             Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas \
             Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence >"$out/dependency-build.log" 2>&1
@@ -105,7 +89,7 @@ jobs:
     needs: sandbox-local-source-lean
     if: ${{ needs.sandbox-local-source-lean.result == 'success' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 85
+    timeout-minutes: 120
     steps:
       - name: Fresh independent runner checkout of exact GitHub source SHA
         uses: actions/checkout@v6
@@ -132,29 +116,13 @@ jobs:
           if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
           if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
           test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
-      - name: Read pinned 193-olean source archive (acceleration, not certification)
-        uses: actions/download-artifact@v4
-        with:
-          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
-          run-id: 45039809757
-          repository: itakura-hidetoshi/KuuOS
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          path: artifacts/codeai-v061-f112-c60-north-import
-      - name: Check original pin and every archived olean digest
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
-            --artifact-dir artifacts/codeai-v061-f112-c60-north-import \
-            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
-            --receipt-path artifacts/codeai-v061-f112-c60-north-gauge/olean-replay.json
-      - name: Build original physical C60 gauge and original typed K5 nine-face boundary
+      - name: Build ORIGINAL canonical main C60 physical gauge and typed K5 (no inherited research-root cache)
         shell: bash
         run: |
           set -euo pipefail
           out=artifacts/codeai-v061-f112-c60-north-gauge
           set +e
-          timeout --signal=TERM --kill-after=15s 55m \
+          timeout --signal=TERM --kill-after=15s 95m \
             lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build \
             Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas \
             Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence >"$out/dependency-build.log" 2>&1
