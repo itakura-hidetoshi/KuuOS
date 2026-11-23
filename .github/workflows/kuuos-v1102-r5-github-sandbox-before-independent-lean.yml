@@ -6,6 +6,7 @@ on:
       - 'research/v1.102-codeai-r5-two-errors-20261123'
     paths:
       - 'scripts/ci_kuuos_v1102_github_sandbox_r5.py'
+      - 'scripts/ci_kuuos_v1102_r5_version_bound_memory.py'
       - 'scripts/kuuos_sandbox_lean_cycle_v1.py'
       - '.github/workflows/kuuos-v1102-r5-github-sandbox-before-independent-lean.yml'
   workflow_dispatch:
@@ -228,3 +229,45 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
+
+  codeai-version-bound-memory-after-independent:
+    # A THIRD runner: never run memory admission from sandbox or merely queued CI.
+    needs: independent-candidate-strict-lean-36-axiom
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact research commit without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve exact GREEN sandbox candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1102-r5-sandbox-green-candidate
+          path: /tmp/kuuos-v1102-r5-memory-candidate
+      - name: Retrieve real direct-Lean and MCP sandbox receipts
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1102-r5-local-sandbox-direct-lean-mcp-receipts
+          path: /tmp/kuuos-v1102-r5-memory-sandbox
+      - name: Retrieve separate runner's independent full 36-axiom Lean log
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1102-r5-gated-independent-kernel-and-36-axioms
+          path: /tmp/kuuos-v1102-r5-memory-independent
+      - name: Execute actual Subtask-Level Version-Bound MemoryOS after proof evidence
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1102_r5_version_bound_memory.py
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1102_r5_version_bound_memory.py
+      - name: Preserve independent version-bound MemoryOS reconciliation receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-r5-codeai-version-bound-memory-recall
+          path: /tmp/kuuos-v1102-r5-version-bound-memory/
+          if-no-files-found: warn
+          retention-days: 30
