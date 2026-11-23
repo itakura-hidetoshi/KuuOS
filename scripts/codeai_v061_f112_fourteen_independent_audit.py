@@ -58,7 +58,7 @@ def main() -> None:
         assert gate["faults"] == []
         assert gate["original_14d_blob"] == SOURCE_BLOB
         assert gate["original_necessity_blob"] == NECESSITY_BLOB
-        assert len(gate["stage_records"]) == 12
+        assert len(gate["stage_records"]) == 15
         assert gate["independent_ci_claimed"] is False
     assert first_gate["independent_runner"] is False
     assert current_gate["independent_runner"] is True
@@ -86,7 +86,22 @@ def main() -> None:
     assert not re.search(r"(?i)PANIC at|Lean panicked|sorryAx|^\s*(?:error|warning):",
                          necessity_log, flags=re.M)
 
-    for name in ("generic_core", "full_five_stage", "original_module_import_shim"):
+    first_five = json.loads((FIRST / "five-stage/manifest.json").read_text())
+    independent_five = json.loads((OUT / "five-stage/manifest.json").read_text())
+    for key in ("original_fourteen_source_blob", "original_fourteen_sha256",
+                "original_stage_sha256", "module_names",
+                "source_sha256", "original_fragments_sha256",
+                "original_axiom_audits"):
+        assert first_five[key] == independent_five[key], (
+            "14D five-stage source content mismatch: " + key
+        )
+    assert independent_five["original_fourteen_source_blob"] == SOURCE_BLOB
+    assert independent_five["original_axiom_audits"] == 21
+    assert independent_five["original_theorem_declarations_and_bodies_unchanged"] is True
+
+    for name in ("generic_core", "fourteen_five_exchange", "fourteen_five_leftfirst",
+                 "fourteen_five_rightfirst", "fourteen_five_theorems",
+                 "original_module_import_shim"):
         assert (FIRST / (name + "-exit.txt")).read_text().strip() == "0"
         assert (OUT / (name + "-exit.txt")).read_text().strip() == "0"
     assert (FIRST / "import-smoke-exit.txt").read_text().strip() == "0"
@@ -99,7 +114,7 @@ def main() -> None:
     assert len(expected) >= 20 and len(set(expected)) == len(expected), expected
     all_log = "\n".join((
         (OUT / "generic_core.log").read_text(),
-        (OUT / "full_five_stage.log").read_text(),
+        (OUT / "fourteen_five_theorems.log").read_text(),
     ))
     # Lean uses the fully-qualified declaration name in every printed axiom response.
     for name in expected:
@@ -134,6 +149,7 @@ def main() -> None:
         "memory_verified_useful": False,
         "axioms_audited": len(expected),
         "necessity_axioms_audited": len(NECESSITY_DECLARATIONS),
+        "five_stage_source_bundle_compared": True,
         "independent_predecessor_lean_gate": True,
         "allowed_axioms": sorted(actual),
         "lean_internal_panic_or_error": False,
