@@ -21,6 +21,7 @@ coherence or global descent. These are additional, unproved bridges.
 namespace Kuu.F112.Physical
 
 open CategoryTheory
+open KUOS.Architecture
 open KUOS.Architecture.WuxingCyclicPaths
 set_option autoImplicit false
 set_option warningAsError true
