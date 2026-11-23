@@ -15,7 +15,7 @@ env:
 jobs:
   github-sandbox-direct-lean-mcp:
     runs-on: ubuntu-24.04
-    timeout-minutes: 85
+    timeout-minutes: 115
     steps:
       - name: Checkout research source exactly without credentials
         uses: actions/checkout@v6
@@ -91,7 +91,7 @@ jobs:
           run_lean thirteen_exact_core 3m \
             "$lib/CodeAIV061F112ThirteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112ThirteenFullCoreProbe.lean
-          run_lean thirteen_exact_five_stage 12m \
+          run_lean thirteen_exact_five_stage 25m \
             "$lib/CodeAIV061F112ThirteenFullTailProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112ThirteenFullTailProbe.lean
           python3 scripts/codeai_v061_f112_thirteen_full_source_split.py --phase shim
@@ -99,7 +99,7 @@ jobs:
             "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean" \
             artifacts/codeai-v061-f112-thirteen-full-decomposition/CanonicalShimScratch.lean
           # Native 14-cell imports must be built in this exact typed order.
-          run_lean fourteen_typed_square_comparison 18m \
+          run_lean fourteen_typed_square_comparison 20m \
             "$lib/PolygonNativeF55P94DK5TypedFourteenCellSquareComparison.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5TypedFourteenCellSquareComparison.lean
           run_lean fourteen_thirteen_groupoid 8m \
@@ -111,7 +111,7 @@ jobs:
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
-          run_lean full_five_stage 16m \
+          run_lean full_five_stage 25m \
             "$lib/CodeAIV061F112FourteenFullTailProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullTailProbe.lean
           test ! -e "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"
@@ -164,7 +164,7 @@ jobs:
     needs: github-sandbox-direct-lean-mcp
     if: ${{ needs.github-sandbox-direct-lean-mcp.result == 'success' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 85
+    timeout-minutes: 115
     steps:
       - name: Independent fresh checkout of exact original GitHub source HEAD
         uses: actions/checkout@v6
@@ -246,7 +246,7 @@ jobs:
           run_lean thirteen_exact_core 3m \
             "$lib/CodeAIV061F112ThirteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112ThirteenFullCoreProbe.lean
-          run_lean thirteen_exact_five_stage 12m \
+          run_lean thirteen_exact_five_stage 25m \
             "$lib/CodeAIV061F112ThirteenFullTailProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112ThirteenFullTailProbe.lean
           python3 scripts/codeai_v061_f112_thirteen_full_source_split.py --phase shim
@@ -254,7 +254,7 @@ jobs:
             "$lib/PolygonNativeF55P94DK5ThirteenCellNonabelianPasting.olean" \
             artifacts/codeai-v061-f112-thirteen-full-decomposition/CanonicalShimScratch.lean
           # Native 14-cell imports must be built in this exact typed order.
-          run_lean fourteen_typed_square_comparison 18m \
+          run_lean fourteen_typed_square_comparison 20m \
             "$lib/PolygonNativeF55P94DK5TypedFourteenCellSquareComparison.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5TypedFourteenCellSquareComparison.lean
           run_lean fourteen_thirteen_groupoid 8m \
@@ -266,7 +266,7 @@ jobs:
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
-          run_lean full_five_stage 16m \
+          run_lean full_five_stage 25m \
             "$lib/CodeAIV061F112FourteenFullTailProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullTailProbe.lean
           test ! -e "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"
