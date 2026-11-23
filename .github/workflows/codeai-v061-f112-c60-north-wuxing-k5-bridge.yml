@@ -2,7 +2,10 @@ name: CodeAI v0.61 original north C60 Wuxing plus K5 — sandbox then independen
 on:
   push:
     branches: [research/codeai-v061-public-root-closure-probe-20261122]
-    paths: [".github/workflows/codeai-v061-f112-c60-north-wuxing-k5-bridge.yml"]
+    paths:
+      - ".github/workflows/codeai-v061-f112-c60-north-wuxing-k5-bridge.yml"
+      - "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean"
+      - "scripts/codeai_v061_f112_c60_north_wuxing_k5_gate.py"
 permissions:
   contents: read
   actions: read
