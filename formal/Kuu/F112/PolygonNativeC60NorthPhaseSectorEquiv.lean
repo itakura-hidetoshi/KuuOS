@@ -88,6 +88,7 @@ theorem northK5ActualFiveSectors_phase_chart_surjective
   exact ⟨northK5TypedVertex_physical_five_sectors i,
     (northK5PhaseSectorEquiv frame).surjective⟩
 
+#print axioms northK5SectorOfSlot
 #print axioms northK5SectorOfSlot_injective
 #print axioms northK5SectorOfSlot_surjective
 #print axioms northK5PhaseSectorEquiv
