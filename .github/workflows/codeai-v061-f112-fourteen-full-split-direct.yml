@@ -165,6 +165,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/codeai_v061_f112_fourteen_real_mcp_probe.py
+      - name: Fail-closed local Lean source, diagnostic, and MCP gate before independent CI
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_sandbox_gate.py
+          python3 scripts/codeai_v061_f112_fourteen_sandbox_gate.py
       - name: Persist original-source SHA, complete lean outputs, diagnostics and explicit hold
         if: always()
         uses: actions/upload-artifact@v4
@@ -322,6 +328,12 @@ jobs:
           tail -n 30 "$d/import-smoke.log" || true
           if [[ "$rc" != "0" ]]; then exit "$rc"; fi
           echo "CODEAI_14D_FULL_SPLIT_DIRECT_SUCCESS (NOT ORIGINAL UNCHANGED MONOLITH OR FULL ROOT CERTIFICATION)"
+      - name: Fail-closed independent direct-Lean stage log inspection
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_sandbox_gate.py
+          python3 scripts/codeai_v061_f112_fourteen_sandbox_gate.py --independent
       - name: Compare independent source/axiom results to GitHub sandbox
         shell: bash
         run: |
