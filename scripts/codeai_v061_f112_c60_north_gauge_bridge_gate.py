@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 
@@ -50,12 +51,17 @@ def pinned_sources()->dict:
     pkgs=json.loads((ROOT/"lake-manifest.json").read_text())["packages"]
     assert [p["rev"] for p in pkgs if p["name"]=="mathlib"]==[
       "5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+    source_head=os.environ.get('GITHUB_SHA','')
+    run_id=os.environ.get('GITHUB_RUN_ID','')
+    assert re.fullmatch(r'[0-9a-f]{40}',source_head), 'NO_DATA: invalid exact GitHub runner HEAD'
+    assert run_id.isdigit(), 'NO_DATA: missing GitHub Actions run ID'
     src=raw.decode()
     assert len(re.findall(r"(?m)^\s*\(t[1-5] : KuuNativeF45Tree \(\.pentagon \.north\)",src))==5
     assert re.findall(r"(?m)^#print axioms (nativeC60NorthK5_\w+)", src)==list(EXPECTED)
     assert re.findall(r"(?m)^theorem (nativeC60NorthK5_\w+)", src)==list(EXPECTED)
     assert not re.search(r"(?m)^\s*(?:axiom|sorry|admit)\b",src)
     return {"source_blob":SOURCE_BLOB, "source_sha256":sha(raw),
+            "github_source_head":source_head, "github_run_id":run_id,
             "canonical_blobs":CANONICAL,"pinned_lean":"v4.30.0-rc2",
             "pinned_mathlib":"5450b53e5ddc75d46418fabb605edbf36bd0beb6",
             "theorems":list(EXPECTED)}
@@ -102,7 +108,7 @@ def direct(*,independent:bool)->int:
     if independent:
         first=json.loads((ROOT/"first-sandbox/c60-north-local-receipt.json").read_text())
         assert first["status"]=="LOCAL_LEAN_CLEAN" and not first["independent_runner"]
-        for key in ("source_blob","source_sha256","canonical_blobs","theorems","axioms","pinned_lean","pinned_mathlib"):
+        for key in ("source_blob","source_sha256","canonical_blobs","theorems","axioms","pinned_lean","pinned_mathlib","github_source_head","github_run_id"):
             assert result[key]==first[key], "fresh vs sandbox source/proof mismatch: "+key
     (OUT/("c60-north-independent-receipt.json" if independent else "c60-north-local-receipt.json")).write_text(
         json.dumps(result,sort_keys=True,indent=2)+"\n")
