@@ -1,0 +1,109 @@
+name: "KuuOS v1.104 R3-A exact independently verified Lean 21 axioms"
+
+on:
+  push:
+    branches:
+      - 'research/v1104-codeai-r3-independent-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1104-r3a-independent-after-local-green-21-axioms.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-lean21-only-after-source-bound-green:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout independent branch HEAD without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set Python 3.12 and preflight independent proof script
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify independent audit script and all fixed source blobs
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 -m py_compile scripts/ci_kuuos_v1104_independent_selected_21_audit.py
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          files = {
+              'scripts/ci_kuuos_v1104_independent_selected_21_audit.py': 'bce3ba9c2a9ddc3ec1ba5b45f8992647cbdb4898',
+              'scripts/kuuos_sandbox_lean_cycle_v1.py': '5383253dbe9cda9cab90a410c2fd66ee6b9d6f41',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean': 'dc75c6d91c317bc8d350c7c45d4268dce38bf06c',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean': 'dbec61c9798481709f2deda0028e84b7515f209e',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean': 'f8b492b210e5525990aa587fa2eb5c8648a5ff19',
+              'research/codeai/v1104/r3/A-revert.lean': '5c911aaeb9a21baff57f6af8c8655309af47d027',
+          }
+          for p, blob in files.items():
+              assert c.git_blob(Path(p).read_bytes()) == blob, p
+          print('KUUOS_V1104_INDEPENDENT_FIXED_SOURCES_AND_AUDIT_SCRIPT_EXACT')
+          PY
+      - name: Download original winning sandbox's exact candidate bytes
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45277456165
+          github-token: ${{ github.token }}
+          name: kuuos-v1104-r3-local-green-selected-source
+          path: /tmp/kuuos-v1104-independent-selected
+      - name: Download actual 21-axiom and real MCP local-green receipts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45277456165
+          github-token: ${{ github.token }}
+          name: kuuos-v1104-r3-multitrial-direct-lean-21-axioms-mcp-receipts
+          path: /tmp/kuuos-v1104-independent-local
+      - name: Verify original sandbox completed SUCCESS and source byte identity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1104_independent_selected_21_audit.py prepare
+      - name: Set pinned Lean separately from sandbox with no full-PR build
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore only exact fixed Lake workspace cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile certified v1.103 predecessor on independent runner
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103
+      - name: Compile sandbox-selected exact v1.104 bytes in independent kernel
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o /tmp/kuuos-v1104-independent-selected.olean \
+            formal/KUOS/.v1104-independent-kernel/Selected.lean
+      - name: Independently inspect all 21 kernel axiom dependencies
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/.v1104-independent-kernel/AxiomAudit.lean \
+            | tee /tmp/kuuos-v1104-independent-axioms.log
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1104_independent_selected_21_audit.py complete
+      - name: Retain completed independent certificate or fail-closed obstruction
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-r3a-independent-21-axioms-certificate
+          path: |
+            /tmp/kuuos-v1104-independent-proof/
+            /tmp/kuuos-v1104-independent-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
