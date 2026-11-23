@@ -24,7 +24,7 @@ CANONICAL = {
     "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean":
         "928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
     "formal/KuuOSFormal.lean":
-        "87ee2a7f541e48482e0d76f2abf819932c42f188",
+        "f8c348ec9c8e76c4c02dd2c1623a633def52f948",
 }
 EXPECTED = (
     "nativeC60NorthK5_gauge_invariance_and_typed_obstruction",
