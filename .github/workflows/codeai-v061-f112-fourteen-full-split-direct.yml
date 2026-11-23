@@ -105,9 +105,23 @@ jobs:
           run_lean fourteen_thirteen_groupoid 8m \
             "$lib/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.lean
-          run_lean fourteen_pentagonator_necessity 6m \
+          # Exact six-declaration source-sealed split (NOT original monolithic certification).
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
+          run_lean fourteen_necessity_core 10m \
+            "$lib/CodeAIV061F112FourteenNecessityCoreProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityCoreProbe.lean
+          run_lean fourteen_necessity_middle 10m \
+            "$lib/CodeAIV061F112FourteenNecessityMiddleProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityMiddleProbe.lean
+          run_lean fourteen_necessity_tail 10m \
+            "$lib/CodeAIV061F112FourteenNecessityTailProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityTailProbe.lean
+          test ! -e "$lib/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.olean"
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase shim
+          run_lean fourteen_necessity_original_name_shim 2m \
             "$lib/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.olean" \
-            formal/Kuu/F112/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.lean
+            "$d/necessity/CanonicalNecessityShimScratch.lean"
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
@@ -260,9 +274,23 @@ jobs:
           run_lean fourteen_thirteen_groupoid 8m \
             "$lib/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.lean
-          run_lean fourteen_pentagonator_necessity 6m \
+          # Exact six-declaration source-sealed split (NOT original monolithic certification).
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
+          run_lean fourteen_necessity_core 10m \
+            "$lib/CodeAIV061F112FourteenNecessityCoreProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityCoreProbe.lean
+          run_lean fourteen_necessity_middle 10m \
+            "$lib/CodeAIV061F112FourteenNecessityMiddleProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityMiddleProbe.lean
+          run_lean fourteen_necessity_tail 10m \
+            "$lib/CodeAIV061F112FourteenNecessityTailProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenNecessityTailProbe.lean
+          test ! -e "$lib/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.olean"
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase shim
+          run_lean fourteen_necessity_original_name_shim 2m \
             "$lib/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.olean" \
-            formal/Kuu/F112/PolygonNativeF55P94DK5PentagonatorFourteenCellNecessity.lean
+            "$d/necessity/CanonicalNecessityShimScratch.lean"
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
