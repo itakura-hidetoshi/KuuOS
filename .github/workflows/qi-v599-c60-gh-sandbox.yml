@@ -15,7 +15,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   SOURCE: formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean
-  SOURCE_BLOB: 82b5a9fdf5f8239346d7c96600c20919a1eef093
+  SOURCE_BLOB: 1cb4ef177ada5f15f0faf53876cc046c1e6c35e8
   FROZEN_PARENT_HEAD: c016c9a2a628350f0da1cdb0a9bb915a5ffe5568
   TARGET: KUOS.Architecture.QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99
 
