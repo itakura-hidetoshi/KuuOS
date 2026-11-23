@@ -2,7 +2,10 @@ name: F112 C60 north-K5 source-exact Draft PR direct Lean then independent verif
 on:
   push:
     branches: [research/f112-c60-north-k5-gauge-source-exact-20261123]
-    paths: [".github/workflows/codeai-v061-f112-c60-north-gauge-bridge.yml"]
+    paths:
+      - ".github/workflows/codeai-v061-f112-c60-north-gauge-bridge.yml"
+      - "formal/Kuu/F112/PolygonNativeC60NorthK5GaugeBoundaryBridge.lean"
+      - "scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py"
 permissions:
   contents: read
   actions: read
