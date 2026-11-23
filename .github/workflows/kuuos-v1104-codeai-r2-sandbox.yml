@@ -1,0 +1,58 @@
+name: "KuuOS v1.104 CodeAI R2 DIRECT sandbox - no independent CI"
+
+on:
+  push:
+    branches:
+      - 'research/v1104-codeai-r2-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1104-codeai-r2-sandbox.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeai-r2-direct-lean-and-local-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Exact research branch checkout without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up fixed Lean without automatic validation
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed dependency cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Syntax checks for local-only candidate runner
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 -m py_compile scripts/ci_kuuos_v1104_codeai_r2_sandbox.py
+      - name: Compile certified predecessor v1.103 only
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103
+      - name: Run R2 isolated direct Lean and local 21-declaration axiom audit
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1104_codeai_r2_sandbox.py
+      - name: Retain local RED or GREEN proof diagnostics for CodeAI repair
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-codeai-r2-direct-lean-sandbox
+          path: /tmp/kuuos-v1104-codeai-r2/
+          if-no-files-found: warn
+          retention-days: 30
