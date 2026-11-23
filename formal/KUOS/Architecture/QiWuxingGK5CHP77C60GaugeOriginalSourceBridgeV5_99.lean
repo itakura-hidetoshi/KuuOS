@@ -77,8 +77,7 @@ def selectedV599C60PhysicalDart
     (t : SelectedV588UnitFreeTerm) : Dart :=
   nativeC60GaugeDart frame v (selectedV599C60ContextPhase t)
 
-/-- ACTUAL C60 around-edge, not a surrogate graph path. -/
-/-- Physical C60 five-sector around-edge of the CHOSEN phase. -/
+/-- Physical C60 five-sector around-edge of the CHOSEN phase; real C60 Edge. -/
 def selectedV599C60SideAt
     (frame : NativeC60FivePhaseGauge) (v : Vertex)
     (p : FivePhase) : Edge :=
