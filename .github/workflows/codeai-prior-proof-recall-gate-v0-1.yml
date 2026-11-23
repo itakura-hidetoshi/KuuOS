@@ -1,0 +1,24 @@
+name: CodeAI prior-proof recall gate (Python only)
+on:
+  push:
+    branches: [research/codeai-prior-proof-recall-gate-20261124]
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_prior_proof_recall_gate_v0_1.py"
+      - "scripts/codeai_prior_proof_recall_gate_v0_1.py"
+      - "scripts/check_codeai_prior_proof_recall_gate_v0_1.py"
+      - ".github/workflows/codeai-prior-proof-recall-gate-v0-1.yml"
+      - "AGENTS.md"
+permissions:
+  contents: read
+jobs:
+  recall-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Exact source recall and fail-closed review regressions
+        run: python3 scripts/check_codeai_prior_proof_recall_gate_v0_1.py

@@ -13,3 +13,26 @@ The user's 2026-10-17 correction supersedes the blanket exclusion of old public 
 - Preserve Lean v4.30.0-rc2, the committed mathlib manifest, original theorem bodies and names, copyright and licenses. No sorry/admit/new axioms in new proofs. PR #1558 stays validation-only; #2339 remains separate.
 
 Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
+
+## Mandatory research prior-proof recall (2026-11-24, additive)
+
+Before suggesting or generating any new mathematical research candidate, use
+GitHub MCP to reobserve canonical main, recall prior workbench/MemoryOS records,
+and search existing Lean sources across **all** relevant families (including
+KUOS/Architecture, Kuu/F112, GK5, and previous proof/obstruction stages). Read
+the actual signatures, assumptions, definitions, imports and proof history.
+Do not treat a new name, a finite carrier adapter or a successful CI as
+mathematical novelty. Existing proofs are to be reused, not reproved.
+
+Use the versioned prior-proof recall gate documented in
+`docs/KUUOS_CODEAI_PRIOR_PROOF_RECALL_GATE_v0_1.md` before provider/candidate
+generation. On a materialized exact canonical source, record its retrieval
+receipt and review for each proposed proposition; in MCP-only sessions, collect
+the corresponding exact source/blob/signature comparisons via MCP and record
+them, without claiming the local scanner ran. Search misses, stale evidence,
+unresolved comparisons or missing history must not be promoted to novelty.
+Retain the separate statuses REUSE_EXISTING, necessary typed bridge (not a
+new mathematical result), reviewed unproved delta, and HOLD/NO_DATA. Only a
+documented residual obligation or necessary bridge may proceed to CodeAI
+candidate generation; then direct Lean, real Lean MCP and independent CI
+remain distinct. Do not modify historical theorem bodies or proof pins.
