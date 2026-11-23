@@ -22,3 +22,5 @@ jobs:
           persist-credentials: false
       - name: Exact source recall and fail-closed review regressions
         run: python3 scripts/check_codeai_prior_proof_recall_gate_v0_1.py
+      - name: Research recall gate before the original CodeAI synthesis kernel
+        run: python3 scripts/check_codeai_research_structured_edit_synthesis_v0_1.py

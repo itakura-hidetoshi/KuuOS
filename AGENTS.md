@@ -36,3 +36,10 @@ new mathematical result), reviewed unproved delta, and HOLD/NO_DATA. Only a
 documented residual obligation or necessary bridge may proceed to CodeAI
 candidate generation; then direct Lean, real Lean MCP and independent CI
 remain distinct. Do not modify historical theorem bodies or proof pins.
+
+Use the research-specific `build_research_structured_edit_synthesis` entry in
+`runtime/kuuos_codeai_research_structured_edit_synthesis_v0_1.py` for new
+mathematical provider proposals, not the ungated generic software synthesis
+entry. It consumes the fresh reviewed recall receipt and verifies the prior
+source texts in the actual provider context before calling the original
+CodeAI kernel. Do not use an old research replay to bypass this gate.

@@ -53,3 +53,18 @@ identity, inspect other branches by itself, compare Lean types in the kernel,
 or grant authority. GitHub MCP pins/reads and actual source/type comparisons
 remain mandatory. A search miss is not evidence of novelty. The tool does
 not retroactively alter or require reproving previously certified Lean.
+
+## Native CodeAI integration
+
+New mathematical provider proposals must use the research-specific
+`build_research_structured_edit_synthesis` wrapper around the original
+`build_codeai_autonomous_structured_edit_synthesis`. The review must include
+`synthesis_request_binding = digest(full_synthesis_request)` using the recall
+module's digest function. The actual intent must contain the reviewed target,
+assumptions, residual delta and (for a bridge) consumer. Complete relevant
+source files must match actual local bytes and appear in provider context;
+source observation must match canonical main SHA. A blocked review returns
+without invoking the original kernel. Existing generic software repair and
+historical replay functions are unchanged, not blanket proof-gated. The new
+wrapper does not automatically discover semantic duplicates, and MCP-only
+research must explicitly perform equivalent recall and review before proposing.
