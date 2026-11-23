@@ -15,7 +15,7 @@ env:
 jobs:
   github-sandbox-direct-lean-mcp:
     runs-on: ubuntu-24.04
-    timeout-minutes: 115
+    timeout-minutes: 140
     steps:
       - name: Checkout research source exactly without credentials
         uses: actions/checkout@v6
@@ -125,11 +125,23 @@ jobs:
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
-          run_lean full_five_stage 25m \
-            "$lib/CodeAIV061F112FourteenFullTailProbe.olean" \
-            formal/Kuu/F112/CodeAIV061F112FourteenFullTailProbe.lean
+          # Four source-exact units isolate the first high-cost five-stage instance.
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
+          run_lean fourteen_five_exchange 5m \
+            "$lib/CodeAIV061F112FourteenFiveExchangeProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveExchangeProbe.lean
+          run_lean fourteen_five_leftfirst 20m \
+            "$lib/CodeAIV061F112FourteenFiveLeftFirstProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveLeftFirstProbe.lean
+          run_lean fourteen_five_rightfirst 15m \
+            "$lib/CodeAIV061F112FourteenFiveRightFirstProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveRightFirstProbe.lean
+          run_lean fourteen_five_theorems 20m \
+            "$lib/CodeAIV061F112FourteenFiveTheoremsProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveTheoremsProbe.lean
           test ! -e "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"
-          python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase shim
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase shim
           run_lean original_module_import_shim 2m \
             "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean" \
             "$d/CanonicalShimScratch.lean"
@@ -184,7 +196,7 @@ jobs:
     needs: github-sandbox-direct-lean-mcp
     if: ${{ needs.github-sandbox-direct-lean-mcp.result == 'success' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 115
+    timeout-minutes: 140
     steps:
       - name: Independent fresh checkout of exact original GitHub source HEAD
         uses: actions/checkout@v6
@@ -300,11 +312,23 @@ jobs:
           run_lean generic_core 4m \
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
-          run_lean full_five_stage 25m \
-            "$lib/CodeAIV061F112FourteenFullTailProbe.olean" \
-            formal/Kuu/F112/CodeAIV061F112FourteenFullTailProbe.lean
+          # Four source-exact units isolate the first high-cost five-stage instance.
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
+          run_lean fourteen_five_exchange 5m \
+            "$lib/CodeAIV061F112FourteenFiveExchangeProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveExchangeProbe.lean
+          run_lean fourteen_five_leftfirst 20m \
+            "$lib/CodeAIV061F112FourteenFiveLeftFirstProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveLeftFirstProbe.lean
+          run_lean fourteen_five_rightfirst 15m \
+            "$lib/CodeAIV061F112FourteenFiveRightFirstProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveRightFirstProbe.lean
+          run_lean fourteen_five_theorems 20m \
+            "$lib/CodeAIV061F112FourteenFiveTheoremsProbe.olean" \
+            formal/Kuu/F112/CodeAIV061F112FourteenFiveTheoremsProbe.lean
           test ! -e "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"
-          python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase shim
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase shim
           run_lean original_module_import_shim 2m \
             "$lib/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean" \
             "$d/CanonicalShimScratch.lean"
