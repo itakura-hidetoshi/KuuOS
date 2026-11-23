@@ -6,6 +6,7 @@ on:
       - 'research/v1.102-codeai-r3-local-repair-20261123'
     paths:
       - 'scripts/ci_kuuos_v1102_github_sandbox_r3.py'
+      - 'scripts/kuuos_sandbox_lean_cycle_v1.py'
       - 'scripts/ci_kuuos_v1102_r3_version_bound_memory.py'
       - '.github/workflows/kuuos-v1102-r3-github-sandbox-before-independent-lean.yml'
   workflow_dispatch:
@@ -51,6 +52,16 @@ jobs:
           set -euo pipefail
           python3 -m py_compile scripts/ci_kuuos_v1102_github_sandbox_r3.py
           python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as sandbox
+          import hashlib
+          data=Path('scripts/kuuos_sandbox_lean_cycle_v1.py').read_bytes()
+          assert sandbox.git_blob(data)=='5383253dbe9cda9cab90a410c2fd66ee6b9d6f41'
+          assert sandbox.LEAN_PIN=='leanprover/lean4:v4.30.0-rc2'
+          assert sandbox.MATHLIB_PIN=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          print('KUUOS_V1102_R3_SANDBOX_ENGINE_EXACT_CANONICAL_BLOB')
+          PY
           python3 - <<'PY'
           from pathlib import Path
           import hashlib,json
