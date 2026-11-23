@@ -1,0 +1,90 @@
+name: KuuOS v1.103 CodeAI second five serial trials: direct Lean local sandbox ONLY
+
+on:
+  push:
+    branches:
+      - 'research/v1103-codeai-second-local-five-20261123'
+    paths:
+      - '.github/workflows/kuuos-v1103-codeai-second-five-local-trials.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pinned-isolated-five-candidate-local-lean:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact candidate source HEAD without credential persistence
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up Python for real Lean MCP
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean without building the whole PR
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore exact pinned mathlib cache when available
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Install local stdio MCP runtime
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Preflight exact original, imported v1.102, toolchain, trial engine
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1103_second_five_trial_sandbox.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          assert c.git_blob(Path('scripts/kuuos_sandbox_lean_cycle_v1.py').read_bytes())=='5383253dbe9cda9cab90a410c2fd66ee6b9d6f41'
+          assert c.git_blob(Path('scripts/ci_kuuos_v1103_second_five_trial_sandbox.py').read_bytes())=='da0c43ffd3eb4bc8815d87b80fd8b76e0299f90f'
+          assert c.git_blob(Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean').read_bytes())=='04de7e72813e0e28c9d4e499b68876f081b3bdba'
+          assert c.git_blob(Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean').read_bytes())=='f8b492b210e5525990aa587fa2eb5c8648a5ff19'
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [x['rev'] for x in json.loads(Path('lake-manifest.json').read_text())['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1103_PINNED_SANDBOX_PRECHECK_SUCCESS')
+          PY
+      - name: Restore pinned Lean v1.102 dependency and required mathlib API
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102
+      - name: CodeAI five sequential direct Lean candidates and first local axioms/MCP GREEN
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1103_second_five_trial_sandbox.py
+      - name: Preserve complete local failed and successful direct Lean evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1103-second-five-local-lean-mcp-append-only-receipts
+          path: |
+            /tmp/kuuos-v1103-second-five-receipts/
+            /tmp/kuuos-v1103-second-five-admission.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Export GREEN candidate for a separate later independent runner
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1103-second-sandbox-green-selected-source
+          path: /tmp/kuuos-v1103-second-five-green/
+          if-no-files-found: error
+          retention-days: 30
