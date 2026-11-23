@@ -1,12 +1,12 @@
 import KUOS.Architecture.QiWuxingGK5CHP77ReversedUnitFreeContextFaithfulnessV5_98
-import KUOS.Architecture.QiWuxingPentagonUnifiedV3_5
+import KUOS.Architecture.QiWuxingNativeC60GaugeV3_4
 
 /-!
 Qi v5.99 — authentic C60 five-phase gauge shadow of original old18D
 one-unit proof contexts, with a certified local faithfulness boundary.
 
 The physical side is the EXISTING C60 twelve-pentagon atlas:
-Vertex, Slot, Dart, Edge, NativeC60FivePhaseGauge and fivefoldSide.
+Vertex, Slot, Dart, Edge and NativeC60FivePhaseGauge.
 The source side is the EXISTING genuine dependent old18D:
 SelectedLocalEighteen, original v5.73 internal bracket, original v5.92
 Sigma unit payloads, and the certified v5.98 reverse/chain contexts.
@@ -61,9 +61,9 @@ variable {W : Type uSix}
 to the EXISTING physical Qi/C60 five-phase carrier.
 It intentionally forgets more than the full old18D bracket. -/
 def selectedV599C60ContextPhase (t : SelectedV588UnitFreeTerm) :
-    FivefoldIndex :=
+    FivePhase :=
   (selectedV594InnerStrictCount (selectedV588UnitFreeBracket t) :
-    FivefoldIndex)
+    FivePhase)
 
 /-- ACTUAL C60 pentagonal sector at one existing vertex chart. -/
 def selectedV599C60PhysicalSlot
@@ -78,10 +78,16 @@ def selectedV599C60PhysicalDart
   nativeC60GaugeDart frame v (selectedV599C60ContextPhase t)
 
 /-- ACTUAL C60 around-edge, not a surrogate graph path. -/
+/-- Physical C60 five-sector around-edge of the CHOSEN phase. -/
+def selectedV599C60SideAt
+    (frame : NativeC60FivePhaseGauge) (v : Vertex)
+    (p : FivePhase) : Edge :=
+  .around ⟨v, nativeC60GaugeSlot frame v p⟩
+
 def selectedV599C60PhysicalSide
     (frame : NativeC60FivePhaseGauge) (v : Vertex)
     (t : SelectedV588UnitFreeTerm) : Edge :=
-  fivefoldSide frame v (selectedV599C60ContextPhase t)
+  selectedV599C60SideAt frame v (selectedV599C60ContextPhase t)
 
 /-- A local change of C60 pentagonal coordinate frame. -/
 def selectedV599C60GaugeShift
@@ -92,14 +98,14 @@ def selectedV599C60GaugeShift
 /-- Coordinate compensation of a chosen phase by the local gauge. -/
 def selectedV599C60Rephase
     (delta : NativeC60FivePhaseGauge) (v : Vertex)
-    (p : FivefoldIndex) : FivefoldIndex :=
+    (p : FivePhase) : FivePhase :=
   p - delta v
 
 /-- Genuine physical Slot covariance under change of the local
 C60 gauge frame and inverse change of the phase coordinate. -/
 theorem selectedV599C60GaugeSlot_covariant
     (frame delta : NativeC60FivePhaseGauge)
-    (v : Vertex) (p : FivefoldIndex) :
+    (v : Vertex) (p : FivePhase) :
     nativeC60GaugeSlot (selectedV599C60GaugeShift frame delta) v
         (selectedV599C60Rephase delta v p) =
       nativeC60GaugeSlot frame v p := by
@@ -111,7 +117,7 @@ theorem selectedV599C60GaugeSlot_covariant
 /-- The same covariance holds for the ACTUAL native C60 dart. -/
 theorem selectedV599C60GaugeDart_covariant
     (frame delta : NativeC60FivePhaseGauge)
-    (v : Vertex) (p : FivefoldIndex) :
+    (v : Vertex) (p : FivePhase) :
     nativeC60GaugeDart (selectedV599C60GaugeShift frame delta) v
         (selectedV599C60Rephase delta v p) =
       nativeC60GaugeDart frame v p := by
@@ -125,14 +131,11 @@ theorem selectedV599C60GaugeDart_covariant
 gauge coordinate shift; this is genuine physical incidence. -/
 theorem selectedV599C60GaugeSide_covariant
     (frame delta : NativeC60FivePhaseGauge)
-    (v : Vertex) (p : FivefoldIndex) :
-    fivefoldSide (selectedV599C60GaugeShift frame delta) v
+    (v : Vertex) (p : FivePhase) :
+    selectedV599C60SideAt (selectedV599C60GaugeShift frame delta) v
         (selectedV599C60Rephase delta v p) =
-      fivefoldSide frame v p := by
-  change Edge.around
-      ⟨v, nativeC60GaugeSlot (selectedV599C60GaugeShift frame delta)
-        v (selectedV599C60Rephase delta v p)⟩ =
-    Edge.around ⟨v, nativeC60GaugeSlot frame v p⟩
+      selectedV599C60SideAt frame v p := by
+  unfold selectedV599C60SideAt
   rw [selectedV599C60GaugeSlot_covariant frame delta v p]
 
 /-- The old18D context chooses an ACTUAL physical C60 around-edge
@@ -142,9 +145,8 @@ theorem selectedV599C60ContextSide_endpoints
     (v : Vertex) (t : SelectedV588UnitFreeTerm) :
     edgeEndpoints (selectedV599C60PhysicalSide frame v t) =
       (selectedV599C60PhysicalDart frame v t,
-       nativeC60GaugeDart frame v
-         (selectedV599C60ContextPhase t + 1)) := by
-  exact fivefoldSide_endpoints frame v (selectedV599C60ContextPhase t)
+       incidentDart v (slotNext (selectedV599C60PhysicalSlot frame v t))) := by
+  rfl
 
 /-- This chosen five-phase shadow is NOT injective on old18D
 context shapes: strict and reversed strict have the same phase. -/
@@ -221,7 +223,7 @@ def selectedV599C60CompensatedJointObservation
         List (SelectedV592OriginalUnitAtom l r H K)) :=
   ⟨⟨nativeC60GaugeSlot (selectedV599C60GaugeShift frame delta) v
         (selectedV599C60Rephase delta v (selectedV599C60ContextPhase t)),
-      fivefoldSide (selectedV599C60GaugeShift frame delta) v
+      selectedV599C60SideAt (selectedV599C60GaugeShift frame delta) v
         (selectedV599C60Rephase delta v (selectedV599C60ContextPhase t))⟩,
     ⟨selectedLocalEighteenInnerBracket l r
         (selectedV598ReverseLeftContext l r J N t M),
@@ -295,7 +297,7 @@ theorem selectedV599C60PhysicalShadow_notRawFaithful
   have he :
       selectedV599C60PhysicalSide frame v .strict =
         selectedV599C60PhysicalSide frame v (.reversed .strict) := by
-    exact congrArg (fivefoldSide frame v) hp
+    exact congrArg (selectedV599C60SideAt frame v) hp
   have hh :
       selectedV592OriginalUnitHistory l r
           (selectedV598ReverseLeftContext l r J N .strict M) =
@@ -325,6 +327,7 @@ end OriginalDependentUnitC60Bridge
 #print axioms PentagonAdjoinedSixCell.selectedV599C60ContextPhase
 #print axioms PentagonAdjoinedSixCell.selectedV599C60PhysicalSlot
 #print axioms PentagonAdjoinedSixCell.selectedV599C60PhysicalDart
+#print axioms PentagonAdjoinedSixCell.selectedV599C60SideAt
 #print axioms PentagonAdjoinedSixCell.selectedV599C60PhysicalSide
 #print axioms PentagonAdjoinedSixCell.selectedV599C60GaugeShift
 #print axioms PentagonAdjoinedSixCell.selectedV599C60Rephase
