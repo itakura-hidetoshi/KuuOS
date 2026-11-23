@@ -1,4 +1,4 @@
-name: KuuOS v1.103 CodeAI second five serial trials: direct Lean local sandbox ONLY
+name: "KuuOS v1.103 CodeAI second five serial trials - direct Lean local sandbox ONLY"
 
 on:
   push:
