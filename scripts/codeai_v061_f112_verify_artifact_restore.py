@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CodeAI v0.61 F112: verify a historical pinned Lean dependency artifact.
 
-Read-only provenance checks precede extraction. The artifact is permitted
+Read-only provenance checks precede extraction. This canonical-main-root verifier MUST REJECT the old research-root 193-olean artifact. The artifact is permitted
 only as an accelerator of a NEW direct independent Lean kernel run; it is not
 a verification receipt, a theorem, or an authorization to promote Memory.
 No repository source, Lean declaration, or Git ref is modified.
@@ -19,7 +19,7 @@ SOURCE_BLOBS = {
     "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean":
         "928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
     "formal/KuuOSFormal.lean":
-        "87ee2a7f541e48482e0d76f2abf819932c42f188",
+        "f8c348ec9c8e76c4c02dd2c1623a633def52f948",
     "formal/KUOS/Architecture/LeanPythonTwoStagePrivateAppendModelCandidateAV0_61.lean":
         "c70aa395d14d873c686008bd80c835c059f936d5",
 }
