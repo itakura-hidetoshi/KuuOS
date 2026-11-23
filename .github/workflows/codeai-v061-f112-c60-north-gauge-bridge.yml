@@ -1,0 +1,197 @@
+name: CodeAI v0.61 C60 north gauge/K5 source bridge — sandbox then independent Lean
+on:
+  push:
+    branches: [research/codeai-v061-public-root-closure-probe-20261122]
+    paths: [".github/workflows/codeai-v061-f112-c60-north-gauge-bridge.yml"]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-v061-c60-north-${{github.ref}}
+  cancel-in-progress: true
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: '.'
+jobs:
+  sandbox-local-source-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - name: Sandbox checkout of exact research HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{github.sha}}
+          persist-credentials: false
+      - name: Exact C60 north + typed K5 original source preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py
+          python3 scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py --phase preflight
+      - name: Install Lean v4.30.0-rc2 (no upgrade)
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Read pinned 193-olean source archive (acceleration, not certification)
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-c60-north-import
+      - name: Check original pin and every archived olean digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-c60-north-import \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path artifacts/codeai-v061-f112-c60-north-gauge/olean-replay.json
+      - name: Build original physical C60 gauge and original typed K5 nine-face boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=artifacts/codeai-v061-f112-c60-north-gauge
+          set +e
+          timeout --signal=TERM --kill-after=15s 55m \
+            lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build \
+            Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas \
+            Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence >"$out/dependency-build.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" >"$out/dependency-exit.txt"
+          echo "C60_NORTH_K5_ORIGINAL_DEPENDENCY rc=$rc"
+          tail -n 50 "$out/dependency-build.log"
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+      - name: Direct fixed-Lean compile of north C60 physical/K5 bridge and both axiom prints
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=artifacts/codeai-v061-f112-c60-north-gauge
+          lib=.lake/build/lib/lean/Kuu/F112
+          mkdir -p "$lib"
+          set +e
+          timeout --signal=TERM --kill-after=15s 10m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$lib/PolygonNativeC60NorthK5GaugeBoundaryBridge.olean" \
+            formal/Kuu/F112/PolygonNativeC60NorthK5GaugeBoundaryBridge.lean >"$out/direct-lean.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" >"$out/direct-exit.txt"
+          echo "C60_NORTH_K5_BRIDGE_DIRECT_LEAN rc=$rc"
+          tail -n 60 "$out/direct-lean.log"
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+      - name: Sandbox Lean exact-source, all-axiom and diagnostic guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py --phase direct
+      - name: Persist LOCAL source/maths evidence and explicit HOLD on full root
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-c60-north-local-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-c60-north-gauge/
+          retention-days: 30
+          if-no-files-found: warn
+
+  independent-source-lean:
+    needs: sandbox-local-source-lean
+    if: ${{ needs.sandbox-local-source-lean.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - name: Fresh independent runner checkout of exact GitHub source SHA
+        uses: actions/checkout@v6
+        with:
+          ref: ${{github.sha}}
+          persist-credentials: false
+      - name: Import first-runner LOG/MANIFEST receipts ONLY (not bridge oleans)
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-c60-north-local-${{github.run_id}}-${{github.run_attempt}}
+          path: first-sandbox/
+      - name: Exact C60 north + typed K5 original source preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py
+          python3 scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py --phase preflight
+      - name: Install Lean v4.30.0-rc2 (no upgrade)
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore pinned mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -s .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean
+      - name: Read pinned 193-olean source archive (acceleration, not certification)
+        uses: actions/download-artifact@v4
+        with:
+          name: codeai-v061-f112-v5-olean-prefix-45039809757-1
+          run-id: 45039809757
+          repository: itakura-hidetoshi/KuuOS
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path: artifacts/codeai-v061-f112-c60-north-import
+      - name: Check original pin and every archived olean digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_verify_artifact_restore.py \
+            --artifact-dir artifacts/codeai-v061-f112-c60-north-import \
+            --expected-producer-head 03818b10681329217bbaaf093665cc85659cf960 \
+            --receipt-path artifacts/codeai-v061-f112-c60-north-gauge/olean-replay.json
+      - name: Build original physical C60 gauge and original typed K5 nine-face boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=artifacts/codeai-v061-f112-c60-north-gauge
+          set +e
+          timeout --signal=TERM --kill-after=15s 55m \
+            lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build \
+            Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas \
+            Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence >"$out/dependency-build.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" >"$out/dependency-exit.txt"
+          echo "C60_NORTH_K5_ORIGINAL_DEPENDENCY rc=$rc"
+          tail -n 50 "$out/dependency-build.log"
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+      - name: Direct fixed-Lean compile of north C60 physical/K5 bridge and both axiom prints
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=artifacts/codeai-v061-f112-c60-north-gauge
+          lib=.lake/build/lib/lean/Kuu/F112
+          mkdir -p "$lib"
+          set +e
+          timeout --signal=TERM --kill-after=15s 10m lake env lean \
+            -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o "$lib/PolygonNativeC60NorthK5GaugeBoundaryBridge.olean" \
+            formal/Kuu/F112/PolygonNativeC60NorthK5GaugeBoundaryBridge.lean >"$out/direct-lean.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" >"$out/direct-exit.txt"
+          echo "C60_NORTH_K5_BRIDGE_DIRECT_LEAN rc=$rc"
+          tail -n 60 "$out/direct-lean.log"
+          if [[ "$rc" != "0" ]]; then exit "$rc"; fi
+      - name: Independent fresh-runner Lean exact-source, all-axiom and diagnostic guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_v061_f112_c60_north_gauge_bridge_gate.py --phase direct --independent
+      - name: Persist independent source/axiom audit (not 14D/root certification)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-v061-f112-c60-north-independent-${{github.run_id}}-${{github.run_attempt}}
+          path: artifacts/codeai-v061-f112-c60-north-gauge/
+          retention-days: 30
+          if-no-files-found: warn
