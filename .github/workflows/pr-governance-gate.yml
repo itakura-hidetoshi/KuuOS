@@ -198,10 +198,11 @@ jobs:
           # The 100m job budget runs the existing bounded 75m Lean command
           # and preserves PR-scoped validated dependency prefixes on RED.
           f112_heavy = any(
-              p.endswith(".lean") and (
-                  p.startswith("formal/Kuu/F112/") or
-                  p.startswith("formal/KUOS/Architecture/QiWuxingGK5CHP77")
-              )
+              p.startswith("formal/Kuu/F112/") and p.endswith(".lean")
+              for p in changed
+          ) or any(
+              p.startswith("formal/KUOS/Architecture/QiWuxingGK5CHP77")
+              and p.endswith(".lean")
               for p in changed
           )
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
