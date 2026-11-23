@@ -1,0 +1,233 @@
+name: KuuOS v1.102 CodeAI five local Lean attempts FIRST then gated independent 36-axiom audit
+
+on:
+  push:
+    branches:
+      - 'research/v1.102-codeai-multitrial-sandbox-20261123'
+    paths:
+      - '.github/workflows/kuuos-v1102-codeai-five-trials-sandbox-first.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-sandbox-direct-lean-real-mcp:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact GitHub sandbox HEAD (no credential persistence)
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up Python for pinned Lean MCP stdio
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up exact Lean and Lake (never build full PR)
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed Lean dependency cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Install local sandbox MCP runtime (no paid model API)
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Check candidate and sandbox helper syntax, exact fixed source
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1102_multi_candidate_sandbox_v1.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as sandbox
+          import hashlib
+          data=Path('scripts/kuuos_sandbox_lean_cycle_v1.py').read_bytes()
+          assert sandbox.git_blob(data)=='5383253dbe9cda9cab90a410c2fd66ee6b9d6f41'
+          assert sandbox.LEAN_PIN=='leanprover/lean4:v4.30.0-rc2'
+          assert sandbox.MATHLIB_PIN=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          assert sandbox.git_blob(Path('scripts/ci_kuuos_v1102_multi_candidate_sandbox_v1.py').read_bytes())=='123f97126bd5da15f09c4266e96443177bb4d5fd'
+          print('KUUOS_V1102_MULTI_TRIAL_ENGINE_AND_CODEAI_EXACT_BLOBS')
+          PY
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('formal/KUOS')
+          def blob(path):
+              b=(root/path).read_bytes()
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob('DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean')=='7274ceba97bb4bf7b3aaffa9862952d79cf6f4c3'
+          assert blob('DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR6V1_102.lean')=='f0a5b31572c90d235f6207849f91d7f0d5ebbad4'
+          assert blob('DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean')=='c1eff27a2e2b1abaf869e1b2e7f59869e33c3558'
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          m=json.loads(Path('lake-manifest.json').read_text())
+          assert [p['rev'] for p in m['packages'] if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1102_GITHUB_SANDBOX_EXACT_PINNED_SOURCE_SUCCESS')
+          PY
+      - name: Restore mathlib and v1.101 dependency (sandbox prerequisite)
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+      - name: Five append-only local candidates -> direct Lean zero -> 36 axioms -> real Lean MCP
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1102_multi_candidate_sandbox_v1.py
+      - name: Preserve append-only local sandbox evidence (NOT independent CI)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-multitrial-local-sandbox-direct-lean-mcp-receipts
+          path: |
+            /tmp/kuuos-v1102-multitrial-receipts/
+            /tmp/kuuos-v1102-multitrial-admission.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Export sandbox-GREEN candidate only to separately gated runner
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-multitrial-sandbox-green-candidate
+          path: /tmp/kuuos-v1102-multitrial-green/
+          if-no-files-found: error
+          retention-days: 30
+
+
+  independent-candidate-strict-lean-36-axiom:
+    # A new runner exists only when the complete local five-trial sandbox succeeds.
+    needs: isolated-sandbox-direct-lean-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout same exact selected research SHA without persistence
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Setup pinned Lean for independent audit only after Sandbox GREEN
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Reuse exact pinned mathlib cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Download the ONE sandbox-selected candidate source and receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1102-multitrial-sandbox-green-candidate
+          path: /tmp/kuuos-v1102-multi-independent-selected
+      - name: Download all append-only local attempt proofs and real-MCP receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1102-multitrial-local-sandbox-direct-lean-mcp-receipts
+          path: /tmp/kuuos-v1102-multi-independent-receipts
+      - name: Build fixed v1.101 imports and dependencies in fresh runner
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+      - name: Certify the exact source bound to successful local Lean and MCP
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          import json,os,hashlib
+          from scripts import kuuos_sandbox_lean_cycle_v1 as cycle
+          from scripts import ci_kuuos_v1102_multi_candidate_sandbox_v1 as multi
+          src=Path('/tmp/kuuos-v1102-multi-independent-selected')
+          ledger_root=Path('/tmp/kuuos-v1102-multi-independent-receipts')
+          selected=(src/'selected.lean').read_bytes()
+          select=json.loads((src/'selected-source.json').read_text())
+          ledgers=list(ledger_root.rglob('ledger.jsonl'))
+          mcps=list(ledger_root.rglob('real-mcp-receipt.json'))
+          manifests=list(ledger_root.rglob('planned-candidates.json'))
+          assert len(ledgers)==len(mcps)==len(manifests)==1,(ledgers,mcps,manifests)
+          records=[json.loads(l) for l in ledgers[0].read_text().splitlines()]
+          greens=[x for x in records if x['status']=='LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY']
+          assert len(greens)==1 and greens[-1]==records[-1]
+          green=greens[0]
+          mcp=json.loads(mcps[0].read_text())
+          manifest=json.loads(manifests[0].read_text())
+          assert 1<=len(records)<=len(manifest)==5
+          assert [x['candidate_file'] for x in records]==[x['file'] for x in manifest[:len(records)]]
+          assert cycle.git_blob(selected)==green['candidate_blob']==select['candidate_blob']==mcp['candidate_blob']
+          assert hashlib.sha256(selected).hexdigest()==green['candidate_sha256']==select['candidate_sha256']
+          assert select['source_commit_sha']==os.environ['GITHUB_SHA']==green['claimed_source_head']
+          assert green['direct_lean']['exit_code']==0 and green['direct_lean']['error_count']==0
+          assert green['axioms']['checked']==36 and green['axioms']['sorryAx'] is False
+          assert not set(green['axioms']['allowed'])-{'propext','Classical.choice','Quot.sound'}
+          assert mcp['status']=='MCP_TYPED_LOCAL_GREEN'
+          assert mcp['diagnostics_success'] is True and mcp['diagnostics_partial'] is False
+          assert mcp['error_count']==0 and not mcp['failed_dependencies']
+          assert not green['independent_ci_success'] and not mcp['independent_ci_success']
+          raw=(Path.cwd()/multi.R6).read_bytes()
+          original=(Path.cwd()/multi.SOURCE).read_bytes()
+          assert cycle.git_blob(raw)==multi.R6_BLOB
+          assert cycle.git_blob(original)==multi.ORIGINAL_BLOB
+          seed=raw.decode()
+          seed=seed.replace('namespace '+multi.R6_NS,'namespace '+multi.ORIGINAL_NS)
+          seed=seed.replace('end '+multi.R6_NS,'end '+multi.ORIGINAL_NS)
+          variants={name:seed.replace(multi.R6_PROOF,proof,1).encode() for name,proof in multi.REPAIRS}
+          selected_name=green['candidate_file'].split('-',1)[1].removesuffix('.lean')
+          assert selected_name in variants and selected==variants[selected_name]
+          assert list(cycle.declarations(selected.decode()))==list(cycle.declarations(original.decode()))
+          assert len(cycle.declarations(selected.decode()))==36
+          assert (Path('lean-toolchain').read_text().strip()==cycle.LEAN_PIN)
+          versions=json.loads(Path('lake-manifest.json').read_text())
+          assert [p['rev'] for p in versions['packages'] if p['name']=='mathlib']==[cycle.MATHLIB_PIN]
+          print('KUUOS_V1102_MULTITRIAL_SAME_SHA_LOCAL_LEAN_AND_MCP_GREEN_CONFIRMED')
+          PY
+      - name: Fresh independent Lean kernel compile and 36 full axiom reports
+        run: |
+          set -euo pipefail
+          mkdir -p formal/KUOS/.v1102-multi-independent
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as cycle
+          source=Path('/tmp/kuuos-v1102-multi-independent-selected/selected.lean').read_text()
+          root=Path('formal/KUOS/.v1102-multi-independent')
+          (root/'Candidate.lean').write_text(source)
+          names=list(cycle.declarations(source))
+          assert len(names)==36
+          (root/'Axioms.lean').write_text(source+'\n'+'\n'.join(
+             '#print axioms '+ 'KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.'+n for n in names)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true -o /tmp/kuuos-v1102-multi-independent.olean formal/KUOS/.v1102-multi-independent/Candidate.lean
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true formal/KUOS/.v1102-multi-independent/Axioms.lean | tee /tmp/kuuos-v1102-multi-independent-axioms.log
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as cycle
+          audit=Path('/tmp/kuuos-v1102-multi-independent-axioms.log').read_text()
+          selected=Path('/tmp/kuuos-v1102-multi-independent-selected/selected.lean').read_text()
+          names=list(cycle.declarations(selected))
+          result=cycle.audit_axioms(audit,names,'KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102')
+          assert result['checked']==36
+          assert result['sorryAx'] is False
+          assert not set(result['allowed'])-{'propext','Classical.choice','Quot.sound'}
+          print('KUUOS_V1102_MULTI_INDEPENDENT_36_AXIOMS_FIXED_LEAN_SUCCESS')
+          PY
+      - name: Preserve independent kernel and axiom audit (no PR mutation)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-multitrial-independent-36-axioms
+          path: /tmp/kuuos-v1102-multi-independent-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
