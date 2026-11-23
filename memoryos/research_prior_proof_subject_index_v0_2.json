@@ -1,0 +1,206 @@
+{
+  "schema": "kuuos.prior-proof-subject-index.v0.2",
+  "observed_main": "61a75099b6f989b7b68a977af2c264b3820cd2b6",
+  "authority": "source retrieval hints only; no new proof or certification",
+  "topics": [
+    {
+      "id": "c60_phase",
+      "aliases": [
+        "C60",
+        "五行",
+        "五相",
+        "五位相",
+        "相生",
+        "相剋",
+        "五角形",
+        "five phase",
+        "fivefold",
+        "wuxing",
+        "pentagon",
+        "fullerene",
+        "フラーレン",
+        "物理ダート",
+        "物理辺"
+      ],
+      "neighbors": [
+        "history_descent",
+        "gauge_boundary",
+        "higher_pasting"
+      ],
+      "anchors": [
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean",
+          "blob": "836a0cccc0263e33d652da6b9391e4d5c07cb368",
+          "declarations": [
+            "nativeC60GaugeSlot_injective",
+            "nativeC60GaugeSlot_surjective",
+            "nativeC60Gauge_sheng_ke_distinct"
+          ],
+          "scope": "Original physical Slot maps at arbitrary chart/vertex; generation and control are distinguished."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingPentagonUnifiedV3_5.lean",
+          "blob": "c1b8a0997804efc10cccc44bc8432a2441e37f58",
+          "declarations": [
+            "fivefoldSlotEquiv",
+            "fivefoldSlot_successor",
+            "fivefoldSide_endpoints",
+            "fivefoldPhysicalEdge_joins",
+            "fivefoldCategoricalPentagon",
+            "fivefoldDirectPhi_allEdges"
+          ],
+          "scope": "Actual phase/slot equivalence, physical endpoints and categorical coherence; not equality of different presentations."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5ADFivePhaseHolonomyV3_7.lean",
+          "blob": "4ef1153c2d6f42eeaa86cffca59ed3829fa0a62a",
+          "declarations": [
+            "fivefoldPhasePhysicalFive_closed",
+            "fivefoldPhaseLastPhysicalSide_closed",
+            "fivefoldPhysicalAllFivePhi_five_whole"
+          ],
+          "scope": "Five-step physical and categorical return under original hypotheses."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5FiveStageTypedShell.lean",
+          "blob": "8fe81aefb66486a906fee90c53a835eb99b8dccf",
+          "declarations": [
+            "northK5TypedVertex",
+            "northK5TypedVertex_physical_five_sectors"
+          ],
+          "scope": "Original five north F45 stages and fourteen typed K5 bracketings."
+        }
+      ]
+    },
+    {
+      "id": "history_descent",
+      "aliases": [
+        "降下",
+        "貼合",
+        "履歴",
+        "復元",
+        "障害",
+        "descent",
+        "gluing",
+        "history",
+        "obstruction",
+        "p92b",
+        "nat iso",
+        "natiso"
+      ],
+      "neighbors": [
+        "c60_phase",
+        "higher_pasting",
+        "gauge_boundary"
+      ],
+      "anchors": [
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5AFPhysicalCategoricalObstructionV3_9.lean",
+          "blob": "8af5aec40f0e26c104602171048752359b3d0602",
+          "declarations": [
+            "fivefoldOriginalDart_phase_injective",
+            "fivefoldGK5AFBothReverseObstructions",
+            "fivefoldGK5AFHistoryFactor_noFaithfulReturn"
+          ],
+          "scope": "Original physical darts; reverse-orientation and history-readout obstructions."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5AGOriginalNorthHistoryDescentV4_0.lean",
+          "blob": "da532424d1331294d9f1f137e97da55eea4b271e",
+          "declarations": [
+            "fivefoldGK5AGNorthRealParallelEvidence",
+            "fivefoldGK5AGNorthRotationCount_noPhysicalP92Descent",
+            "fivefoldGK5AGNorthPhysicalP92Whole_not_injective",
+            "fivefoldGK5AGNorthNoWholeHistoryRecovery"
+          ],
+          "scope": "Non-descent to the specified P92B/physical readout; whole-NatIso noninjectivity conditional on matching interpretation. No general impossibility claim."
+        }
+      ]
+    },
+    {
+      "id": "higher_pasting",
+      "aliases": [
+        "14cell",
+        "14セル",
+        "十四セル",
+        "14次元",
+        "15cell",
+        "15セル",
+        "十五セル",
+        "15次元",
+        "非可換",
+        "高次",
+        "自由群",
+        "nonabelian",
+        "noncommutative",
+        "fourteencell",
+        "fifteencell",
+        "free group",
+        "pentagonator"
+      ],
+      "neighbors": [
+        "history_descent",
+        "gauge_boundary",
+        "c60_phase"
+      ],
+      "anchors": [
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean",
+          "blob": "928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+          "declarations": [
+            "NativeK5StructuralFourteenCell.historyWord",
+            "nativeK5FourteenPasting_integerBlind",
+            "nativeK5FourteenSquareExchange_pastingWord_ne",
+            "nativeK5FourteenSquareExchange_pastingRaw_ne",
+            "nativeK5Fourteen_noFiniteCoreFiller",
+            "nativeK5Fourteen_noFiniteCoreRetraction",
+            "nativeK5PentagonatorFifteen_history_ne",
+            "nativeK5PentagonatorFifteen_raw_ne"
+          ],
+          "scope": "Raw dependent fourteen-cell pasting and free-group separation already written. Conservative nonexistence needs the named grammar and unequal thirteen-cell histories; no unrestricted fifteen-cell filler claim."
+        }
+      ]
+    },
+    {
+      "id": "gauge_boundary",
+      "aliases": [
+        "ゲージ",
+        "曲率",
+        "gauge",
+        "curvature",
+        "naturality",
+        "自然性",
+        "型付き",
+        "typed boundary",
+        "F45",
+        "F112",
+        "GK5",
+        "K5"
+      ],
+      "neighbors": [
+        "c60_phase",
+        "higher_pasting",
+        "history_descent"
+      ],
+      "anchors": [
+        {
+          "path": "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean",
+          "blob": "e9bc8cf34d81351c55a95ebdba4c9752ba645fb4",
+          "declarations": [
+            "nativeC60NorthWuxingK5_threeGauge_obstructions"
+          ],
+          "scope": "Joint evidence for separate phase, incidence, typed-word actions, with supplied five F45 witnesses; no compatibility morphism."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5ActualFiveStageGauge.lean",
+          "blob": "2e6d06993abdc962ca5ef9003fb43db6692fd4a4",
+          "declarations": [
+            "nativeC60NorthWuxingK5_actualFiveStage_obstruction",
+            "nativeC60NorthWuxingK5_actualFiveSectors_and_gauge"
+          ],
+          "scope": "Concrete north stages instantiate the joint obstruction, not global gauge equality or descent."
+        }
+      ]
+    }
+  ]
+}

@@ -43,3 +43,16 @@ mathematical provider proposals, not the ungated generic software synthesis
 entry. It consumes the fresh reviewed recall receipt and verifies the prior
 source texts in the actual provider context before calling the original
 CodeAI kernel. Do not use an old research replay to bypass this gate.
+
+## Subject-first prior-proof recall v0.2 (additive)
+
+For C60/Qi/GK5/F112 mathematical research, start from the research subject,
+not from remembered declaration names. Use the source-anchored catalog
+`memoryos/research_prior_proof_subject_index_v0_2.json` and
+`runtime/kuuos_codeai_prior_proof_subject_gate_v0_2.py` (or the equivalent
+exact-source GitHub MCP procedure). Compare each retrieved declaration,
+including existing negative/obstruction results, before proposing a new
+result. The subject gate adds to, not replaces, v0.1 and ordinary repair
+memory. An unknown topic is NO_DATA, not mathematical novelty. A stale
+anchor requires source re-observation, not automatic re-proving.
+See `docs/KUUOS_CODEAI_PRIOR_PROOF_SUBJECT_RECALL_v0_2.md`.

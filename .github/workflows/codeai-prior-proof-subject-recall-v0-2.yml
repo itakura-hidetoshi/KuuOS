@@ -1,0 +1,30 @@
+name: CodeAI prior-proof subject recall v0.2 (Python only)
+on:
+  push:
+    branches: [research/codeai-prior-proof-recall-gate-20261124]
+    paths:
+      - "memoryos/research_prior_proof_subject_index_v0_2.json"
+      - "runtime/kuuos_codeai_prior_proof_subject_gate_v0_2.py"
+      - "scripts/check_codeai_prior_proof_subject_gate_v0_2.py"
+      - ".github/workflows/codeai-prior-proof-subject-recall-v0-2.yml"
+  pull_request:
+    paths:
+      - "memoryos/research_prior_proof_subject_index_v0_2.json"
+      - "runtime/kuuos_codeai_prior_proof_subject_gate_v0_2.py"
+      - "scripts/check_codeai_prior_proof_subject_gate_v0_2.py"
+      - ".github/workflows/codeai-prior-proof-subject-recall-v0-2.yml"
+      - "runtime/kuuos_codeai_prior_proof_recall_gate_v0_1.py"
+      - "runtime/kuuos_codeai_research_structured_edit_synthesis_v0_1.py"
+permissions:
+  contents: read
+jobs:
+  subject-recall:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Actual C60 and higher-cell natural-language recall plus fail-closed provider boundary
+        run: python3 scripts/check_codeai_prior_proof_subject_gate_v0_2.py
