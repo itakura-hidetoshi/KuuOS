@@ -31,7 +31,10 @@ NAMES = (
     ("14D", "fourteen_necessity_tail"),
     ("14D", "fourteen_necessity_original_name_shim"),
     ("14D", "generic_core"),
-    ("14D", "full_five_stage"),
+    ("14D", "fourteen_five_exchange"),
+    ("14D", "fourteen_five_leftfirst"),
+    ("14D", "fourteen_five_rightfirst"),
+    ("14D", "fourteen_five_theorems"),
     ("14D", "original_module_import_shim"),
 )
 DIAGNOSTICS = re.compile(
@@ -83,6 +86,15 @@ def main() -> int:
         m = json.loads(necessity_manifest.read_text())
         if m["canonical_source_blob"] != NECESSITY_BLOB or m["six_original_declarations_unchanged"] is not True:
             faults.append({"stage": "NecessityManifest", "reason": "source mismatch"})
+    five_manifest = OUT / "five-stage/manifest.json"
+    if not five_manifest.is_file():
+        faults.append({"stage": "FiveStageManifest", "reason": "NO_DATA"})
+    else:
+        m = json.loads(five_manifest.read_text())
+        if (m.get("original_fourteen_source_blob") != SOURCE_BLOB
+            or m.get("original_theorem_declarations_and_bodies_unchanged") is not True
+            or m.get("original_axiom_audits") != 21):
+            faults.append({"stage": "FiveStageManifest", "reason": "source mismatch"})
     if not args.independent:
         mcp_receipt = OUT / "real-lean-mcp-receipt.json"
         if not mcp_receipt.exists():
