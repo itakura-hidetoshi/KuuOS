@@ -1,0 +1,71 @@
+name: "KuuOS v1.104 original exact Lean direct diagnostic sandbox ONLY"
+
+on:
+  push:
+    branches:
+      - 'research/v1104-codeai-direct-diagnostic-20261123'
+    paths:
+      - '.github/workflows/kuuos-v1104-original-direct-lean-diagnostic-sandbox.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v1104-isolated-original-diagnostic-no-independent:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout original v1.104 and certified predecessor without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Setup fixed Lean in isolated runner without full PR
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed Lean package cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile Python diagnostics and verify exact fixed source blobs
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1104_original_direct_lean_diagnose.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          assert c.git_blob(Path('scripts/kuuos_sandbox_lean_cycle_v1.py').read_bytes())=='5383253dbe9cda9cab90a410c2fd66ee6b9d6f41'
+          assert c.git_blob(Path('scripts/ci_kuuos_v1104_original_direct_lean_diagnose.py').read_bytes())=='ba5391a3b75625cd0a53ac1e1a824685e6cc6f99'
+          for path,sha in [
+             ('formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean','dc75c6d91c317bc8d350c7c45d4268dce38bf06c'),
+             ('formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean','dbec61c9798481709f2deda0028e84b7515f209e'),
+             ('formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean','f8b492b210e5525990aa587fa2eb5c8648a5ff19')
+          ]:
+             assert c.git_blob(Path(path).read_bytes())==sha, path
+          print('KUUOS_V1104_ORIGINAL_SOURCE_AND_CERTIFIED_PARENTS_EXACT')
+          PY
+      - name: Restore only fixed v1.103 Lean dependency for v1.104 diagnosis
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103
+      - name: Run actual Lean on untouched v1.104 and retain complete type diagnostics
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1104_original_direct_lean_diagnose.py
+      - name: Save full direct Lean errors and receipt; red is diagnostic, NOT GREEN
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-original-only-real-lean-diagnostics
+          path: /tmp/kuuos-v1104-original-direct-diagnostic/
+          if-no-files-found: warn
+          retention-days: 30
