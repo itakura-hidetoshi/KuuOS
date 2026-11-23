@@ -1,0 +1,95 @@
+name: "KuuOS v1.104 CodeAI R3 three serial DIRECT Lean trials and real MCP - no independent CI"
+
+on:
+  push:
+    branches:
+      - 'research/v1104-codeai-r3-multitrial-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1104-codeai-r3-multitrial-sandbox.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v1104-codeai-r3-serial-real-lean-mcp-local:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exactly this research HEAD without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python 3.12 for exact local trial and Lean MCP
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fixed Lean bootstrap, no full-PR validation
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed mathlib+KuuOS cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Bootstrap pinned typed lean-lsp-mcp runtime
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Pin original, certified imports, CodeAI 3-candidate source and Python scripts
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1104_codeai_r3_multitrial_sandbox.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          expected = {
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean': 'dc75c6d91c317bc8d350c7c45d4268dce38bf06c',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean': 'dbec61c9798481709f2deda0028e84b7515f209e',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean': 'f8b492b210e5525990aa587fa2eb5c8648a5ff19',
+              'research/codeai/v1104/r3/A-revert.lean': '5c911aaeb9a21baff57f6af8c8655309af47d027',
+              'research/codeai/v1104/r3/B-normnum.lean': '1e54ff4a2a8cf20ed352e08f974f458292cab09d',
+              'research/codeai/v1104/r3/C-simp.lean': 'e2bc9de0fe06fe39c75292866c98f57ae8cdf002',
+              'scripts/kuuos_sandbox_lean_cycle_v1.py': '5383253dbe9cda9cab90a410c2fd66ee6b9d6f41',
+          }
+          for p,sha in expected.items():
+              assert c.git_blob(Path(p).read_bytes()) == sha, p
+          assert Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.30.0-rc2'
+          assert [p['rev'] for p in json.loads(Path('lake-manifest.json').read_text())['packages'] if p['name']=='mathlib'] == ['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1104_R3_PINNED_3_CANDIDATES_AND_DEPENDENCIES_EXACT')
+          PY
+      - name: Build certified exact v1.103 dependency only, no full parent Governance
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103
+      - name: CodeAI R3 direct Lean serial candidates with 21 axioms then real Lean MCP
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1104_codeai_r3_multitrial_sandbox.py
+      - name: Preserve every candidate direct Lean failure and the guarded local proof receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-r3-multitrial-direct-lean-21-axioms-mcp-receipts
+          path: /tmp/kuuos-v1104-r3-serial-local-evidence/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Export selected exact local GREEN bytes for later independent Lean runner
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-r3-local-green-selected-source
+          path: /tmp/kuuos-v1104-r3-selected-only/
+          if-no-files-found: error
+          retention-days: 30
