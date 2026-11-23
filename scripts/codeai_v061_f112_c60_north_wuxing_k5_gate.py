@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "artifacts/codeai-v061-f112-c60-north-wuxing-k5"
 SOURCE = "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean"
-TARGET_BLOB = "d5d14619a679cc7d00acd9500f9c865d9d0fc44d"
+TARGET_BLOB = "e9bc8cf34d81351c55a95ebdba4c9752ba645fb4"
 CANONICAL = {
     "formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean":
         "836a0cccc0263e33d652da6b9391e4d5c07cb368",
