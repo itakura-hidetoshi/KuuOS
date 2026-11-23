@@ -10,6 +10,12 @@ from pathlib import Path
 from scripts.codeai_v061_f112_fourteen_full_source_split import (
     ROOT, SOURCE, SOURCE_BLOB, OUT, assert_source, blob,
 )
+from scripts.codeai_v061_f112_fourteen_necessity_source_split import (
+    SOURCE as NECESSITY_SOURCE,
+    SOURCE_BLOB as NECESSITY_BLOB,
+    EXPECTED as NECESSITY_DECLARATIONS,
+    assert_original as assert_necessity_source,
+)
 
 FIRST = ROOT / "first-sandbox"
 EXPECTED_SOURCE_FIELDS = (
@@ -43,6 +49,42 @@ def main() -> None:
     assert mcp["original_blob"] == SOURCE_BLOB
     assert mcp["source_sha256"] == independent["parent_original_sha256"]
     assert mcp["independent_lean_ci"] is False
+
+    # The local gate audits ALL Lean logs, including 13D and typed predecessors.
+    first_gate = json.loads((FIRST / "sandbox-gate.json").read_text())
+    current_gate = json.loads((OUT / "sandbox-gate.json").read_text())
+    for gate in (first_gate, current_gate):
+        assert gate["status"] == "CLEAN_LOCAL_LEAN_EVIDENCE_ONLY"
+        assert gate["faults"] == []
+        assert gate["original_14d_blob"] == SOURCE_BLOB
+        assert gate["original_necessity_blob"] == NECESSITY_BLOB
+        assert len(gate["stage_records"]) == 12
+        assert gate["independent_ci_claimed"] is False
+    assert first_gate["independent_runner"] is False
+    assert current_gate["independent_runner"] is True
+
+    # Six exact original Necessity declarations and the original axiom prints.
+    necessity_original = assert_necessity_source()
+    necessity_manifests = [
+        json.loads((folder / "necessity/manifest.json").read_text())
+        for folder in (FIRST, OUT)
+    ]
+    m1, m2 = necessity_manifests
+    for key in ("canonical_source_blob", "canonical_source_sha256",
+                "original_fragments_sha256", "stage_sha256", "stage_modules"):
+        assert m1[key] == m2[key], "Necessity stage-source mismatch: " + key
+    assert m1["canonical_source_blob"] == NECESSITY_BLOB
+    assert m1["six_original_declarations_unchanged"] is True
+    assert m2["all_six_original_axiom_audits_retained"] is True
+    expected_necessity = re.findall(r"(?m)^#print axioms ([A-Za-z0-9_.]+)\s*$",
+                                    necessity_original)
+    assert tuple(expected_necessity) == NECESSITY_DECLARATIONS
+    necessity_log = (OUT / "fourteen_necessity_tail.log").read_text()
+    for name in expected_necessity:
+        assert "'Kuu.F112.Physical." + name + "'" in necessity_log, (
+            "Necessity axiom audit absent: " + name)
+    assert not re.search(r"(?i)PANIC at|Lean panicked|sorryAx|^\s*(?:error|warning):",
+                         necessity_log, flags=re.M)
 
     for name in ("generic_core", "full_five_stage", "original_module_import_shim"):
         assert (FIRST / (name + "-exit.txt")).read_text().strip() == "0"
@@ -91,6 +133,8 @@ def main() -> None:
         "merge_authority": False,
         "memory_verified_useful": False,
         "axioms_audited": len(expected),
+        "necessity_axioms_audited": len(NECESSITY_DECLARATIONS),
+        "independent_predecessor_lean_gate": True,
         "allowed_axioms": sorted(actual),
         "lean_internal_panic_or_error": False,
         "source_invariant_fields": list(EXPECTED_SOURCE_FIELDS),
