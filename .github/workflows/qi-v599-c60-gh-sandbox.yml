@@ -66,9 +66,8 @@ jobs:
           key: qi-v599-sandbox-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-      # Only a performance overlay: cached oleans never certify a theorem.
-      # Retain partial compiled dependency output across failed attempts on this PR.
-      - name: Restore sandbox PR-local partial compiled dependencies
+      # Cache is advisory and partial; every actual Lean goal is rechecked.
+      - name: Restore PR-local partial Lean build overlay
         uses: actions/cache/restore@v5
         with:
           path: .lake/build
@@ -81,8 +80,7 @@ jobs:
           set -euo pipefail
           if test ! -d .lake/packages/mathlib; then lake update; fi
           if test ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean; then lake exe cache get; fi
-          # Existing canonical script rejects genuine Lean errors/sorry/warnings
-          # but tolerates ONLY the pinned-compiler auxiliary indexing panic.
+          # Use existing strict wrapper: tolerate ONLY known auxiliary index panic.
           bash scripts/build_lean4.sh --no-update --no-cache \
             --target KUOS.Architecture.QiWuxingNativeC60GaugeV3_4 \
             2>&1 | tee /tmp/qi-v599-sandbox-deps.log
@@ -120,7 +118,7 @@ jobs:
           print('LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY',json.dumps({'source_blob':os.environ['SOURCE_BLOB'],'checked':len(reports),'axioms':sorted(axioms),'independent_ci_success':False,'authority':'LOCAL_ONLY'}))
           PY
           echo "green=true" >> "$GITHUB_OUTPUT"
-      - name: Preserve partial local dependency build overlay (not proof)
+      - name: Preserve verified-prefix dependency cache (not theorem proof)
         if: always()
         uses: actions/cache/save@v5
         with:
@@ -169,7 +167,7 @@ jobs:
           key: qi-v599-independent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-      - name: Reuse only separately rechecked dependency overlay, not proof
+      - name: Restore sandbox's dependency-only overlay on fresh runner
         uses: actions/cache/restore@v5
         with:
           path: .lake/build
@@ -189,28 +187,17 @@ jobs:
           s=Path('/tmp/qi-v599-independent.log').read_text(errors='replace')
           import re,os
           source=Path(os.environ['SOURCE']).read_text()
-          names=set(re.findall(r'(?m)^#print axioms PentagonAdjoinedSixCell\\.(selectedV599\\w+)\\s*
-          PY
-      - name: Preserve separate runner independent log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qi-v599-independent-${{ github.run_id }}-${{ github.run_attempt }}
-          path: /tmp/qi-v599-independent.log
-          if-no-files-found: warn
-,source))
-          entries=re.findall(r"'([^']+)' (does not depend on any axioms|depends on axioms: \\[([^\\]]*)\\])",s,re.S)
-          reports={n.rsplit('.',1)[-1]: (a if status.startswith('depends') else '') for n,status,a in entries if n.rsplit('.',1)[-1].startswith('selectedV599')}
-          # Cached proofs do not authorize this job. The exact candidate
-          # MUST be re-elaborated here and have every axiom line reproduced.
+          names=set(re.findall(r'(?m)^#print axioms PentagonAdjoinedSixCell\.(selectedV599\w+)\s*$',source))
+          entries=re.findall(r"'([^']+)' (does not depend on any axioms|depends on axioms: \[([^\]]*)\])",s,re.S)
+          reports={n.rsplit('.',1)[-1]:(a if status.startswith('depends') else '') for n,status,a in entries if n.rsplit('.',1)[-1].startswith('selectedV599')}
           assert len(names)==len(reports)==19,(names,reports)
           assert names==set(reports)
           allowed={'propext','Classical.choice','Quot.sound'}
           used={a.strip() for raw in reports.values() for a in raw.split(',') if a.strip()}
-          assert used<=allowed,('BAD_AXIOMS',used-allowed)
+          assert used<=allowed,('NONSTANDARD_AXIOM',used-allowed)
           assert 'Build completed successfully' in s
           assert 'sorryAx' not in s and 'error: ' not in s
-          print('INDEPENDENT_EXACT_SOURCE_19_AXIOMS_GREEN',sorted(used))
+          print('INDEPENDENT_19_AXIOMS_GREEN',sorted(used))
           PY
       - name: Preserve separate runner independent log
         if: always()
