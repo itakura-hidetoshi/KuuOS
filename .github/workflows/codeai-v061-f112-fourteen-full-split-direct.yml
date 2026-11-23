@@ -28,6 +28,9 @@ jobs:
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_full_source_split.py
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_real_mcp_probe.py scripts/codeai_v061_f112_fourteen_independent_audit.py
           python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase generate
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
       - name: Install pinned Lean
         run: bash scripts/bootstrap_pinned_lean_ci.sh
       - name: Restore pinned mathlib only
@@ -106,8 +109,6 @@ jobs:
             "$lib/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.lean
           # Exact six-declaration source-sealed split (NOT original monolithic certification).
-          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py
-          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
           run_lean fourteen_necessity_core 10m \
             "$lib/CodeAIV061F112FourteenNecessityCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenNecessityCoreProbe.lean
@@ -126,8 +127,6 @@ jobs:
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
           # Four source-exact units isolate the first high-cost five-stage instance.
-          python3 -m py_compile scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
-          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
           run_lean fourteen_five_exchange 5m \
             "$lib/CodeAIV061F112FourteenFiveExchangeProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFiveExchangeProbe.lean
@@ -215,6 +214,9 @@ jobs:
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_full_source_split.py
           python3 -m py_compile scripts/codeai_v061_f112_fourteen_real_mcp_probe.py scripts/codeai_v061_f112_fourteen_independent_audit.py
           python3 scripts/codeai_v061_f112_fourteen_full_source_split.py --phase generate
+          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
+          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
+          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
       - name: Install pinned Lean
         run: bash scripts/bootstrap_pinned_lean_ci.sh
       - name: Restore pinned mathlib only
@@ -293,8 +295,6 @@ jobs:
             "$lib/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.olean" \
             formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellThirteenGroupoid.lean
           # Exact six-declaration source-sealed split (NOT original monolithic certification).
-          python3 -m py_compile scripts/codeai_v061_f112_fourteen_necessity_source_split.py
-          python3 scripts/codeai_v061_f112_fourteen_necessity_source_split.py --phase generate
           run_lean fourteen_necessity_core 10m \
             "$lib/CodeAIV061F112FourteenNecessityCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenNecessityCoreProbe.lean
@@ -313,8 +313,6 @@ jobs:
             "$lib/CodeAIV061F112FourteenFullCoreProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFullCoreProbe.lean
           # Four source-exact units isolate the first high-cost five-stage instance.
-          python3 -m py_compile scripts/codeai_v061_f112_fourteen_five_stage_source_split.py
-          python3 scripts/codeai_v061_f112_fourteen_five_stage_source_split.py --phase generate
           run_lean fourteen_five_exchange 5m \
             "$lib/CodeAIV061F112FourteenFiveExchangeProbe.olean" \
             formal/Kuu/F112/CodeAIV061F112FourteenFiveExchangeProbe.lean
