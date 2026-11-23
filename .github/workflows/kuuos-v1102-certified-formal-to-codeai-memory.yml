@@ -1,0 +1,76 @@
+name: KuuOS v1.102 exact-source independent Lean evidence to CodeAI version-bound memory
+
+on:
+  push:
+    branches:
+      - 'validation/v1102-codeai-version-bound-after-independent-20261123'
+    paths:
+      - '.github/workflows/kuuos-v1102-certified-formal-to-codeai-memory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  version-bound-memory-after-green-independent:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout read-only version-bound MemoryOS validator
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Use Python 3.12 without Lean rebuild
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check syntax and exact pinned source
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1102_verified_candidate_memory_reconcile_v1.py
+          python3 -m py_compile runtime/kuuos_codeai_subtask_level_version_bound_memory_v0_1.py
+          python3 -m py_compile runtime/kuuos_codeai_subtask_level_version_bound_memory_checks_v0_1.py
+          python3 -m py_compile runtime/kuuos_codeai_subtask_level_version_bound_memory_schema_v0_1.py
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as cycle
+          assert cycle.git_blob(Path('scripts/kuuos_sandbox_lean_cycle_v1.py').read_bytes())=='5383253dbe9cda9cab90a410c2fd66ee6b9d6f41'
+          assert cycle.git_blob(Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersCodeAICandidateR6V1_102.lean').read_bytes())=='f0a5b31572c90d235f6207849f91d7f0d5ebbad4'
+          print('KUUOS_V1102_CODEAI_MEMORY_EXACT_SOURCE_SNAPSHOT_READY')
+          PY
+      - name: Download sandbox selected source from exact completed independent run
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45128298012
+          github-token: ${{ github.token }}
+          name: kuuos-v1102-multitrial-sandbox-green-candidate
+          path: /tmp/kuuos-v1102-memory-selected
+      - name: Download full real Lean MCP and local 36-axiom evidence
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45128298012
+          github-token: ${{ github.token }}
+          name: kuuos-v1102-multitrial-local-sandbox-direct-lean-mcp-receipts
+          path: /tmp/kuuos-v1102-memory-sandbox
+      - name: Download independently issued 36-axiom Lean proof log
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45128298012
+          github-token: ${{ github.token }}
+          name: kuuos-v1102-multitrial-independent-36-axioms
+          path: /tmp/kuuos-v1102-memory-independent
+      - name: Run actual CodeAI Subtask-Level Version-Bound Memory kernel with real proof bytes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1102_verified_candidate_memory_reconcile_v1.py
+      - name: Preserve read-only version-bound memory receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-codeai-version-bound-memory-receipt
+          path: /tmp/kuuos-v1102-codeai-verified-memory/
+          if-no-files-found: warn
+          retention-days: 30
