@@ -236,27 +236,79 @@ def main() -> int:
           "SOURCE_OBSTRUCTION: wrong research branch")
     cycle.require_pins(ROOT)
     original, manifest = candidates()
-    args = argparse.Namespace(
-        project_root=str(ROOT),
-        source=str(SOURCE),
-        source_blob=ORIGINAL_BLOB,
-        source_head=os.environ.get("GITHUB_SHA", ""),
-        namespace=NAMESPACE,
-        candidates_dir=str(INBOX),
-        receipt_dir=str(RECEIPTS),
-        admission=str(ADMISSION),
-        max_attempts=len(manifest),
-        timeout_seconds=500,
-        idle_seconds=0,
-        poll_seconds=2,
-    )
-    code = cycle.run(args)
+    # The v1.103 module has one nested namespace declaration. The reusable
+    # baseline runner's flat #print assumption does not apply here. Compile
+    # through the exact canonical cycle.run_lean, but audit every ACTUAL kernel
+    # name, including the nested toSimplexMap_mapComp name.
+    named = list(cycle.declarations(original.decode("utf-8")))
+    check(len(named) == 15 and "toSimplexMap_mapComp" in named,
+          "DECLARATION_OBSTRUCTION: 15 public names or nested theorem changed")
+    axiom_names = [
+        "NatNormalizedDuskinCocycle.toSimplexMap_mapComp"
+        if name == "toSimplexMap_mapComp" else name for name in named
+    ]
     ledger = RECEIPTS / "ledger.jsonl"
-    records = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
-    check((ROOT / SOURCE).read_bytes() == original, "SOURCE_OBSTRUCTION: original mutated")
-    green = [r for r in records if r.get("status") == "LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY"]
-    check(code == 0 and len(green) == 1 and 1 <= len(records) <= len(manifest),
-          "DIRECT_LEAN_NO_LOCAL_GREEN: all attempts retained, independent CI held")
+    records: list[dict] = []
+    for item in manifest:
+        path = INBOX / item["file"]
+        data = path.read_bytes()
+        check(cycle.sha256(data) == item["sha256"] and
+              cycle.git_blob(data) == item["git_blob"],
+              "SOURCE_OBSTRUCTION: CodeAI candidate data changed")
+        contract = cycle.source_contract(original.decode(), data.decode(), REASONS, {})
+        check(contract["public_declarations"] == named and not contract["import_additions"],
+              "DECLARATION_OBSTRUCTION: original 15 declarations changed")
+        folder = RECEIPTS / ("attempt-%05d-%s" % (item["index"], item["sha256"][:12]))
+        folder.mkdir(parents=True, exist_ok=False)
+        direct = cycle.run_lean(ROOT, path, folder / "direct", seconds=500)
+        record: dict = {
+            "schema": "kuuos_v1103_multitrial_local_v1",
+            "attempt": item["index"],
+            "candidate_file": item["file"],
+            "candidate_blob": item["git_blob"],
+            "candidate_sha256": item["sha256"],
+            "original_blob": ORIGINAL_BLOB,
+            "import_v102_blob": IMPORT_V102_BLOB,
+            "claimed_source_head": os.environ.get("GITHUB_SHA", ""),
+            "direct_lean": direct,
+            "contract": contract,
+            "independent_ci_success": False,
+            "github_write_performed": False,
+            "authority": "LOCAL_ONLY",
+            "status": "DIRECT_LEAN_FAILED",
+        }
+        if direct["direct_success"]:
+            audit_source = (
+                data.decode("utf-8") + "\n" +
+                "\n".join("#print axioms " + NAMESPACE + "." + name
+                          for name in axiom_names) + "\n"
+            )
+            audit_file = folder / "audit.lean"
+            audit_file.write_text(audit_source)
+            axiom_run = cycle.run_lean(ROOT, audit_file,
+                                     folder / "axiom_audit", seconds=500)
+            record["axiom_run"] = axiom_run
+            if axiom_run["direct_success"]:
+                report = (folder / "axiom_audit" / "stdout.log").read_text()
+                record["axioms"] = cycle.audit_axioms(
+                    report, axiom_names, NAMESPACE)
+                record["status"] = "LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY"
+            else:
+                record["status"] = "AXIOM_AUDIT_UNCERTIFIED"
+        (folder / "receipt.json").write_text(
+            json.dumps(record, sort_keys=True, indent=2, ensure_ascii=False) + "\n")
+        cycle.append_receipt(ledger, record)
+        records.append(record)
+        print("KUUOS_V1103_SANDBOX_LOCAL_RECEIPT",
+              json.dumps(record, sort_keys=True, ensure_ascii=False), flush=True)
+        check((ROOT / SOURCE).read_bytes() == original,
+              "SOURCE_OBSTRUCTION: authoritative Lean source changed")
+        if record["status"] == "LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY":
+            break
+    green = [r for r in records
+             if r["status"] == "LOCAL_DIRECT_LEAN_AND_AXIOMS_GREEN_ONLY"]
+    check(len(green) == 1 and 1 <= len(records) <= len(manifest),
+          "DIRECT_LEAN_NO_LOCAL_GREEN: all attempted proof candidates retained; no independent CI")
     receipt = green[0]
     selected = INBOX / receipt["candidate_file"]
     candidate = selected.read_bytes()
