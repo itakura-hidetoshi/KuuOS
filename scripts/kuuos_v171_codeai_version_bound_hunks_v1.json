@@ -1,0 +1,127 @@
+{
+  "schema": "kuuos_v171_version_bound_hunks_v1",
+  "baseline_blob": "65440d0b87bc7fde247977774022c65a73eef8e2",
+  "research_candidate_blob": "1162f161439cf01947142b4188cb5fe80d71746c",
+  "existing_public_declarations": [
+    "standardTypeABoundaryPrismRankStageScaling",
+    "standardTypeABoundaryPrismRankStage",
+    "standardTypeABoundaryPrismRankStageToCylinder",
+    "standardTypeABoundaryPrismRankStageHom",
+    "standardTypeABoundaryPrismRankStageHom_toCylinder",
+    "standardTypeABoundaryPrismRankStage_zero",
+    "standardTypeABoundaryPrismCellCompletionHom",
+    "standardTypeABoundaryPrismScaledCellHom_factor_A_completion",
+    "standardTypeABoundaryPrismCellCompletion_complete_classification",
+    "standardTypeABoundaryPrismCellNeedsTypeB",
+    "standardTypeABoundaryPrismCell_pureA_or_needsTypeB",
+    "standardTypeABoundaryPrismScaledCellSourceToRankStage",
+    "standardTypeABoundaryPrismScaledCellTargetToRankSucc",
+    "standardTypeABoundaryPrismRankSuccScaling_pullback_cell"
+  ],
+  "added_declarations": [],
+  "preserve_historical_source": true,
+  "source_relative_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean",
+  "hunks": [
+    {
+      "start": 12,
+      "old": [],
+      "new": [
+        "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+      ]
+    },
+    {
+      "start": 61,
+      "old": [
+        "def standardTypeABoundaryPrismRankStageScaling"
+      ],
+      "new": [
+        "@[reducible] def standardTypeABoundaryPrismRankStageScaling"
+      ]
+    },
+    {
+      "start": 127,
+      "old": [],
+      "new": [
+        "  unfold standardTypeABoundaryPrismRankStage standardTypeABoundaryPrismRankStageScaling"
+      ]
+    },
+    {
+      "start": 159,
+      "old": [
+        "  simp [standardTypeABoundaryPrismCellCompletionHom,",
+        "    standardTypeABoundaryPrismCellAPushoutHom_map,",
+        "    standardTypeABoundaryPrismScaledCellHom_map]"
+      ],
+      "new": [
+        "  change c.horn.ι ≫ 𝟙 _ =",
+        "    (standardTypeABoundaryPrismRankFunction g).basicCell j c",
+        "  simpa only [Category.comp_id]"
+      ]
+    },
+    {
+      "start": 222,
+      "old": [],
+      "new": [
+        "/-- The pinned rank-cell successor map preserves the ambient 2-simplex",
+        "evaluation, with no syntactic rewriting of a nested natural-transformation",
+        "application. -/",
+        "private theorem standardTypeABoundaryPrism_cell_mapToSucc_app",
+        "    (g : StandardTypeAHornAttachmentGeneratorIndex)",
+        "    (j : ℕ)",
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)",
+        "    (t : (Δ[c.dim + 1] : SSet.{u}).obj (op ⦋2⦌)) :",
+        "    (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app",
+        "        (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t)) =",
+        "      c.map.app (op ⦋2⦌) t := by",
+        "  have hcomp :",
+        "      c.mapToSucc ≫",
+        "          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι =",
+        "        c.map := by",
+        "    simpa only [Nat.succ_eq_add_one] using c.mapToSucc_ι",
+        "  simpa only [NatTrans.comp_app_apply] using",
+        "    congrArg (fun f => f.app (op ⦋2⦌) t) hcomp",
+        ""
+      ]
+    },
+    {
+      "start": 236,
+      "old": [
+        "    rw [← NatTrans.comp_app_apply]",
+        "    simpa only [Nat.succ_eq_add_one] using",
+        "      (show",
+        "        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin",
+        "          ((c.mapToSucc ≫",
+        "            ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app",
+        "              (op ⦋2⦌) t) from by",
+        "          rw [c.mapToSucc_ι]",
+        "          exact ht)"
+      ],
+      "new": [
+        "    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t]",
+        "    exact ht"
+      ]
+    },
+    {
+      "start": 263,
+      "old": [
+        "    rw [← NatTrans.comp_app_apply] at ht",
+        "    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht"
+      ],
+      "new": [
+        "    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t] at ht",
+        "    exact ht"
+      ]
+    },
+    {
+      "start": 270,
+      "old": [
+        "    rw [← NatTrans.comp_app_apply]",
+        "    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht"
+      ],
+      "new": [
+        "    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t]",
+        "    exact ht"
+      ]
+    }
+  ]
+}

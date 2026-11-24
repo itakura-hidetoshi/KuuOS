@@ -1,0 +1,265 @@
+name: KuuOS v1.7–v1.17 exact-source Lean and 103-declaration axiom audit
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean'
+      - 'formal/KUOS/DependentOriginationHigherMulticategoryCoherenceV1_8.lean'
+      - 'formal/KUOS/DependentOriginationCausalMonoidalProcessV1_10.lean'
+      - 'formal/KUOS/DependentOriginationMarginalNoSignallingV1_11.lean'
+      - 'formal/KUOS/DependentOriginationJointCausalFactorizationV1_12.lean'
+      - 'formal/KUOS/DependentOriginationEnrichedContextV1_13.lean'
+      - 'formal/KUOS/DependentOriginationStackDescentV1_14.lean'
+      - 'formal/KUOS/DependentOriginationInfinityCoherenceV1_15.lean'
+      - 'formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v17-operadic-exact-lean-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  v17-operadic-exact-source:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3555 && github.event.pull_request.head.ref == 'fix/kuuos-v127-v129-ulift-20261115' && github.event.pull_request.base.ref == 'fix/kuuos-v126-explicit-hom-transport-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact candidate PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python 3.12 for tomllib-based historical root test
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact reviewed source blob, legacy frozen root, imports and fixed pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, re
+          from pathlib import Path
+          def gitblob(raw):
+              return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+          src=Path('formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean')
+          frozen=Path('legacy/v5.291/formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean')
+          proof=src.read_bytes()
+          assert gitblob(proof)=='92350cbc0ff050ddfc011b6841f0ef582b9ca5b4'
+          assert gitblob(frozen.read_bytes())=='11ba3382541a353789e0569be99fc7be6451c957'
+          deps={
+            'formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean': 'c1d9cf1c6ed08b535ec5d0bb02bfca254bbb2ac0',
+            'formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean': 'e087655fc1de39e5af3b9680524166e69759643d'
+          }
+          assert all(gitblob(Path(p).read_bytes())==h for p,h in deps.items())
+          assert [x for x in proof.decode().splitlines() if x.startswith('import ')] == [
+              'import KUOS.DependentOriginationBicategoricalCoherenceV1_6',
+              'import KUOS.DependentOriginationFunctorialTransportV0_1']
+          assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',proof.decode())
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          packages=json.loads(Path('lake-manifest.json').read_text())['packages']
+          assert [p['rev'] for p in packages if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          reviewed = {
+              'DependentOriginationHigherMulticategoryCoherenceV1_8': ('4cb6b1ebdc68ed3ed45cca4734a9583f5ef47afe', '36ab51f8eefe18584c7c4e56e79cd8399aeaa961', ['KUOS.DependentOriginationOperadicMultiConditionV1_7']),
+              'DependentOriginationCausalMonoidalProcessV1_10': ('70ac0753610617137043556a247727c6fb94025e', '51657eed7ef67efd71c80e6c6c33f4b1efd62c35', ['KUOS.DependentOriginationMonoidalProcessTheoryV1_9']),
+              'DependentOriginationMarginalNoSignallingV1_11': ('72c36c39c01cee4df27f5019c8598222d86de280', 'f63ca5a22952520e6d2d7e551a4c2bb0a7bc24cf', ['KUOS.DependentOriginationCausalMonoidalProcessV1_10']),
+              'DependentOriginationJointCausalFactorizationV1_12': ('97b779f5ab627b2560e8054fcf246b041b430a04', 'dd732790976af821c1c4c7b806cb099d7cc1e048', ['KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8', 'KUOS.DependentOriginationMarginalNoSignallingV1_11']),
+              'DependentOriginationEnrichedContextV1_13': ('db40ecc4f59b4a4e93b2f57e21bd8ee2e25d46af', '7daa0119c4c8eef35a861ba7b925bf6524fc84b3', ['Mathlib.CategoryTheory.Enriched.Basic', 'KUOS.DependentOriginationCoreSpineV1_12']),
+          }
+          for mod,(archived_sha,current_sha,import_names) in reviewed.items():
+              candidate=Path('formal/KUOS/'+mod+'.lean').read_bytes()
+              legacy=Path('legacy/v5.291/formal/KUOS/'+mod+'.lean').read_bytes()
+              assert gitblob(candidate)==current_sha,mod
+              assert gitblob(legacy)==archived_sha,mod
+              assert [s.removeprefix('import ') for s in candidate.decode().splitlines() if s.startswith('import ')]==import_names,mod
+              assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',candidate.decode()),mod
+          extra = {
+              'DependentOriginationStackDescentV1_14': ('f3942cb8608ffc30872cea42474093be78be74b2', 'd57177de97b58f77049cddf22fdfe53d16ea1c6b', ['Mathlib.CategoryTheory.Sites.Descent.IsStack', 'KUOS.DependentOriginationCoreSpineV1_13']),
+              'DependentOriginationInfinityCoherenceV1_15': ('55526c2c12302a0baea6f971f6b5394b7e86ffc1', 'db66456d5d497bcdcae089ce74e5046a4a1c5146', ['Mathlib.AlgebraicTopology.SimplicialObject.Basic', 'KUOS.DependentOriginationBicategoricalCoherenceV1_6', 'KUOS.DependentOriginationCoreSpineV1_14']),
+          }
+          for mod,(legacy_sha,proof_sha,imports) in extra.items():
+              source=Path('formal/KUOS/'+mod+'.lean').read_bytes()
+              old=Path('legacy/v5.291/formal/KUOS/'+mod+'.lean').read_bytes()
+              assert gitblob(source)==proof_sha,mod
+              assert gitblob(old)==legacy_sha,mod
+              assert [s.removeprefix('import ') for s in source.decode().splitlines() if s.startswith('import ')]==imports,mod
+              assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',source.decode()),mod
+          # v1.17 uses a Type-level IsEmpty certificate; the archived
+          # ill-typed negation is preserved and not silently renamed.
+          v117=Path('formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean').read_bytes()
+          frozen117=Path('legacy/v5.291/formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean').read_bytes()
+          assert gitblob(v117)=='714411f14ff3efe16dcc4b7c3a8973dd261b840e'
+          assert gitblob(frozen117)=='7e56c9943b23b2c0d7cd77694016c081cfd41b93'
+          assert [s.removeprefix('import ') for s in v117.decode().splitlines() if s.startswith('import ')]==[
+              'KUOS.DependentOriginationInfinityCoherenceV1_15','KUOS.DependentOriginationQuasicategoryNerveV1_16']
+          assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',v117.decode())
+          print('V17_V117_EXACT_SOURCE_AND_IMPORTS_GREEN')
+          PY
+      - name: Check historical-proof root hash regression
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.test_public_root_restoration -v
+      - name: Setup exact Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned mathlib and restore read-only build overlay
+        run: lake exe cache get
+      - name: Strict Lean dependency closure for corrected v1.7–v1.17
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8 KUOS.DependentOriginationCausalMonoidalProcessV1_10 KUOS.DependentOriginationMarginalNoSignallingV1_11 KUOS.DependentOriginationJointCausalFactorizationV1_12 KUOS.DependentOriginationEnrichedContextV1_13 KUOS.DependentOriginationStackDescentV1_14 KUOS.DependentOriginationInfinityCoherenceV1_15 KUOS.DependentOriginationGlobularNerveComparisonV1_17 KUOS.DependentOriginationCoreSpineV1_25 2>&1 | tee /tmp/kuuos-v17-lean.log
+      - name: Independent 103-declaration exact-source axiom audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionSignature',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionAlgebra',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval_atom',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval_compose',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.StateExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.unaryExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.eval_unaryExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.unary_operation_nonempty',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.HasGenuineMultiCondition',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.SharedSemanticReadout',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.AllAtomsAt',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.eval_preserves_shared_semantics',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.HigherMultiConditionStructure',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.HigherMultiConditionAlgebra',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.Expr2Cell',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.graftCell',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.eval_eq_of_expr2Cell',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.readout_eq_of_expr2Cell',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.HigherOperadicDependentOriginationExtension',
+            'KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8.HigherOperadicDependentOriginationExtension.eval_unaryExpr',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalOrder',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalOrder.no_process_against_order',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure.IsCausal',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure.isCausal_id',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure.isCausal_comp',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure.isCausal_tensor',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalMonoidalProcessStructure.process_precedes',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.id',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.comp',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.tensor',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.precedes',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.tensor_precedes',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.NormalizedState',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.CausalIntervention.mapNormalized',
+            'KUOS.DependentOriginationCausalMonoidalProcessV1_10.tensorNormalized',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftMarginalProcess',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightMarginalProcess',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftMarginal',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightMarginal',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftMarginal_tensorState',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightMarginal_tensorState',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftLocalProcess',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightLocalProcess',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightMarginalProcess_after_left_causal',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftMarginalProcess_after_right_causal',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.rightMarginal_after_leftIntervention',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.leftMarginal_after_rightIntervention',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.OneWayNoSignallingLeftToRight',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.OneWayNoSignallingRightToLeft',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.causal_left_noSignalling',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.causal_right_noSignalling',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.SpacelikeIndependent',
+            'KUOS.DependentOriginationMarginalNoSignallingV1_11.tensorSeparated_causal_spacelikeIndependent',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.binaryInputs',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.binaryContextInputs',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.binaryStateArgs',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.BipartiteJointOperation',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.BipartiteJointOperation.eval',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.BipartiteJointOperation.eval_eq_of_opCell',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.CausalTensorFactorization',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.JointNoSignallingLeftToRight',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.JointNoSignallingRightToLeft',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.JointNoSignalling',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.CausalTensorFactorization.leftToRight_noSignalling',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.CausalTensorFactorization.rightToLeft_noSignalling',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.CausalTensorFactorization.jointNoSignalling',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.CausalTensorFactorization.ofOpCell',
+            'KUOS.DependentOriginationJointCausalFactorizationV1_12.jointNoSignalling_of_opCell',
+            'KUOS.DependentOriginationEnrichedContextV1_13.EnrichedDependentOriginationSystem',
+            'KUOS.DependentOriginationEnrichedContextV1_13.EnrichedDependentOriginationSystem.HomTexture',
+            'KUOS.DependentOriginationEnrichedContextV1_13.EnrichedDependentOriginationSystem.enriched_identity',
+            'KUOS.DependentOriginationEnrichedContextV1_13.EnrichedDependentOriginationSystem.enriched_composition',
+            'KUOS.DependentOriginationEnrichedContextV1_13.EnrichedDependentOriginationSystem.state_transport_composition',
+            'KUOS.DependentOriginationEnrichedContextV1_13.ordinaryTypeEnrichment',
+            'KUOS.DependentOriginationStackDescentV1_14.StackDependentOriginationLayer',
+            'KUOS.DependentOriginationStackDescentV1_14.StackDependentOriginationLayer.descentData_isEquivalence',
+            'KUOS.DependentOriginationStackDescentV1_14.StackDependentOriginationLayer.has_effective_descent',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.ReflexiveGlobularCoherenceTower',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.ReflexiveGlobularCoherenceTower.raise',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.ReflexiveGlobularCoherenceTower.source_raise',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.ReflexiveGlobularCoherenceTower.target_raise',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.oneCell_source',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.oneCell_target',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.twoCell_source',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.twoCell_target',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.transport_eq_of_embedded_twoCell',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.raiseCell',
+            'KUOS.DependentOriginationInfinityCoherenceV1_15.SimplicialCoherenceCandidate',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.LevelwiseNerveCompatible',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.LevelwiseNerveCompatible.atLevel',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.unitTower',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateSystem',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateContext',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateZeroSimplex',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateZeroSimplex_ne',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.unitTower_not_levelwise_compatible',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.no_universal_globular_nerve_comparison',
+          ]
+          Path('/tmp/kuuos-v17-axioms.lean').write_text(
+              'import KUOS.DependentOriginationOperadicMultiConditionV1_7\n'
+              + 'import KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8\n'
+              + 'import KUOS.DependentOriginationCausalMonoidalProcessV1_10\n'
+              + 'import KUOS.DependentOriginationMarginalNoSignallingV1_11\n'
+              + 'import KUOS.DependentOriginationJointCausalFactorizationV1_12\n'
+              + 'import KUOS.DependentOriginationEnrichedContextV1_13\n'
+              + 'import KUOS.DependentOriginationStackDescentV1_14\n'
+              + 'import KUOS.DependentOriginationInfinityCoherenceV1_15\n'
+              + 'import KUOS.DependentOriginationGlobularNerveComparisonV1_17\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('V17_V117_AXIOM_AUDIT_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v17-axioms.lean 2>&1 | tee /tmp/kuuos-v17-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-v17-axioms.log').read_text()
+          records=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(records)==103,('AXIOM_COUNT',len(records))
+          assert len({n for n,_ in records})==103
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for n,axioms in records:
+              used={x.strip() for x in axioms.split(',') if x.strip()}
+              assert used <= allowed,(n,sorted(used-allowed))
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',raw)
+          print('V17_V117_103_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
+      - name: Archive exact Lean and axiom receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v17-operadic-exact-source-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v17-lean.log
+            /tmp/kuuos-v17-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

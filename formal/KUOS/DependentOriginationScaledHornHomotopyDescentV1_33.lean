@@ -6,12 +6,15 @@ namespace KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
+open KUOS.DependentOriginationScaledHornPresentationInvariantV1_30
 
 universe u u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -92,11 +95,11 @@ structure ScaledHornRoundTripBoundaryHomotopy
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   source :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (P : ScaledHornExtensionProblem
-        (duskinNerve B) (duskinScaling B) n i),
+        (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i),
       SSet.Homotopy
         ((transportGlobalDuskinHornProblem HG
           (transportGlobalDuskinHornProblem HF P)).hornMap)
@@ -104,7 +107,7 @@ structure ScaledHornRoundTripBoundaryHomotopy
   target :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (Q : ScaledHornExtensionProblem
-        (duskinNerve C) (duskinScaling C) n i),
+        (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i),
       SSet.Homotopy
         ((transportGlobalDuskinHornProblem HF
           (transportGlobalDuskinHornProblem HG Q)).hornMap)
@@ -124,7 +127,7 @@ structure NormalizedQuasiInverseDuskinHomotopyRealization
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   hornwise : ScaledHornRoundTripBoundaryHomotopy F G HF HG
 
 /--
@@ -141,7 +144,7 @@ def sourceHomotopyFillerOfRoundTrip
     (H : ScaledHornRoundTripBoundaryHomotopy F G HF HG)
     {n : Nat} {i : Fin (n + 1)}
     {P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i}
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i}
     (Q : ScaledHornFiller
       (transportGlobalDuskinHornProblem HG
         (transportGlobalDuskinHornProblem HF P))) :
@@ -162,7 +165,7 @@ def targetHomotopyFillerOfRoundTrip
     (H : ScaledHornRoundTripBoundaryHomotopy F G HF HG)
     {n : Nat} {i : Fin (n + 1)}
     {Q : ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i}
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i}
     (R : ScaledHornFiller
       (transportGlobalDuskinHornProblem HF
         (transportGlobalDuskinHornProblem HG Q))) :
@@ -183,7 +186,7 @@ theorem sourceRoundTripFiller_to_homotopyFiller
     (H : ScaledHornRoundTripBoundaryHomotopy F G HF HG)
     {n : Nat} {i : Fin (n + 1)}
     {P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i}
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i}
     (h : Nonempty
       (ScaledHornFiller
         (transportGlobalDuskinHornProblem HG
@@ -203,7 +206,7 @@ theorem targetRoundTripFiller_to_homotopyFiller
     (H : ScaledHornRoundTripBoundaryHomotopy F G HF HG)
     {n : Nat} {i : Fin (n + 1)}
     {Q : ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i}
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i}
     (h : Nonempty
       (ScaledHornFiller
         (transportGlobalDuskinHornProblem HF
@@ -230,9 +233,9 @@ theorem scaledHornRoundTripDescent_of_homotopy_rectification
     (HG : FullScaledDuskinMapCertificate G)
     (H : ScaledHornRoundTripBoundaryHomotopy F G HF HG)
     (RB : ScaledHornHomotopyRectification
-      (duskinNerve B) (duskinScaling B))
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C))
     (RC : ScaledHornHomotopyRectification
-      (duskinNerve C) (duskinScaling C)) :
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)) :
     ScaledHornRoundTripDescent HB HC F G HF HG where
   source_roundTrip_filler_equiv := by
     intro n i P
@@ -270,8 +273,16 @@ structure CoherentNormalizedScaledHomotopyModelEquivalence
       forwardNormalization.normal backwardNormalization.normal
   forwardScaled : FullScaledDuskinMapCertificate forwardNormalization.normal
   backwardScaled : FullScaledDuskinMapCertificate backwardNormalization.normal
-  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled HB HC
-  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled HC HB
+  liftedSourceFamily : ScaledHornFamily
+    (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  liftedTargetFamily : ScaledHornFamily
+    (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  sourceBridge : ScaledHornPresentationEquivalence HB liftedSourceFamily
+  targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily
+  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled
+    liftedSourceFamily liftedTargetFamily
+  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled
+    liftedTargetFamily liftedSourceFamily
   homotopyRealization :
     NormalizedQuasiInverseDuskinHomotopyRealization
       quasiInverse forwardScaled backwardScaled
@@ -279,6 +290,13 @@ structure CoherentNormalizedScaledHomotopyModelEquivalence
     ScaledHornHomotopyRectification (duskinNerve B) (duskinScaling B)
   targetRectification :
     ScaledHornHomotopyRectification (duskinNerve C) (duskinScaling C)
+  /-- Required independently: the round-trip horn maps live on the normalized lifted carrier. -/
+  liftedSourceRectification :
+    ScaledHornHomotopyRectification
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  liftedTargetRectification :
+    ScaledHornHomotopyRectification
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
 
 namespace CoherentNormalizedScaledHomotopyModelEquivalence
 
@@ -289,16 +307,20 @@ variable
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC)
 
 /-- The homotopy-level construction supplies the exact v1.32 package. -/
-def toCoherentNormalizedScaledModelEquivalence :
+def toCoherentNormalizedScaledModelEquivalence
+    (K : CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC) :
     CoherentNormalizedScaledModelEquivalence E G HB HC where
   forwardNormalization := K.forwardNormalization
   backwardNormalization := K.backwardNormalization
   quasiInverse := K.quasiInverse
   forwardScaled := K.forwardScaled
   backwardScaled := K.backwardScaled
+  liftedSourceFamily := K.liftedSourceFamily
+  liftedTargetFamily := K.liftedTargetFamily
+  sourceBridge := K.sourceBridge
+  targetBridge := K.targetBridge
   forwardFamily := K.forwardFamily
   backwardFamily := K.backwardFamily
   hornDescent :=
@@ -307,10 +329,11 @@ def toCoherentNormalizedScaledModelEquivalence :
       K.forwardNormalization.normal K.backwardNormalization.normal
       K.forwardScaled K.backwardScaled
       K.homotopyRealization.hornwise
-      K.sourceRectification K.targetRectification
+      K.liftedSourceRectification K.liftedTargetRectification
 
 /-- Hence global scaled-Duskin fibrancy is invariant. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   K.toCoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff

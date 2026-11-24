@@ -14,8 +14,7 @@ open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 universe u
@@ -116,6 +115,7 @@ theorem standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz
     scaledHornCylinderAttachmentInclusion,
     hornCylinderAttachment,
     StandardTypeAHornAttachmentGeneratorIndex.toCanonical]
+  exact Category.id_comp _
 
 /-! ## Generic orthogonal descent through an epi left factor -/
 
@@ -193,7 +193,7 @@ theorem canonicalTypeAEndpointLeibnizLiftingUnconditional :
 /-- The canonical KuuOS quotient point carries endpoint generator membership
 without identifying it with the standard A/B/C quotient point. -/
 theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :
-    typeAEndpointGeneratorsGenerated canonicalKuuOSPresentation := by
+    typeAEndpointGeneratorsGenerated.{u} canonicalKuuOSPresentation.{u} := by
   change
     TypeAEndpointLeibnizGeneratorsGeneratedBy
       (scaledHornAttachmentGenerators :
@@ -208,7 +208,7 @@ theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :
 /-- The canonical quotient point carries endpoint stability independently of
 any standard-vs-canonical quotient equality. -/
 theorem canonicalKuuOSPresentation_endpointStable_unconditional :
-    typeAEndpointStable canonicalKuuOSPresentation := by
+    typeAEndpointStable.{u} canonicalKuuOSPresentation.{u} := by
   change
     TypeAEndpointLeibnizStableForPresentation
       (scaledHornAttachmentGenerators :
@@ -222,7 +222,7 @@ theorem canonicalKuuOSPresentation_endpointStable_unconditional :
 /-- The canonical quotient point likewise carries endpoint right lifting
 unconditionally. -/
 theorem canonicalKuuOSPresentation_endpointLifting_unconditional :
-    typeAEndpointLifting canonicalKuuOSPresentation := by
+    typeAEndpointLifting.{u} canonicalKuuOSPresentation.{u} := by
   change
     TypeAEndpointLeibnizLiftingForPresentation
       (scaledHornAttachmentGenerators :

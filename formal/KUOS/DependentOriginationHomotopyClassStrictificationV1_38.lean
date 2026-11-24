@@ -5,6 +5,8 @@ namespace KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -98,7 +100,7 @@ end UniversalScaledHornHomotopyClassStrictification
 
 /-- A strict filler property always descends to the homotopy-class filler
 property, phrased without a typeclass argument so it composes cleanly below. -/
-noncomputable def homotopyClassFibrancyOfStrict
+@[reducible] noncomputable def homotopyClassFibrancyOfStrict
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -111,7 +113,7 @@ noncomputable def homotopyClassFibrancyOfStrict
 
 /-- Family-local strictification upgrades homotopy-class fibrancy back to
 literal strict scaled-horn fibrancy. -/
-def strictFibrancyOfHomotopyClass
+@[reducible] def strictFibrancyOfHomotopyClass
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -172,6 +174,10 @@ variable
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledStrictifiableModelEquivalence E G HB HC)
+
+-- Include the coherent comparison evidence K in the theorem context;
+-- Lean 4 does not auto-include proof-only section variables.
+include K
 
 /--
 Strict global scaled-Duskin fibrancy is presentation-independent once each

@@ -11,8 +11,11 @@ open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationGeneratedPresentationCompleteLatticeV1_86
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
 universe u
+
+noncomputable section
 
 /-!
 # The standard/canonical presentation gap v1.87
@@ -25,8 +28,8 @@ choosing a direction in advance.
 Write
 
 ```text
-S := standardABCPresentation
-C := canonicalKuuOSPresentation.
+S := standardABCPresentation.{u}
+C := canonicalKuuOSPresentation.{u}.
 ```
 
 Their canonical lower and upper envelopes are
@@ -55,12 +58,12 @@ reverse generatorwise A/B/C comparison remains to collapse the interval.
 /-- Greatest lower envelope of the standard and canonical presentation points. -/
 def standardCanonicalLowerEnvelope :
     GeneratedScaledAnodynePresentation.{u} :=
-  standardABCPresentation ⊓ canonicalKuuOSPresentation
+  standardABCPresentation.{u} ⊓ canonicalKuuOSPresentation.{u}
 
 /-- Least upper envelope of the standard and canonical presentation points. -/
 def standardCanonicalUpperEnvelope :
     GeneratedScaledAnodynePresentation.{u} :=
-  standardABCPresentation ⊔ canonicalKuuOSPresentation
+  standardABCPresentation.{u} ⊔ canonicalKuuOSPresentation.{u}
 
 /-- The standard/canonical presentation gap as the closed order interval
 between the two canonical envelopes. -/
@@ -70,22 +73,22 @@ def standardCanonicalPresentationInterval :
 
 /-- The lower envelope lies below the standard point. -/
 theorem lowerEnvelope_le_standardABC :
-    standardCanonicalLowerEnvelope.{u} ≤ standardABCPresentation := by
+    standardCanonicalLowerEnvelope.{u} ≤ standardABCPresentation.{u} := by
   exact inf_le_left
 
 /-- The lower envelope lies below the canonical point. -/
 theorem lowerEnvelope_le_canonicalKuuOS :
-    standardCanonicalLowerEnvelope.{u} ≤ canonicalKuuOSPresentation := by
+    standardCanonicalLowerEnvelope.{u} ≤ canonicalKuuOSPresentation.{u} := by
   exact inf_le_right
 
 /-- The standard point lies below the upper envelope. -/
 theorem standardABC_le_upperEnvelope :
-    standardABCPresentation ≤ standardCanonicalUpperEnvelope.{u} := by
+    standardABCPresentation.{u} ≤ standardCanonicalUpperEnvelope.{u} := by
   exact le_sup_left
 
 /-- The canonical point lies below the upper envelope. -/
 theorem canonicalKuuOS_le_upperEnvelope :
-    canonicalKuuOSPresentation ≤ standardCanonicalUpperEnvelope.{u} := by
+    canonicalKuuOSPresentation.{u} ≤ standardCanonicalUpperEnvelope.{u} := by
   exact le_sup_right
 
 /-- The lower envelope is the greatest presentation lying below both points. -/
@@ -93,7 +96,7 @@ theorem canonicalKuuOS_le_upperEnvelope :
 theorem le_lowerEnvelope_iff
     (P : GeneratedScaledAnodynePresentation.{u}) :
     P ≤ standardCanonicalLowerEnvelope ↔
-      P ≤ standardABCPresentation ∧ P ≤ canonicalKuuOSPresentation := by
+      P ≤ standardABCPresentation.{u} ∧ P ≤ canonicalKuuOSPresentation.{u} := by
   simp [standardCanonicalLowerEnvelope]
 
 /-- The upper envelope is the least presentation lying above both points. -/
@@ -101,7 +104,7 @@ theorem le_lowerEnvelope_iff
 theorem upperEnvelope_le_iff
     (P : GeneratedScaledAnodynePresentation.{u}) :
     standardCanonicalUpperEnvelope ≤ P ↔
-      standardABCPresentation ≤ P ∧ canonicalKuuOSPresentation ≤ P := by
+      standardABCPresentation.{u} ≤ P ∧ canonicalKuuOSPresentation.{u} ≤ P := by
   simp [standardCanonicalUpperEnvelope]
 
 /-- Membership in the gap interval is exactly the envelope sandwich. -/
@@ -115,13 +118,13 @@ theorem mem_standardCanonicalPresentationInterval_iff
 
 /-- The standard A/B/C point belongs to the intrinsic gap interval. -/
 theorem standardABCPresentation_mem_interval :
-    standardABCPresentation ∈
+    standardABCPresentation.{u} ∈
       standardCanonicalPresentationInterval.{u} := by
   exact ⟨lowerEnvelope_le_standardABC, standardABC_le_upperEnvelope⟩
 
 /-- The canonical KuuOS point belongs to the intrinsic gap interval. -/
 theorem canonicalKuuOSPresentation_mem_interval :
-    canonicalKuuOSPresentation ∈
+    canonicalKuuOSPresentation.{u} ∈
       standardCanonicalPresentationInterval.{u} := by
   exact ⟨lowerEnvelope_le_canonicalKuuOS, canonicalKuuOS_le_upperEnvelope⟩
 
@@ -130,31 +133,38 @@ theorem canonicalKuuOSPresentation_mem_interval :
 /-- Canonical-below-standard is exactly the statement that the lower envelope
 is the canonical point. -/
 theorem canonicalKuuOS_le_standardABC_iff_lowerEnvelope_eq_canonical :
-    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
-      standardCanonicalLowerEnvelope = canonicalKuuOSPresentation := by
+    canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} ↔
+      standardCanonicalLowerEnvelope = canonicalKuuOSPresentation.{u} := by
   constructor
   · intro h
+    change (standardABCPresentation.{u} ⊓ canonicalKuuOSPresentation.{u}) =
+      canonicalKuuOSPresentation.{u}
     exact inf_eq_right.mpr h
   · intro h
-    rw [← h]
-    exact lowerEnvelope_le_standardABC
+    calc
+      canonicalKuuOSPresentation.{u} = standardCanonicalLowerEnvelope.{u} := h.symm
+      _ ≤ standardABCPresentation.{u} := lowerEnvelope_le_standardABC
 
 /-- The same order direction is equivalently detected by the upper envelope. -/
 theorem canonicalKuuOS_le_standardABC_iff_upperEnvelope_eq_standard :
-    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
-      standardCanonicalUpperEnvelope = standardABCPresentation := by
+    canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} ↔
+      standardCanonicalUpperEnvelope = standardABCPresentation.{u} := by
   constructor
   · intro h
+    change (standardABCPresentation.{u} ⊔ canonicalKuuOSPresentation.{u}) =
+      standardABCPresentation.{u}
     exact sup_eq_left.mpr h
   · intro h
-    rw [← h]
-    exact canonicalKuuOS_le_upperEnvelope
+    calc
+      canonicalKuuOSPresentation.{u} ≤ standardCanonicalUpperEnvelope.{u} :=
+        canonicalKuuOS_le_upperEnvelope
+      _ = standardABCPresentation.{u} := h
 
 /-- Thus a canonical-to-standard comparison identifies both gap endpoints. -/
 theorem canonicalKuuOS_le_standardABC_iff_envelopes :
-    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
-      standardCanonicalLowerEnvelope = canonicalKuuOSPresentation ∧
-        standardCanonicalUpperEnvelope = standardABCPresentation := by
+    canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} ↔
+      standardCanonicalLowerEnvelope = canonicalKuuOSPresentation.{u} ∧
+        standardCanonicalUpperEnvelope = standardABCPresentation.{u} := by
   constructor
   · intro h
     exact
@@ -166,31 +176,38 @@ theorem canonicalKuuOS_le_standardABC_iff_envelopes :
 /-- Standard-below-canonical is exactly the statement that the lower envelope
 is the standard point. -/
 theorem standardABC_le_canonicalKuuOS_iff_lowerEnvelope_eq_standard :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ↔
-      standardCanonicalLowerEnvelope = standardABCPresentation := by
+    standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ↔
+      standardCanonicalLowerEnvelope = standardABCPresentation.{u} := by
   constructor
   · intro h
+    change (standardABCPresentation.{u} ⊓ canonicalKuuOSPresentation.{u}) =
+      standardABCPresentation.{u}
     exact inf_eq_left.mpr h
   · intro h
-    rw [← h]
-    exact lowerEnvelope_le_canonicalKuuOS
+    calc
+      standardABCPresentation.{u} = standardCanonicalLowerEnvelope.{u} := h.symm
+      _ ≤ canonicalKuuOSPresentation.{u} := lowerEnvelope_le_canonicalKuuOS
 
 /-- The reverse order direction is equivalently detected by the upper envelope. -/
 theorem standardABC_le_canonicalKuuOS_iff_upperEnvelope_eq_canonical :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ↔
-      standardCanonicalUpperEnvelope = canonicalKuuOSPresentation := by
+    standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ↔
+      standardCanonicalUpperEnvelope = canonicalKuuOSPresentation.{u} := by
   constructor
   · intro h
+    change (standardABCPresentation.{u} ⊔ canonicalKuuOSPresentation.{u}) =
+      canonicalKuuOSPresentation.{u}
     exact sup_eq_right.mpr h
   · intro h
-    rw [← h]
-    exact standardABC_le_upperEnvelope
+    calc
+      standardABCPresentation.{u} ≤ standardCanonicalUpperEnvelope.{u} :=
+        standardABC_le_upperEnvelope
+      _ = canonicalKuuOSPresentation.{u} := h
 
 /-- Thus a standard-to-canonical comparison identifies both gap endpoints. -/
 theorem standardABC_le_canonicalKuuOS_iff_envelopes :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ↔
-      standardCanonicalLowerEnvelope = standardABCPresentation ∧
-        standardCanonicalUpperEnvelope = canonicalKuuOSPresentation := by
+    standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ↔
+      standardCanonicalLowerEnvelope = standardABCPresentation.{u} ∧
+        standardCanonicalUpperEnvelope = canonicalKuuOSPresentation.{u} := by
   constructor
   · intro h
     exact
@@ -202,9 +219,9 @@ theorem standardABC_le_canonicalKuuOS_iff_envelopes :
 /-- If the canonical point lies below the standard point, the intrinsic gap is
 literally the interval from canonical to standard. -/
 theorem interval_eq_of_canonicalKuuOS_le_standardABC
-    (h : canonicalKuuOSPresentation ≤ standardABCPresentation) :
+    (h : canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u}) :
     standardCanonicalPresentationInterval =
-      Set.Icc canonicalKuuOSPresentation standardABCPresentation := by
+      Set.Icc canonicalKuuOSPresentation.{u} standardABCPresentation.{u} := by
   unfold standardCanonicalPresentationInterval
   rw [canonicalKuuOS_le_standardABC_iff_lowerEnvelope_eq_canonical.1 h,
     canonicalKuuOS_le_standardABC_iff_upperEnvelope_eq_standard.1 h]
@@ -212,9 +229,9 @@ theorem interval_eq_of_canonicalKuuOS_le_standardABC
 /-- If the standard point lies below the canonical point, the intrinsic gap is
 literally the interval from standard to canonical. -/
 theorem interval_eq_of_standardABC_le_canonicalKuuOS
-    (h : standardABCPresentation ≤ canonicalKuuOSPresentation) :
+    (h : standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u}) :
     standardCanonicalPresentationInterval =
-      Set.Icc standardABCPresentation canonicalKuuOSPresentation := by
+      Set.Icc standardABCPresentation.{u} canonicalKuuOSPresentation.{u} := by
   unfold standardCanonicalPresentationInterval
   rw [standardABC_le_canonicalKuuOS_iff_lowerEnvelope_eq_standard.1 h,
     standardABC_le_canonicalKuuOS_iff_upperEnvelope_eq_canonical.1 h]
@@ -230,20 +247,20 @@ def StandardCanonicalPresentationGapClosed : Prop :=
 points. -/
 theorem standardCanonicalPresentationGapClosed_iff :
     StandardCanonicalPresentationGapClosed.{u} ↔
-      standardABCPresentation = canonicalKuuOSPresentation := by
+      standardABCPresentation.{u} = canonicalKuuOSPresentation.{u} := by
   constructor
   · intro h
     apply le_antisymm
     · calc
-        standardABCPresentation ≤ standardCanonicalUpperEnvelope :=
+        standardABCPresentation.{u} ≤ standardCanonicalUpperEnvelope :=
           standardABC_le_upperEnvelope
         _ = standardCanonicalLowerEnvelope := h.symm
-        _ ≤ canonicalKuuOSPresentation := lowerEnvelope_le_canonicalKuuOS
+        _ ≤ canonicalKuuOSPresentation.{u} := lowerEnvelope_le_canonicalKuuOS
     · calc
-        canonicalKuuOSPresentation ≤ standardCanonicalUpperEnvelope :=
+        canonicalKuuOSPresentation.{u} ≤ standardCanonicalUpperEnvelope :=
           canonicalKuuOS_le_upperEnvelope
         _ = standardCanonicalLowerEnvelope := h.symm
-        _ ≤ standardABCPresentation := lowerEnvelope_le_standardABC
+        _ ≤ standardABCPresentation.{u} := lowerEnvelope_le_standardABC
   · intro h
     simpa [StandardCanonicalPresentationGapClosed,
       standardCanonicalLowerEnvelope, standardCanonicalUpperEnvelope, h]
@@ -251,8 +268,8 @@ theorem standardCanonicalPresentationGapClosed_iff :
 /-- Equivalently, gap closure is mutual comparison in the presentation order. -/
 theorem standardCanonicalPresentationGapClosed_iff_mutual_le :
     StandardCanonicalPresentationGapClosed.{u} ↔
-      standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-        canonicalKuuOSPresentation ≤ standardABCPresentation := by
+      standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ∧
+        canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} := by
   rw [standardCanonicalPresentationGapClosed_iff,
     standardABC_eq_canonical_iff_mutual_le]
 
@@ -277,7 +294,7 @@ to standard. -/
 theorem interval_eq_of_positiveResidual
     (K : StandardABCCanonicalPositiveResidualComparison.{u}) :
     standardCanonicalPresentationInterval =
-      Set.Icc canonicalKuuOSPresentation standardABCPresentation := by
+      Set.Icc canonicalKuuOSPresentation.{u} standardABCPresentation.{u} := by
   exact interval_eq_of_canonicalKuuOS_le_standardABC
     (canonicalKuuOS_le_standardABC_of_positiveResidual K)
 
@@ -286,7 +303,7 @@ canonical. -/
 theorem interval_eq_of_generatorwiseReverse
     (K : StandardABCCanonicalGeneratorwiseReverseComparison.{u}) :
     standardCanonicalPresentationInterval =
-      Set.Icc standardABCPresentation canonicalKuuOSPresentation := by
+      Set.Icc standardABCPresentation.{u} canonicalKuuOSPresentation.{u} := by
   exact interval_eq_of_standardABC_le_canonicalKuuOS
     (standardABC_le_canonicalKuuOS_iff_generatorwiseReverse.2 K)
 
@@ -333,4 +350,5 @@ and collapse of that gap.  The first is unconditional by v1.86.  The latter two
 remain precisely the geometric standard/canonical comparison problem.
 -/
 
+end
 end KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87

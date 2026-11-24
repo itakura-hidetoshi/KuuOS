@@ -1,0 +1,129 @@
+name: KuuOS v1.96 R14 adopted exact-head 16-axiom Lean
+
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - '.github/workflows/kuuos-v196-r14-adopted-exact-16-axioms.yml'
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean'
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean'
+      - 'tests/test_public_root_restoration.py'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  adopted-v196-r14-strict-16-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact push HEAD
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Check fixed source blobs, toolchain and 16 named declarations
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, pathlib, json, re
+          def blob(raw):
+              return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+          root = pathlib.Path('formal/KUOS')
+          p = root / 'DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean'
+          raw = p.read_bytes()
+          assert blob(raw) == '402778b2fd5c73d94318cdd10a656c94c32cb3f8', blob(raw)
+          assert pathlib.Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.30.0-rc2'
+          manifest = json.loads(pathlib.Path('lake-manifest.json').read_text())
+          assert [x['rev'] for x in manifest['packages'] if x['name'] == 'mathlib'] == ['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          dependencies = {
+              'DependentOriginationSingleTriangleScalingFiltrationV1_90.lean': '2b7be9f91504f33a25013858ccb917ac983e54fa',
+              'DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean': 'f95fbb08959e5357efadd467e653cb2e3e3ff48e',
+              'DependentOriginationCanonicalFibrationThinReflectionV1_92.lean': '2c1fcdab3579415d9f9591558db23c6b4a52e7e1',
+              'DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean': '0e26a3d0e9f07c8cf61d0f6590833321e0cbd429',
+              'DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean': 'abf21d554de77771723f044f9fb98e2b7396a20e',
+              'DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean': '490286e6415136425d295436e62d3abccdeffbaf',
+          }
+          for name, sha in dependencies.items():
+              current = blob((root / name).read_bytes())
+              assert current == sha, (name, current)
+          rx = re.compile(r'^\s*(?:(?:@\[[^\n]*\])\s*)?(?:(?:noncomputable|private|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|class|abbrev|inductive)\s+([^\s(:]+)')
+          def declared(src):
+              namespaces, result = [], []
+              for line in src.splitlines():
+                  stripped = line.strip()
+                  if stripped.startswith('namespace '):
+                      namespaces.append(stripped.split()[1])
+                      continue
+                  if stripped.startswith('end '):
+                      end = stripped.split()[1]
+                      if namespaces and namespaces[-1] == end:
+                          namespaces.pop()
+                      continue
+                  m = rx.match(line)
+                  if m:
+                      result.append('.'.join(namespaces + [m.group(1)]))
+              return result
+          names = declared(raw.decode())
+          old_names = declared((root / 'DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean').read_text())
+          assert len(names) == len(old_names) == 16, (len(names), len(old_names))
+          assert [x.rsplit('.', 1)[-1] for x in names] == [x.rsplit('.', 1)[-1] for x in old_names]
+          pathlib.Path('/tmp/v196-r14-names.json').write_text(json.dumps(names))
+          pathlib.Path('/tmp/v196-r14-axioms.lean').write_text(
+              'import KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96\n'
+              + ''.join('#print axioms ' + x + '\n' for x in names))
+          print('EXACT_V196_SOURCE', blob(raw), 'NAMED_DECLARATIONS', len(names), 'DEPENDENCIES', len(dependencies))
+          PY
+      - name: Strict Lean build pinned v1.95 dependency and R14
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
+      - name: Independently audit all 16 declaration axioms
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/v196-r14-axioms.lean >/tmp/v196-r14-axioms.log 2>&1
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,json
+          s=Path('/tmp/v196-r14-axioms.log').read_text()
+          names=json.loads(Path('/tmp/v196-r14-names.json').read_text())
+          allowed={'Classical.choice','Quot.sound','propext'}
+          seen=set()
+          for n in names:
+              m=re.search("'"+re.escape(n)+r"'\s+depends on axioms:\s*\[([^\]]*)\]",s,re.S)
+              no=re.search("'"+re.escape(n)+r"'\s+does not depend on any axioms",s)
+              assert m or no,('NO_AXIOM_EVIDENCE',n)
+              vals={v.strip() for v in m.group(1).split(',') if v.strip()} if m else set()
+              assert vals<=allowed,(n,vals-allowed)
+              seen|=vals
+          assert 'sorryAx' not in s
+          assert not re.search(r'(?:error|warning):',s),s[-1400:]
+          print('INDEPENDENT_V196_R14_16_AXIOM_GREEN',len(names),sorted(seen),'sorryAx=0 warning=0 error=0')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v196-r14-independent-16-axiom-receipt
+          path: |
+            /tmp/v196-r14-names.json
+            /tmp/v196-r14-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

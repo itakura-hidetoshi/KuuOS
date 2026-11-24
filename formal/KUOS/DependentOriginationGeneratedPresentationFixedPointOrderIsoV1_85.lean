@@ -8,6 +8,7 @@ open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
 universe u
 
@@ -94,7 +95,7 @@ theorem saturatedAnodyneToPresentation_presentationToSaturatedAnodyne
     (P : GeneratedScaledAnodynePresentation.{u}) :
     saturatedAnodyneToPresentation (presentationToSaturatedAnodyne P) = P := by
   apply eq_of_generatedAnodyneClass_eq
-  rw [generatedAnodyneClass_presentationClass]
+  change IsOrthogonallySaturated (generatedAnodyneClass P)
   exact generatedAnodyneClass_isOrthogonallySaturated P
 
 /-- Taking the generated left class of a saturated self-presentation returns

@@ -1,0 +1,65 @@
+{
+  "schema": "kuuos_v175_codeai_rank_predicate_hunks_v14",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "base_blobs": {
+    "v175-v13-v173-gluing": "1aa9653951fa4c8a68728e14fa1d6d255844a06f"
+  },
+  "source_review_head": "ccc7f5f9f060bad36c0b3e5b9c2085f0d87420b8",
+  "evidence_scope": {
+    "v13_direct_run": 44613764087,
+    "v13_all_three_failed": true,
+    "v13c_remaining": "rank theorem goal rw [hb] at line852, no occurrence; change+rw inside prior hzcell proof passed",
+    "source_findings": [
+      "Pinned Lean kabstract checks head index and argument count before definitional equality.",
+      "Pinned mathlib rank.b j targets filtration(Order.succ j), while the rank stage uses filtration(j+1).",
+      "The hidden successor carrier and rewrite transparency explanation remains a hypothesis until diagnostic output."
+    ],
+    "diagnostic_controls": [
+      "v175-v13-range-gluing",
+      "v175-v13-v173-gluing"
+    ],
+    "pretty_printer_options": [
+      "pp.universes=true",
+      "pp.explicit=true",
+      "pp.coercions.types=true"
+    ],
+    "new_candidates_direct_lean": "UNVERIFIED",
+    "real_mcp_certified": false,
+    "independent_axiom_certified": false,
+    "adopted": false
+  },
+  "variants": [
+    {
+      "name": "v175-v14-rank-goal-change",
+      "base": "v175-v13-v173-gluing",
+      "expected_blob": "7f4261933284f50e4de8556828657feaf4c99ec8",
+      "hypothesis": "Make the target predicate and its simplex expression explicit before applying the already-established hb.",
+      "patches": [
+        {
+          "name": "canonical-goal-before-rw",
+          "mode": "literal",
+          "count": 1,
+          "old": "      rw [hb]\n      rcases standardTypeABoundaryPrismCellCompletion_complete_classification",
+          "new": "      change\n        (generatedPushoutScaling\n          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)\n          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)\n          (𝟙 _)\n          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map).thin\n            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)\n              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z))\n      rw [hb]\n      rcases standardTypeABoundaryPrismCellCompletion_complete_classification"
+        }
+      ]
+    },
+    {
+      "name": "v175-v14-rank-goal-transport",
+      "base": "v175-v13-v173-gluing",
+      "expected_blob": "e25e593ee859bbf66a26e8e83ee8d1a17d22659b",
+      "hypothesis": "Transport the thin predicate by congrArg and Eq.mpr, without occurrence search.",
+      "patches": [
+        {
+          "name": "predicate-equality-transport",
+          "mode": "literal",
+          "count": 1,
+          "old": "      rw [hb]\n      rcases standardTypeABoundaryPrismCellCompletion_complete_classification",
+          "new": "      refine (congrArg\n        (fun w =>\n          (generatedPushoutScaling\n            (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)\n            (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)\n            (𝟙 _)\n            (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map).thin w)\n        hb).mpr ?_\n      rcases standardTypeABoundaryPrismCellCompletion_complete_classification"
+        }
+      ]
+    }
+  ]
+}

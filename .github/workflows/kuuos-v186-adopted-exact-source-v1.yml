@@ -1,0 +1,58 @@
+name: KuuOS v1.86 adopted complete lattice pinned Lean and 21 axioms
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean'
+      - 'formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeCodeAICandidateV1_86.lean'
+      - 'scripts/ci_kuuos_v186_adopted_exact_source_v1.py'
+      - '.github/workflows/kuuos-v186-adopted-exact-source-v1.yml'
+      - 'tests/test_public_root_restoration.py'
+      - 'lean-toolchain'
+      - 'lake-manifest.json'
+permissions:
+  contents: read
+env:
+  PYTHONPATH: .
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  SOURCE_HEAD: ${{ github.sha }}
+jobs:
+  v186-adopted-original-name-21-axioms:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Strict exact original v1.86 and independent all 21 axiom reports
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v186_adopted_exact_source_v1.py --out /tmp/kuuos-v186-pr-adopted-21
+      - name: Preserve exact-head original-name proof receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v186-pr-adopted-21
+          path: /tmp/kuuos-v186-pr-adopted-21
+          retention-days: 30
+          if-no-files-found: warn

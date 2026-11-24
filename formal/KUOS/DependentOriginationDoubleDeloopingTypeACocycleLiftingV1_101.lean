@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
+import KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 
 namespace KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
 
@@ -8,6 +9,7 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -80,7 +82,7 @@ theorem zero_label
 every index. -/
 theorem zero_typeADistinguishedZero
     (i : Fin (n + 1)) :
-    (zero n).TypeADistinguishedZero i := by
+    TypeADistinguishedZero (zero n) i := by
   intro a b c hab hbc hbi ha hc
   rfl
 
@@ -89,7 +91,7 @@ simplex is a scaled map from the standard type-(A) scaled simplex. -/
 theorem toSimplexMap_scaled_standardTypeA_of_distinguishedZero
     (C : NatNormalizedDuskinCocycle n)
     (i : Fin (n + 1))
-    (hzero : C.TypeADistinguishedZero i) :
+    (hzero : TypeADistinguishedZero C i) :
     IsScaledMap
       (standardTypeASimplexScaling i)
       (duskinScaling NatDoubleDelooping)
@@ -130,7 +132,7 @@ theorem distinguishedZero_of_toSimplexMap_scaled_standardTypeA
         (standardTypeASimplexScaling i)
         (duskinScaling NatDoubleDelooping)
         C.toSimplexMap) :
-    C.TypeADistinguishedZero i := by
+    TypeADistinguishedZero C i := by
   intro a b c hab hbc hbi ha hc
   let t : (Δ[n] : SSet).obj (op ⦋2⦌) :=
     SSet.stdSimplex.triangle a b c hab hbc
@@ -156,10 +158,10 @@ theorem toSimplexMap_scaled_standardTypeA_iff_distinguishedZero
         (standardTypeASimplexScaling i)
         (duskinScaling NatDoubleDelooping)
         C.toSimplexMap ↔
-      C.TypeADistinguishedZero i := by
+      TypeADistinguishedZero C i := by
   constructor
-  · exact C.distinguishedZero_of_toSimplexMap_scaled_standardTypeA i
-  · exact C.toSimplexMap_scaled_standardTypeA_of_distinguishedZero i
+  · exact NatNormalizedDuskinCocycle.distinguishedZero_of_toSimplexMap_scaled_standardTypeA C i
+  · exact NatNormalizedDuskinCocycle.toSimplexMap_scaled_standardTypeA_of_distinguishedZero C i
 
 end NatNormalizedDuskinCocycle
 
@@ -178,7 +180,7 @@ structure NatTypeAHornCocycleCompletion
     (Λ[g.n, g.i].ι :
       (Λ[g.n, g.i] : SSet) ⟶ (Δ[g.n] : SSet)) ≫
         cocycle.toSimplexMap = f.map
-  distinguished_zero : cocycle.TypeADistinguishedZero g.i
+  distinguished_zero : NatNormalizedDuskinCocycle.TypeADistinguishedZero cocycle g.i
 
 namespace NatTypeAHornCocycleCompletion
 
@@ -192,7 +194,7 @@ def toLift (K : NatTypeAHornCocycleCompletion g f) :
     standardTypeAScaledSimplex g ⟶ natDoubleDeloopingScaledDuskin where
   map := K.cocycle.toSimplexMap
   scaled :=
-    K.cocycle.toSimplexMap_scaled_standardTypeA_of_distinguishedZero
+    NatNormalizedDuskinCocycle.toSimplexMap_scaled_standardTypeA_of_distinguishedZero K.cocycle
       g.i K.distinguished_zero
 
 /-- The realized cocycle lift restricts to the original horn map exactly. -/
@@ -235,12 +237,11 @@ theorem natDoubleDelooping_standardTypeA_rlp_of_cocycleCompletions
     (H : HasAllStandardTypeAHornCocycleCompletions) :
     (standardTypeAScaledHornGenerators : MorphismProperty ScaledSSet).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
-  rw [MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty
-    StandardTypeAHornGeneratorIndex]
-  intro g
-  exact
-    natDoubleDelooping_hasLiftingProperty_standardTypeA_of_cocycleCompletions
-      g (H g)
+  intro A B i hi
+  dsimp only [standardTypeAScaledHornGenerators] at hi
+  rcases hi with ⟨g⟩
+  exact natDoubleDelooping_hasLiftingProperty_standardTypeA_of_cocycleCompletions
+    g (H g)
 
 /-!
 The type-(A) frontier is now purely arithmetic:

@@ -1,0 +1,84 @@
+{
+  "schema": "kuuos_v176_codeai_monotonicity_universe_v2",
+  "original_blob": "c7fd4eb959d05a2eeb430ea39a12d04ed4030ee9",
+  "legacy_unchanged": true,
+  "required_dependency_blob": "e25e593ee859bbf66a26e8e83ee8d1a17d22659b",
+  "variants": [
+    {
+      "name": "v176-v2-monotone",
+      "base": "imports",
+      "patches": [
+        {
+          "name": "remove-invalid-Monotone-field-projection",
+          "old": ".filtration_monotone.monotone",
+          "new": ".filtration_monotone",
+          "count": 1
+        }
+      ],
+      "expected_blob": "31d3980738e6b59645259fb3940f27d264b79996"
+    },
+    {
+      "name": "v176-v2-monotone-cylinder-u",
+      "base": "imports",
+      "patches": [
+        {
+          "name": "remove-invalid-Monotone-field-projection",
+          "old": ".filtration_monotone.monotone",
+          "new": ".filtration_monotone",
+          "count": 1
+        },
+        {
+          "name": "pin-cylinder-universe",
+          "old": "scaledSimplexCylinder",
+          "new": "scaledSimplexCylinder.{u}",
+          "count": 9
+        }
+      ],
+      "expected_blob": "36d5b1adc3d97df5d1643b608857ddc765dda874"
+    },
+    {
+      "name": "v176-v2-monotone-cylinder-u-thin",
+      "base": "imports",
+      "patches": [
+        {
+          "name": "remove-invalid-Monotone-field-projection",
+          "old": ".filtration_monotone.monotone",
+          "new": ".filtration_monotone",
+          "count": 1
+        },
+        {
+          "name": "pin-cylinder-universe",
+          "old": "scaledSimplexCylinder",
+          "new": "scaledSimplexCylinder.{u}",
+          "count": 9
+        },
+        {
+          "name": "thin-lift-rewrite-explicit-cocone-map",
+          "old": "  change\n    (scaledSimplexCylinder.{u}\n      (standardTypeASimplexScaling g.i)).scaling.thin\n      (((standardTypeABoundaryPrismRankFunction g).filtration j).ι.app\n        (op ⦋2⦌) x)\n  rw [hx]\n  exact ht",
+          "new": "  change\n    (scaledSimplexCylinder.{u}\n      (standardTypeASimplexScaling g.i)).scaling.thin\n      ((standardTypeABoundaryPrismRankStageToCylinder.{u} g j).map.app\n        (op ⦋2⦌) x)\n  rw [hx]\n  exact ht",
+          "count": 1
+        }
+      ],
+      "expected_blob": "81603b8544aca89cbe576a5af920b3ed50c7d1f6"
+    },
+    {
+      "name": "v176-v2-monotone-cylinder-u-rank",
+      "base": "imports-explicit-rank-universe",
+      "patches": [
+        {
+          "name": "remove-invalid-Monotone-field-projection",
+          "old": ".filtration_monotone.monotone",
+          "new": ".filtration_monotone",
+          "count": 1
+        },
+        {
+          "name": "pin-cylinder-universe",
+          "old": "scaledSimplexCylinder",
+          "new": "scaledSimplexCylinder.{u}",
+          "count": 9
+        }
+      ],
+      "expected_blob": "ce5cd8f35e07c7557b4e531aac043c17c48a109d"
+    }
+  ]
+}

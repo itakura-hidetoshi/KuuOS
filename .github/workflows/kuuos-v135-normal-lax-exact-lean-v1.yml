@@ -1,0 +1,146 @@
+name: KuuOS v1.35 exact native normal-lax cylinder and ULift Lean 25-axiom audit
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean'
+      - 'formal/KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v135-normal-lax-exact-lean-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  v135-exact-normal-lax-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3555 && github.event.pull_request.head.ref == 'fix/kuuos-v127-v129-ulift-20261115' && github.event.pull_request.base.ref == 'fix/kuuos-v126-explicit-hom-transport-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact source PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Python 3.12 historical proof and pin checks
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check source, frozen old source, exact import dependencies and fixed toolchain
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, re
+          def sha(raw):
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          src=Path('formal/KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean').read_bytes()
+          lift=Path('formal/KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean').read_bytes()
+          assert sha(src)=='03b35036177ebc1ef13a055073877a0c9a319976'
+          assert sha(lift)=='9f0f5f81109993bb791df655844c62de0729b681'
+          assert sha(Path('legacy/v5.291/formal/KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean').read_bytes())=='ab1b2e68285bbf12c74c801af333565cda2fdc0e'
+          deps={
+              'formal/KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean':'31a442eb309c1fd0d1185cff0e28c84bc7a5a671',
+              'formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean':'3a1046a9a44cbb1ad466ef7a27a107122ea05aca',
+          }
+          for name,blob in deps.items():
+              assert sha(Path(name).read_bytes())==blob,name
+          assert [x for x in src.decode().splitlines() if x.startswith('import ')]==[
+              'import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34',
+              'import Mathlib.CategoryTheory.Bicategory.Product',
+              'import Mathlib.CategoryTheory.Bicategory.NaturalTransformation.Pseudo',
+              'import Mathlib.Logic.Function.Basic',
+              'import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35',
+          ]
+          assert [x for x in lift.decode().splitlines() if x.startswith('import ')]==[
+              'import KUOS.DependentOriginationScaledDuskinHornTransportV1_29']
+          for raw in (src,lift):
+              assert not re.search(r'(?m)^\s*(axiom|sorry|admit)\b',raw.decode())
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [x['rev'] for x in json.loads(Path('lake-manifest.json').read_text())['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('V135_NORMAL_LAX_EXACT_SOURCE_AND_FIXED_PINS_GREEN')
+          PY
+      - name: Check all previous historical proof source bytes or exact reviewed integrations
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.test_public_root_restoration -v
+      - name: Install fixed Lean toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned mathlib dependencies
+        run: lake exe cache get
+      - name: Strict Lean build on the actual v1.35 dependency closure
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationNormalLaxUniverseLiftV1_35 KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35 2>&1 | tee /tmp/kuuos-v135-lean.log
+      - name: Audit exact 25 v1.35 public declarations and standard axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+              'KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap',
+              'KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_app',
+              'KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_eq_normalized',
+              'KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_id',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxPair',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxPair_precomp',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.intervalNormalLax',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.intervalNormalLax_reindex',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxDuskinNerveMap',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxDuskinNerveMap_app',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxDuskinNerveMap_id',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.normalLaxDuskinNerveMap_comp',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.DuskinPrismFamily',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.NormalLaxDuskinCylinder',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.sourcePseudoStrong',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.targetPseudoStrong',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.sourceRoundTripNormalLax',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.targetRoundTripNormalLax',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.DuskinPrismFamily.toHomotopy',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.NormalLaxDuskinCylinder.mixed',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.NormalLaxDuskinCylinder.toPrismFamily',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.NormalLaxDuskinCylinder.toHomotopy',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.sourcePrism',
+              'KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.targetPrism',
+          ]
+          assert len(names)==25 and len(set(names))==25
+          Path('/tmp/kuuos-v135-axioms.lean').write_text(
+              'import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35\n'
+              + 'import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('V135_TWENTYFIVE_AXIOMS_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v135-axioms.lean 2>&1 | tee /tmp/kuuos-v135-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-v135-axioms.log').read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(recs)==25,('AUDIT_DECLARATION_COUNT',len(recs))
+          assert len({n for n,_ in recs})==25
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for name,axioms in recs:
+              used={x.strip() for x in axioms.split(',') if x.strip()}
+              assert used<=allowed,(name,used-allowed)
+          assert not re.search(r'(?m)(error:|warning:|sorryAx)',raw)
+          print('V135_TWENTYFIVE_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
+      - name: Preserve exact independent Lean receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v135-normal-lax-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v135-lean.log
+            /tmp/kuuos-v135-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

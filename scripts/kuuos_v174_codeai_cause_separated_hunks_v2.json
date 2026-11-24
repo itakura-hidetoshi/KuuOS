@@ -1,0 +1,390 @@
+{
+  "schema": "kuuos_v174_codeai_cause_separated_hunks_v2",
+  "base_candidate_blob": "b3c19bb2c882995e2f433653c4e1f978ac63ddb4",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 26,
+  "variants": [
+    {
+      "name": "v174-fac-only",
+      "expected_blob": "96ae1274393bca816c6c5936c81dcdbca8c76ff6",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-fac-pushout-universe",
+      "expected_blob": "8e6d5c6bd1d026c245995c789ec4233fecfd9b14",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 444,
+          "old": [
+            "    IsPushout",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase g j) := by"
+          ],
+          "new": [
+            "    IsPushout.{u, u+1}",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase.{u} g j) := by"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-fac-pushout-raw-class",
+      "expected_blob": "93106a7bbdc0cbceb38477f33b736f4be9d37983",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 444,
+          "old": [
+            "    IsPushout",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase g j) := by"
+          ],
+          "new": [
+            "    IsPushout.{u, u+1}",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase.{u} g j) := by"
+          ]
+        },
+        {
+          "start": 463,
+          "old": [],
+          "new": [
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-fac-raw-bmap",
+      "expected_blob": "90423ddb6094cec1536c3e6eb630fd531506f3ba",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 444,
+          "old": [
+            "    IsPushout",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase g j) := by"
+          ],
+          "new": [
+            "    IsPushout.{u, u+1}",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase.{u} g j) := by"
+          ]
+        },
+        {
+          "start": 463,
+          "old": [],
+          "new": [
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ]
+        },
+        {
+          "start": 501,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin",
+            "        (((c.ιSigmaStdSimplex ≫",
+            "          (standardTypeABoundaryPrismRankFunction.{u} g).b j).app",
+            "            (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-fac-raw-bmap-bound",
+      "expected_blob": "4b5f9fd06df6237ad001f978e5ff90ac69f9b0fc",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 444,
+          "old": [
+            "    IsPushout",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase g j) := by"
+          ],
+          "new": [
+            "    IsPushout.{u, u+1}",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase.{u} g j) := by"
+          ]
+        },
+        {
+          "start": 463,
+          "old": [],
+          "new": [
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ]
+        },
+        {
+          "start": 479,
+          "old": [
+            "      (standardTypeABoundaryPrismRankAPhaseScaling g j)",
+            "      (standardTypeABoundaryPrismRankStageScaling g (j + 1)) := by"
+          ],
+          "new": [
+            "      (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1)) := by"
+          ]
+        },
+        {
+          "start": 501,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin",
+            "        (((c.ιSigmaStdSimplex ≫",
+            "          (standardTypeABoundaryPrismRankFunction.{u} g).b j).app",
+            "            (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-fac-raw-bmap-bound-explicit",
+      "expected_blob": "80d9d139fad2faf7b9000542317ada775b07dce1",
+      "patches": [
+        {
+          "start": 224,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 275,
+          "old": [
+            "    simp [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "      (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map",
+            "    exact Sigma.ι_desc _ c"
+          ]
+        },
+        {
+          "start": 444,
+          "old": [
+            "    IsPushout",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase g j) := by"
+          ],
+          "new": [
+            "    IsPushout.{u, u+1}",
+            "      (standardTypeABoundaryPrismRankAHornSigmaToStage.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASigmaCellHom.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)",
+            "      (standardTypeABoundaryPrismRankASimplexSigmaToAPhase.{u} g j) := by"
+          ]
+        },
+        {
+          "start": 463,
+          "old": [],
+          "new": [
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ]
+        },
+        {
+          "start": 479,
+          "old": [
+            "      (standardTypeABoundaryPrismRankAPhaseScaling g j)",
+            "      (standardTypeABoundaryPrismRankStageScaling g (j + 1)) := by"
+          ],
+          "new": [
+            "      (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)",
+            "      (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1)) := by"
+          ]
+        },
+        {
+          "start": 493,
+          "old": [
+            "          (standardTypeABoundaryPrismRankStageScaling g (j + 1))"
+          ],
+          "new": [
+            "          (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1))"
+          ]
+        },
+        {
+          "start": 501,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin",
+            "        (((c.ιSigmaStdSimplex ≫",
+            "          (standardTypeABoundaryPrismRankFunction.{u} g).b j).app",
+            "            (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    }
+  ]
+}

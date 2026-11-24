@@ -1,0 +1,113 @@
+name: KuuOS v1.37 exact-source bridge-conditioned strict Lean and 7 axioms
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean'
+      - '.github/workflows/kuuos-v137-exact-source-seven-axioms-v1.yml'
+      - 'tests/test_public_root_restoration.py'
+      - 'formal/KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-source-v137-lean-and-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact source, frozen root, and typed bridge proof boundary
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+          python3 - <<'PY'
+          import hashlib,pathlib
+          root=pathlib.Path('formal/KUOS')
+          src=(root/'DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean').read_bytes()
+          sha=hashlib.sha1(b'blob '+str(len(src)).encode()+b'\0'+src).hexdigest()
+          assert sha=='af1bedd2bcaeac026d3554e359536d925f17cc93',sha
+          text=src.decode('utf-8')
+          for phrase in ['sourceClassBridge :','targetClassBridge :',
+              'liftedHB : ScaledHornFamily','liftedHC : ScaledHornFamily',
+              'K.sourceClassBridge.mp H','K.targetClassBridge.mp H',
+              'K.sourceClassBridge.mpr','K.targetClassBridge.mpr',
+              'theorem globalDuskinHomotopyClassFibrancy_iff :',
+              '(duskinNerve B) (duskinScaling B) HB ↔',
+              '(duskinNerve C) (duskinScaling C) HC := by']:
+              assert phrase in text,phrase
+          assert not any(x in text for x in ('\nsorry\n','\nadmit\n','\naxiom '))
+          print('KUUOS_V137_EXACT_TYPED_BRIDGE_SOURCE_AND_RAW_FINAL_THEOREM_PRESERVED')
+          PY
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v137-exact-pinned-mathlib-5450-v1
+      - name: Fetch pinned Mathlib cache
+        run: lake exe cache get
+      - name: Independently compile exact source v1.37 and full imports
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+      - name: Seven v1.37 public typed declaration axiom audit
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV137ExactSourceAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+          open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+          #print axioms homotopyClassOfMap_eq_of_homotopy
+          #print axioms hasHomotopyClassScaledHornFillersOfStrict
+          #print axioms sourceHomotopyClassFillerOfRoundTrip
+          #print axioms targetHomotopyClassFillerOfRoundTrip
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.forwardHasHomotopyClassScaledHornFillers
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.backwardHasHomotopyClassScaledHornFillers
+          #print axioms CoherentNormalizedScaledHomotopyClassModelEquivalence.globalDuskinHomotopyClassFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV137ExactSourceAudit.lean | tee /tmp/kuuos-v137-exact-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          text=pathlib.Path('/tmp/kuuos-v137-exact-axioms.log').read_text()
+          names=['homotopyClassOfMap_eq_of_homotopy',
+              'hasHomotopyClassScaledHornFillersOfStrict',
+              'sourceHomotopyClassFillerOfRoundTrip',
+              'targetHomotopyClassFillerOfRoundTrip',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.forwardHasHomotopyClassScaledHornFillers',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.backwardHasHomotopyClassScaledHornFillers',
+              'CoherentNormalizedScaledHomotopyClassModelEquivalence.globalDuskinHomotopyClassFibrancy_iff']
+          prefix='KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37.'
+          for name in names:
+              assert ("'"+prefix+name+"'") in text, 'missing exact fully qualified declaration: '+name
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',text,re.S)
+          assert len(groups)==len(names),len(groups)
+          standard={'propext','Classical.choice','Quot.sound'}
+          for group in groups:
+              assert {x.strip() for x in group.split(',') if x.strip()} <= standard
+          assert 'sorryAx' not in text and 'error:' not in text
+          print('KUUOS_V137_EXACT_SOURCE_SEVEN_PUBLIC_AXIOMS_STANDARD_ONLY')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v137-exact-source-seven-axioms
+          path: /tmp/kuuos-v137-exact-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

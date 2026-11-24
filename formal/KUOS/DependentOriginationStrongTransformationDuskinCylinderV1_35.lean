@@ -1,6 +1,8 @@
 import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 import Mathlib.CategoryTheory.Bicategory.Product
 import Mathlib.CategoryTheory.Bicategory.NaturalTransformation.Pseudo
+import Mathlib.Logic.Function.Basic
+import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
 
 namespace KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
@@ -16,6 +18,8 @@ open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
+open KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
+open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
 universe u₀ u₁ u₂ v₀ v₁ v₂ w₀ w₁ w₂
 
@@ -50,6 +54,54 @@ normal-lax cylinder.  Importantly, this is now entirely below the simplicial
 and horn layers.
 -/
 
+/-!
+The pinned product-category API has no projection simp lemmas for eqToHom.
+These follow by equality induction, without any new categorical assumption.
+-/
+private theorem productEqToHomFst
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D × E} (h : X = Y) :
+    (eqToHom h).1 = eqToHom (congrArg _root_.Prod.fst h) := by
+  cases h
+  rfl
+
+private theorem productEqToHomSnd
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D × E} (h : X = Y) :
+    (eqToHom h).2 = eqToHom (congrArg _root_.Prod.snd h) := by
+  cases h
+  rfl
+
+/-- The product of canonical equality morphisms is the canonical product morphism. -/
+private theorem productEqToHomMk
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D} {X' Y' : E} (h : X = Y) (h' : X' = Y') :
+    (eqToHom h ×ₘ eqToHom h') =
+      (eqToHom (_root_.Prod.ext h h') : (X, X') ⟶ (Y, Y')) := by
+  cases h
+  cases h'
+  rfl
+
+/-- Two equality-derived morphisms from the same object agree heterogeneously. -/
+private theorem eqToHomHEqSameSource
+    {D : Type u₁} [Category.{v₁} D]
+    {X Y Z : D} (h : X = Y) (h' : X = Z) :
+    (eqToHom h : X ⟶ Y) ≍ (eqToHom h' : X ⟶ Z) :=
+  (eqToHom_heq_id_dom X Y h).trans (eqToHom_heq_id_dom X Z h').symm
+
+/-- The composite of equality morphisms has the same heterogeneous value
+    as any other equality morphism with the same source. -/
+private theorem eqToHomCompHEqSameSource
+    {D : Type u₁} [Category.{v₁} D]
+    {X Y Z W : D} (h : X = Y) (h' : Y = Z) (h'' : X = W) :
+    (eqToHom h ≫ eqToHom h' : X ⟶ Z) ≍
+      (eqToHom h'' : X ⟶ W) := by
+  rw [eqToHom_trans]
+  exact eqToHomHEqSameSource (h.trans h') h''
+
 /-! ## Pairing normal lax functors -/
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
@@ -69,26 +121,30 @@ def normalLaxPair
     map₂ := fun η => F.map₂ η ×ₘ G.map₂ η
     map₂_id := by
       intro X Y f
-      ext <;> simp
+      apply Prod.ext <;> simp
     map₂_comp := by
       intro X Y f g h η θ
-      ext <;> simp
+      apply Prod.ext <;> simp
     mapComp := fun f g => F.mapComp f g ×ₘ G.mapComp f g
     mapComp_naturality_left := by
       intro a b c f f' η g
-      ext <;> simp
+      apply Prod.ext <;> simp
     mapComp_naturality_right := by
       intro a b c f g g' η
-      ext <;> simp
+      apply Prod.ext <;> simp
     map₂_leftUnitor := by
       intro a b f
-      ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor]
+      apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor,
+        StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
+      all_goals simp [productEqToHomFst, productEqToHomSnd]
     map₂_rightUnitor := by
       intro a b f
-      ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor]
+      apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor,
+        StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
+      all_goals simp [productEqToHomFst, productEqToHomSnd]
     map₂_associator := by
       intro a b c d f g h
-      ext <;> simp [F.map₂_associator, G.map₂_associator] }
+      apply Prod.ext <;> simp [F.map₂_associator, G.map₂_associator] }
 
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
@@ -106,25 +162,40 @@ theorem normalLaxPair_precomp
   ext
   · rfl
   all_goals
-    · rw [heq_iff_eq]
-      ext <;> simp [normalLaxPair]
+    first
+    | rfl
+    | (simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+        StrictlyUnitaryLaxFunctor.comp, normalLaxPair])
+    | (rw [heq_iff_eq]; ext <;> simp [normalLaxPair])
+  case mapId =>
+    apply Function.hfunext rfl
+    intro a b h
+    cases h
+    simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+      StrictlyUnitaryLaxFunctor.comp, normalLaxPair,
+      PrelaxFunctor.map₂_eqToHom, productEqToHomMk,
+      eqToHom_trans, eqToHom_comp_heq_iff]
+    all_goals
+      first
+      | rfl
+      | apply eqToHomCompHEqSameSource
 
 /-! ## The interval as a normal lax functor -/
 
 /-- A simplex of `Δ[1]` is exactly a normal lax functor `[n] -> [1]`. -/
 def intervalNormalLax
-    {Δ : SimplexCategoryᵒᵖ}
-    (t : Δ[1].obj Δ) :
+    {idx : SimplexCategoryᵒᵖ}
+    (t : Δ[1].obj idx) :
     StrictlyUnitaryLaxFunctor
-      (DuskinOrdinal Δ.unop.len) (DuskinOrdinal 1) :=
+      (DuskinOrdinal idx.unop.len) (DuskinOrdinal 1) :=
   locallyDiscreteNormalLax
     (SimplexCategory.toCat.map (SSet.stdSimplex.objEquiv t)).toFunctor
 
 /-- Interval simplices reindex by precomposition, exactly as Duskin simplices do. -/
 theorem intervalNormalLax_reindex
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (t : Δ[1].obj Δ) :
+    {idx idx' : SimplexCategoryᵒᵖ}
+    (f : idx ⟶ idx')
+    (t : Δ[1].obj idx) :
     intervalNormalLax (Δ[1].map f t) =
       (duskinReindex f).comp (intervalNormalLax t) := by
   have ht :
@@ -137,45 +208,49 @@ theorem intervalNormalLax_reindex
       (SimplexCategory.toCat.map f.unop).toFunctor
       (SimplexCategory.toCat.map (SSet.stdSimplex.objEquiv t)).toFunctor
 
-/-! ## Duskin maps induced by arbitrary normal lax functors -/
+/-! ## Universe-safe Duskin maps induced by arbitrary normal lax functors -/
 
-/-- Any normal lax functor induces a simplicial map of global Duskin nerves. -/
+/-- Postcomposition with a normal-lax functor on the genuine pairwise ULift
+Duskin carriers. The unlifted carriers may have independent universe levels. -/
 def normalLaxDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P : StrictlyUnitaryLaxFunctor B C) :
-    duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => σ.comp P
-  naturality f := by
-    ext σ
-    exact StrictlyUnitaryLaxFunctor.comp_assoc (duskinReindex f) σ P
+    normalizedDuskinSource B C ⟶ normalizedDuskinTarget B C :=
+  liftedNormalLaxDuskinNerveMap P
 
 @[simp] theorem normalLaxDuskinNerveMap_app
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P : StrictlyUnitaryLaxFunctor B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalLaxDuskinNerveMap P).app Δ σ = σ.comp P := rfl
+    (idx : SimplexCategoryᵒᵖ)
+    (σ : (normalizedDuskinSource B C).obj idx) :
+    (normalLaxDuskinNerveMap P).app idx σ =
+      ULift.up (σ.down.comp P) := rfl
 
 @[simp] theorem normalLaxDuskinNerveMap_id
     (B : Type u₁) [Bicategory.{w₁, v₁} B] :
     normalLaxDuskinNerveMap (StrictlyUnitaryLaxFunctor.id B) =
-      𝟙 (duskinNerve B) := by
-  ext Δ σ
-  exact StrictlyUnitaryLaxFunctor.comp_id σ
+      𝟙 (normalizedDuskinSource B B) :=
+  liftedNormalLaxDuskinNerveMap_id B
 
-/-- Duskin nerve transport converts normal-lax composition into simplicial composition. -/
+/-- Three independently sized bicategories still have a genuine degreewise
+composition law. No ill-typed composition of differently pairwise-lifted SSet
+morphisms is asserted: both sides inhabit the common B/D lift. -/
 theorem normalLaxDuskinNerveMap_comp
     {B : Type u₀} [Bicategory.{w₀, v₀} B]
     {C : Type u₁} [Bicategory.{w₁, v₁} C]
     {D : Type u₂} [Bicategory.{w₂, v₂} D]
     (P : StrictlyUnitaryLaxFunctor B C)
-    (Q : StrictlyUnitaryLaxFunctor C D) :
-    normalLaxDuskinNerveMap (P.comp Q) =
-      normalLaxDuskinNerveMap P ≫ normalLaxDuskinNerveMap Q := by
-  ext Δ σ
-  exact StrictlyUnitaryLaxFunctor.comp_assoc σ P Q
+    (Q : StrictlyUnitaryLaxFunctor C D)
+    (idx : SimplexCategoryᵒᵖ)
+    (σ : (duskinNerve B).obj idx) :
+    (normalLaxDuskinNerveMap (P.comp Q)).app idx (ULift.up σ) =
+      ULift.up
+        (((normalLaxDuskinNerveMap P).app idx (ULift.up σ)).down.comp Q) := by
+  change ULift.up (σ.comp (P.comp Q)) = ULift.up ((σ.comp P).comp Q)
+  exact congrArg ULift.up
+    (StrictlyUnitaryLaxFunctor.comp_assoc σ P Q).symm
 
 /-! ## Degreewise prism data -/
 
@@ -190,25 +265,27 @@ structure DuskinPrismFamily
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   mixed :
-    ∀ {Δ : SimplexCategoryᵒᵖ},
-      (duskinNerve B).obj Δ → Δ[1].obj Δ → (duskinNerve C).obj Δ
+    ∀ {idx : SimplexCategoryᵒᵖ},
+      (normalizedDuskinSource B C).obj idx →
+        Δ[1].obj idx → (normalizedDuskinTarget B C).obj idx
   reindex :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ) (t : Δ[1].obj Δ),
-      mixed ((duskinNerve B).map f σ) (Δ[1].map f t) =
-        (duskinNerve C).map f (mixed σ t)
+    ∀ {idx idx' : SimplexCategoryᵒᵖ}
+      (f : idx ⟶ idx') (σ : (normalizedDuskinSource B C).obj idx)
+      (t : Δ[1].obj idx),
+      mixed ((normalizedDuskinSource B C).map f σ) (Δ[1].map f t) =
+        (normalizedDuskinTarget B C).map f (mixed σ t)
   endpoint_zero :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₀.app Δ σ).2) =
-        (normalLaxDuskinNerveMap P).app Δ σ
+    ∀ (idx : SimplexCategoryᵒᵖ) (σ : (normalizedDuskinSource B C).obj idx),
+      mixed σ ((SSet.ι₀.app idx σ).2) =
+        (normalLaxDuskinNerveMap P).app idx σ
   endpoint_one :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₁.app Δ σ).2) =
-        (normalLaxDuskinNerveMap Q).app Δ σ
+    ∀ (idx : SimplexCategoryᵒᵖ) (σ : (normalizedDuskinSource B C).obj idx),
+      mixed σ ((SSet.ι₁.app idx σ).2) =
+        (normalLaxDuskinNerveMap Q).app idx σ
 
 namespace DuskinPrismFamily
 
-/-- Degreewise prism data assemble to one native simplicial homotopy. -/
+/-- The pairwise lifted prism is a native simplicial homotopy. -/
 noncomputable def toHomotopy
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -218,19 +295,21 @@ noncomputable def toHomotopy
       (normalLaxDuskinNerveMap P)
       (normalLaxDuskinNerveMap Q) where
   h :=
-    { app := fun Δ => TypeCat.ofHom fun x => H.mixed x.1 x.2
+    { app := fun idx => TypeCat.ofHom fun x => H.mixed x.1 x.2
       naturality := by
-        intro Δ Δ' f
+        intro idx idx' f
         ext x
         exact H.reindex f x.1 x.2 }
   h₀ := by
-    ext Δ σ
-    exact H.endpoint_zero Δ σ
+    ext idx σ
+    exact H.endpoint_zero idx σ
   h₁ := by
-    ext Δ σ
-    exact H.endpoint_one Δ σ
+    ext idx σ
+    exact H.endpoint_one idx σ
   rel := by
-    cat_disch
+    ext idx x
+    rcases x with ⟨⟨σ, hσ⟩, t⟩
+    exact False.elim hσ
 
 end DuskinPrismFamily
 
@@ -249,29 +328,31 @@ structure NormalLaxDuskinCylinder
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   cylinder : StrictlyUnitaryLaxFunctor (B × DuskinOrdinal 1) C
   endpoint_zero :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app Δ σ).2))).comp cylinder =
+    ∀ {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app idx σ).2))).comp cylinder =
         σ.comp P
   endpoint_one :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app Δ σ).2))).comp cylinder =
+    ∀ {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app idx σ).2))).comp cylinder =
         σ.comp Q
 
 namespace NormalLaxDuskinCylinder
 
-/-- Evaluate the cylinder on a Duskin simplex and an interval simplex. -/
+/-- Evaluate on a lifted simplex by genuinely extracting its raw source,
+then lift the target. The original endpoint witnesses remain unchanged. -/
 def mixed
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : NormalLaxDuskinCylinder P Q)
-    {Δ : SimplexCategoryᵒᵖ}
-    (σ : (duskinNerve B).obj Δ)
-    (t : Δ[1].obj Δ) :
-    (duskinNerve C).obj Δ :=
-  (normalLaxPair σ (intervalNormalLax t)).comp H.cylinder
+    {idx : SimplexCategoryᵒᵖ}
+    (σ : (normalizedDuskinSource B C).obj idx)
+    (t : Δ[1].obj idx) :
+    (normalizedDuskinTarget B C).obj idx :=
+  ULift.up ((normalLaxPair σ.down (intervalNormalLax t)).comp H.cylinder)
 
-/-- A normal-lax cylinder supplies all prism reindexing laws automatically. -/
+/-- Raw categorical endpoint and reindex equations descend to the paired
+lifted prism through ULift.up; no horn equivalence is assumed. -/
 def toPrismFamily
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -280,22 +361,31 @@ def toPrismFamily
     DuskinPrismFamily P Q where
   mixed := H.mixed
   reindex := by
-    intro Δ Δ' f σ t
+    intro idx idx' f σ t
     change
-      (normalLaxPair ((duskinReindex f).comp σ)
-          (intervalNormalLax (Δ[1].map f t))).comp H.cylinder =
-        (duskinReindex f).comp
-          ((normalLaxPair σ (intervalNormalLax t)).comp H.cylinder)
+      ULift.up ((normalLaxPair ((duskinReindex f).comp σ.down)
+          (intervalNormalLax (Δ[1].map f t))).comp H.cylinder) =
+        ULift.up ((duskinReindex f).comp
+          ((normalLaxPair σ.down (intervalNormalLax t)).comp H.cylinder))
+    apply congrArg ULift.up
     rw [intervalNormalLax_reindex]
     rw [← normalLaxPair_precomp]
     exact StrictlyUnitaryLaxFunctor.comp_assoc
-      (duskinReindex f) (normalLaxPair σ (intervalNormalLax t)) H.cylinder
+      (duskinReindex f) (normalLaxPair σ.down (intervalNormalLax t)) H.cylinder
   endpoint_zero := by
-    intro Δ σ
-    exact H.endpoint_zero σ
+    intro idx σ
+    change
+      ULift.up ((normalLaxPair σ.down
+        (intervalNormalLax ((SSet.ι₀.app idx σ).2))).comp H.cylinder) =
+        ULift.up (σ.down.comp P)
+    exact congrArg ULift.up (H.endpoint_zero σ.down)
   endpoint_one := by
-    intro Δ σ
-    exact H.endpoint_one σ
+    intro idx σ
+    change
+      ULift.up ((normalLaxPair σ.down
+        (intervalNormalLax ((SSet.ι₁.app idx σ).2))).comp H.cylinder) =
+        ULift.up (σ.down.comp Q)
+    exact congrArg ULift.up (H.endpoint_one σ.down)
 
 /-- Hence every certified normal-lax cylinder induces a native `SSet.Homotopy`. -/
 noncomputable def toHomotopy
@@ -366,7 +456,7 @@ structure StrongQuasiInverseNormalLaxCylinder
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
-    (K : NormalizedCoherentQuasiInverse F G) : Prop where
+    (K : NormalizedCoherentQuasiInverse F G) where
   sourceCylinder :
     NormalLaxDuskinCylinder
       (sourceRoundTripNormalLax F G)
@@ -394,7 +484,7 @@ noncomputable def sourcePrism
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
       (normalLaxDuskinNerveMap (sourceRoundTripNormalLax F G))
-      (𝟙 (duskinNerve B)) := by
+      (𝟙 (normalizedDuskinSource B B)) := by
   simpa using H.sourceCylinder.toHomotopy
 
 /-- The target cylinder produces the global target Duskin prism. -/
@@ -407,7 +497,7 @@ noncomputable def targetPrism
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
       (normalLaxDuskinNerveMap (targetRoundTripNormalLax F G))
-      (𝟙 (duskinNerve C)) := by
+      (𝟙 (normalizedDuskinSource C C)) := by
   simpa using H.targetCylinder.toHomotopy
 
 end StrongQuasiInverseNormalLaxCylinder

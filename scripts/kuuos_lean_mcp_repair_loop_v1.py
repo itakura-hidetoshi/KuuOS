@@ -92,6 +92,72 @@ def declaration_outline(source: str) -> list[str]:
     return [line for line in source.splitlines() if TOP_LEVEL.match(line)]
 
 
+def mask_lean_comments(source: str) -> str:
+    """Mask nested Lean comments, preserving all code and string contents.
+
+    This is a lexical guard only, never a replacement for Lean or axiom audits.
+    Strings remain conservatively scanned; their comment markers cannot hide code.
+    Malformed comments/strings fail closed. Offsets and newlines are preserved.
+    """
+    chars = list(source)
+    i, size = 0, len(source)
+
+    def blank(start: int, stop: int) -> None:
+        for k in range(start, stop):
+            if chars[k] not in ('\n', '\r'):
+                chars[k] = ' '
+
+    while i < size:
+        if source.startswith('--', i):
+            stop = source.find('\n', i + 2)
+            stop = size if stop < 0 else stop
+            blank(i, stop)
+            i = stop
+        elif source.startswith('/-', i):
+            start, depth = i, 1
+            i += 2
+            while i < size and depth:
+                if source.startswith('/-', i):
+                    depth += 1
+                    i += 2
+                elif source.startswith('-/', i):
+                    depth -= 1
+                    i += 2
+                else:
+                    i += 1
+            if depth:
+                raise Obstruction('unterminated Lean block comment')
+            blank(start, i)
+        elif source[i] == '«':
+            stop = source.find('»', i + 1)
+            if stop < 0:
+                raise Obstruction('unterminated Lean quoted identifier')
+            i = stop + 1
+        elif source[i] == 'r' and (i == 0 or not (source[i - 1].isalnum() or source[i - 1] in "_'»")) and (raw := re.match(r'r(#+)?"', source[i:])):
+            terminator = '"' + (raw.group(1) or '')
+            stop = source.find(terminator, i + len(raw.group(0)))
+            if stop < 0:
+                raise Obstruction('unterminated Lean raw string')
+            i = stop + len(terminator)
+        elif source[i] == '"':
+            i += 1
+            while i < size:
+                if source[i] == '\\':
+                    i += 2
+                elif source[i] == '"':
+                    i += 1
+                    break
+                else:
+                    i += 1
+            else:
+                raise Obstruction('unterminated Lean string')
+        elif source[i] == "'" and (char := re.match(r"'(?:\\.|[^\\'\n])'", source[i:])):
+            i += len(char.group(0))
+        else:
+            i += 1
+    return ''.join(chars)
+
+
 def patch_source(source: str, patch: Mapping, *, max_changed_lines: int = 50) -> str:
     """Patch only a single unambiguous proof span, preserving declaration anchors."""
     if not isinstance(patch, Mapping) or set(patch) != {"expected_sha256", "old_text", "new_text", "reason"}:
@@ -120,8 +186,8 @@ def patch_source(source: str, patch: Mapping, *, max_changed_lines: int = 50) ->
         raise Obstruction("patch made no change")
     if declaration_outline(source) != declaration_outline(result):
         raise Obstruction("declaration/import anchors were modified")
-    old_forbidden = len(FORBIDDEN_NEW.findall(source))
-    new_forbidden = len(FORBIDDEN_NEW.findall(result))
+    old_forbidden = len(FORBIDDEN_NEW.findall(mask_lean_comments(source)))
+    new_forbidden = len(FORBIDDEN_NEW.findall(mask_lean_comments(result)))
     if new_forbidden > old_forbidden:
         raise Obstruction("new sorry, axiom, unsafe or trust-bypassing construct introduced")
     if not result.endswith("\n"):
@@ -344,7 +410,7 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
             if observation.success and not observation.errors:
                 gate = (direct_gate or direct_lean_gate)(root, rel_file, timeout=compile_timeout)
                 item["direct_lean"] = gate
-                forbidden_final = FORBIDDEN_NEW.findall(candidate_path.read_text())
+                forbidden_final = FORBIDDEN_NEW.findall(mask_lean_comments(candidate_path.read_text()))
                 item["forbidden_final_count"] = len(forbidden_final)
                 if gate.get("exit_code") == 0 and not forbidden_final:
                     validated = candidate_path.read_bytes()

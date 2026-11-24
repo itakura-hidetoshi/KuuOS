@@ -1,0 +1,76 @@
+name: "KuuOS v1.104 adopted exact source 21 axioms and Public Proof Roots"
+
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean'
+      - 'tests/test_public_root_restoration.py'
+      - 'scripts/kuuos_sandbox_lean_cycle_v1.py'
+      - '.github/workflows/kuuos-v1104-adopted-exact-21-axioms.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  adopted-source-exact21:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout exact adopted PR source without credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.12 for source integrity preflight
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup original pinned Lean and Mathlib
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore exact pinned mathlib build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Run exact-source post-adoption checks and prepare 21 axiom audit
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1104_adopted_exact_21_audit.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 scripts/ci_kuuos_v1104_adopted_exact_21_audit.py preflight
+      - name: Run historical Public Proof Roots regression without overwriting
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_public_root_restoration.py'
+      - name: Build exact adopted v1.104 source in pinned Lean
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104
+      - name: Independently inspect 21 public axiom dependencies from adopted source
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/.v1104-adopted-21-axiom-audit/AxiomAudit.lean \
+            | tee /tmp/kuuos-v1104-adopted-21-independent/axioms.log
+          python3 scripts/ci_kuuos_v1104_adopted_exact_21_audit.py complete
+      - name: Persist exact-source post-adoption 21 axiom certificate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1104-adopted-exact-source-21-axiom-receipt
+          path: /tmp/kuuos-v1104-adopted-21-independent/
+          if-no-files-found: warn
+          retention-days: 30

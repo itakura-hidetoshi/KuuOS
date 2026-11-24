@@ -1,0 +1,147 @@
+{
+  "schema": "kuuos_v169_version_bound_hunks_v1",
+  "baseline_blob": "88a39a4aa6c51593a3b578a07e2a054b04c5d541",
+  "research_candidate_blob": "8d235658c173045070a056dd9fac7627059847ed",
+  "public_declarations": 37,
+  "preserve_historical_source": true,
+  "source_relative_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean",
+  "hunks": [
+    {
+      "start": 9,
+      "old": [],
+      "new": [
+        "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+      ]
+    },
+    {
+      "start": 322,
+      "old": [
+        "def standardTypeAThreeHornSaturatedScaling"
+      ],
+      "new": [
+        "@[reducible] def standardTypeAThreeHornSaturatedScaling"
+      ]
+    },
+    {
+      "start": 326,
+      "old": [
+        "      t ∈ (Λ[3, i] : SSet.{u}).obj (op ⦋2⦌)"
+      ],
+      "new": [
+        "      t ∈ (SSet.horn.{u} 3 i).obj (op ⦋2⦌)"
+      ]
+    },
+    {
+      "start": 374,
+      "old": [
+        "      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 382,
+      "old": [
+        "      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 390,
+      "old": [
+        "      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 398,
+      "old": [
+        "      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 405,
+      "old": [
+        "      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 413,
+      "old": [
+        "      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 421,
+      "old": [
+        "      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 429,
+      "old": [
+        "      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by"
+      ],
+      "new": [
+        "      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by"
+      ]
+    },
+    {
+      "start": 546,
+      "old": [
+        "    standardTypeAThreeHornSaturatedScaling (1 : Fin 4) =",
+        "      standardTypeBCollapse12BaseScaling"
+      ],
+      "new": [
+        "    standardTypeAThreeHornSaturatedScaling.{u} (1 : Fin 4) =",
+        "      standardTypeBCollapse12BaseScaling.{u}"
+      ]
+    },
+    {
+      "start": 549,
+      "old": [
+        "    standardTypeBCollapse12CompletedScaling ="
+      ],
+      "new": [
+        "    standardTypeBCollapse12CompletedScaling.{u} ="
+      ]
+    },
+    {
+      "start": 552,
+      "old": [
+        "    standardTypeAThreeHornSaturatedScaling (2 : Fin 4) =",
+        "      standardTypeBCollapse23BaseScaling"
+      ],
+      "new": [
+        "    standardTypeAThreeHornSaturatedScaling.{u} (2 : Fin 4) =",
+        "      standardTypeBCollapse23BaseScaling.{u}"
+      ]
+    },
+    {
+      "start": 555,
+      "old": [
+        "    standardTypeBCollapse23CompletedScaling ="
+      ],
+      "new": [
+        "    standardTypeBCollapse23CompletedScaling.{u} ="
+      ]
+    }
+  ]
+}

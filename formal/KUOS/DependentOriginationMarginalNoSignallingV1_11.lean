@@ -139,7 +139,7 @@ theorem rightMarginalProcess_after_left_causal
     leftLocalProcess f.process Y ≫ rightMarginalProcess C X' Y =
       rightMarginalProcess C X Y := by
   unfold leftLocalProcess rightMarginalProcess
-  rw [Category.assoc]
+  rw [← Category.assoc]
   rw [MonoidalCategory.tensorHom_comp_tensorHom]
   rw [f.causal]
   simp
@@ -156,7 +156,7 @@ theorem leftMarginalProcess_after_right_causal
     rightLocalProcess X g.process ≫ leftMarginalProcess C X Y' =
       leftMarginalProcess C X Y := by
   unfold rightLocalProcess leftMarginalProcess
-  rw [Category.assoc]
+  rw [← Category.assoc]
   rw [MonoidalCategory.tensorHom_comp_tensorHom]
   rw [g.causal]
   simp

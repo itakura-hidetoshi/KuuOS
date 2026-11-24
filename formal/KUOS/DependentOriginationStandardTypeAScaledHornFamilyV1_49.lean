@@ -55,7 +55,7 @@ def IsStandardTypeADistinguishedTriangle
 
 /-- The standard type-(A) simplex scaling: minimal scaling plus the one
 consecutive triangle centered at `i`. -/
-def standardTypeASimplexScaling
+@[reducible] def standardTypeASimplexScaling
     {n : Nat}
     (i : Fin (n + 1)) :
     ScaledSimplicialSet (Δ[n] : SSet.{u}) where
@@ -91,7 +91,7 @@ theorem standardTypeADistinguishedTriangle_thin
 
 /-- The standard type-(A) horn scaling is exactly the pullback of the simplex
 scaling along the ordinary horn inclusion. -/
-def standardTypeAHornScaling
+@[reducible] def standardTypeAHornScaling
     {n : Nat}
     (i : Fin (n + 1)) :
     ScaledSimplicialSet (Λ[n, i] : SSet.{u}) :=

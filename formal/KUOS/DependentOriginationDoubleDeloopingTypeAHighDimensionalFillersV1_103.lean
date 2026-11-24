@@ -180,13 +180,13 @@ theorem natTypeAHornMap_mapComp_eq_label
     (f.map.app (op ⦋m⦌) x).mapComp p q =
         (f.map.app (op ⦋m⦌) x).mapComp
           (natOrdinalEdge p.as.le) (natOrdinalEdge q.as.le) := by
-            congr <;> exact Subsingleton.elim _ _
+            congr
     _ = duskinComparison
         ((duskinNerve NatDoubleDelooping).map alpha.op
           (f.map.app (op ⦋m⦌) x)) := by
           symm
           simpa [t, alpha] using
-            natSimplex_triangle_face_comparison
+            NatNormalizedDuskinCocycle.natSimplex_triangle_face_comparison
               (f.map.app (op ⦋m⦌) x)
               a.as b.as c.as p.as.le q.as.le
     _ = duskinComparison
@@ -195,9 +195,15 @@ theorem natTypeAHornMap_mapComp_eq_label
             (x.val a.as) (x.val b.as) (x.val c.as)
             ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
             ((SSet.stdSimplex.monotone_apply x.val) q.as.le))) := by
-          apply congrArg duskinComparison
-          rw [← hsource]
-          exact hnat.symm
+          calc
+            duskinComparison
+                ((duskinNerve NatDoubleDelooping).map alpha.op
+                  (f.map.app (op ⦋m⦌) x)) =
+              duskinComparison
+                (f.map.app (op ⦋2⦌)
+                  ((Λ[g.n, g.i] : SSet).map alpha.op x)) := by
+                    exact congrArg duskinComparison hnat.symm
+            _ = _ := by rw [hsource]
     _ = natTypeAHornLabel g hn f
         (x.val a.as) (x.val b.as) (x.val c.as)
         ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
@@ -311,8 +317,7 @@ theorem toSimplexMap_mapComp
         ((duskinReindex (SSet.stdSimplex.objEquiv x).op).map q) ≫
       C.toDuskinSimplex.map₂
         ((duskinReindex (SSet.stdSimplex.objEquiv x).op).mapComp p q)) = _
-  rw [C.toDuskinSimplex_map₂]
-  change _ + 0 = _
+  change _ + Nat.zero = _
   rw [Nat.add_zero]
   rfl
 
@@ -327,8 +332,8 @@ theorem natTypeAHighCocycle_restrict
     (Λ[g.n, g.i].ι :
       (Λ[g.n, g.i] : SSet) ⟶ (Δ[g.n] : SSet)) ≫
         (natTypeAHighCocycle g hn f).toSimplexMap = f.map := by
-  ext Δ x
-  rcases Δ with ⟨⟨m⟩⟩
+  ext U x
+  rcases U with ⟨⟨m⟩⟩
   apply natDuskinSimplex_eq_of_mapComp_eq
   intro a b c p q
   change
@@ -346,7 +351,8 @@ theorem natTypeAHighCocycle_distinguished_zero
     (g : StandardTypeAHornGeneratorIndex)
     (hn : 5 ≤ g.n)
     (f : standardTypeAScaledHorn g ⟶ natDoubleDeloopingScaledDuskin) :
-    (natTypeAHighCocycle g hn f).TypeADistinguishedZero g.i := by
+    KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.NatNormalizedDuskinCocycle.TypeADistinguishedZero
+      (natTypeAHighCocycle g hn f) g.i := by
   intro a b c hab hbc hbi ha hc
   change
     natTypeAHornLabel g (by omega) f a b c hab hbc = 0

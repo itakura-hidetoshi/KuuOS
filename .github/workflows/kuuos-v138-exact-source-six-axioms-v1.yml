@@ -1,0 +1,109 @@
+name: KuuOS v1.38 exact-source conditional strictification six axiom audit
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v138-exact-source-six-axioms-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v138-current-source-lean-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact frozen-source and conditional proof boundary checks
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+          python3 - <<'PY'
+          import hashlib,pathlib
+          root=pathlib.Path('formal/KUOS')
+          p=root/'DependentOriginationHomotopyClassStrictificationV1_38.lean'
+          b=p.read_bytes()
+          sha=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert sha=='08399f0feca20eb8664b2673797a4c785d2588b0'
+          s=b.decode()
+          for phrase in ['sourceStrictification','targetStrictification',
+            'theorem globalDuskinStrictFibrancy_iff :',
+            'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔',
+            'HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC := by',
+            'include K']:
+              assert phrase in s,phrase
+          assert not any(x in b for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          print('KUUOS_V138_EXACT_SOURCE_UNCHANGED_CONDITIONAL_BOUNDARIES')
+          PY
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v138-exact-mathlib-5450-v1
+      - name: Restore pinned Mathlib cache
+        run: lake exe cache get
+      - name: Strict exact-source pinned Lean v1.38
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+      - name: Six strictification declaration axioms on exact PR source
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV138ExactSourceAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+          open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+          #print axioms UniversalScaledHornHomotopyClassStrictification.toFamily
+          #print axioms UniversalScaledHornHomotopyClassStrictification.toHomotopyRectification
+          #print axioms homotopyClassFibrancyOfStrict
+          #print axioms strictFibrancyOfHomotopyClass
+          #print axioms strictFibrancy_iff_homotopyClassFibrancy
+          #print axioms CoherentNormalizedScaledStrictifiableModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV138ExactSourceAudit.lean \
+            | tee /tmp/kuuos-v138-exact-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/kuuos-v138-exact-six-axioms.log').read_text()
+          names=['UniversalScaledHornHomotopyClassStrictification.toFamily',
+            'UniversalScaledHornHomotopyClassStrictification.toHomotopyRectification',
+            'homotopyClassFibrancyOfStrict','strictFibrancyOfHomotopyClass',
+            'strictFibrancy_iff_homotopyClassFibrancy',
+            'CoherentNormalizedScaledStrictifiableModelEquivalence.globalDuskinStrictFibrancy_iff']
+          prefix='KUOS.DependentOriginationHomotopyClassStrictificationV1_38.'
+          for name in names:
+              assert ("'"+prefix+name+"'") in s,'missing declaration '+name
+          blocks=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          assert len(blocks)==len(names),len(blocks)
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for block in blocks:
+              assert {x.strip() for x in block.split(',') if x.strip()} <= allowed
+          assert 'sorryAx' not in s and 'error:' not in s
+          print('KUUOS_V138_EXACT_SOURCE_SIX_AXIOMS_STANDARD_ONLY')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v138-exact-source-axioms
+          path: /tmp/kuuos-v138-exact-six-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

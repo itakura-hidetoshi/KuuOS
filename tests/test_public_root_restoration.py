@@ -11,6 +11,37 @@ ROOT = Path(__file__).resolve().parents[1]
 # NOT presumed equivalent to the frozen v5.291 source or merely cosmetic:
 # pin their full bytes so that ANY later edit requires explicit review.
 # This exception is a versioned provenance check, NOT Lean proof authority.
+# Version-bound v1.7 Lean 4 prerequisite: strict exact Git blob only.
+# The unchanged legacy/v5.291 snapshot remains the historical source.
+# This reviewed replacement is subject to independent Lean and axiom audit,
+# not authorization to weaken v1.7 statements or global Governance.
+PR3555_V17_OPERADIC_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationOperadicMultiConditionV1_7.lean": "92350cbc0ff050ddfc011b6841f0ef582b9ca5b4",
+}
+
+# Pinned exact current-source v1.8–v1.13 repairs; original legacy bytes remain frozen.
+# Source-blob review does not replace Lean kernel or independent CI validation.
+PR3555_V18_V113_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationHigherMulticategoryCoherenceV1_8.lean": "36ab51f8eefe18584c7c4e56e79cd8399aeaa961",
+    "KUOS/DependentOriginationCausalMonoidalProcessV1_10.lean": "51657eed7ef67efd71c80e6c6c33f4b1efd62c35",
+    "KUOS/DependentOriginationMarginalNoSignallingV1_11.lean": "f63ca5a22952520e6d2d7e551a4c2bb0a7bc24cf",
+    "KUOS/DependentOriginationJointCausalFactorizationV1_12.lean": "dd732790976af821c1c4c7b806cb099d7cc1e048",
+    "KUOS/DependentOriginationEnrichedContextV1_13.lean": "7daa0119c4c8eef35a861ba7b925bf6524fc84b3",
+}
+
+# Source-certified Lean4 v1.14–v1.15 boundary repairs; archive preserved.
+PR3555_V114_V115_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStackDescentV1_14.lean": "d57177de97b58f77049cddf22fdfe53d16ea1c6b",
+    "KUOS/DependentOriginationInfinityCoherenceV1_15.lean": "db66456d5d497bcdcae089ce74e5046a4a1c5146",
+}
+
+# Explicit reviewed v1.17 typed comparison source; frozen original unchanged.
+# IsEmpty is a well-typed Type-level nonexistence certificate, not a global
+# equivalence/fibrancy assertion. This byte guard is not Lean proof authority.
+PR3555_V117_TYPED_NERVE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "714411f14ff3efe16dcc4b7c3a8973dd261b840e",
+}
+
 PR2339_INTEGRATED_PROOF_BLOBS = {
     "KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean": "452b8485f401478bc11c642f463786efa3c1fc5e",
     "KUOS/DependentOriginationArbitraryFactorizationScalarV3_72.lean": "b433ca2ded5e50ed662e36a661cca63a3b97f436",
@@ -37,6 +68,531 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
     "KUOS/DependentOriginationStrongTransPostcompositionIdentityTriangulatorV5_63.lean": "168cb60903b3ea7b5a87c0ae6cb9d2791b684598",
 }
 
+
+# v1.25 core-spine ASCII diagram accidentally ended its Lean block comment with -/.
+# Replaces only the diagram marker by an unambiguous Unicode arrow.
+# Original legacy/v5.291 byte sequence remains unchanged. Not proof authority.
+PR3555_V125_CORESPINE_COMMENT_BLOB = {
+    "KUOS/DependentOriginationCoreSpineV1_25.lean": "1ecc2afc53b3395cde11746f8488abfe80c497ca",
+}
+
+# Historical v1.30 was ill-typed against SSet-valued, scaled (n,i) horn API.
+# Exact reviewed proof preserves forward/backward admissibility and filler
+# equivalence fields, with explicitly typed SSet and scaling universes.
+# This source-blob provenance guard is NOT a Lean certification receipt.
+PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean": "4f32b06a8c0e36cafc19dafae774c0077c7801bd",
+}
+
+# Main-based exact preservation ledger: reviewed v1.60 and v1.61 geometry
+# corrections for the pinned Mathlib UnionProd API (research proof-port lineage).
+# Historical v5.291 theorem bytes remain frozen. This is NOT Lean certification.
+PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
+}
+
+# The old model-equivalence and coherent normalization v1.31/v1.32 proofs used
+# unlifted B/C horn families with lifted source/target maps. Repair carries
+# explicit sourceBridge/targetBridge and requires all admissibility, coherent
+# round-trip and filler-reflection evidence. Legacy snapshots remain frozen.
+# The exact blobs are history protection, not Lean certification.
+PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS = {
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "043d16f86bed74c1e37424328fc70f0fa6e2ca77",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "dd20dedea5a9d64d9aac989c9dd807ec9afbea6e",
+}
+
+# v1.33/v1.34 corrected normalized lifted homotopy/prism witness layers.
+# All original/unlifted rectifications remain separate required certificates.
+# Exact source bytes protect history; they do not certify a new world by themselves.
+PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean": "1b597bddf42581e836f5eb914db6425e2197ef1c",
+    "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "31a442eb309c1fd0d1185cff0e28c84bc7a5a671",
+}
+
+# Lean4 v1.35 genuine normal-lax Duskin cylinder: SSet/ULift universe-safe repair.
+# Historical declaration source is frozen; this corrected exact blob is a
+# witnessed candidate, not Lean kernel authority on another HEAD.
+PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "03b35036177ebc1ef13a055073877a0c9a319976",
+}
+
+# Lean4 v1.36 typed strong cylinder exact research-GREEN source.
+# Source hash is integrity evidence, not automatic proof/merge authority.
+PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "bf67ce6b167ecf88e877e874e3e6533c6d45de7d",
+}
+
+# Additional v1.36 helper files do not occur in the frozen legacy tree.
+# They are checked separately so the historical exception set stays exact.
+PR3555_V136_STRONG_UNCURRYING_HELPER_BLOBS = {
+    "KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean": "74cfd1997d8c5ec0233db5ab473bf381b2367583",
+    "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "e3d7a47a45c425040bac9f41675df049bc8ba228",
+    "KUOS/DependentOriginationMixedRightUnitorPastingV1_36.lean": "339054b357f4799ad17e29ad6849b595240b0185",
+    "KUOS/DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.lean": "6a2fceb562a53d13429dc8f839d70a88547e7643",
+}
+
+
+# Lean4 v1.37: explicit independent raw/ULift homotopy-class bridge premises.
+# Final raw Duskin iff remains; no unconditional homotopy-class descent is assumed.
+# The corrected source is independently certified in its bounded candidate world.
+PR3555_V137_CLASS_BRIDGED_HOMOTOPY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean": "af1bedd2bcaeac026d3554e359536d925f17cc93",
+}
+
+# v1.38 strictification: independent local six-declaration Lean/axiom success.
+# Conditional source/target strictification witnesses remain required. No automatic fibrancy.
+PR3555_V138_STRICTIFICATION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean": "08399f0feca20eb8664b2673797a4c785d2588b0",
+}
+
+# Lean4 v1.39: genuine SSet.ι₀/SSet.ι₁ endpoints and conditional cylinder proof.
+# Exact research candidate independently Lean/MCP and 6-axiom audited.
+PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean": "5cf4f8f6c986ae948ee96bbcfb66ab2540390e1e",
+}
+
+# v1.40 exact genuine unionProd pushout attachment (local kernel certified).
+# Witnesses remain conditional; source SHA is provenance, not broad authority.
+PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean": "4592abde6c597d426225a3e587751e5971f2d209",
+}
+
+# v1.41 typed ScaledSSet terminal RLP and conditioned attachment lifting;
+# exact SHA provenance, not unconditional fibrancy authority.
+PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledTerminalRLPV1_41.lean": "0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6",
+}
+
+# v1.42 canonical generated scaled-anodyne closure, independently certified.
+# This SHA checks source provenance only: no standard scaled-anodyne equality.
+PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "86e95f82493748b0c7706071196a378d779fa7af",
+}
+
+# v1.43 independently audited reducibility repair; factorization stays required.
+# Exact source provenance is not unconditional WFS or global merge authority.
+PR3555_V143_CONDITIONAL_WFS_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledAnodyneWFSUniversalityV1_43.lean": "833c8e772b7f35a3b5bd36995703ed257bac20c7",
+}
+
+# v1.44 conditional small-object factorization; source-bound nine-declaration proof audit.
+# Exact byte provenance does not assert unconditional small-object hypothesis or WFS.
+PR3555_V144_SMALL_OBJECT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean": "ea3d9c2edff775235af266d10b87316f65aeb60d",
+}
+
+# v1.45 conditional on the explicit ScaledSSet model; independently proven canonical WFS.
+# Exact source SHA protects provenance, not equivalence to standard scaled-anodyne classes.
+PR3555_V145_COLIMITS_PRESENTABILITY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "c5f22f11809a82d4b11fff94091fd7b4f946d8ae",
+}
+
+# v1.46 external generated-class comparison under explicit mutual generation premises.
+# SHA is provenance only; no external standard/Lurie generator family is instantiated.
+PR3555_V146_EXTERNAL_GENERATOR_COMPARISON_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "0f60b58223bc854b3922996067f72b4ba90ae879",
+}
+
+# v1.47 external Duskin fibrancy under two independent universe-safe presentations.
+# SHA guards exact audited current proof only; Lurie generators are not instantiated.
+PR3555_V147_EXTERNAL_DUSKIN_FIBRANCY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationExternalScaledDuskinFibrancyV1_47.lean": "01b0bf486e90615aae3b5abea6994a0985af5e07",
+}
+
+# v1.48: factorized scaled-anodyne comparison under explicit external generation premises.
+# SHA guards the independently audited source; no standard/Lurie equality asserted.
+PR3555_V148_SCALED_ATTACHMENT_FACTORIZATION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledAnodyneAttachmentFactorizationV1_48.lean": "90f67bf0aefb6ecfe2dec7adfc8876ec2b39a31a",
+}
+
+# v1.49: type-(A) scaled horn scalings, exact machine-reviewed class reducibility.
+# Conditional standard type-(A) specialization, not a full Lurie comparison.
+PR3555_V149_STANDARD_TYPE_A_REDUCIBLE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAScaledHornFamilyV1_49.lean": "c3824bb243367beb7df55491e47b5d91b4ac9be9",
+}
+
+# v1.50: typed standard type-(A) endpoint pushout-product generator comparison.
+# Exact source provenance only; external stability remains an explicit premise.
+PR3555_V150_ENDPOINT_PUSHOUT_GENERATOR_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAEndpointPushoutProductV1_50.lean": "48ae0b637350ee8bfb63926327a4285d05b79af5",
+}
+
+# v1.51 native Leibniz pushout mate under the existing parametrized adjunction.
+# The exact blob guard preserves independently audited proof source; no extra axiom.
+PR3555_V151_NATIVE_LEIBNIZ_MATE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean": "ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a",
+}
+
+# v1.52: explicit scaled cartesian interval cylinder equality under fixed Lean.
+# This exact SHA is source provenance and does not assert full external anodyne equality.
+PR3555_V152_SCALED_CARTESIAN_INTERVAL_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean": "e12da806d1e8da9758c51b1c2139245b7f8e47b9",
+}
+
+# v1.53 exact reviewed generated source scaling and enrichment proofs.
+# History stays frozen; this SHA is provenance, not global fibrancy authority.
+PR3555_V153_SOURCE_ENRICHMENT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "e1101bc30b4e30a00a43a0ca6125cb1165c79227",
+}
+
+# v1.54 source-bound epi precomposition and conditional generated LLP descent.
+# Exact reviewed source only; no unconditional external stability is asserted.
+PR3555_V154_GENERATED_LLP_DESCENT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean": "72d318ccb09a307251d7f204b9c0120e78bc7e26",
+}
+
+# v1.55 categorical scaled Leibniz pushout: exact source admission after
+# independent pinned Lean / real MCP / declaration axiom certification.
+# Frozen legacy/v5.291 source remains byte-for-byte untouched.
+PR3555_V155_SCALED_LEIBNIZ_PUSHOUT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "be2fb30122c82a086304845cedc9a0964b524148",
+}
+
+# v1.56 type-(B) scaling-only pushout: exact independently verified source.
+# Historical v5.291 source is immutable; the new byte guard is not wider proof authority.
+PR3555_V156_TYPE_B_SCALING_PUSHOUT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean": "eb3f6d6105989fe07f7bba70e8c7fc7c84b5e67a",
+}
+
+# v1.57 two standard type-(B) collapse completions: source-specific Lean proof.
+# Frozen legacy/v5.291 bytes remain immutable; this is not global proof authority.
+PR3555_V157_TYPE_B_COLLAPSE_COMPLETION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.lean": "735fc7afffc7806bf6eac41c6c8fdc60a6cea95a",
+}
+
+# v1.58 type-(C) collapsed edge: version-bound 57-hunk repair plus strict tactic lint.
+# The original historical file remains unchanged; this is proof-source provenance only.
+PR3555_V158_TYPE_C_COLLAPSED_EDGE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeCCollapsedEdgeV1_58.lean": "d9cb40f0093ec3ef4998ab9420b7d17251337a72",
+}
+
+# v1.59 standard A/B/C cellular Leibniz comparison: reviewed full-source provenance.
+# Full-source exception is not an independent Lean proof certificate.
+PR3555_V159_ABC_LEIBNIZ_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean": "9388efc5b44873409133e30fbe7b30fbabdf6b52",
+}
+
+# v1.62 independently reviewed boundary-prism scaled cells, exact-source integrity only.
+# A provenance allowlist is not a Lean proof certificate.
+PR3555_V162_BOUNDARY_PRISM_SCALED_CELLS_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62.lean": "f90bbb80115cea04267c4a76b995a512d7239aa9",
+}
+
+# v1.63 pinned pairing-core and prism dimension dichotomy: exact-source provenance.
+# This exact-blob exception is not by itself Lean certification.
+PR3555_V163_PRISM_DIMENSION_DICHOTOMY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "e9e164f1e71c726de1b5fb7a33a2eb57f98fb6b9",
+}
+
+# v1.64 standard type-A boundary prism staircase: exact-source proof provenance.
+# This reviewed byte exception is not itself a Lean kernel certificate.
+PR3555_V164_STAIRCASE_NORMAL_FORM_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.lean": "9feee00d150a91150c1c2b3320000829fde4b9d8",
+}
+
+# v1.65 standard type-(A) boundary prism cell-pushout criterion.
+# Independently certified on exact parent source; one reviewed proof blob only.
+PR3555_V165_CELL_PUSHOUT_CRITERION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellPushoutCriterionV1_65.lean": "ca821e08da5e45e424734ed9e6692c6b42613933",
+}
+
+# v1.66 all-type-A boundary prism compatibility: exact independently reviewed Lean source.
+# This single-byte SHA allowlist is provenance-only, not permission to weaken proofs.
+PR3555_V166_CELL_A_COMPATIBILITY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.lean": "689d0135a4a85d25afae2dbc209a02db0cbd30d8",
+}
+
+# v1.67 N=2 maximal-scaling frontier, exact reviewed Lean source.
+# Exact-blob provenance is not a global fibrancy or proof-authority claim.
+PR3555_V167_N2_MAXIMAL_FRONTIER_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismN2MaximalFrontierV1_67.lean": "b75410426cadb22421191a4a4be4641f787b6669",
+}
+
+# v1.69 fixed three-simplex A/B residual table: exact independently certified source.
+# This reviewed-source SHA is a provenance guard, not a proof of global descent.
+PR3555_V169_THREE_RESIDUAL_TABLE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean": "8d235658c173045070a056dd9fac7627059847ed",
+}
+
+# v1.70 cellwise A/B classification: exact independently certified source.
+# Reviewed SHA is a provenance guard, not a global descent theorem.
+PR3555_V170_CELLWISE_AB_CLASSIFICATION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean": "000b106019b2940d1cd36937edca6957c270f38d",
+}
+
+# v1.71 scaled rank filtration: exact independently Lean/MCP/14-axiom-certified source.
+# Reviewed Git blob permits this one present-day formal repair, not global rankwise descent.
+PR3555_V171_SCALED_RANK_FILTRATION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean": "f7d1e61cefa8e448fb3a8eb6c825a66e9c88db65",
+}
+
+# v1.72 rankwise A/B cellularity: exact independent proof-audit source.
+# This SHA guard is admissible only after v1.72 producer and 26/26 axioms SUCCESS.
+PR3555_V172_RANKWISE_AB_CELLULARITY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "79fd2591bf03e8b2dd2a49848a009699235eaef0",
+}
+
+# v1.73 exact rankwise scaled pushout: strict pinned Lean + actual Lean MCP +
+# independent 21 public-declaration axioms required BEFORE adoption.
+PR3555_V173_RANKWISE_SCALED_PUSHOUT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "08a532c2793a382a5a59f4aee887d5843704c2fd",
+}
+
+# v1.74 simultaneous standard-A rank phase, adopted ONLY after selected
+# CodeAI candidate real Lean MCP + independent strict 26/26 public axioms success.
+# Candidate source blob db34c44b30cbd6c5bd4aa113e320643aba21577c, exact-source CI #44486900395.
+# Provenance guard is separate from full PR Governance certification.
+PR3555_V174_SIMULTANEOUS_A_PHASE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean": "db34c44b30cbd6c5bd4aa113e320643aba21577c",
+}
+
+# v1.75 simultaneous standard-B rank phase. Admit only the exact source after
+# pinned Lean, actual Lean MCP and independent 31-declaration axiom audit.
+# This source-integrity guard is separate from full PR Governance certification.
+PR3555_V175_SIMULTANEOUS_B_PHASE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean": "e25e593ee859bbf66a26e8e83ee8d1a17d22659b",
+}
+
+# v1.76 A/B two-phase raw successor gluing and actual functor rank-step transport.
+# Exact source audited by independent pinned Lean / 41-axiom CI #44839558196.
+# This blob guards present-day proof adoption; archived v5.291 bytes are frozen.
+PR3555_V176_ALTERNATING_RAW_PAIR_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "c2aa2dff8fb981650f4fa655545c7101fa1750c8",
+}
+
+# v1.77 genuine scaled type-(A) opposite endpoint A-cell and unretracted
+# natural-number transfinite A/B gluing, 47 public declarations.
+# Exact original-name source Git blob certified at current PR head
+# 734f77b71f0fa711fc1bb9222464d1c0e8871b23 by independent pinned
+# Lean/47-axiom job 136722302746, workflow 44863621483 completed SUCCESS.
+# This guards source integrity only; full PR Governance remains separate.
+PR3555_V177_OPPOSITE_ENDPOINT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "d786495a68268e01634f6f8143ebe09241bffc3e",
+}
+
+# v1.78 post-endpoint canonical comparison: residual and reverse comparison
+# assumptions remain independent; 11 public declarations, exact original-name
+# source blob b406155d78506527b53549f0cf232d55f084ac86.
+# PR #3555 adopted exact Lean/11-axiom job 136762130797 in
+# workflow #44876464005 completed SUCCESS. Integrity pin is not PR approval.
+PR3555_V178_POST_ENDPOINT_COMPARISON_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "b406155d78506527b53549f0cf232d55f084ac86",
+}
+
+# v1.79 positive residual/reverse canonical comparison — strictly conditional.
+# Original-name Lean/14-public-declaration independent axiom audit job
+# 136775715155, workflow #44880891351, exact prior PR head
+# 1fcb10fea83f81d219facf92b2f28be2f9298652 completed SUCCESS.
+# Only the exact independently checked proof blob is whitelisted.
+# Residual comparison directions are NOT proven inhabited by this.
+PR3555_V179_POSITIVE_RESIDUAL_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.lean": "cd9a58880341e70a2290387d21d144613464c8c0",
+}
+
+# v1.80 adopted original-name source, exact independently certified CI #44895756512,
+# job 136820933587 at HEAD 9b741c3b5defc9674afbba7c21419771bbca59b4:
+# Strict Lean SUCCESS, 30/30 axiom audit, standard three only, no sorryAx/errors/warnings.
+# Source integrity receipt only: no general endpoint RLP, PR merge, or canonical equivalence.
+PR3555_V180_GENERATED_PRESENTATION_EQUIVALENCE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "7be90de61f5c05456de6fa74dd1f262430486d84",
+}
+
+# v1.81 exact original-name CodeAI quotient admission after independent strict Lean
+# 37/37 declaration and standard-three axiom audit CI #44901601907, job 136838486395.
+# Exact prior PR head 7890a37278509bda24c5f3c181ceeef051c46eff.
+# This pins source integrity only, NOT standard-vs-canonical equivalence,
+# arbitrary scaling endpoint RLP, or permission to merge the Draft PR.
+PR3555_V181_GENERATED_PRESENTATION_QUOTIENT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "8ba7b0e6034a2e24b44587fb477c2192cffffeca",
+}
+
+# v1.82 adopted canonical endpoint epi-descent. Exact adopted original-name Lean
+# source audited by pinned independent strict CI #44906589078,
+# job 136853394307 at PR HEAD c800cc344c68e6a94c435976f46a350364ebde28:
+# 12/12 public declarations, standard-three axioms only, no sorry/warnings/errors.
+# This SHA records one reviewed formal source, not full PR certification or
+# standard/canonical presentation equivalence.
+PR3555_V182_CANONICAL_ENDPOINT_EPI_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82.lean": "a1acb5e5c4c5fc41229e595441e7ad826d3e9c31",
+}
+
+# v1.83 original-name posetal reflection, exact independently audited source.
+# Candidate strict Lean/18-axiom CI #44941314882 and adopted-original strict
+# Lean/18-axiom CI #44942055090 completed SUCCESS; only standard 3 axioms.
+# Exact blob is source integrity, not proof of standard/canonical equality or
+# authorization to merge the Draft PR. Frozen legacy/v5.291 bytes are untouched.
+PR3555_V183_POSETAL_REFLECTION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "3bc1f096876f8c7b799ae48f29419e6686e33c87",
+}
+
+# v1.84 generated-presentation order reflection, exact original-name source.
+# Independent candidate #44950775715 and adopted-original #44951738535
+# completed pinned Strict Lean and 13/13 axiom audits, standard three only.
+# This hash is provenance, not full Governance or standard/canonical equality.
+# Frozen legacy/v5.291 historical source remains immutable.
+PR3555_V184_ORDER_REFLECTION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "5c1f7e9dc8fbb12bb901f4c67f0aad99543d49b9",
+}
+
+# v1.85 generated presentation fixed-point order isomorphism, exact adopted source.
+# Independently certified candidate CI #44954822314 and original-name CI
+# #44955910257, strict fixed Lean 20/20 public axioms (standard three only).
+# This is one source-integrity exception, NOT full PR approval nor a proof
+# that standard/canonical presentations are equal. Frozen legacy untouched.
+PR3555_V185_FIXED_POINT_ORDER_ISO_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "eff1b6d74800c4d3e1f37a6806ebf88ff8b6cd0e",
+}
+
+# v1.86 complete-lattice source exactly adopted from verified CodeAI.
+# CI #44960553362 certified the candidate 21/21, and the original-name
+# independent CI #44961419564 also completed pinned Strict Lean 21/21,
+# only propext / Classical.choice / Quot.sound, no sorryAx/warnings/errors.
+# This is exact source integrity, not full PR certification or a proof of
+# equality of standard and canonical presentations.
+PR3555_V186_COMPLETE_LATTICE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "57e4436f389928864ebd75ef4b6a0a535b8d51c8",
+}
+
+# v1.87 standard/canonical gap original-name CodeAI R2. The exact
+# independently certified 27/27 original-name source is pinned by blob only.
+# This allows integrity checking; it is NOT a proof of the gap equality,
+# an endorsement of the entire PR, or an authority to merge.
+PR3555_V187_PRESENTATION_GAP_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "9718e8dcb1e366774374ddb3d084c5a80391d7e0",
+}
+
+# v1.88 canonical-attachment simplex-scaling retract original-name CodeAI R9.
+# Independent candidate CI #44982442411 and pre-adoption original-name
+# CI #44982609528 passed pinned Lean/22 public declarations, standard 3 axioms.
+# The reviewed SHA is source-integrity only; exact PR-adopted certification
+# and full PR Governance remain distinct. No global forward RLP claim.
+PR3555_V188_ATTACHMENT_RETRACT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88.lean": "60283850a5de58e88705735379f208dd31d797df",
+}
+
+# v1.89 actual Lean MCP R3 original-name exact immutable proof root.
+# Independent original-name Strict Lean/22-axiom CI #44994808259 SUCCESS.
+# Add this pin ONLY after post-adoption exact-head CI #44996568927 SUCCESS.
+# Integrity guard only; no general standard/canonical equivalence or RLP claim.
+PR3555_V189_ARBITRARY_SCALING_WAYPOINT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "d29c5cb0984688ea5fc915a5c7bfa4dd6d8ca4a8",
+}
+
+# v1.90 single-triangle scaling filtration R14, source-integrity reviewed.
+# Independent candidate Strict Lean/27-axiom #45009973723 SUCCESS.
+# PR-adopted exact source Strict Lean/27-axiom #45011052399 SUCCESS.
+# This pin does not certify PR Governance or general endpoint RLP.
+PR3555_V190_SINGLE_TRIANGLE_SCALING_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "2b7be9f91504f33a25013858ccb917ac983e54fa",
+}
+
+# v1.91 canonical atomic fibrancy R3. Independent exact source
+# 18-declaration CI #45012020005 SUCCESS. Adopted exact-source
+# CI #45021252140 must succeed before registering this guard.
+# Integrity only, not a proof of general forward RLP.
+PR3555_V191_CANONICAL_ATOMIC_FIBRANCY_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean": "f95fbb08959e5357efadd467e653cb2e3e3ff48e",
+}
+
+# v1.92 canonical fibration thin reflection R5. Candidate Strict Lean
+# independent 11-declaration CI #45021201961 SUCCESS.
+# Adopted exact-head CI #45022664744 must succeed before registration.
+# A source-integrity pin only; no unqualified presentation equality.
+PR3555_V192_THIN_REFLECTION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationCanonicalFibrationThinReflectionV1_92.lean": "2c1fcdab3579415d9f9591558db23c6b4a52e7e1",
+}
+
+# v1.93 standard type-(A) thin replacement R14.
+# Candidate CI #45022933590 and adopted exact-head CI #45032419763
+# independently passed pinned Lean and 17 public axioms. Source pin only;
+# it does not certify the full PR or establish the global separation witness.
+PR3555_V193_TYPE_A_THIN_REPLACEMENT_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "0e26a3d0e9f07c8cf61d0f6590833321e0cbd429",
+}
+
+# v1.94 universal atomic two-simplex obstruction R6; independent candidate
+# CI #45024113261 and adopted exact-head CI #45034677098 passed pinned
+# Strict Lean and 12 public-axiom audit. Integrity only; no unconditional
+# claim that standard/canonical presentations are equal or unequal.
+PR3555_V194_UNIVERSAL_ATOMIC_OBSTRUCTION_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean": "abf21d554de77771723f044f9fb98e2b7396a20e",
+}
+
+# v1.95 additive double delooping R21. Candidate and adopted Strict Lean
+# #45035965972 / #45038976154 independently certified 20 named declarations.
+# Conditional separator only; standard ABC-right remains an open obligation.
+PR3555_V195_DOUBLE_DELOOPING_NONTHIN_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "490286e6415136425d295436e62d3abccdeffbaf",
+}
+
+# v1.96 R14: fixed Lean 16-name independent CI #45038426356 SUCCESS.
+# Adopted exact-source CI is a separate pending gate. The pin is an
+# integrity record only, not global standard-right or full RLP authority.
+PR3555_V196_THIN_COMPARISON_ZERO_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean": "402778b2fd5c73d94318cdd10a656c94c32cb3f8",
+}
+
+# v1.97 R3 type-B tetrahedral zero propagation: candidate CI
+# #45039124223 independently validated 14 declarations. Review of
+# adopted exact-head CI is required before this pin may be committed.
+# Local arithmetic type-B propagation alone does not certify full standard-right.
+PR3555_V197_TYPE_B_TETRAHEDRAL_ZERO_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean": "a7e616e85be1f13948599e0a95f6bc35c572af38",
+}
+
+# Staged review of v1.98 proof source: independently certified 22 named declarations.
+# PRE-FLIGHT ONLY: register with PR after adopted exact-head Strict Lean SUCCESS.
+# This is a source-integrity permit, not a global RLP/descent proof.
+PR3555_V198_TYPE_B_TERMINAL_RLP_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTerminalRLPV1_98.lean": "b0a04000b3f074cfb8346d5f9e2c83cf7c6d4e6d",
+}
+
+# Staged review of v1.99 proof source: independently certified 23 named declarations.
+# PRE-FLIGHT ONLY: register with PR after adopted exact-head Strict Lean SUCCESS.
+# This is a source-integrity permit, not a global RLP/descent proof.
+PR3555_V199_HORN_COHERENCE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99.lean": "dfbbfa7a1b2d82619ae9985a54a140ed0c13a3f1",
+}
+
+# Staged review of v1.100 proof source: independently certified 17 named declarations.
+# PRE-FLIGHT ONLY: register with PR after adopted exact-head Strict Lean SUCCESS.
+# This is a source-integrity permit, not a global RLP/descent proof.
+PR3555_V1100_NORMALIZED_COCYCLE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean": "aa3ed4bab199eade4b6adb0c5dd76fac887e7924",
+}
+
+# Staged review of v1.101 proof source: independently certified 13 named declarations.
+# PRE-FLIGHT ONLY: register with PR after adopted exact-head Strict Lean SUCCESS.
+# This is a source-integrity permit, not a global RLP/descent proof.
+PR3555_V1101_TYPE_A_CONDITIONAL_RLP_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean": "c1eff27a2e2b1abaf869e1b2e7f59869e33c3558",
+}
+
+# v1.102: exact independent Lean source after 36/36 kernel axiom and real-MCP
+# certification. Source integrity is not global type-(A) lifting authority.
+PR3555_V1102_TYPE_A_LOW_DIM_FILLERS_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean": "f8b492b210e5525990aa587fa2eb5c8648a5ff19",
+}
+
+# v1.103: exact candidate independently certified with 15/15 pinned Lean axioms,
+# preceded by sandbox direct Lean and real MCP. Does not prove global type-A RLP.
+PR3555_V1103_TYPE_A_HIGH_DIM_FILLERS_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean": "dbec61c9798481709f2deda0028e84b7515f209e",
+}
+
+# v1.104: exact 21-declaration, separately certified R3-A source.
+# This reviewed hash permits an active-file change but preserves the archived v5.291 proof.
+PR3555_V1104_TYPE_A_DIM_FOUR_RLP_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean": "5c911aaeb9a21baff57f6af8c8655309af47d027",
+}
+
+# v1.105: exact CodeAI R2-A 39-declaration source. Formal adoption is gated
+# on an independent 39-axiom kernel receipt; original v5.291 bytes remain intact.
+# This is a source-integrity mapping only, not the type-(C) pushout/RLP theorem.
+PR3555_V1105_TYPE_C_OUTER_COCYCLE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105.lean": "725b4d73037655576d495e32a6e202cd1affaf15",
+}
 
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
@@ -90,6 +646,15 @@ PR3553_V121_V125_BOUNDED_BLOBS = {
 # Historical theorem statements differ: this is recorded, NOT an unchanged-signature claim.
 PR3554_V126_TYPED_TRANSPORT_BLOB = {
     "KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean": "60c17fbdefc29642889921e0002e055e9f36d046",
+}
+
+
+# Universe-safe v1.27-v1.29 typed repair: modified historical source blobs.
+# Their theorem statements are intentionally typed via ULift, not asserted text-identical.
+PR3555_V127_V129_ULIFT_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": "36f9aef05ce8bc068856c28ccbbc2b7512b89112",
+    "KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": "9078c15951561b85ecf5378e258adfc92789f823",
+    "KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": "3a1046a9a44cbb1ad466ef7a27a107122ea05aca",
 }
 
 
@@ -274,7 +839,85 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3551_V119_CLASS_REDUCIBILITY_BLOB.get(rel.as_posix())
                              or PR3552_V120_SEGAL_BLOB.get(rel.as_posix())
                              or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix())
-                             or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix()))
+                             or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix())
+                             or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V17_OPERADIC_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V18_V113_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V114_V115_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V117_TYPED_NERVE_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V125_CORESPINE_COMMENT_BLOB.get(rel.as_posix())
+                             or PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS.get(rel.as_posix())
+                             or PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V137_CLASS_BRIDGED_HOMOTOPY_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V138_STRICTIFICATION_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V143_CONDITIONAL_WFS_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V144_SMALL_OBJECT_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V145_COLIMITS_PRESENTABILITY_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V146_EXTERNAL_GENERATOR_COMPARISON_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V147_EXTERNAL_DUSKIN_FIBRANCY_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V148_SCALED_ATTACHMENT_FACTORIZATION_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V149_STANDARD_TYPE_A_REDUCIBLE_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V150_ENDPOINT_PUSHOUT_GENERATOR_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V151_NATIVE_LEIBNIZ_MATE_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V152_SCALED_CARTESIAN_INTERVAL_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V153_SOURCE_ENRICHMENT_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V154_GENERATED_LLP_DESCENT_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V155_SCALED_LEIBNIZ_PUSHOUT_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V156_TYPE_B_SCALING_PUSHOUT_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V157_TYPE_B_COLLAPSE_COMPLETION_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V158_TYPE_C_COLLAPSED_EDGE_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V159_ABC_LEIBNIZ_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V162_BOUNDARY_PRISM_SCALED_CELLS_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V163_PRISM_DIMENSION_DICHOTOMY_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V164_STAIRCASE_NORMAL_FORM_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V165_CELL_PUSHOUT_CRITERION_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V166_CELL_A_COMPATIBILITY_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V167_N2_MAXIMAL_FRONTIER_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V169_THREE_RESIDUAL_TABLE_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V170_CELLWISE_AB_CLASSIFICATION_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V171_SCALED_RANK_FILTRATION_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V172_RANKWISE_AB_CELLULARITY_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V173_RANKWISE_SCALED_PUSHOUT_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V174_SIMULTANEOUS_A_PHASE_REVIEWED_BLOB.get(rel.as_posix())
+                              or PR3555_V175_SIMULTANEOUS_B_PHASE_REVIEWED_BLOB.get(rel.as_posix())
+                               or PR3555_V176_ALTERNATING_RAW_PAIR_REVIEWED_BLOB.get(rel.as_posix())
+                               or PR3555_V177_OPPOSITE_ENDPOINT_REVIEWED_BLOB.get(rel.as_posix())
+                               or PR3555_V178_POST_ENDPOINT_COMPARISON_REVIEWED_BLOB.get(rel.as_posix())
+                               or PR3555_V179_POSITIVE_RESIDUAL_REVIEWED_BLOB.get(rel.as_posix())
+                                or PR3555_V180_GENERATED_PRESENTATION_EQUIVALENCE_REVIEWED_BLOB.get(rel.as_posix())
+                                 or PR3555_V181_GENERATED_PRESENTATION_QUOTIENT_REVIEWED_BLOB.get(rel.as_posix())
+                                  or PR3555_V182_CANONICAL_ENDPOINT_EPI_REVIEWED_BLOB.get(rel.as_posix())
+                                  or PR3555_V183_POSETAL_REFLECTION_REVIEWED_BLOB.get(rel.as_posix())
+                                   or PR3555_V184_ORDER_REFLECTION_REVIEWED_BLOB.get(rel.as_posix())
+                                   or PR3555_V185_FIXED_POINT_ORDER_ISO_REVIEWED_BLOB.get(rel.as_posix())
+                                   or PR3555_V186_COMPLETE_LATTICE_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V187_PRESENTATION_GAP_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V188_ATTACHMENT_RETRACT_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V189_ARBITRARY_SCALING_WAYPOINT_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V190_SINGLE_TRIANGLE_SCALING_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V191_CANONICAL_ATOMIC_FIBRANCY_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V192_THIN_REFLECTION_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V193_TYPE_A_THIN_REPLACEMENT_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V194_UNIVERSAL_ATOMIC_OBSTRUCTION_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V195_DOUBLE_DELOOPING_NONTHIN_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V196_THIN_COMPARISON_ZERO_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V197_TYPE_B_TETRAHEDRAL_ZERO_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V198_TYPE_B_TERMINAL_RLP_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V199_HORN_COHERENCE_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1100_NORMALIZED_COCYCLE_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1101_TYPE_A_CONDITIONAL_RLP_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1102_TYPE_A_LOW_DIM_FILLERS_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1103_TYPE_A_HIGH_DIM_FILLERS_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1104_TYPE_A_DIM_FOUR_RLP_REVIEWED_BLOB.get(rel.as_posix())
+                                     or PR3555_V1105_TYPE_C_OUTER_COCYCLE_REVIEWED_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -284,7 +927,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS) | set(PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS) | set(PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB) | set(PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB) | set(PR3555_V137_CLASS_BRIDGED_HOMOTOPY_REVIEWED_BLOB) | set(PR3555_V138_STRICTIFICATION_REVIEWED_BLOB) | set(PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB) | set(PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB) | set(PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB) | set(PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB) | set(PR3555_V143_CONDITIONAL_WFS_REVIEWED_BLOB) | set(PR3555_V144_SMALL_OBJECT_REVIEWED_BLOB) | set(PR3555_V145_COLIMITS_PRESENTABILITY_REVIEWED_BLOB) | set(PR3555_V146_EXTERNAL_GENERATOR_COMPARISON_REVIEWED_BLOB) | set(PR3555_V147_EXTERNAL_DUSKIN_FIBRANCY_REVIEWED_BLOB) | set(PR3555_V148_SCALED_ATTACHMENT_FACTORIZATION_REVIEWED_BLOB) | set(PR3555_V149_STANDARD_TYPE_A_REDUCIBLE_REVIEWED_BLOB) | set(PR3555_V150_ENDPOINT_PUSHOUT_GENERATOR_REVIEWED_BLOB) | set(PR3555_V151_NATIVE_LEIBNIZ_MATE_REVIEWED_BLOB) | set(PR3555_V152_SCALED_CARTESIAN_INTERVAL_REVIEWED_BLOB) | set(PR3555_V153_SOURCE_ENRICHMENT_REVIEWED_BLOB) | set(PR3555_V154_GENERATED_LLP_DESCENT_REVIEWED_BLOB) | set(PR3555_V155_SCALED_LEIBNIZ_PUSHOUT_REVIEWED_BLOB) | set(PR3555_V156_TYPE_B_SCALING_PUSHOUT_REVIEWED_BLOB) | set(PR3555_V157_TYPE_B_COLLAPSE_COMPLETION_REVIEWED_BLOB) | set(PR3555_V158_TYPE_C_COLLAPSED_EDGE_REVIEWED_BLOB) | set(PR3555_V159_ABC_LEIBNIZ_REVIEWED_BLOB) | set(PR3555_V162_BOUNDARY_PRISM_SCALED_CELLS_REVIEWED_BLOB) | set(PR3555_V163_PRISM_DIMENSION_DICHOTOMY_REVIEWED_BLOB) | set(PR3555_V164_STAIRCASE_NORMAL_FORM_REVIEWED_BLOB) | set(PR3555_V165_CELL_PUSHOUT_CRITERION_REVIEWED_BLOB) | set(PR3555_V166_CELL_A_COMPATIBILITY_REVIEWED_BLOB) | set(PR3555_V167_N2_MAXIMAL_FRONTIER_REVIEWED_BLOB) | set(PR3555_V169_THREE_RESIDUAL_TABLE_REVIEWED_BLOB) | set(PR3555_V170_CELLWISE_AB_CLASSIFICATION_REVIEWED_BLOB) | set(PR3555_V171_SCALED_RANK_FILTRATION_REVIEWED_BLOB) | set(PR3555_V172_RANKWISE_AB_CELLULARITY_REVIEWED_BLOB) | set(PR3555_V173_RANKWISE_SCALED_PUSHOUT_REVIEWED_BLOB) | set(PR3555_V174_SIMULTANEOUS_A_PHASE_REVIEWED_BLOB) | set(PR3555_V175_SIMULTANEOUS_B_PHASE_REVIEWED_BLOB) | set(PR3555_V176_ALTERNATING_RAW_PAIR_REVIEWED_BLOB) | set(PR3555_V177_OPPOSITE_ENDPOINT_REVIEWED_BLOB) | set(PR3555_V178_POST_ENDPOINT_COMPARISON_REVIEWED_BLOB) | set(PR3555_V179_POSITIVE_RESIDUAL_REVIEWED_BLOB) | set(PR3555_V180_GENERATED_PRESENTATION_EQUIVALENCE_REVIEWED_BLOB) | set(PR3555_V181_GENERATED_PRESENTATION_QUOTIENT_REVIEWED_BLOB) | set(PR3555_V182_CANONICAL_ENDPOINT_EPI_REVIEWED_BLOB) | set(PR3555_V183_POSETAL_REFLECTION_REVIEWED_BLOB) | set(PR3555_V184_ORDER_REFLECTION_REVIEWED_BLOB) | set(PR3555_V185_FIXED_POINT_ORDER_ISO_REVIEWED_BLOB) | set(PR3555_V186_COMPLETE_LATTICE_REVIEWED_BLOB) | set(PR3555_V187_PRESENTATION_GAP_REVIEWED_BLOB) | set(PR3555_V188_ATTACHMENT_RETRACT_REVIEWED_BLOB) | set(PR3555_V189_ARBITRARY_SCALING_WAYPOINT_REVIEWED_BLOB) | set(PR3555_V190_SINGLE_TRIANGLE_SCALING_REVIEWED_BLOB) | set(PR3555_V191_CANONICAL_ATOMIC_FIBRANCY_REVIEWED_BLOB) | set(PR3555_V192_THIN_REFLECTION_REVIEWED_BLOB) | set(PR3555_V193_TYPE_A_THIN_REPLACEMENT_REVIEWED_BLOB) | set(PR3555_V194_UNIVERSAL_ATOMIC_OBSTRUCTION_REVIEWED_BLOB) | set(PR3555_V195_DOUBLE_DELOOPING_NONTHIN_REVIEWED_BLOB) | set(PR3555_V196_THIN_COMPARISON_ZERO_REVIEWED_BLOB) | set(PR3555_V197_TYPE_B_TETRAHEDRAL_ZERO_REVIEWED_BLOB) | set(PR3555_V198_TYPE_B_TERMINAL_RLP_REVIEWED_BLOB) | set(PR3555_V199_HORN_COHERENCE_REVIEWED_BLOB) | set(PR3555_V1100_NORMALIZED_COCYCLE_REVIEWED_BLOB) | set(PR3555_V1101_TYPE_A_CONDITIONAL_RLP_REVIEWED_BLOB) | set(PR3555_V1102_TYPE_A_LOW_DIM_FILLERS_REVIEWED_BLOB) | set(PR3555_V1103_TYPE_A_HIGH_DIM_FILLERS_REVIEWED_BLOB) | set(PR3555_V1104_TYPE_A_DIM_FOUR_RLP_REVIEWED_BLOB) | set(PR3555_V1105_TYPE_C_OUTER_COCYCLE_REVIEWED_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
@@ -303,6 +946,51 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertIn('(g : Quiver.Path', typed)
         self.assertIn('nativeF55ThreeComp', typed)
         self.assertIn('.map_comp f g', typed)
+
+    def test_v136_typed_uncurrying_helper_exact_blobs(self):
+        # New helper roots have no frozen v5.291 counterpart.
+        # Keep all four exact research fingerprints as independent provenance.
+        for rel, expected in PR3555_V136_STRONG_UNCURRYING_HELPER_BLOBS.items():
+            with self.subTest(path=rel):
+                path = ROOT / "formal" / rel
+                self.assertTrue(path.is_file(), f"missing typed v1.36 helper: {rel}")
+                self.assertEqual(git_blob_sha(path.read_bytes()), expected,
+                                 f"reviewed v1.36 helper differs from exact source: {rel}")
+
+    def test_v135_normal_lax_universe_bridge_exact_blob(self):
+        # The new ULift module is independently reviewed, not a historical overwrite.
+        path = ROOT / "formal/KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean"
+        self.assertTrue(path.is_file(), "missing genuine v1.35 ULift bridge")
+        self.assertEqual(git_blob_sha(path.read_bytes()),
+                         "9f0f5f81109993bb791df655844c62de0729b681",
+                         "v1.35 normal-lax ULift theorem bytes unreviewed")
+
+    def test_v161_unionprod_pinned_source_port_exact_blobs(self):
+        # Imported proof-port code, preserving its original Apache-2 attribution.
+        # Source integrity is independent of Lean kernel type-checking.
+        expected = {
+            "PinnedMathlibUnionProdProofPortV1_61.lean": "ba703c0dd48e4e437cb968e077611fb50e5a154e",
+            "PinnedMathlibUnionProdInnerPairingCoreV1_61.lean": "ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d",
+            "PinnedMathlibUnionProdWeakRankV1_61.lean": "131542e0a23efa80287655656f1805b5523acabf",
+            "PinnedMathlibUnionProdOpSymmetryV1_61.lean": "6fa03ffd9b5e0bb084af47a303b275aaa27b7bda",
+            "PinnedMathlibUnionProdFullPairingV1_61.lean": "da3cc7de1761081f15830dd0aecf9f3d23067e90",
+        }
+        for filename, sha in expected.items():
+            with self.subTest(path=filename):
+                file = ROOT / "formal" / "KUOS" / filename
+                self.assertTrue(file.is_file(), f"missing pinned port: {filename}")
+                self.assertEqual(git_blob_sha(file.read_bytes()), sha,
+                                 f"pinned UnionProd proof port changed: {filename}")
+
+    def test_v129_new_universe_lift_bridge_exact_blob(self):
+        # New append-only source has no historical file to replace.
+        # Source integrity is evidence, not a kernel typecheck.
+        path = ROOT / 'formal/KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean'
+        self.assertEqual(
+            git_blob_sha(path.read_bytes()),
+            '78b7d2d63dc8137a6143b93579ffcec6c910b06f',
+            'v1.29 new ULift scaling bridge source changed without independent review'
+        )
 
     def test_lean_mathlib_pins_are_unchanged(self):
         for name in ('lean-toolchain', 'lake-manifest.json'):

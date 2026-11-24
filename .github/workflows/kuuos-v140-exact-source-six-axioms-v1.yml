@@ -1,0 +1,92 @@
+name: KuuOS v1.40 exact-source pushout attachment strict Lean and 6 axioms
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v140-exact-source-six-axioms-v1.yml'
+permissions:
+  contents: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  exact-v140-lean-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Historical source and exact SHA validation
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+          python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean')
+          b=p.read_bytes()
+          sha=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert sha=='4592abde6c597d426225a3e587751e5971f2d209',sha
+          s=b.decode()
+          for k in ['SSet.Subcomplex.unionProd.isPushout','SSet.Subcomplex.unionProd.ι₁_ι',
+            'sourceAttachmentLifting','targetAttachmentLifting',
+            'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔']:
+              assert k in s,k
+          assert not any(x in b for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          print('KUUOS_V140_EXACT_SOURCE_PUSHOUT_BOUNDARY_PRESERVED')
+          PY
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v140-exact-pinned-mathlib-v1
+      - name: Get exact pinned Mathlib
+        run: lake exe cache get
+      - name: Exact-source strict Lean
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+      - name: Six original attachment declaration axioms
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV140ExactAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+          open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+          #print axioms endpointIntoAttachment_ι_zero
+          #print axioms endpointIntoAttachment_ι_one
+          #print axioms forwardAttachmentMap_on_endpoint
+          #print axioms backwardAttachmentMap_on_endpoint
+          #print axioms CoherentNormalizedScaledAttachmentLiftableModelEquivalence.toCylinderExtendableModelEquivalence
+          #print axioms CoherentNormalizedScaledAttachmentLiftableModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV140ExactAudit.lean | tee /tmp/v140-exact-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/v140-exact-six-axioms.log').read_text()
+          names=['endpointIntoAttachment_ι_zero','endpointIntoAttachment_ι_one',
+            'forwardAttachmentMap_on_endpoint','backwardAttachmentMap_on_endpoint',
+            'CoherentNormalizedScaledAttachmentLiftableModelEquivalence.toCylinderExtendableModelEquivalence',
+            'CoherentNormalizedScaledAttachmentLiftableModelEquivalence.globalDuskinStrictFibrancy_iff']
+          pre='KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.'
+          for name in names:
+              assert ("'"+pre+name+"'") in s,name
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          assert len(groups)==6,len(groups)
+          for group in groups:
+              assert {v.strip() for v in group.split(',') if v.strip()} <= {'propext','Classical.choice','Quot.sound'}
+          assert 'sorryAx' not in s and 'error:' not in s
+          print('KUUOS_V140_EXACT_SIX_STANDARD_AXIOMS_SUCCESS')
+          PY

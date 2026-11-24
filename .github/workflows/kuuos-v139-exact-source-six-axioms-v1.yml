@@ -1,0 +1,111 @@
+name: KuuOS v1.39 exact source cylinder endpoints and six-axiom proof
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v139-exact-source-six-axioms-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v139-current-source-pinned-lean-axioms:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve historic source and exact SSet endpoint semantics
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+          python3 - <<'PY'
+          import hashlib,pathlib
+          root=pathlib.Path('formal/KUOS')
+          file=root/'DependentOriginationScaledHornCylinderExtensionV1_39.lean'
+          b=file.read_bytes()
+          sha=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert sha=='5cf4f8f6c986ae948ee96bbcfb66ab2540390e1e',sha
+          text=b.decode()
+          for phrase in ['endpoint_zero : SSet.ι₀ ≫ extension = Q.simplexMap',
+            'endpoint_one_scaled : IsScaledMap sΔ sX (SSet.ι₁ ≫ extension)',
+            'endpoint_one : SSet.ι₁ ≫ extension = Q.simplexMap',
+            'endpoint_zero_scaled : IsScaledMap sΔ sX (SSet.ι₀ ≫ extension)',
+            'ScaledHornProblemCylinderExtension','sourceCylinderExtension',
+            'targetCylinderExtension',
+            'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔']:
+              assert phrase in text,phrase
+          assert not any(x in b for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          print('KUUOS_V139_EXACT_SOURCE_CONDITIONAL_CYLINDER_AND_ENDPOINTS')
+          PY
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v139-exact-pinned-mathlib-5450-v1
+      - name: Get exact pinned Mathlib cache
+        run: lake exe cache get
+      - name: Build current exact v1.39 with strict Lean
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 75m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationScaledHornCylinderExtensionV1_39
+      - name: Audit six exact current-source cylinder declarations
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV139ExactSourceAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationScaledHornCylinderExtensionV1_39
+          open KUOS.DependentOriginationScaledHornCylinderExtensionV1_39
+          #print axioms ForwardScaledHornCylinderExtension.toTarget
+          #print axioms BackwardScaledHornCylinderExtension.toSource
+          #print axioms ScaledHornProblemCylinderExtension.eqvGen_boundary_realization_bidir
+          #print axioms ScaledHornProblemCylinderExtension.strictify
+          #print axioms ScaledHornFamilyCylinderExtension.toStrictification
+          #print axioms CoherentNormalizedScaledCylinderExtendableModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV139ExactSourceAudit.lean \
+            | tee /tmp/kuuos-v139-exact-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          text=pathlib.Path('/tmp/kuuos-v139-exact-six-axioms.log').read_text()
+          names=['ForwardScaledHornCylinderExtension.toTarget',
+            'BackwardScaledHornCylinderExtension.toSource',
+            'ScaledHornProblemCylinderExtension.eqvGen_boundary_realization_bidir',
+            'ScaledHornProblemCylinderExtension.strictify',
+            'ScaledHornFamilyCylinderExtension.toStrictification',
+            'CoherentNormalizedScaledCylinderExtendableModelEquivalence.globalDuskinStrictFibrancy_iff']
+          prefix='KUOS.DependentOriginationScaledHornCylinderExtensionV1_39.'
+          for n in names:
+              assert ("'"+prefix+n+"'") in text,'missing exact declaration '+n
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',text,re.S)
+          assert len(groups)==6,len(groups)
+          for ax in groups:
+              assert {v.strip() for v in ax.split(',') if v.strip()} <= {'propext','Classical.choice','Quot.sound'}
+          assert 'error:' not in text and 'sorryAx' not in text
+          print('KUUOS_V139_EXACT_SOURCE_SIX_STANDARD_AXIOMS_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v139-exact-source-six-axioms
+          path: /tmp/kuuos-v139-exact-six-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
