@@ -7,6 +7,9 @@ on:
       - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_4.py"
       - "tests/test_codeai_prior_proof_kernel_memory_v0_4.py"
       - ".github/workflows/codeai-prior-proof-kernel-memory-v0-4.yml"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_4.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_4.py"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_4.json"
 permissions:
   contents: read
   actions: read
@@ -70,3 +73,5 @@ jobs:
           KUUOS_KERNEL_FIRST: historical-recall/first
           KUUOS_KERNEL_FRESH: historical-recall/independent
         run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_memory_v0_4
+      - name: Research admission context and canonical governance regressions
+        run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_research_gate_v0_4
