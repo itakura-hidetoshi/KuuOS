@@ -1,0 +1,44 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "Exact registered prior-proof recall Python and JSON surfaces receive focused checks after the registration is adopted. The first registry change remains a full-audit control change.",
+      "Unmapped files, actual Lean source, root and toolchain changes keep existing fail-closed selection. Python recall receipts never certify Lean or novelty."
+    ]
+  },
+  "checks": {
+    "codeai-prior-proof-recall-v02": {
+      "name": "CodeAI prior-proof and subject-recall source, review, and governance contracts",
+      "runner": "python",
+      "command": "python3 -m unittest -v scripts.check_codeai_prior_proof_recall_gate_v0_1 scripts.check_codeai_research_structured_edit_synthesis_v0_1 scripts.check_codeai_prior_proof_subject_gate_v0_2 tests.test_codeai_prior_proof_recall_governance_v0_2",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/codeai-prior-proof-recall-gate-v0-1.yml",
+        ".github/workflows/codeai-prior-proof-subject-recall-v0-2.yml",
+        "AGENTS.md",
+        "ci/check_registry.d/codeai_prior_proof_recall_v0_2.json",
+        "docs/CodeAI/PRIOR_PROOF_RECALL_GOVERNANCE_ROUTING_20261124.md",
+        "docs/KUUOS_CODEAI_PRIOR_PROOF_RECALL_GATE_v0_1.md",
+        "docs/KUUOS_CODEAI_PRIOR_PROOF_SUBJECT_RECALL_v0_2.md",
+        "memoryos/research_prior_proof_subject_index_v0_2.json",
+        "runtime/kuuos_codeai_prior_proof_recall_gate_v0_1.py",
+        "runtime/kuuos_codeai_prior_proof_subject_gate_v0_2.py",
+        "runtime/kuuos_codeai_research_structured_edit_synthesis_v0_1.py",
+        "scripts/check_codeai_prior_proof_recall_gate_v0_1.py",
+        "scripts/check_codeai_prior_proof_subject_gate_v0_2.py",
+        "scripts/check_codeai_research_structured_edit_synthesis_v0_1.py",
+        "scripts/codeai_prior_proof_recall_gate_v0_1.py",
+        "tests/test_codeai_prior_proof_recall_governance_v0_2.py"
+      ],
+      "depends_on": [
+        "ci-audit-tests",
+        "runtime-full",
+        "workflow-integrity"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

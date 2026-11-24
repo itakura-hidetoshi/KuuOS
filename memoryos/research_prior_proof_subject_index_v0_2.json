@@ -1,0 +1,364 @@
+{
+  "schema": "kuuos.prior-proof-subject-index.v0.2",
+  "observed_main": "61a75099b6f989b7b68a977af2c264b3820cd2b6",
+  "authority": "source retrieval hints only; no new proof or certification",
+  "topics": [
+    {
+      "id": "c60_phase",
+      "aliases": [
+        "C60",
+        "五行",
+        "五相",
+        "五位相",
+        "相生",
+        "相剋",
+        "五角形",
+        "five phase",
+        "fivefold",
+        "wuxing",
+        "pentagon",
+        "fullerene",
+        "フラーレン",
+        "物理ダート",
+        "物理辺"
+      ],
+      "neighbors": [
+        "history_descent",
+        "gauge_boundary",
+        "higher_pasting",
+        "contextual_peiffer_descent",
+        "old18d_joint"
+      ],
+      "anchors": [
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean",
+          "blob": "836a0cccc0263e33d652da6b9391e4d5c07cb368",
+          "declarations": [
+            "nativeC60GaugeSlot_injective",
+            "nativeC60GaugeSlot_surjective",
+            "nativeC60Gauge_sheng_ke_distinct"
+          ],
+          "scope": "Original physical Slot maps at arbitrary chart/vertex; generation and control are distinguished."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingPentagonUnifiedV3_5.lean",
+          "blob": "c1b8a0997804efc10cccc44bc8432a2441e37f58",
+          "declarations": [
+            "fivefoldSlotEquiv",
+            "fivefoldSlot_successor",
+            "fivefoldSide_endpoints",
+            "fivefoldPhysicalEdge_joins",
+            "fivefoldCategoricalPentagon",
+            "fivefoldDirectPhi_allEdges"
+          ],
+          "scope": "Actual phase/slot equivalence, physical endpoints and categorical coherence; not equality of different presentations."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5ADFivePhaseHolonomyV3_7.lean",
+          "blob": "4ef1153c2d6f42eeaa86cffca59ed3829fa0a62a",
+          "declarations": [
+            "fivefoldPhasePhysicalFive_closed",
+            "fivefoldPhaseLastPhysicalSide_closed",
+            "fivefoldPhysicalAllFivePhi_five_whole"
+          ],
+          "scope": "Five-step physical and categorical return under original hypotheses."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5FiveStageTypedShell.lean",
+          "blob": "8fe81aefb66486a906fee90c53a835eb99b8dccf",
+          "declarations": [
+            "northK5TypedVertex",
+            "northK5TypedVertex_physical_five_sectors"
+          ],
+          "scope": "Original five north F45 stages and fourteen typed K5 bracketings."
+        }
+      ]
+    },
+    {
+      "id": "history_descent",
+      "aliases": [
+        "降下",
+        "貼合",
+        "履歴",
+        "復元",
+        "障害",
+        "descent",
+        "gluing",
+        "history",
+        "obstruction",
+        "p92b",
+        "nat iso",
+        "natiso"
+      ],
+      "neighbors": [
+        "c60_phase",
+        "higher_pasting",
+        "gauge_boundary",
+        "contextual_peiffer_descent",
+        "old18d_joint"
+      ],
+      "anchors": [
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5AFPhysicalCategoricalObstructionV3_9.lean",
+          "blob": "8af5aec40f0e26c104602171048752359b3d0602",
+          "declarations": [
+            "fivefoldOriginalDart_phase_injective",
+            "fivefoldGK5AFBothReverseObstructions",
+            "fivefoldGK5AFHistoryFactor_noFaithfulReturn"
+          ],
+          "scope": "Original physical darts; reverse-orientation and history-readout obstructions."
+        },
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5AGOriginalNorthHistoryDescentV4_0.lean",
+          "blob": "da532424d1331294d9f1f137e97da55eea4b271e",
+          "declarations": [
+            "fivefoldGK5AGNorthRealParallelEvidence",
+            "fivefoldGK5AGNorthRotationCount_noPhysicalP92Descent",
+            "fivefoldGK5AGNorthPhysicalP92Whole_not_injective",
+            "fivefoldGK5AGNorthNoWholeHistoryRecovery"
+          ],
+          "scope": "Non-descent to the specified P92B/physical readout; whole-NatIso noninjectivity conditional on matching interpretation. No general impossibility claim."
+        }
+      ]
+    },
+    {
+      "id": "higher_pasting",
+      "aliases": [
+        "14cell",
+        "14セル",
+        "十四セル",
+        "14次元",
+        "15cell",
+        "15セル",
+        "十五セル",
+        "15次元",
+        "非可換",
+        "高次",
+        "自由群",
+        "nonabelian",
+        "noncommutative",
+        "fourteencell",
+        "fifteencell",
+        "free group",
+        "pentagonator"
+      ],
+      "neighbors": [
+        "history_descent",
+        "gauge_boundary",
+        "c60_phase",
+        "contextual_peiffer_descent",
+        "old18d_joint"
+      ],
+      "anchors": [
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean",
+          "blob": "928b6f5bdb59c6ba74fbb8122666fc6e274f4d7c",
+          "declarations": [
+            "NativeK5StructuralFourteenCell.historyWord",
+            "nativeK5FourteenPasting_integerBlind",
+            "nativeK5FourteenSquareExchange_pastingWord_ne",
+            "nativeK5FourteenSquareExchange_pastingRaw_ne",
+            "nativeK5Fourteen_noFiniteCoreFiller",
+            "nativeK5Fourteen_noFiniteCoreRetraction",
+            "nativeK5PentagonatorFifteen_history_ne",
+            "nativeK5PentagonatorFifteen_raw_ne"
+          ],
+          "scope": "Raw dependent fourteen-cell pasting and free-group separation already written. Conservative nonexistence needs the named grammar and unequal thirteen-cell histories; no unrestricted fifteen-cell filler claim."
+        }
+      ]
+    },
+    {
+      "id": "gauge_boundary",
+      "aliases": [
+        "ゲージ",
+        "曲率",
+        "gauge",
+        "curvature",
+        "naturality",
+        "自然性",
+        "型付き",
+        "typed boundary",
+        "F45",
+        "F112",
+        "GK5",
+        "K5"
+      ],
+      "neighbors": [
+        "c60_phase",
+        "higher_pasting",
+        "history_descent",
+        "contextual_peiffer_descent",
+        "old18d_joint"
+      ],
+      "anchors": [
+        {
+          "path": "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean",
+          "blob": "e9bc8cf34d81351c55a95ebdba4c9752ba645fb4",
+          "declarations": [
+            "nativeC60NorthWuxingK5_threeGauge_obstructions"
+          ],
+          "scope": "Joint evidence for separate phase, incidence, typed-word actions, with supplied five F45 witnesses; no compatibility morphism."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeC60NorthWuxingK5ActualFiveStageGauge.lean",
+          "blob": "2e6d06993abdc962ca5ef9003fb43db6692fd4a4",
+          "declarations": [
+            "nativeC60NorthWuxingK5_actualFiveStage_obstruction",
+            "nativeC60NorthWuxingK5_actualFiveSectors_and_gauge"
+          ],
+          "scope": "Concrete north stages instantiate the joint obstruction, not global gauge equality or descent."
+        }
+      ]
+    },
+    {
+      "id": "contextual_peiffer_descent",
+      "aliases": [
+        "Peiffer",
+        "パイファー",
+        "正規閉包",
+        "正規核",
+        "普遍降下",
+        "必要十分条件",
+        "文脈付き商",
+        "文脈付き15セル",
+        "群値",
+        "交差加群",
+        "crossed module",
+        "normal closure",
+        "normal kernel",
+        "universal descent",
+        "contextual congruence",
+        "15-cell",
+        "16-cell",
+        "16セル",
+        "16次元",
+        "P92B"
+      ],
+      "neighbors": [
+        "higher_pasting",
+        "history_descent",
+        "gauge_boundary",
+        "c60_phase",
+        "old18d_joint"
+      ],
+      "anchors": [
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5ContextFifteenCellCongruence.lean",
+          "blob": "159cbfe706c6b7aa649bfe50f79fb1cfe6ef085e",
+          "declarations": [
+            "nativeK5AQ_minimal_closed",
+            "nativeK5AQPeiffer_quotient",
+            "nativeK5AQ_factors_iff",
+            "nativeK5AQ_noFiniteCoreFiller",
+            "nativeK5AQ_historyNoDescent"
+          ],
+          "scope": "AQ defines original source-typed contextual 15-cell congruence, minimality and a factorization criterion. Raw free history does not descend; no unrestricted 16-cell claim."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5GaugeHolonomyUniversalDescent.lean",
+          "blob": "774865c8328d23ccccc3cb282bfefc4eab0c3fdf",
+          "declarations": [
+            "nativeK5ARWordDefect_left",
+            "nativeK5ARWordDefect_right",
+            "nativeK5ARHistoryKernel_eq_base",
+            "nativeK5ARHistoryKernel_minimal",
+            "nativeK5ARGaugeHistory",
+            "nativeK5ARHistoryLift_mk",
+            "nativeK5ARWordClass_not_injective"
+          ],
+          "scope": "AR identifies normal closure of all context defects with base-defect normal closure. Group-valued universal quotient and history observer on AQ, not Type-level equality."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5PeifferNormalKernelExactDescent.lean",
+          "blob": "34c0f771e460f96e904cc9bc620f8edf450afd2b",
+          "declarations": [
+            "nativeK5ASCrossedModule",
+            "nativeK5ASPeiffer_identity",
+            "nativeK5ASPhysicalDefect_right_in_kernel",
+            "nativeK5AS_exact_at_history",
+            "nativeK5ASGroupHistoryDescent_iff",
+            "nativeK5ASGroupHistory_noDescent"
+          ],
+          "scope": "AS normal-inclusion crossed module and exact sequence; descent of a group hom on the free history iff it identifies the original base exchange. Algebraic Peiffer identity is not geometric 16-cell."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5FiniteContextPeifferNaturality.lean",
+          "blob": "864134b408f612ef05d2fdead2802e8e3fe726ff",
+          "declarations": [
+            "nativeK5ATContext_history",
+            "nativeK5ATRightContextWord_append",
+            "nativeK5ATContext_defect",
+            "nativeK5ATCellDefect_context",
+            "nativeK5ATGroupReceiver_allContexts_iff",
+            "nativeK5ATGroupReceiver_context_noDescent"
+          ],
+          "scope": "AT ordered finite contexts and conjugation transport, plus all-context group receiver iff base criterion. Does not construct full original P92B boundary functor."
+        },
+        {
+          "path": "formal/Kuu/F112/PolygonNativeF55P94DK5TypedFifteenNaturalityCoherenceBoundary.lean",
+          "blob": "051689ee1390dc4a5dec51ac80bdd450e0b5eeee",
+          "declarations": [
+            "nativeK5AUComposition_defect_eq",
+            "nativeK5AUNaturality_defect_eq",
+            "nativeK5AUTypeReceiver_descent_iff",
+            "nativeK5AUGroupReceiver_allCells_iff"
+          ],
+          "scope": "AU constructs two typed 15-cell paths but equates their algebraic defects only; Type receiver criterion assumes core observer compatibility and whiskering stability. Not geometric 16-cell."
+        }
+      ]
+    },
+    {
+      "id": "old18d_joint",
+      "aliases": [
+        "18D",
+        "18cell",
+        "18セル",
+        "18次元",
+        "old18D",
+        "19D",
+        "19セル",
+        "19次元",
+        "unit history",
+        "単位履歴",
+        "原証明履歴",
+        "逆転",
+        "局所忠実性",
+        "faithfulness",
+        "v5.99",
+        "v5.98",
+        "primitive unit",
+        "一単位",
+        "Sigma"
+      ],
+      "neighbors": [
+        "c60_phase",
+        "history_descent",
+        "higher_pasting",
+        "gauge_boundary",
+        "contextual_peiffer_descent"
+      ],
+      "anchors": [
+        {
+          "path": "formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean",
+          "blob": "1cb4ef177ada5f15f0faf53876cc046c1e6c35e8",
+          "declarations": [
+            "selectedV599C60GaugeSlot_covariant",
+            "selectedV599C60GaugeDart_covariant",
+            "selectedV599C60GaugeSide_covariant",
+            "selectedV599C60ContextSide_endpoints",
+            "selectedV599C60OriginalJointObservation_eq_iff",
+            "selectedV599C60Compensated_jointEq_iff",
+            "selectedV599C60PhysicalShadow_notRawFaithful"
+          ],
+          "scope": "Qi v5.99 compensated physical chart covariance and joint fidelity in same original 17D fiber with primitive unit hypotheses; physical shadow plus typed unit history alone fails to separate raw reverse contexts. No unrestricted old18D, 19D, WORLD/20D descent."
+        }
+      ]
+    }
+  ],
+  "additional_observations": [
+    {
+      "source_head": "ff0c871aca2a37df4fb1753c0319321b8419b413",
+      "scope": "AQ–AU source-typed descent and Qi v5.99 source anchors appended; existing anchors unchanged"
+    }
+  ]
+}
