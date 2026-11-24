@@ -1,0 +1,114 @@
+name: "KuuOS v1.105 R2-A independent exact-source 39 Lean axioms"
+
+on:
+  push:
+    branches:
+      - 'research/v1105-codeai-r2-independent-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1105-r2a-independent39.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-kernel-39-after-local-lean-mcp:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout independent HEAD without retained credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python 3.12 for exact binary-source verification
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact research code, original proof, candidates and pins
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1105_independent39.py
+          python3 -m py_compile scripts/ci_kuuos_v1105_codeai_r2_local.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          files={
+            'scripts/ci_kuuos_v1105_independent39.py':'e6f42853543fdc80a5b28bb75dee9203c9629dc0',
+            'scripts/kuuos_sandbox_lean_cycle_v1.py':'5383253dbe9cda9cab90a410c2fd66ee6b9d6f41',
+            'scripts/ci_kuuos_v1105_codeai_r2_local.py':'7d5fc4a38e710a60d3c24a19d6dfa8110bfe00a8',
+            'formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105.lean':'fb4d15a3467df69b8d2ba14276c2f4da6a1670d5',
+            'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean':'5c911aaeb9a21baff57f6af8c8655309af47d027',
+            'formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean':'dbec61c9798481709f2deda0028e84b7515f209e',
+            'research/codeai/v1105/r2/A-explicit-nat.lean':'725b4d73037655576d495e32a6e202cd1affaf15',
+          }
+          for path,sha in files.items():
+              assert c.git_blob(Path(path).read_bytes())==sha,path
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [p['rev'] for p in json.loads(Path('lake-manifest.json').read_text())['packages'] if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1105_INDEPENDENT_39_SOURCE_PINS_EXACT')
+          PY
+      - name: Retrieve exact selected local-green source bytes from upstream sandbox
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45340609751
+          github-token: ${{ github.token }}
+          name: kuuos-v1105-r2-local-green-selected-source
+          path: /tmp/kuuos-v1105-independent-selected
+      - name: Retrieve actual direct Lean 39-axiom and typed-MCP sandbox receipts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 45340609751
+          github-token: ${{ github.token }}
+          name: kuuos-v1105-r2-two-local-direct-receipts
+          path: /tmp/kuuos-v1105-independent-local
+      - name: Authenticate upstream success, exact source and every 39-axiom receipt
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1105_independent39.py prepare
+      - name: Setup pinned Lean independently without auto-building parent PR
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pin-compatible Lake artifact cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile v1.104 certified predecessor on new Lean runner
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104
+      - name: Independent Lean kernel recompilation of exact v1.105 candidate bytes
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            -o /tmp/kuuos-v1105-independent-selected.olean \
+            formal/KUOS/.v1105-independent-kernel/Selected.lean
+      - name: Independently audit all 39 v1.105 declaration axioms and sorryAx
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/.v1105-independent-kernel/AxiomAudit.lean \
+            | tee /tmp/kuuos-v1105-independent-axioms.log
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1105_independent39.py complete
+      - name: Preserve independent receipts or fail-closed obstruction
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-r2a-independent-39-certificate
+          path: |
+            /tmp/kuuos-v1105-independent-proof/
+            /tmp/kuuos-v1105-independent-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
