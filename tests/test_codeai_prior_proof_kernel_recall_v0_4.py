@@ -3,7 +3,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from scripts.codeai_prior_proof_kernel_recall_v0_4 import read_direct,suffix,PREFIX,canonical_direct_options
+from scripts.codeai_prior_proof_kernel_recall_v0_4 import read_direct,suffix,PREFIX,canonical_direct_options,flatten_lean_options
 
 N="Kuu.Test.prior"
 ENTRY={"name":N,"expected_direct_refs":["Kuu.Test.support"]}
@@ -52,6 +52,18 @@ class KernelRecallTests(unittest.TestCase):
             read_direct(decorated,[ENTRY])
         with self.assertRaisesRegex(ValueError,"source-local axiom reports disagree"):
             read_direct(plain+"'"+N+"' depends on axioms: [Classical.choice.{u}]\n",[ENTRY])
+
+    def test_toml_dotted_options_are_nested_before_flattening(self):
+        import tomllib
+        x=tomllib.loads("leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, weak.linter.unusedTactic = false }")
+        self.assertEqual(x["leanOptions"]["linter"],{"unnecessarySimpa":False})
+        self.assertEqual(flatten_lean_options(x["leanOptions"]),{
+            "warningAsError":True,"linter.unnecessarySimpa":False,
+            "weak.linter.unusedTactic":False})
+        with self.assertRaises(ValueError):
+            flatten_lean_options({"linter":{"unusedTactic":False},"linter.unusedTactic":True})
+        with self.assertRaises(ValueError):
+            flatten_lean_options({"warningAsError":"true"})
 
     def test_direct_reuses_exact_canonical_policy_without_new_exemptions(self):
         raw=(Path(__file__).resolve().parents[1]/"lakefile.toml").read_bytes()

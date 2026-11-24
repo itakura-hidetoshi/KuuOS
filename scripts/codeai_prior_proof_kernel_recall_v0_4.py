@@ -62,12 +62,30 @@ CANONICAL_LEAN_OPTIONS={
     "weak.linter.unusedSimpArgs": False,
 }
 
+def flatten_lean_options(table, prefix=""):
+    """TOML unquoted dotted keys elaborate to nested tables."""
+    if not isinstance(table,dict):
+        raise ValueError("NO_DATA: invalid canonical leanOptions table")
+    flat={}
+    for k,v in table.items():
+        name=prefix+k
+        if isinstance(v,dict):
+            part=flatten_lean_options(v,name+".")
+        elif type(v) is bool:
+            part={name:v}
+        else:
+            raise ValueError("NO_DATA: invalid canonical Lean option value")
+        if set(flat).intersection(part):
+            raise ValueError("NO_DATA: duplicate canonical Lean option")
+        flat.update(part)
+    return flat
+
 def canonical_direct_options(raw):
     if git_blob(raw)!=LAKEFILE_BLOB:
         raise ValueError("NO_DATA: canonical Lake config blob drift")
     config=tomllib.loads(raw.decode("utf-8"))
     libraries=[x for x in config["lean_lib"] if x["name"]=="KuuOSFormal"]
-    if len(libraries)!=1 or libraries[0].get("leanOptions")!=CANONICAL_LEAN_OPTIONS:
+    if len(libraries)!=1 or flatten_lean_options(libraries[0].get("leanOptions"))!=CANONICAL_LEAN_OPTIONS:
         raise ValueError("NO_DATA: canonical library options differ")
     return ["-D"+k+"="+str(v).lower() for k,v in sorted(CANONICAL_LEAN_OPTIONS.items())]+["-Dweak.sorryAsError=true"]
 

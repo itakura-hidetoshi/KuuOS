@@ -81,3 +81,16 @@ the direct scratch compilation. Strict warningAsError=true remains.
 No additional linter exemption, proof rewrite, source trim, root or pin
 change is made. Canonical config drift fails closed. Record the actual
 options in both runner receipts, compare them on independent observation.
+
+## R3: TOML dotted-key decoding (2026-11-24)
+
+R2 run 45340724005, job 138263468065 completed FAILURE at the
+Python fixture gate (8/9 passed). Lean, MCP and independent stages
+were skipped. Actual exception: NO_DATA: canonical library options differ.
+The exact lakefile blob guard passed, but TOML's unquoted dotted keys
+are decoded by tomllib as nested dictionaries, not flat option names.
+Flatten recursively, reject invalid leaf values and duplicate flattened
+keys, then compare the identical fixed canonical eight options. Retain
+exact lakefile blob guard, strict checks and all original Lean sources.
+Add a regression for nested dotted keys, duplicate keys and wrong types.
+This is a config decoding correction, not proof or policy relaxation.
