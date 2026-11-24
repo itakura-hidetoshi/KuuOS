@@ -42,3 +42,16 @@ The forwarding regression uses a fixture downstream, not a live model
 or a new proof. First governance registration retains the full audit.
 This branch prepares later integration; #3639's exact-head retry is
 not changed.
+
+## End-to-end original CodeAI boundary replay
+
+The prior 15-test run 45360316008 completed SUCCESS (8 historical replay,
+7 review/routing tests). This extension also exercises the actual original
+v0.3/v0.1 and CodeAI provider boundary without mocking those functions.
+It uses real source catalog and historical memory, a synthetic review and
+canonical-scope contract fixture inside the test ONLY, and an existing
+local deterministic provider callback returning evidence_missing/HOLD.
+No canonical authority is asserted for this research checkout, no live
+model is called, no candidate is produced or applied. The duplicate NEW
+fixture must stop before a second provider call. Existing integration
+requires a current authenticated canonical observation independently.
