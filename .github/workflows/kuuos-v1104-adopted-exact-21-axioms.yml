@@ -18,6 +18,8 @@ jobs:
   adopted-source-exact21:
     runs-on: ubuntu-22.04
     timeout-minutes: 100
+    env:
+      PYTHONPATH: .
     steps:
       - name: Checkout exact adopted PR source without credentials
         uses: actions/checkout@v6
