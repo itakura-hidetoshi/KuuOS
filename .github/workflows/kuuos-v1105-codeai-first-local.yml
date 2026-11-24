@@ -1,0 +1,97 @@
+name: "KuuOS v1.105 CodeAI first two local Lean trials (no independent CI on RED)"
+
+on:
+  push:
+    branches:
+      - 'research/v1105-codeai-first-local-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1105-codeai-first-local.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v1105-source-bound-local-only:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact v1.105 research branch with no credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python 3.12 for pinned semantic MCP
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean without building whole PR
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed Lake cache when present
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Bootstrap local lean-lsp-mcp pinned to 0.30.0
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Preflight exact source and CodeAI candidate Git blobs
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1105_codeai_first_local.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          expected = {
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105.lean': 'fb4d15a3467df69b8d2ba14276c2f4da6a1670d5',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean': '5c911aaeb9a21baff57f6af8c8655309af47d027',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean': 'dbec61c9798481709f2deda0028e84b7515f209e',
+              'scripts/ci_kuuos_v1105_codeai_first_local.py': '569587dbe5de7205f21c02bbbf850c7d1f0b3c2b',
+              'scripts/kuuos_sandbox_lean_cycle_v1.py': '5383253dbe9cda9cab90a410c2fd66ee6b9d6f41',
+              'research/codeai/v1105/r1/A-revert.lean': '0100e19fed0f3504ce0fbe153e705f0b0c04387f',
+              'research/codeai/v1105/r1/B-normnum.lean': 'a4867a2fe1c83c7f684eab12a0b0c3b25d5a5ff5',
+          }
+          for path,blob in expected.items():
+              assert c.git_blob(Path(path).read_bytes())==blob,path
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [p['rev'] for p in json.loads(Path('lake-manifest.json').read_text())['packages']
+                  if p['name']=='mathlib'] == ['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1105_ORIGINAL_V104_TWO_CANDIDATES_AND_PINNED_TOOLCHAIN_EXACT')
+          PY
+      - name: Build v1.104 exact predecessor only
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104
+      - name: CodeAI direct Lean serial trials, 39 axiom audit and real MCP only after GREEN
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/ci_kuuos_v1105_codeai_first_local.py
+      - name: Preserve exact RED diagnostics and local source-bound receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-first-two-local-direct-receipts
+          path: /tmp/kuuos-v1105-first-local-trials/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Export exact candidate only when local direct plus axioms and real MCP GREEN
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-first-local-green-selected-source
+          path: /tmp/kuuos-v1105-first-local-green/
+          if-no-files-found: error
+          retention-days: 30
