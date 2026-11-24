@@ -42,3 +42,19 @@ review. No prior proof needs re-proving solely because of a retrieval defect.
 Scope: initial curated C60/Qi/GK5/F112 subject recall, not universal memory,
 not automatic theorem equivalence, not a Lean certification. Existing proof,
 root, toolchain and repair-memory policies are unchanged.
+
+## Canonical update and cross-family descent recall (2026-11-24)
+
+The source catalog now includes original AQ–AU contextual 15-cell and
+Peiffer descent signatures and Qi v5.99 (main ff0c871aca2a37df4fb1753c0319321b8419b413). These are retrieval
+anchors, not a fresh Lean certification. In particular AS already proves
+base-exchange identification iff group-valued descent; AU already proves
+conditional Type-valued receiver descent assuming core and whisker
+compatibility. Do not propose these as new results. Their group-level
+defect equalities do not identify distinct geometric 15-cell paths. Qi
+v5.99 also already proves compensated C60 Slot/Dart/Edge covariance and
+conditional joint fidelity of the original bracket and full typed Sigma
+unit history in the primitive-unit fragment. The physical shadow is not
+raw faithful. Do not infer a new global or unrestricted descent from these
+local signatures. Search additional existing higher-cell and receiver
+modules before deciding the next mathematical delta.

@@ -38,6 +38,19 @@ class SubjectRecallTests(unittest.TestCase):
                          "nativeC60NorthWuxingK5_actualFiveStage_obstruction"}.issubset(names))
         self.assertFalse(self.high["novelty_certified"])
 
+    def test_contextual_descent_and_latest_old18d_source_recalled(self):
+        r = recall_subject(ROOT, HEAD, "Peiffer核の普遍降下と18次元の原証明")
+        self.assertEqual(r["status"], "REVIEW_REQUIRED", r["issues"])
+        names = {a["declaration"] for a in r["anchors"]}
+        self.assertTrue({"nativeK5AQ_factors_iff",
+                         "nativeK5ARHistoryKernel_eq_base",
+                         "nativeK5ASGroupHistoryDescent_iff",
+                         "nativeK5ATGroupReceiver_allContexts_iff",
+                         "nativeK5AUTypeReceiver_descent_iff",
+                         "selectedV599C60OriginalJointObservation_eq_iff",
+                         "selectedV599C60PhysicalShadow_notRawFaithful"}.issubset(names))
+        self.assertFalse(r["novelty_certified"])
+
     def test_unknown_subject_never_becomes_new_result(self):
         r = recall_subject(ROOT, HEAD, "unindexed_xyz_785")
         self.assertEqual(r["status"], "HOLD_REOBSERVATION")
