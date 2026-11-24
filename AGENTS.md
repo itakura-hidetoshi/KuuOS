@@ -72,3 +72,18 @@ source retrieval and comparison without claiming this scanner executed.
 Neither lexical previews nor module-import candidates replace actual Lean
 elaboration, proof history or mathematical comparison. Search miss or
 truncation is NO_DATA/HOLD; no automatic novelty or authority.
+
+## Selected historical kernel memory review v0.4 (additive)
+
+When preparing a new mathematical research candidate, use the v0.4
+`recall_kernel_memory` entry and `build_kernel_memory_research_synthesis`
+in the kernel-memory/research-gate modules before the existing v0.3/v0.2/v0.1
+gates. Review matching actual historical Lean type and direct proof-reference
+observations, bind the exact observation digest and comparison, and include
+the read-only context from `kernel_context_text` in the provider request.
+Keep all unobserved hits explicit; do not claim their kernel certification.
+A changed source/dependency scope requires re-observation. Existing review,
+provider, direct Lean, real Lean MCP, independent CI, and authority boundaries
+remain unchanged. No mathematical novelty follows from a memory hit or miss.
+An MCP-only session can reproduce these exact-source comparisons without
+claiming it executed the runtime.

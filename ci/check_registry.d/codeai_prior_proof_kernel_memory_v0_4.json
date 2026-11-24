@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "Selected kernel observations remain historical, source-scope-bound and advisory. No proof, semantic novelty, execution or merge authority.",
+      "First registry registration remains a full-audit control change; actual Lean or pin changes retain existing strict checks."
+    ]
+  },
+  "checks": {
+    "codeai-prior-proof-kernel-memory-v04": {
+      "name": "CodeAI selected kernel memory v0.4 and research admission contracts",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_codeai_prior_proof_kernel_recall_v0_4 tests.test_codeai_prior_proof_kernel_memory_v0_4.PacketTests tests.test_codeai_prior_proof_kernel_research_gate_v0_4",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/codeai-prior-proof-kernel-memory-v0-4.yml",
+        ".github/workflows/codeai-prior-proof-kernel-recall-v0-4.yml",
+        "AGENTS.md",
+        "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_4.json",
+        "docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_4.md",
+        "docs/CodeAI/PRIOR_PROOF_KERNEL_RECALL_PILOT_v0_4.md",
+        "memoryos/research_prior_proof_kernel_observation_v0_4.json",
+        "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_4.py",
+        "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_4.py",
+        "scripts/codeai_prior_proof_kernel_recall_v0_4.py",
+        "tests/test_codeai_prior_proof_kernel_memory_v0_4.py",
+        "tests/test_codeai_prior_proof_kernel_recall_v0_4.py",
+        "tests/test_codeai_prior_proof_kernel_research_gate_v0_4.py"
+      ],
+      "depends_on": [
+        "codeai-prior-proof-library-v03",
+        "codeai-prior-proof-recall-v02",
+        "ci-audit-tests",
+        "runtime-full",
+        "workflow-integrity"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
