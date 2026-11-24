@@ -36,3 +36,21 @@ names). No theorem-equivalence, novelty, new proof, or authority claim.
 
 Separate pilot branch preserves #3639's pending governance. No source
 under formal/ or lean/, public root, pins or protected PR changes.
+
+## R1 observed failure and correction (2026-11-24)
+
+Run 45332533402, job 138236826466, source 80500c64544178355b5843dc65c2025f7c375b59:
+6/6 parser tests and selected original module build (8408 jobs) succeeded.
+The direct stage failed in read_direct; real MCP and independent runner
+were skipped. Recovered actual artifact 14892767172, direct-0.log: both
+LEC targets emitted elaborated types, expected direct proof references,
+and the kernel Name list [Classical.choice]. Original #print axioms
+reported [Classical.choice]; the appended report with pp.universes true
+reported [Classical.choice.{u}]. This is a display mismatch, not proof
+failure or an unauthorized axiom. Qi direct observation was not reached.
+Scope pp.universes false to the appended #print axioms command only,
+retain all detailed type/universe fields and exact strict comparison.
+Do not silently normalize arbitrary axiom strings. Add two regressions,
+including the actual decorated-name failure shape. The old failure
+artifact is retained; the new source must pass direct Lean, actual MCP
+and independent runner before any positive admission.

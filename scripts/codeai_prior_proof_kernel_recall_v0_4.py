@@ -85,7 +85,11 @@ def suffix(names):
         if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_'.]*",name):
             raise ValueError("invalid fixed name")
         lines += [
-            "#check @"+name,"#print axioms "+name,"run_cmd do",
+            "#check @"+name,
+            # Axiom identities are Lean Names, not pretty-printed Const expressions.
+            # Preserve detailed universe printing for the type, but not for the
+            # independently printed axiom inventory.
+            "set_option pp.universes false in", "#print axioms "+name,"run_cmd do",
             "  let n := "+chr(96)*2+name,
             "  let env ← getEnv",
             '  let some info := env.find? n | throwError "constant not found"',
@@ -138,7 +142,9 @@ def read_direct(log,selected):
             raise ValueError("NO_DATA: expected source proof dependency absent")
         reports=printed.get(row["name"],[])+printed.get(row["name"].rsplit(".",1)[-1],[])
         if not reports or any(r!=set(row["axioms"]) for r in reports):
-            raise ValueError("NO_DATA: source-local axiom reports disagree")
+            raise ValueError("NO_DATA: source-local axiom reports disagree: "+
+                             row["name"]+"; printed="+repr([sorted(r) for r in reports])+
+                             "; kernel="+repr(row["axioms"]))
         result.append({**entry,**row,"type_expr_sha256":sha(row["type_expr_repr"].encode()),
                        "proof_body_observed":True,"direct_expression_constants_only":True})
     return sorted(result,key=lambda x:x["name"])

@@ -34,6 +34,24 @@ class KernelRecallTests(unittest.TestCase):
         for diagnostic in ("warning: X","error: X","PANIC at X","sorryAx"):
             with self.subTest(diagnostic=diagnostic),self.assertRaises(ValueError):
                 read_direct(fixture()+diagnostic,[ENTRY])
+    def test_universes_scoped_off_for_axiom_report_only(self):
+        text=suffix([N])
+        self.assertIn("set_option pp.universes true",text)
+        self.assertIn("set_option pp.universes false in\n#print axioms "+N,text)
+        self.assertIn('#check @'+N,text)
+        self.assertIn('info.levelParams.map Name.toString',text)
+
+    def test_observed_universe_display_mismatch_remains_fail_closed(self):
+        # Reproduce the failure observed in direct-0.log of run 45332533402.
+        row=copy.deepcopy(ROW); row["axioms"]=["Classical.choice"]
+        plain=fixture(row).replace("[propext]","[Classical.choice]")
+        self.assertEqual(read_direct(plain,[ENTRY])[0]["axioms"],["Classical.choice"])
+        decorated=plain.replace("[Classical.choice]","[Classical.choice.{u}]")
+        with self.assertRaisesRegex(ValueError,"source-local axiom reports disagree"):
+            read_direct(decorated,[ENTRY])
+        with self.assertRaisesRegex(ValueError,"source-local axiom reports disagree"):
+            read_direct(plain+"'"+N+"' depends on axioms: [Classical.choice.{u}]\n",[ENTRY])
+
     def test_name_injection_refused(self):
         self.assertIn("#check @"+N,suffix([N]))
         with self.assertRaises(ValueError):
