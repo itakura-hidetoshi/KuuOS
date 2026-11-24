@@ -1,0 +1,76 @@
+name: "KuuOS v1.105 adopted exact 39 axioms and Public Proof Roots"
+
+on:
+  push:
+    branches:
+      - 'fix/kuuos-v127-v129-ulift-20261115'
+    paths:
+      - 'formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105.lean'
+      - 'tests/test_public_root_restoration.py'
+      - 'scripts/ci_kuuos_v1105_adopted39.py'
+      - '.github/workflows/kuuos-v1105-adopted-exact39.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v1105-adopted-exact39-source:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout exact adopted PR HEAD without credential retention
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Bootstrap Python 3.12 for source-bound verifier
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean without automatic whole-PR build
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore the fixed pinned Lake cache if present
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify exact adopted source and original archived v1.105 source
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1105_adopted39.py
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 scripts/ci_kuuos_v1105_adopted39.py preflight
+      - name: Verify historical Public Proof Roots hash regression
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_public_root_restoration.py'
+      - name: Compile adopted 39-declaration v1.105 exact source in fixed Lean
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105
+      - name: Audit exactly 39 v1.105 kernel axioms and forbid sorryAx
+        run: |
+          set -euo pipefail
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/.v1105-adopted-independent39/AxiomAudit.lean \
+            | tee /tmp/kuuos-v1105-adopted-independent39/axioms.log
+          python3 scripts/ci_kuuos_v1105_adopted39.py complete
+      - name: Preserve post-adoption source-bound 39 declaration certificate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-adopted-39-kernel-proof-receipt
+          path: /tmp/kuuos-v1105-adopted-independent39/
+          if-no-files-found: warn
+          retention-days: 30
