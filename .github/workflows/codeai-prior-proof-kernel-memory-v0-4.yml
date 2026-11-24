@@ -1,7 +1,17 @@
 name: CodeAI v0.4 version-bound kernel memory replay
 on:
   push:
-    branches: [research/codeai-library-kernel-memory-v04-20261124]
+    branches: [main, research/codeai-library-kernel-memory-v04-20261124]
+    paths:
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_4.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_4.py"
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-4.yml"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_4.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_4.py"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_4.json"
+  pull_request:
+    branches: [main]
     paths:
       - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
       - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_4.py"
@@ -15,6 +25,7 @@ permissions:
   actions: read
 jobs:
   verify-original-run-and-memory:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:

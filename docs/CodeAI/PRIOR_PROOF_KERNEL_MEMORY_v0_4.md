@@ -55,3 +55,25 @@ No canonical authority is asserted for this research checkout, no live
 model is called, no candidate is produced or applied. The duplicate NEW
 fixture must stop before a second provider call. Existing integration
 requires a current authenticated canonical observation independently.
+
+## v0.3 canonical integration and v0.4 admission evidence
+
+2026-11-24: PR #3639 merged at 669ee6b33306479b6f2ccf805b728c1ef5af0d85 after exact-head
+Governance run 45331682546 attempt 3 completed (162/162 jobs), including
+10433-job Strict Lean. The source, test-merge and merged Git trees are
+identical (63c81e8792dfbcf0df56d0bd4c67f8c21f32278c). Existing formal
+and lean source subtrees, Lake configuration and pins remain unchanged.
+
+The v0.4 end-to-end replay at 0579dc58c99cf40a0321bc76e07ce652b89ea605 completed SUCCESS
+(run 45362676578, job 138336388719): eight actual-memory replay tests and
+eight review/routing/boundary tests. Actual CodeAI callback marker:
+matched=2 provider_calls=1 candidate_count=0 duplicate_provider_calls=0.
+The review and canonical-scope label are explicitly synthetic fixture
+inputs; no external model was invoked, no mathematical novelty certified.
+
+Preserve the certified v0.4 implementation and packet bytes. Extend its
+historical-artifact replay trigger to the integration PR and relevant
+main pushes, retaining exact checkout and same-repository PR boundary.
+The initial full-audit registration remains mandatory. Historical runner
+artifacts have limited retention; expiry is not a new positive certificate
+and a new live replay must not silently pass without the required evidence.
