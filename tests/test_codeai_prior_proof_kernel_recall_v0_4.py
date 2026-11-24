@@ -2,7 +2,8 @@
 import copy
 import json
 import unittest
-from scripts.codeai_prior_proof_kernel_recall_v0_4 import read_direct,suffix,PREFIX
+from pathlib import Path
+from scripts.codeai_prior_proof_kernel_recall_v0_4 import read_direct,suffix,PREFIX,canonical_direct_options
 
 N="Kuu.Test.prior"
 ENTRY={"name":N,"expected_direct_refs":["Kuu.Test.support"]}
@@ -51,6 +52,18 @@ class KernelRecallTests(unittest.TestCase):
             read_direct(decorated,[ENTRY])
         with self.assertRaisesRegex(ValueError,"source-local axiom reports disagree"):
             read_direct(plain+"'"+N+"' depends on axioms: [Classical.choice.{u}]\n",[ENTRY])
+
+    def test_direct_reuses_exact_canonical_policy_without_new_exemptions(self):
+        raw=(Path(__file__).resolve().parents[1]/"lakefile.toml").read_bytes()
+        options=canonical_direct_options(raw)
+        self.assertIn("-DwarningAsError=true",options)
+        self.assertIn("-Dweak.sorryAsError=true",options)
+        self.assertIn("-Dlinter.unnecessarySimpa=false",options)
+        self.assertEqual(len(options),9)
+        with self.assertRaisesRegex(ValueError,"Lake config blob drift"):
+            canonical_direct_options(raw+b"\n")
+        with self.assertRaisesRegex(ValueError,"Lake config blob drift"):
+            canonical_direct_options(raw.replace(b"warningAsError = true",b"warningAsError = false"))
 
     def test_name_injection_refused(self):
         self.assertIn("#check @"+N,suffix([N]))

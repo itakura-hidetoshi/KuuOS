@@ -54,3 +54,30 @@ Do not silently normalize arbitrary axiom strings. Add two regressions,
 including the actual decorated-name failure shape. The old failure
 artifact is retained; the new source must pass direct Lean, actual MCP
 and independent runner before any positive admission.
+
+## R2: original canonical Lake compiler options (2026-11-24)
+
+R1 run 45333970598, job 138241578635: 8/8 tests, original module
+build 8408/8408 SUCCESS. Direct LEC reports now agree. Downloaded artifact
+14892769483 includes direct-0.log and direct-1.log and both complete
+scratch sources. All three selected observations were emitted. For the
+R1 source-local report: LEC iff type/proof constants 8/13, LEC obstruction
+iff 8/10 (the exact current observation supersedes earlier counts for
+this run), Qi Slot injectivity 6/17. LEC reports Classical.choice only;
+Qi reports the three standard axioms. Qi scratch exited 1 on original
+later theorem nativeC60GaugeSlot_surjective, line 124: unnecessarySimpa.
+Neither MCP nor independent runner ran. Do not treat partial output as
+admitted.
+
+Root cause: canonical lakefile.toml blob
+947bac41f9535a7ba2ef03a93081cdfbc1b946f7 explicitly sets
+linter.unnecessarySimpa=false in its pre-existing KuuOSFormal leanOptions
+for preserved source. Lake's module setup passes library leanOptions;
+plain lake env lean does not reproduce that library setup. Pinned Lean
+Lake Config/LeanLib.lean and Build/Module.lean confirm the mechanism.
+R2 verifies the exact existing Lake blob, reads its fixed eight options,
+and passes precisely those plus the existing weak.sorryAsError=true to
+the direct scratch compilation. Strict warningAsError=true remains.
+No additional linter exemption, proof rewrite, source trim, root or pin
+change is made. Canonical config drift fails closed. Record the actual
+options in both runner receipts, compare them on independent observation.

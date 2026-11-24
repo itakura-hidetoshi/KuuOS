@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tomllib
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
@@ -44,6 +45,31 @@ PLANS=[
      "query":"c60 gauge slot injective",
      "names":{QI+"nativeC60GaugeSlot_injective":[QI+"nativeC60GaugeSlot_index"]}}
 ]
+
+# The actual Lake compiler options of the frozen original public library.
+# Direct "lake env lean" does not inherit its module-setup leanOptions.
+# Reproduce precisely the existing canonical policy, never introduce a new
+# linter exemption or relax kernel / warning / sorry checks in the scratch run.
+LAKEFILE_BLOB="947bac41f9535a7ba2ef03a93081cdfbc1b946f7"
+CANONICAL_LEAN_OPTIONS={
+    "warningAsError": True,
+    "linter.unnecessarySimpa": False,
+    "linter.unusedVariables": False,
+    "linter.unusedSectionVars": False,
+    "weak.linter.unreachableTactic": False,
+    "weak.linter.unnecessarySeqFocus": False,
+    "weak.linter.unusedTactic": False,
+    "weak.linter.unusedSimpArgs": False,
+}
+
+def canonical_direct_options(raw):
+    if git_blob(raw)!=LAKEFILE_BLOB:
+        raise ValueError("NO_DATA: canonical Lake config blob drift")
+    config=tomllib.loads(raw.decode("utf-8"))
+    libraries=[x for x in config["lean_lib"] if x["name"]=="KuuOSFormal"]
+    if len(libraries)!=1 or libraries[0].get("leanOptions")!=CANONICAL_LEAN_OPTIONS:
+        raise ValueError("NO_DATA: canonical library options differ")
+    return ["-D"+k+"="+str(v).lower() for k,v in sorted(CANONICAL_LEAN_OPTIONS.items())]+["-Dweak.sorryAsError=true"]
 
 def save(p,obj):
     p.write_text(json.dumps(obj,sort_keys=True,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
@@ -156,6 +182,9 @@ def direct(root,out):
     if "4.30.0-rc2" not in ver:
         raise ValueError("Lean executable pin mismatch")
     save(out/"selection.json",selected)
+    options=canonical_direct_options((root/"lakefile.toml").read_bytes())
+    save(out/"canonical-direct-options.json",{"lakefile_blob":LAKEFILE_BLOB,"argv":options})
+    print("KUUOS_DIRECT_CANONICAL_OPTIONS",json.dumps(options),flush=True)
     results=[]
     for i,p in enumerate(PLANS):
         raw=(root/p["path"]).read_bytes()
@@ -166,8 +195,7 @@ def direct(root,out):
         with local.open("xb") as f:
             f.write(appended)
         try:
-            result=subprocess.run(["lake","env","lean","-DwarningAsError=true",
-                                   "-Dweak.sorryAsError=true",str(local.relative_to(root))],
+            result=subprocess.run(["lake","env","lean",*options,str(local.relative_to(root))],
                                   cwd=root,text=True,capture_output=True,timeout=900)
         except subprocess.TimeoutExpired as e:
             def txt(x): return x.decode("utf-8","replace") if isinstance(x,bytes) else x or ""
@@ -178,7 +206,14 @@ def direct(root,out):
         if result.returncode:
             print(log[-16000:],flush=True)
             raise ValueError("direct Lean exit "+str(result.returncode))
-        rows=read_direct(log,[r for r in selected if r["path"]==p["path"]])
+        try:
+            rows=read_direct(log,[r for r in selected if r["path"]==p["path"]])
+        except ValueError:
+            print(log[-16000:],flush=True)
+            raise
+        print("KUUOS_DIRECT_MODULE",p["module"],"exit=0",json.dumps([
+            {"name":row["name"],"type_constants":len(row["type_constants"]),
+             "proof_constants":len(row["proof_constants"]),"axioms":row["axioms"]} for row in rows]),flush=True)
         for row in rows:
             row.update(original_source_sha256=sha(raw),scratch_source_sha256=sha(appended),
                        compiler_log_sha256=sha(log.encode()))
@@ -192,6 +227,7 @@ def direct(root,out):
              "source_head":os.environ["GITHUB_SHA"],"source_tree":cat["source_tree"],
              "source_subtrees":cat["source_subtrees"],"catalog_digest":cat["catalog_digest"],
              "pins":cat["pins"],"plan_digest":digest(selected),
+             "lakefile_blob":LAKEFILE_BLOB,"canonical_direct_options":options,
              "observations":sorted(results,key=lambda x:x["name"]),
              "status":"DIRECT_SOURCE_LOCAL_OBSERVATION_GREEN",
              "original_sources_unchanged":True,"independent_runner_verified":False,
@@ -270,7 +306,8 @@ def independent(out,first):
     old=json.loads((first/"direct.json").read_text())
     new=json.loads((out/"direct.json").read_text())
     m=json.loads((first/"mcp.json").read_text())
-    for k in ("source_head","source_tree","catalog_digest","plan_digest","pins","source_subtrees"):
+    for k in ("source_head","source_tree","catalog_digest","plan_digest","pins","source_subtrees",
+              "lakefile_blob","canonical_direct_options"):
         if old[k]!=new[k]: raise ValueError("independent source mismatch: "+k)
     if m["status"]!="REAL_LEAN_MCP_RECALL_GREEN" or m["direct_receipt_digest"]!=digest(old) or m["source_head"]!=old["source_head"]:
         raise ValueError("NO_DATA: first MCP receipt unbound")
