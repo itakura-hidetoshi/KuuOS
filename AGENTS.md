@@ -56,3 +56,19 @@ result. The subject gate adds to, not replaces, v0.1 and ordinary repair
 memory. An unknown topic is NO_DATA, not mathematical novelty. A stale
 anchor requires source re-observation, not automatic re-proving.
 See `docs/KUUOS_CODEAI_PRIOR_PROOF_SUBJECT_RECALL_v0_2.md`.
+
+## Whole-library prior-proof recall v0.3 (additive)
+
+Before new mathematical research, supplement the curated subject catalog with
+exact-tree-bound repository-wide recall described in
+`docs/KUUOS_CODEAI_PRIOR_PROOF_LIBRARY_INDEX_v0_3.md`.
+The automatic lexical catalog must be tied to the current GitHub-observed
+source tree; search by research concepts, not only remembered declaration
+names. Review all retrieved declarations and preserve parser gaps. New
+mathematical provider proposals use `build_library_research_synthesis` in
+`runtime/kuuos_codeai_prior_proof_library_index_v0_3.py` in addition to the
+existing v0.1/v0.2 gates. An MCP-only session must conduct equivalent broad
+source retrieval and comparison without claiming this scanner executed.
+Neither lexical previews nor module-import candidates replace actual Lean
+elaboration, proof history or mathematical comparison. Search miss or
+truncation is NO_DATA/HOLD; no automatic novelty or authority.

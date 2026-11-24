@@ -1,0 +1,57 @@
+name: CodeAI repository-wide prior-proof library index v0.3
+on:
+  push:
+    branches: [main, research/codeai-library-prior-proof-recall-v03-20261124]
+    paths:
+      - "formal/**"
+      - "lean/**"
+      - "lean-toolchain"
+      - "lake-manifest.json"
+      - "lakefile.toml"
+      - "runtime/kuuos_codeai_prior_proof_library_index_v0_3.py"
+      - "scripts/codeai_prior_proof_library_index_v0_3.py"
+      - "tests/test_codeai_prior_proof_library_index_v0_3.py"
+      - "ci/check_registry.d/codeai_prior_proof_library_v0_3.json"
+      - "scripts/check_kuuos_lean_mcp_fullsource_v1.py"
+      - "scripts/kuuos_sandbox_lean_cycle_v1.py"
+      - ".github/workflows/codeai-prior-proof-library-v0-3.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_prior_proof_library_index_v0_3.py"
+      - "scripts/codeai_prior_proof_library_index_v0_3.py"
+      - "tests/test_codeai_prior_proof_library_index_v0_3.py"
+      - "ci/check_registry.d/codeai_prior_proof_library_v0_3.json"
+      - "scripts/check_kuuos_lean_mcp_fullsource_v1.py"
+      - "scripts/kuuos_sandbox_lean_cycle_v1.py"
+      - ".github/workflows/codeai-prior-proof-library-v0-3.yml"
+permissions:
+  contents: read
+jobs:
+  exact-source-library-index:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Read-only fixture and routing tests
+        run: python3 -m unittest -v tests.test_codeai_prior_proof_library_index_v0_3.LibraryFixtureTests tests.test_codeai_prior_proof_library_index_v0_3.RoutingTests
+      - name: Reconstruct actual formal and lean Git trees and export entire lexical catalog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OBSERVATION_SCOPE: ${{ github.event_name == 'pull_request' && 'pr_test_merge' || (github.ref == 'refs/heads/main' && 'canonical_main' || 'research_head') }}
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_prior_proof_library_index_v0_3.py --source-head "$GITHUB_SHA" --scope "$OBSERVATION_SCOPE" --out artifacts/prior-proof-library-v03
+      - name: Actual whole-library and outside-curated-subject retrieval regression
+        env:
+          KUUOS_LIBRARY_CATALOG_DIR: artifacts/prior-proof-library-v03
+        run: python3 -m unittest -v tests.test_codeai_prior_proof_library_index_v0_3.RealCatalogTests
+      - name: Preserve exact source-bound retrieval catalog, not proof certification
+        uses: actions/upload-artifact@v4
+        with:
+          name: prior-proof-library-v03-${{ github.sha }}
+          path: artifacts/prior-proof-library-v03/
+          if-no-files-found: error
+          retention-days: 30

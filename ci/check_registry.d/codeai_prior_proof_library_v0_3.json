@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "The complete source-tree lexical catalog is retrieval evidence only, not a Lean proof, exact type elaboration, semantic novelty or authority certificate.",
+      "First registry registration retains existing full audit; unknown and formal changes retain strict checks."
+    ]
+  },
+  "checks": {
+    "codeai-prior-proof-library-v03": {
+      "name": "CodeAI whole-source prior-proof recall v0.3 and governance boundary",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_codeai_prior_proof_library_index_v0_3.LibraryFixtureTests tests.test_codeai_prior_proof_library_index_v0_3.RoutingTests",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/codeai-prior-proof-library-v0-3.yml",
+        "AGENTS.md",
+        "ci/check_registry.d/codeai_prior_proof_library_v0_3.json",
+        "docs/KUUOS_CODEAI_PRIOR_PROOF_LIBRARY_INDEX_v0_3.md",
+        "runtime/kuuos_codeai_prior_proof_library_index_v0_3.py",
+        "scripts/codeai_prior_proof_library_index_v0_3.py",
+        "tests/test_codeai_prior_proof_library_index_v0_3.py",
+        "scripts/check_kuuos_lean_mcp_fullsource_v1.py",
+        "scripts/kuuos_sandbox_lean_cycle_v1.py"
+      ],
+      "depends_on": [
+        "codeai-prior-proof-recall-v02",
+        "ci-audit-tests",
+        "runtime-full",
+        "workflow-integrity"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
