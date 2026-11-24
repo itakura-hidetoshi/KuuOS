@@ -242,3 +242,28 @@ incomplete selections, non-new F112 source and full audits).
 The tests run both in the PR selection preflight and in the cache-routing
 regression workflow. Measured latency improvement requires a later real F112
 PR run and is not estimated from the synthetic regression.
+
+## 2026-11-24 — canonical main publisher resume candidate
+
+Actual main-push publisher run 45313991429, job 138176272628, at
+ff0c871aca2a37df4fb1753c0319321b8419b413 was cold-cache, cancelled near
+9828/10433, and never saved the verified main workspace. Canonical
+669ee6b33306479b6f2ccf805b728c1ef5af0d85 has identical formal/lean
+subtree, toolchain, manifest, lakefile, publisher workflow and strict
+build script identities. PR #3640 run 45370366247 again restored no
+main cache and timed out at 9823/10433, but did save its own PR overlay.
+
+Candidate: a distinct exact main-push commit/pinned configuration
+resume namespace for .lake/build. Only the existing canonical main
+publisher restores and saves it. Root compilation is bounded at 75m
+and the existing frontier loop at 25m, reserving time for checkpoint
+upload before the original 120m job limit. Save root checkpoint after
+exit 0 or 124, frontier checkpoint only after exit 124; keep nonzero
+step status, dirty-source rejection and strict build wrapper.
+The verified kuuos-lake workspace remains success-only after all
+original checks; PRs never read the unverified main resume namespace.
+No proof root, theorem, pin, or PR-governance gate is changed.
+A retry on the same main push can continue from its own saved progress.
+An actual speedup and successful main publication remain unobserved
+until a real canonical build executes this candidate. First run the
+existing cache-routing regression in a separate sandbox branch.

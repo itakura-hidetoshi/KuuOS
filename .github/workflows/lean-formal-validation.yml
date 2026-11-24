@@ -60,6 +60,17 @@ jobs:
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      # Exact main-push resume state is separate from the verified main cache.
+      # It is never restored by child PRs or published as a proof receipt.
+      - name: Restore canonical main build resume overlay
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.lake-workspace.outputs.cache-hit != 'true'
+        id: main-resume
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-main-resume-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'scripts/build_lean4.sh', '.github/workflows/lean-formal-validation.yml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-restore
+          restore-keys: |
+            kuuos-main-resume-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'scripts/build_lean4.sh', '.github/workflows/lean-formal-validation.yml') }}-${{ github.sha }}-
       # The large Mathlib/package workspace is shared from main. F112
       # publishes ONLY its own small .lake/build overlay after validation,
       # rather than a duplicate multi-GB .lake archive on every P-stage.
@@ -91,15 +102,37 @@ jobs:
           git diff --exit-code -- lake-manifest.json lean-toolchain
 
       - name: Compile pinned Lean 4 target without rewriting dependencies
+        id: compile-target
         shell: bash
         env:
           MATCHED_LAKE_KEY: ${{ steps.lake-workspace.outputs.cache-matched-key }}
+          CANONICAL_MAIN_PUSH: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: |
           set -euo pipefail
           echo "Restored Lake workspace: ${MATCHED_LAKE_KEY:-cold-cache}"
-          bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
-            2>&1 | tee lean-formal-validation.log
-          git diff --exit-code -- lake-manifest.json lean-toolchain
+          if [[ "$CANONICAL_MAIN_PUSH" == 'true' ]]; then
+            # Keep time for checkpoint upload. A timeout remains a failed
+            # step, not a proof or verified cache publication.
+            set +e
+            timeout --signal=TERM --kill-after=30s 75m bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
+              2>&1 | tee lean-formal-validation.log
+            result=("${PIPESTATUS[@]}")
+            set -e
+            git diff --exit-code -- formal lean lake-manifest.json lean-toolchain lakefile.toml
+            if (( result[1] != 0 )); then exit "${result[1]}"; fi
+            printf 'root_exit_code=%s\n' "${result[0]}" >> "$GITHUB_OUTPUT"
+            exit "${result[0]}"
+          else
+            bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
+              2>&1 | tee lean-formal-validation.log
+            git diff --exit-code -- lake-manifest.json lean-toolchain
+          fi
+      - name: Save canonical main root resume checkpoint
+        if: always() && !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.lake-workspace.outputs.cache-hit != 'true' && (steps.compile-target.outputs.root_exit_code == '0' || steps.compile-target.outputs.root_exit_code == '124')
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-main-resume-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'scripts/build_lean4.sh', '.github/workflows/lean-formal-validation.yml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-root
       # KuuOSFormal does not import every theorem-bearing DO frontier.
       # On trusted main only, compile the newest committed DO version chain
       # with exactly the same strict Lean options as PR validation. The
@@ -108,6 +141,7 @@ jobs:
       # No cached result is treated as proof: Lake still hashes every input
       # and rebuilds any changed modules on each PR's exact HEAD.
       - name: Warm current dependent-origination theorem spine for PR caches
+        id: warm-frontier
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
@@ -141,10 +175,25 @@ jobs:
           # auxiliary LibrarySuggestions export-index panic. Kernel errors,
           # sorry, warnings, and other panics still fail closed.
           : > lean-frontier-cache-warm.log
-          for target in "${frontier_targets[@]}"; do
-            bash scripts/build_lean4.sh --no-update --no-cache --target "$target" \
-              2>&1 | tee -a lean-frontier-cache-warm.log
-          done
+          set +e
+          timeout --signal=TERM --kill-after=30s 25m bash -c '
+            set -euo pipefail
+            for target in "$@"; do
+              bash scripts/build_lean4.sh --no-update --no-cache --target "$target" \
+                2>&1 | tee -a lean-frontier-cache-warm.log
+            done
+          ' _ "${frontier_targets[@]}"
+          result=$?
+          set -e
+          git diff --exit-code -- formal lean lake-manifest.json lean-toolchain lakefile.toml
+          printf 'frontier_exit_code=%s\n' "$result" >> "$GITHUB_OUTPUT"
+          exit "$result"
+      - name: Save canonical main frontier timeout resume checkpoint
+        if: always() && !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.lake-workspace.outputs.cache-hit != 'true' && steps.warm-frontier.outputs.frontier_exit_code == '124'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-main-resume-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'scripts/build_lean4.sh', '.github/workflows/lean-formal-validation.yml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-frontier
 
       # P24 (or the latest subsequently merged P-stage) is not a public
       # aggregate import yet. Compile this real theorem spine on the

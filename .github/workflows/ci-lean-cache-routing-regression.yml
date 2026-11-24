@@ -2,6 +2,12 @@ name: Lean CI Cache Routing Regression
 
 on:
   workflow_dispatch:
+  push:
+    branches: [research/canonical-main-lean-resume-cache-20261124]
+    paths:
+      - '.github/workflows/lean-formal-validation.yml'
+      - '.github/workflows/ci-lean-cache-routing-regression.yml'
+      - 'tests/test_ci_lean_cache_topology.py'
   pull_request:
     paths:
       - '.github/workflows/codeai-*.yml'

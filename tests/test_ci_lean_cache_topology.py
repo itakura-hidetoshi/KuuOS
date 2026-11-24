@@ -285,6 +285,73 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 ))
                 self.assertEqual(names, audited)
 
+    def test_canonical_main_resume_checkpoint_is_not_verified_cache(self):
+        main = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")
+        gate = (WORKFLOWS / "pr-governance-gate.yml").read_text(encoding="utf-8")
+        def step(name):
+            return main.split("      - name: "+name+"\n",1)[1].split("\n      - name:",1)[0]
+        restore=step("Restore canonical main build resume overlay")
+        root=step("Save canonical main root resume checkpoint")
+        frontier=step("Save canonical main frontier timeout resume checkpoint")
+        verified=step("Save verified main Lake workspace cache")
+        for value in (restore,root,frontier):
+            self.assertIn("github.event_name == 'push' && github.ref == 'refs/heads/main'",value)
+            self.assertIn("path: .lake/build",value)
+            self.assertIn("kuuos-main-resume-v1-",value)
+            self.assertIn("github.sha",value)
+            self.assertIn("hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'scripts/build_lean4.sh', '.github/workflows/lean-formal-validation.yml')",value)
+            self.assertNotIn("key: kuuos-lake-",value)
+        self.assertIn("actions/cache/restore@v5",restore)
+        self.assertIn("restore-keys:",restore)
+        self.assertIn("root_exit_code == '124'",root)
+        self.assertIn("root_exit_code == '0'",root)
+        self.assertIn("frontier_exit_code == '124'",frontier)
+        for value in (root,frontier):
+            self.assertIn("always() && !cancelled()",value)
+            self.assertIn("actions/cache/save@v5",value)
+        self.assertIn("success() && github.event_name == 'push'",verified)
+        self.assertIn("path: .lake\n",verified)
+        self.assertNotIn("kuuos-main-resume-v1-",gate)
+        self.assertLess(main.index("Save canonical main root resume checkpoint"),
+                        main.index("Warm current dependent-origination theorem spine for PR caches"))
+        self.assertLess(main.index("Save canonical main frontier timeout resume checkpoint"),
+                        main.index("Save verified main Lake workspace cache"))
+        self.assertIn("timeout --signal=TERM --kill-after=30s 75m",main)
+        self.assertIn("timeout --signal=TERM --kill-after=30s 25m",main)
+        self.assertIn('exit "@{result[0]}"'.replace("@{","$"+chr(123)),main)
+        self.assertIn('exit "$result"',main)
+
+    def test_main_root_shell_preserves_status_and_refuses_dirty_source(self):
+        import os
+        import subprocess
+        import tempfile
+        from textwrap import dedent
+        main = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")
+        block = main.split("      - name: Compile pinned Lean 4 target without rewriting dependencies\n",1)[1]
+        block = block.split("        run: |\n",1)[1].split("\n      - name:",1)[0]
+        body = dedent(block)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            bin_dir=root/"bin"; bin_dir.mkdir()
+            # Deterministic timeout/dirty-check fixture; no Lean or GitHub call.
+            timeout=bin_dir/"timeout"
+            timeout.write_text('#!/bin/bash\nexit "$FIXTURE_STATUS"\n')
+            timeout.chmod(0o755)
+            git=bin_dir/"git"
+            git.write_text('#!/bin/bash\nexit "$FIXTURE_DIRTY"\n')
+            git.chmod(0o755)
+            output=root/"step-output"
+            for status,dirty in ((0,0),(124,0),(1,0),(137,0),(0,1),(124,1)):
+                with self.subTest(status=status,dirty=dirty):
+                    output.write_text("")
+                    env=dict(os.environ,PATH=str(bin_dir)+os.pathsep+os.environ["PATH"],
+                             MATCHED_LAKE_KEY="",CANONICAL_MAIN_PUSH="true",
+                             KUUOS_LEAN_TARGET="KuuOSFormal",GITHUB_OUTPUT=str(output),
+                             FIXTURE_STATUS=str(status),FIXTURE_DIRTY=str(dirty))
+                    done=subprocess.run(["bash","-c",body],cwd=root,env=env,capture_output=True,text=True)
+                    self.assertEqual(done.returncode,dirty or status,done.stderr)
+                    self.assertEqual(output.read_text(),"" if dirty else "root_exit_code="+str(status)+"\n")
+
 
 if __name__ == "__main__":
     unittest.main()
