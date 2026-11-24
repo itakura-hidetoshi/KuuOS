@@ -1,19 +1,39 @@
 name: CodeAI v0.5 immutable combined memory and research admission replay
 on:
   push:
-    branches: [research/codeai-library-kernel-frontier-v05-20261125]
+    branches: [main, research/codeai-library-kernel-frontier-v05-20261125]
     paths:
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-5.yml"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_5.json"
       - "memoryos/research_prior_proof_kernel_observation_v0_5.json"
       - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_5.py"
       - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_projection_v0_5.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_frontier_v0_5.py"
       - "tests/test_codeai_prior_proof_kernel_memory_v0_5.py"
       - "tests/test_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
+  pull_request:
+    branches: [main]
+    paths:
       - ".github/workflows/codeai-prior-proof-kernel-memory-v0-5.yml"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_5.json"
+      - "memoryos/research_prior_proof_kernel_observation_v0_5.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_5.py"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_projection_v0_5.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_frontier_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
 permissions:
   contents: read
   actions: read
 jobs:
   replay-and-research-admission:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
