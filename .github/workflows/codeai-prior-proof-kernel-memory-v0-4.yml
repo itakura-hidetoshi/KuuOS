@@ -74,4 +74,13 @@ jobs:
           KUUOS_KERNEL_FRESH: historical-recall/independent
         run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_memory_v0_4
       - name: Research admission context and canonical governance regressions
-        run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_research_gate_v0_4
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KUUOS_KERNEL_FIRST: historical-recall/first
+          KUUOS_KERNEL_FRESH: historical-recall/independent
+        run: |
+          set -euo pipefail
+          test -f "$KUUOS_KERNEL_FIRST/direct.json"
+          test -f "$KUUOS_KERNEL_FRESH/independent.json"
+          python3 -m unittest -v tests.test_codeai_prior_proof_kernel_research_gate_v0_4 2>&1 | tee research-admission.log
+          grep -F 'KUUOS_ACTUAL_CODEAI_KERNEL_RECALL_BOUNDARY_REPLAY' research-admission.log
