@@ -1,0 +1,71 @@
+name: CodeAI v0.5 immutable combined memory and research admission replay
+on:
+  push:
+    branches: [research/codeai-library-kernel-frontier-v05-20261125]
+    paths:
+      - "memoryos/research_prior_proof_kernel_observation_v0_5.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_5.py"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_5.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-5.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  replay-and-research-admission:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-local-45502007330-1
+          run-id: 45502007330
+          github-token: ${{ github.token }}
+          path: historical-v05/first
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-independent-45502007330-1
+          run-id: 45502007330
+          github-token: ${{ github.token }}
+          path: historical-v05/independent
+      - name: Reproduce actual archived packet and compare committed projection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_prior_proof_kernel_frontier_projection_v0_5.py --first historical-v05/first --fresh historical-v05/independent --out artifacts/frontier-v05/packet.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          from runtime.kuuos_codeai_prior_proof_kernel_memory_v0_5 import load_packets
+          _, committed = load_packets(Path.cwd())
+          if json.loads(Path("artifacts/frontier-v05/packet.json").read_text()) != committed:
+              raise SystemExit("HOLD: actual projection differs from committed packet")
+          print("KUUOS_V05_COMMITTED_PACKET_REPRODUCED")
+          PY
+      - name: Combined exact-source recall and original CodeAI boundary regressions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KUUOS_KERNEL_FIRST: historical-v05/first
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_codeai_prior_proof_kernel_memory_v0_5 tests.test_codeai_prior_proof_kernel_research_gate_v0_5 2>&1 | tee combined-replay.log
+          grep -F 'KUUOS_V05_ACTUAL_COMBINED_RECALL 13/13' combined-replay.log
+          grep -F 'KUUOS_ACTUAL_CODEAI_V05_COMBINED_BOUNDARY_REPLAY' combined-replay.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prior-proof-kernel-combined-memory-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/frontier-v05/
+            combined-replay.log
+          retention-days: 30
+          if-no-files-found: warn
