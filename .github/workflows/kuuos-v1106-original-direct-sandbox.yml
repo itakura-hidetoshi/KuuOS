@@ -1,0 +1,82 @@
+name: "KuuOS v1.106 original source direct Lean CodeAI sandbox (no independent CI)"
+
+on:
+  push:
+    branches:
+      - 'research/v1106-codeai-original-direct-20261124'
+    paths:
+      - '.github/workflows/kuuos-v1106-original-direct-sandbox.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-18-declaration-local-lean-only:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 100
+    env:
+      PYTHONPATH: .
+    steps:
+      - name: Checkout exact research source, no persisted credentials
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Python 3.12 bootstrap
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin Lean without automatic whole-PR build
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned mathlib and KuuOS dependency cache when present
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Pin 18 exact original declarations and frozen v1.105 dependency
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/ci_kuuos_v1106_original_direct_sandbox.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          from scripts import kuuos_sandbox_lean_cycle_v1 as c
+          sources={
+              'scripts/ci_kuuos_v1106_original_direct_sandbox.py':'c548df358026dcb18f59c43bc4a903eb1b4f989c',
+              'scripts/kuuos_sandbox_lean_cycle_v1.py':'5383253dbe9cda9cab90a410c2fd66ee6b9d6f41',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.lean':'6e06ac88c2b1cdadcb0d0f7496281892a3549c64',
+              'legacy/v5.291/formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.lean':'6e06ac88c2b1cdadcb0d0f7496281892a3549c64',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105.lean':'725b4d73037655576d495e32a6e202cd1affaf15',
+              'formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean':'5c911aaeb9a21baff57f6af8c8655309af47d027',
+          }
+          for p,b in sources.items():
+              assert c.git_blob(Path(p).read_bytes())==b,p
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          assert [x['rev'] for x in json.loads(Path('lake-manifest.json').read_text())['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('KUUOS_V1106_ORIGINAL_EXACT_PINS_18_DECLARATIONS')
+          PY
+      - name: Build exact certified v1.105 dependency only
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105
+      - name: Diagnose actual v1.106 Lean code and retain all error goals
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_kuuos_v1106_original_direct_sandbox.py
+      - name: Retain original direct Lean RED or GREEN evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1106-original-source-direct-18-receipt
+          path: /tmp/kuuos-v1106-original-local-diagnostics/
+          if-no-files-found: warn
+          retention-days: 30
