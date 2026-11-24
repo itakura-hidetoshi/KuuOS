@@ -1,0 +1,193 @@
+{
+  "schema": "kuuos.prior-proof-kernel-memory.v0.4",
+  "source_head": "ffad0422d9d0c33a6c97064dc051eeebf163fc2f",
+  "source_tree": "8f7919f8291324602bbbc79a70711218ab47838e",
+  "source_subtrees": {
+    "formal": "facf2c867536127e655fefd379e4224ea98a8c4b",
+    "lean": "e96df2a7e90a22bdfbea790e46bef4bad4d3eede"
+  },
+  "pins": {
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+  },
+  "lakefile_blob": "947bac41f9535a7ba2ef03a93081cdfbc1b946f7",
+  "canonical_direct_options": [
+    "-Dlinter.unnecessarySimpa=false",
+    "-Dlinter.unusedSectionVars=false",
+    "-Dlinter.unusedVariables=false",
+    "-DwarningAsError=true",
+    "-Dweak.linter.unnecessarySeqFocus=false",
+    "-Dweak.linter.unreachableTactic=false",
+    "-Dweak.linter.unusedSimpArgs=false",
+    "-Dweak.linter.unusedTactic=false",
+    "-Dweak.sorryAsError=true"
+  ],
+  "catalog_digest": "3a702afe563647bc9cc71ff1b44a8684ebe0be92292f21e721e99f1a91082a6c",
+  "plan_digest": "a42c49e9d6955ba01cdcbc29696953bef5c3a3f25a53a92883154dab1429dd42",
+  "provenance": {
+    "run_id": 45340830532,
+    "run_attempt": 1,
+    "sandbox_job": 138263823861,
+    "independent_job": 138266390275,
+    "local_artifact_id": 14895274662,
+    "local_artifact_sha256": "3b7bd4351e9088a85c5cc81a8a1933c86125d6db2fa48937ac524150c314c8d4",
+    "independent_artifact_id": 14896267431,
+    "independent_artifact_sha256": "153d3d2260d34c58f1e19a79370d9bf63d1fbabee9d41aa39c71be0c678e986d",
+    "direct_receipt_digest": "8c0bffa4438db83578dc423b15dd7b5df2c701a6b88a71601a98f79029df7391",
+    "independent_direct_receipt_digest": "8c0bffa4438db83578dc423b15dd7b5df2c701a6b88a71601a98f79029df7391",
+    "mcp_receipt_digest": "3f1b15c8fad8bf6de654f4ba8a1af0523474ebdac7fe917d774ef7a744865a8c",
+    "independent_receipt_digest": "db258c971549ab623f53e5309278a1f7a73a8b17059490fbe02c174f7cefcc32",
+    "mcp_version": "0.30.0"
+  },
+  "observations": [
+    {
+      "name": "KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot_injective",
+      "path": "formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean",
+      "blob": "836a0cccc0263e33d652da6b9391e4d5c07cb368",
+      "line": 58,
+      "module": "KUOS.Architecture.QiWuxingNativeC60GaugeV3_4",
+      "lexical_id": "96d997b230b328b91ebfc7ef9e4a7d3922fc61f7fbbb420c4b12fcc4909f5a8f",
+      "signature_preview_digest": "8e08dcf5c6a7337551552e268662aa9d8ea4d2f9c8c4829fe2478f7fd1308ad2",
+      "original_source_sha256": "5bef2fa36087ac89280be7d27380cc37870107ca10c10641bb29a3819fe20ce6",
+      "type_pretty": "∀ (frame : KUOS.Architecture.WuxingCyclicPaths.NativeC60FivePhaseGauge) (v : Kuu.F112.Physical.Vertex),\n  @Function.Injective.{1, 1} KUOS.Architecture.FivePhase Kuu.F112.Physical.Slot\n    (KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot frame v)",
+      "type_expr_sha256": "d5a0854fbfeac21f90a473666305cb63b206c86cc23471ed1d756c0976e9c816",
+      "universe_parameters": [],
+      "type_constants": [
+        "Function.Injective",
+        "KUOS.Architecture.FivePhase",
+        "KUOS.Architecture.WuxingCyclicPaths.NativeC60FivePhaseGauge",
+        "KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot",
+        "Kuu.F112.Physical.Slot",
+        "Kuu.F112.Physical.Vertex"
+      ],
+      "proof_constants": [
+        "DFunLike.coe",
+        "Eq",
+        "Eq.mp",
+        "Equiv",
+        "Equiv.injective",
+        "Equiv.instEquivLike",
+        "EquivLike.toFunLike",
+        "KUOS.Architecture.FivePhase",
+        "KUOS.Architecture.WuxingCyclicPaths.NativeC60FivePhaseGauge",
+        "KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot",
+        "KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot_index",
+        "KUOS.Architecture.WuxingCyclicPaths.rotation",
+        "Kuu.F112.Physical.Ring",
+        "Kuu.F112.Physical.Slot",
+        "Kuu.F112.Physical.Vertex",
+        "Kuu.F112.Physical.slotIndex",
+        "congrArg"
+      ],
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "expected_direct_refs": [
+        "KUOS.Architecture.WuxingCyclicPaths.nativeC60GaugeSlot_index"
+      ]
+    },
+    {
+      "path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+      "blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+      "module": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+      "original_source_sha256": "f06e9200667c1df611b8a18bfc97ea9b02e3c873a0ea329b03260f3d288a0077",
+      "universe_parameters": [
+        "uLEC11X",
+        "uLEC11I",
+        "uLEC11Raw",
+        "uLEC11Obs"
+      ],
+      "axioms": [
+        "Classical.choice"
+      ],
+      "name": "Kuu.LivingEngi.no_sourceGlobal_iff_no_overlapFaithful_of_shadowGlobal",
+      "line": 156,
+      "lexical_id": "cb95df95c424d7d203c50e4399639bb6184383e53844cd3a37e9c91e77db582c",
+      "signature_preview_digest": "270c6d9a21c1cea6962c23bbd0805603e6e170224ffbefef76dfd1da0f230fae",
+      "type_pretty": "∀ {X : Type uLEC11X} {I : Type uLEC11I} {Raw : Type uLEC11Raw} {Obs : Type uLEC11Obs} (U : I → Set.{uLEC11X} X)\n  (q : Raw → Obs) (s : @Kuu.LivingEngi.LocalSections.{uLEC11X, uLEC11I, uLEC11Raw} X I U Raw),\n  @Kuu.LivingEngi.Covers.{uLEC11X, uLEC11I} X I U →\n    @Kuu.LivingEngi.HasGlobal.{uLEC11X, uLEC11I, uLEC11Obs} X I Obs U\n        (@Kuu.LivingEngi.shadowSections.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s) →\n      Iff (Not (@Kuu.LivingEngi.HasGlobal.{uLEC11X, uLEC11I, uLEC11Raw} X I Raw U s))\n        (Not (@Kuu.LivingEngi.OverlapFiberFaithful.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s))",
+      "type_expr_sha256": "b3117e46ad3b253d66f05469c81f38416068b8f8ddca8488416b6cab502ecf2c",
+      "type_constants": [
+        "Iff",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowSections",
+        "Not",
+        "Set"
+      ],
+      "proof_constants": [
+        "Iff.intro",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowGlobal_and_overlapFaithful_implies_sourceGlobal",
+        "Kuu.LivingEngi.shadowSections",
+        "Kuu.LivingEngi.sourceGlobal_implies_overlapFaithful",
+        "Not",
+        "Set"
+      ],
+      "expected_direct_refs": [
+        "Kuu.LivingEngi.sourceGlobal_implies_overlapFaithful",
+        "Kuu.LivingEngi.shadowGlobal_and_overlapFaithful_implies_sourceGlobal"
+      ]
+    },
+    {
+      "path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+      "blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+      "module": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+      "original_source_sha256": "f06e9200667c1df611b8a18bfc97ea9b02e3c873a0ea329b03260f3d288a0077",
+      "universe_parameters": [
+        "uLEC11X",
+        "uLEC11I",
+        "uLEC11Raw",
+        "uLEC11Obs"
+      ],
+      "axioms": [
+        "Classical.choice"
+      ],
+      "name": "Kuu.LivingEngi.sourceGlobal_iff_shadowGlobal_and_overlapFaithful",
+      "line": 139,
+      "lexical_id": "a23766167d81a6c30eea5a2c1106f544c94aa41cb2951b947bd506d5bfd13da9",
+      "signature_preview_digest": "1916699d5819b31114af6058fa5c88006218dd47306539960b7198f17df6afa6",
+      "type_pretty": "∀ {X : Type uLEC11X} {I : Type uLEC11I} {Raw : Type uLEC11Raw} {Obs : Type uLEC11Obs} (U : I → Set.{uLEC11X} X)\n  (q : Raw → Obs) (s : @Kuu.LivingEngi.LocalSections.{uLEC11X, uLEC11I, uLEC11Raw} X I U Raw),\n  @Kuu.LivingEngi.Covers.{uLEC11X, uLEC11I} X I U →\n    Iff (@Kuu.LivingEngi.HasGlobal.{uLEC11X, uLEC11I, uLEC11Raw} X I Raw U s)\n      (And\n        (@Kuu.LivingEngi.HasGlobal.{uLEC11X, uLEC11I, uLEC11Obs} X I Obs U\n          (@Kuu.LivingEngi.shadowSections.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s))\n        (@Kuu.LivingEngi.OverlapFiberFaithful.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s))",
+      "type_expr_sha256": "9ef41b5ee229f166dc1806eb4fb0607255a2613e5f875cf0f2cf694e7fa954e7",
+      "type_constants": [
+        "And",
+        "Iff",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowSections",
+        "Set"
+      ],
+      "proof_constants": [
+        "And",
+        "And.casesOn",
+        "And.intro",
+        "Iff.intro",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowGlobal_and_overlapFaithful_implies_sourceGlobal",
+        "Kuu.LivingEngi.shadowSections",
+        "Kuu.LivingEngi.sourceGlobal_implies_overlapFaithful",
+        "Kuu.LivingEngi.sourceGlobal_implies_shadowGlobal",
+        "Set"
+      ],
+      "expected_direct_refs": [
+        "Kuu.LivingEngi.sourceGlobal_implies_shadowGlobal",
+        "Kuu.LivingEngi.sourceGlobal_implies_overlapFaithful",
+        "Kuu.LivingEngi.shadowGlobal_and_overlapFaithful_implies_sourceGlobal"
+      ]
+    }
+  ],
+  "proof_authority": false,
+  "novelty_certified": false,
+  "full_transitive_proof_dependencies_verified": false
+}

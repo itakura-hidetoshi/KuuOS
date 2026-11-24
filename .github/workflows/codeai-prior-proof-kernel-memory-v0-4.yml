@@ -1,0 +1,72 @@
+name: CodeAI v0.4 version-bound kernel memory replay
+on:
+  push:
+    branches: [research/codeai-library-kernel-memory-v04-20261124]
+    paths:
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_4.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_4.py"
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-4.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-original-run-and-memory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Confirm completed original exact-head workflow and actual jobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          from pathlib import Path
+          p=json.loads(Path('memoryos/research_prior_proof_kernel_observation_v0_4.json').read_text())
+          q=p['provenance']
+          def get(path):
+              req=urllib.request.Request('https://api.github.com/repos/itakura-hidetoshi/KuuOS/'+path,
+                  headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req,timeout=45) as resp: return json.load(resp)
+          r=get('actions/runs/'+str(q['run_id']))
+          assert (r['status'],r['conclusion'],r['head_sha'],r['run_attempt'])==('completed','success',p['source_head'],q['run_attempt'])
+          jobs=get('actions/runs/'+str(q['run_id'])+'/jobs?per_page=100')
+          assert jobs['total_count']==2
+          actual={j['id']:j for j in jobs['jobs']}
+          required={q['sandbox_job']:['Direct source-local Lean types, proof constants and axiom observations','Actual Lean MCP hover, diagnostics and verify only after direct green'],
+                    q['independent_job']:['Independently re-elaborate and compare source-local observations']}
+          assert set(actual)==set(required)
+          for jid,names in required.items():
+              j=actual[jid]
+              assert j['status']=='completed' and j['conclusion']=='success' and j['head_sha']==p['source_head']
+              steps={s['name']:s for s in j['steps']}
+              for name in names:
+                  assert steps[name]['status']=='completed' and steps[name]['conclusion']=='success'
+          for kind in ('local','independent'):
+              a=get('actions/artifacts/'+str(q[kind+'_artifact_id']))
+              assert not a['expired'] and a['digest']=='sha256:'+q[kind+'_artifact_sha256']
+              assert a['workflow_run']['id']==q['run_id'] and a['workflow_run']['head_sha']==p['source_head']
+          print('KUUOS_HISTORICAL_RUN_AND_JOB_BINDING_SUCCESS')
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-local-45340830532-1
+          run-id: 45340830532
+          github-token: ${{ github.token }}
+          path: historical-recall/first
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-independent-45340830532-1
+          run-id: 45340830532
+          github-token: ${{ github.token }}
+          path: historical-recall/independent
+      - name: Read-only memory projection and actual whole-library join
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KUUOS_KERNEL_FIRST: historical-recall/first
+          KUUOS_KERNEL_FRESH: historical-recall/independent
+        run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_memory_v0_4
