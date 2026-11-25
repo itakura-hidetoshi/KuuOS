@@ -1,0 +1,113 @@
+name: CodeAI v0.6 direct-reference frontier recall — sandbox then independent
+on:
+  push:
+    branches: [research/codeai-library-kernel-frontier-v06-20261125]
+    paths:
+      - "scripts/codeai_prior_proof_kernel_frontier_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_frontier_v0_6.py"
+      - ".github/workflows/codeai-prior-proof-kernel-frontier-v0-6.yml"
+permissions:
+  contents: read
+  actions: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: '.'
+concurrency:
+  group: prior-proof-kernel-frontier-v06-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sandbox-source-then-mcp:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Negative observation admission fixtures
+        run: python3 -m unittest -v tests.test_codeai_prior_proof_kernel_recall_v0_4 tests.test_codeai_prior_proof_kernel_frontier_v0_5 tests.test_codeai_prior_proof_kernel_frontier_v0_6
+      - name: Install exact pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-bb77a15334187b1a4a1fa7acd21934308e8d1338
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Build original selected modules and dependencies
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/prior-proof-kernel-v06
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build +Kuu.LivingEngi.ScopedGluing +Kuu.LivingEngi.SourceAwareOverlapDescentCriterion +KUOS.Architecture.QiWuxingNativeC60GaugeV3_4 +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1 +Kuu.F112.PolygonBoundary > artifacts/prior-proof-kernel-v06/dependency-build.log 2>&1 || { tail -n 100 artifacts/prior-proof-kernel-v06/dependency-build.log; exit 1; }
+          tail -n 20 artifacts/prior-proof-kernel-v06/dependency-build.log
+      - name: Direct source-local Lean types, proof constants and axiom observations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_prior_proof_kernel_frontier_v0_6.py --phase direct --out artifacts/prior-proof-kernel-v06
+      - name: Install real pinned Lean MCP launcher
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Actual Lean MCP hover, diagnostics and verify only after direct green
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_prior_proof_kernel_frontier_v0_6.py --phase mcp --out artifacts/prior-proof-kernel-v06
+      - name: Preserve actual observation or failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prior-proof-kernel-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/prior-proof-kernel-v06/
+          retention-days: 30
+          if-no-files-found: warn
+  independent-source-observation:
+    needs: sandbox-source-then-mcp
+    if: needs.sandbox-source-then-mcp.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall/
+      - name: Install exact pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-bb77a15334187b1a4a1fa7acd21934308e8d1338
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Build original selected modules and dependencies
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/prior-proof-kernel-v06
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build +Kuu.LivingEngi.ScopedGluing +Kuu.LivingEngi.SourceAwareOverlapDescentCriterion +KUOS.Architecture.QiWuxingNativeC60GaugeV3_4 +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1 +Kuu.F112.PolygonBoundary > artifacts/prior-proof-kernel-v06/dependency-build.log 2>&1 || { tail -n 100 artifacts/prior-proof-kernel-v06/dependency-build.log; exit 1; }
+          tail -n 20 artifacts/prior-proof-kernel-v06/dependency-build.log
+      - name: Independently re-elaborate and compare source-local observations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_prior_proof_kernel_frontier_v0_6.py --phase independent --out artifacts/prior-proof-kernel-v06 --first first-recall
+      - name: Preserve actual observation or failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prior-proof-kernel-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/prior-proof-kernel-v06/
+          retention-days: 30
+          if-no-files-found: warn
