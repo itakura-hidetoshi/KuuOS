@@ -219,5 +219,30 @@ class ProductionRoutingRegression(unittest.TestCase):
             self.assertFalse((old/c.SENTINEL).exists())
             self.assertEqual(sorted(x.name for x in (root/".lake").iterdir()),["build"])
 
+
+class CacheAuthorityControlRouting(unittest.TestCase):
+    def test_producer_verifier_and_registry_changes_require_full_strict(self):
+        from scripts import select_impacted_checks as selector
+        registry=selector.load_registry(ROOT/"ci/check_registry.yaml")
+        for path in (
+            "scripts/ci_verified_lean_project_cache_v1.py",
+            ".github/workflows/lean-certified-project-cache-v1.yml",
+            "ci/check_registry.d/verified_lean_cross_pr_cache_v1.json",
+        ):
+            with self.subTest(path=path):
+                selected=selector.select(registry,[path],None)
+                self.assertTrue(selected["full_audit_required"])
+                self.assertTrue(selected["lean_required"])
+                self.assertEqual(selected["lean_targets"],["KuuOSFormal"])
+                self.assertIn(path,selected["full_audit_trigger_paths"])
+
+    def test_test_only_routing_remains_scoped_and_runs_cache_contracts(self):
+        from scripts import select_impacted_checks as selector
+        registry=selector.load_registry(ROOT/"ci/check_registry.yaml")
+        selected=selector.select(registry,[".github/workflows/ci-lean-cache-routing-regression.yml"],None)
+        self.assertIn("verified-lean-cross-pr-cache-v1",selected["direct_checks"])
+        self.assertFalse(selected["full_audit_required"])
+        self.assertFalse(selected["lean_required"])
+
 if __name__=="__main__":
     unittest.main()

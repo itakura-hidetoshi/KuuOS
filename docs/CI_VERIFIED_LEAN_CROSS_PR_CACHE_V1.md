@@ -105,3 +105,17 @@ overlay when a replacement archive is invalid. No publisher/verifier
 bytes, proof inputs, pin, strict target or existing tests are removed.
 PR #3642 was closed unmerged on 2026-11-25; its synchronized research
 branch is preserved separately, without reopening it.
+
+### Explicit audit-control routing
+
+The first #3644 selection (run 45703979391, source
+`968a4824733b70ad31d6afac7c36e3fa4ed972b4`) correctly classified the documentation/test-only change
+as scoped: `lean_required=false`, so it did not exercise the standard
+PR Lean restore path. Do not count that skipped job as proof or cache
+validation. The registry now explicitly identifies the production
+publisher, verifier and their own trust registry as full-audit control
+surfaces. This is a tighten-only authority boundary; changes to these
+controls require the unchanged full Strict Lean target, while ordinary
+test-only routing edits remain scoped and select the cache contract tests.
+No proof source, scope digest input, production artifact or strict command
+is changed by this registration. Regressions check both routes.
