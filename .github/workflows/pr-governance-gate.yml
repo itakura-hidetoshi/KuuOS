@@ -439,6 +439,15 @@ jobs:
           echo "PR build cache exact hit: ${CACHE_HIT:-false}"
           echo "PR build cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
+      # Read-only cross-PR artifact: exact scope and canonical producer
+      # verified independently. A cache miss never skips Strict Lean.
+      - name: Restore verified canonical Lean project artifact
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && steps.lean-pr-build-cache.outputs.cache-matched-key == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KUUOS_ACTUAL_PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$KUUOS_ACTUAL_PR_BASE"
+
       # Keep the exact pinned Lean/Lake release and every existing strict
       # Lake target, but avoid the upstream one-shot Elan install path.
       # The bootstrap retries only official release URLs and rejects
