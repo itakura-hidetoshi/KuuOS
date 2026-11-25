@@ -160,5 +160,89 @@ class Workflow(unittest.TestCase):
         self.assertIn("-KleanArgs=-DsorryAsError=true",gate)
         self.assertIn("Save PR-local Lean build overlay",gate)
 
+
+class ProductionRoutingRegression(unittest.TestCase):
+    """Retain old overlay on failure; discover only admitted live artifacts."""
+    def test_discovery_skips_newer_noncanonical_candidate(self):
+        a,r,j,data=fixture()
+        a["expires_at"]=(datetime.now(timezone.utc)+timedelta(days=10)).isoformat()
+        data["actions/artifacts/9"]=copy.deepcopy(a)
+        bad=copy.deepcopy(a)
+        bad["id"]=10
+        bad["workflow_run"]["head_branch"]="research"
+        data["actions/workflows/"+Path(c.PUBLISHER).name]={"id":3,"path":c.PUBLISHER}
+        listing="actions/artifacts?name="+c.PREFIX+c.digest(SCOPE)+"&per_page=100"
+        data[listing]={"total_count":2,"artifacts":[a,bad]}
+        with patch.object(c,"remote_scope",return_value=SCOPE),patch.object(c,"ancestor",return_value=True):
+            selected=c.find_artifact(data.__getitem__,SCOPE,BASE)
+        self.assertEqual(selected["artifact_id"],9)
+        self.assertEqual(selected["run_id"],7)
+
+    def test_truncated_discovery_is_a_miss_before_admission(self):
+        a,r,j,data=fixture()
+        data["actions/workflows/"+Path(c.PUBLISHER).name]={"id":3,"path":c.PUBLISHER}
+        listing="actions/artifacts?name="+c.PREFIX+c.digest(SCOPE)+"&per_page=100"
+        data[listing]={"total_count":2,"artifacts":[a]}
+        with patch.object(c,"remote_scope",return_value=SCOPE),patch.object(c,"admit_artifact") as admit:
+            with self.assertRaisesRegex(c.Miss,"truncated"):
+                c.find_artifact(data.__getitem__,SCOPE,BASE)
+            admit.assert_not_called()
+
+    def test_invalid_archive_preserves_existing_project_overlay(self):
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)
+            source=p/"source"
+            (source/c.SENTINEL.parent).mkdir(parents=True)
+            (source/c.SENTINEL).write_bytes(b"isolated fixture, not proof")
+            log=p/"log"
+            log.write_text("Build completed successfully (1 jobs).\n")
+            payload=p/"payload"
+            c.pack_payload(source,payload,SCOPE,HEAD,7,2,log)
+            with (payload/"build.tar.gz").open("ab") as f:
+                f.write(b"tamper")
+            archive=p/"invalid.zip"
+            with zipfile.ZipFile(archive,"w") as z:
+                for item in sorted(payload.iterdir()):
+                    z.write(item,arcname=item.name)
+            root=p/"checkout"
+            old=root/".lake/build"
+            old.mkdir(parents=True)
+            marker=old/"existing.trace"
+            marker.write_bytes(b"preserve exact existing overlay")
+            def copy_archive(e,dst):
+                dst.write_bytes(archive.read_bytes())
+            e={"source_head":HEAD,"run_id":7,"run_attempt":2,"scope_digest":c.digest(SCOPE)}
+            with patch.object(c,"download_zip",side_effect=copy_archive):
+                with self.assertRaisesRegex(c.Miss,"project digest mismatch"):
+                    c.restore(root,SCOPE,e)
+            self.assertEqual(marker.read_bytes(),b"preserve exact existing overlay")
+            self.assertFalse((old/c.SENTINEL).exists())
+            self.assertEqual(sorted(x.name for x in (root/".lake").iterdir()),["build"])
+
+
+class CacheAuthorityControlRouting(unittest.TestCase):
+    def test_producer_verifier_and_registry_changes_require_full_strict(self):
+        from scripts import select_impacted_checks as selector
+        registry=selector.load_registry(ROOT/"ci/check_registry.yaml")
+        for path in (
+            "scripts/ci_verified_lean_project_cache_v1.py",
+            ".github/workflows/lean-certified-project-cache-v1.yml",
+            "ci/check_registry.d/verified_lean_cross_pr_cache_v1.json",
+        ):
+            with self.subTest(path=path):
+                selected=selector.select(registry,[path],None)
+                self.assertTrue(selected["full_audit_required"])
+                self.assertTrue(selected["lean_required"])
+                self.assertEqual(selected["lean_targets"],["KuuOSFormal"])
+                self.assertIn(path,selected["full_audit_trigger_paths"])
+
+    def test_test_only_routing_remains_scoped_and_runs_cache_contracts(self):
+        from scripts import select_impacted_checks as selector
+        registry=selector.load_registry(ROOT/"ci/check_registry.yaml")
+        selected=selector.select(registry,[".github/workflows/ci-lean-cache-routing-regression.yml"],None)
+        self.assertIn("verified-lean-cross-pr-cache-v1",selected["direct_checks"])
+        self.assertFalse(selected["full_audit_required"])
+        self.assertFalse(selected["lean_required"])
+
 if __name__=="__main__":
     unittest.main()
