@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "Immutable selected v0.4 and v0.5 historical packets retain separate provenance; source-scope-bound review only, never proof, novelty, execution or merge authority.",
+      "First registry registration remains a full-audit control change; actual Lean or pin changes retain existing strict checks. Actual archived receipts are independently replayed in the dedicated workflow; this registry check exercises the deterministic local contracts."
+    ]
+  },
+  "checks": {
+    "codeai-prior-proof-kernel-memory-v05": {
+      "name": "CodeAI immutable combined kernel memory v0.5 and research admission contracts",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_codeai_prior_proof_kernel_frontier_v0_5 tests.test_codeai_prior_proof_kernel_memory_v0_5.CombinedPacketTests tests.test_codeai_prior_proof_kernel_research_gate_v0_5.KernelResearchGateTests",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/codeai-prior-proof-kernel-frontier-projection-v0-5.yml",
+        ".github/workflows/codeai-prior-proof-kernel-frontier-v0-5.yml",
+        ".github/workflows/codeai-prior-proof-kernel-memory-v0-5.yml",
+        "AGENTS.md",
+        "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_5.json",
+        "docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_5.md",
+        "memoryos/research_prior_proof_kernel_observation_v0_5.json",
+        "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_5.py",
+        "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_5.py",
+        "scripts/codeai_prior_proof_kernel_frontier_projection_v0_5.py",
+        "scripts/codeai_prior_proof_kernel_frontier_v0_5.py",
+        "tests/test_codeai_prior_proof_kernel_frontier_v0_5.py",
+        "tests/test_codeai_prior_proof_kernel_memory_v0_5.py",
+        "tests/test_codeai_prior_proof_kernel_research_gate_v0_5.py"
+      ],
+      "depends_on": [
+        "codeai-prior-proof-kernel-memory-v04",
+        "codeai-prior-proof-library-v03",
+        "codeai-prior-proof-recall-v02",
+        "ci-audit-tests",
+        "runtime-full",
+        "workflow-integrity"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

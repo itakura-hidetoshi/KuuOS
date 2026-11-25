@@ -87,3 +87,21 @@ provider, direct Lean, real Lean MCP, independent CI, and authority boundaries
 remain unchanged. No mathematical novelty follows from a memory hit or miss.
 An MCP-only session can reproduce these exact-source comparisons without
 claiming it executed the runtime.
+
+## Combined historical kernel memory review v0.5 (additive)
+
+For new mathematical research, use the v0.5 `recall_kernel_memory`
+and `build_kernel_memory_research_synthesis` entry points in
+`runtime/kuuos_codeai_prior_proof_kernel_memory_v0_5.py` and
+`runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_5.py`.
+The combined lookup preserves the separately certified v0.4 and v0.5
+packets without rewriting either; the v0.3/v0.2/v0.1 gates remain.
+Review the exact elaborated types, assumptions, conclusions, reported
+axioms and direct proof references of every match, and acknowledge all
+unobserved hits. Scope drift, stale or truncated recall, incomplete
+comparison and duplicate NEW requests must hold. Reviewable residual
+obligations may proceed only through existing CodeAI and verification
+gates. Direct references are not the transitive dependency closure.
+Neither a match nor a miss certifies novelty or authority. See
+`docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_5.md`. The deterministic provider replay is a synthetic
+scope/review fixture only, not an external model call or proof.
