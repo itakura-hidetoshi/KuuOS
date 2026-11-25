@@ -105,3 +105,22 @@ gates. Direct references are not the transitive dependency closure.
 Neither a match nor a miss certifies novelty or authority. See
 `docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_5.md`. The deterministic provider replay is a synthetic
 scope/review fixture only, not an external model call or proof.
+
+## Three-generation historical kernel memory review v0.6 (additive)
+
+For new mathematical research, use the v0.6 `recall_kernel_memory`
+and `build_kernel_memory_research_synthesis` entry points in
+`runtime/kuuos_codeai_prior_proof_kernel_memory_v0_6.py` and
+`runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_6.py`.
+They preserve all three immutable historical packets, with each observation's
+own source identity, type, proof references, axioms and certification history.
+Retain the v0.3/v0.2/v0.1 gates and ordinary version-bound repair memory.
+Review the exact assumptions, conclusions and references of every retrieved
+declaration before generation; unresolved comparisons, stale scope,
+incomplete searches and duplicate NEW requests must hold. Explicitly
+unobserved recorded reference names remain distinct from unobserved lexical
+hits. Neither list is the full transitive dependency closure. The external
+`congrArg` reference remains outside the selected repository frontier.
+Use the actual canonical source observation, not the synthetic scope used
+only in the no-write, deterministic HOLD regression. No automatic novelty,
+proof, execution or merge authority follows. See `docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_6.md`.
