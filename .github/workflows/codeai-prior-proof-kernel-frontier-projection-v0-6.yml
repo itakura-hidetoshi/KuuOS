@@ -1,0 +1,45 @@
+name: CodeAI v0.6 exact archived kernel frontier memory projection
+on:
+  push:
+    branches: [research/codeai-library-kernel-frontier-v06-20261125]
+    paths:
+      - "scripts/codeai_prior_proof_kernel_frontier_projection_v0_6.py"
+      - ".github/workflows/codeai-prior-proof-kernel-frontier-projection-v0-6.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  project-actual-two-runner-receipts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-local-45539451502-1
+          run-id: 45539451502
+          github-token: ${{ github.token }}
+          path: historical-v06/first
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-independent-45539451502-1
+          run-id: 45539451502
+          github-token: ${{ github.token }}
+          path: historical-v06/independent
+      - name: Verify actual immutable receipts and current twenty-one-declaration source scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_prior_proof_kernel_frontier_projection_v0_6.py --first historical-v06/first --fresh historical-v06/independent --out artifacts/frontier-v06/packet.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prior-proof-kernel-frontier-memory-projection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/frontier-v06/
+          retention-days: 30
+          if-no-files-found: warn
