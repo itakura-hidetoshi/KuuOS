@@ -1,0 +1,96 @@
+name: KuuOS canonical certified Lean project cache v1
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: kuuos-certified-lean-project-main-v1
+  cancel-in-progress: false
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+jobs:
+  publish:
+    name: Build and publish certified canonical Lean project
+    if: github.repository == 'itakura-hidetoshi/KuuOS' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Observe exact canonical scope and existing artifact
+        id: probe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/ci_verified_lean_project_cache_v1.py probe --base "$GITHUB_SHA" --min-days 3
+      - name: Restore trusted main dependency workspace
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore prior certified overlay for renewal
+        id: certified
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$GITHUB_SHA"
+      - name: Restore main-only unfinished project checkpoint
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true' && steps.certified.outputs.restored != 'true'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-main-project-checkpoint-v1-${{ steps.probe.outputs.scope_digest }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            kuuos-main-project-checkpoint-v1-${{ steps.probe.outputs.scope_digest }}-
+      - name: Install exact pinned Lean
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true'
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Resolve exact pinned dependencies
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true'
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml
+      - name: Compile full strict Lean project
+        id: strict
+        if: steps.probe.outputs.eligible == 'true' && steps.probe.outputs.available != 'true'
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 300m bash scripts/build_lean4.sh --no-update --no-cache --target KuuOSFormal 2>&1 | tee certified-strict.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml formal lean
+      - name: Preserve main-only resumable checkpoint
+        if: always() && !cancelled() && steps.strict.outcome == 'failure' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-main-project-checkpoint-v1-${{ steps.probe.outputs.scope_digest }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Verify exact source and pack certified overlay
+        if: success() && steps.strict.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/ci_verified_lean_project_cache_v1.py pack --out certified-project-payload --log certified-strict.log
+      - name: Publish canonical project artifact
+        if: success() && steps.strict.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-verified-lean-project-v1-${{ steps.probe.outputs.scope_digest }}
+          path: certified-project-payload/
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve strict build diagnostics
+        if: always() && steps.strict.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: certified-lean-main-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: certified-strict.log
+          if-no-files-found: warn
+          retention-days: 14
