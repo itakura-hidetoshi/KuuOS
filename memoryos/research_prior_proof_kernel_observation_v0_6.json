@@ -1,0 +1,457 @@
+{
+  "canonical_direct_options": [
+    "-Dlinter.unnecessarySimpa=false",
+    "-Dlinter.unusedSectionVars=false",
+    "-Dlinter.unusedVariables=false",
+    "-DwarningAsError=true",
+    "-Dweak.linter.unnecessarySeqFocus=false",
+    "-Dweak.linter.unreachableTactic=false",
+    "-Dweak.linter.unusedSimpArgs=false",
+    "-Dweak.linter.unusedTactic=false",
+    "-Dweak.sorryAsError=true"
+  ],
+  "canonical_starting_head": "38d9cc8a26aa47161b13c047eb57b47297126a5d",
+  "catalog_digest": "ff84be7bab82b06d7d125aaa6f194ea6a98ede69dc86bf6b916e0b3288659f70",
+  "external_recorded_refs": [
+    "congrArg"
+  ],
+  "full_transitive_proof_dependencies_verified": false,
+  "lakefile_blob": "947bac41f9535a7ba2ef03a93081cdfbc1b946f7",
+  "novelty_certified": false,
+  "observations": [
+    {
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "blob": "836a0cccc0263e33d652da6b9391e4d5c07cb368",
+      "expected_direct_refs": [],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "f3b499fba0fb03f682ccc3b54aa1789e952b740e9551a9fbd2db7f19755623f9",
+      "line": 111,
+      "module": "KUOS.Architecture.QiWuxingNativeC60GaugeV3_4",
+      "name": "KUOS.Architecture.WuxingCyclicPaths.nativeC60SlotIndex_injective",
+      "original_source_sha256": "5bef2fa36087ac89280be7d27380cc37870107ca10c10641bb29a3819fe20ce6",
+      "path": "formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Bool",
+        "Bool.true",
+        "Decidable.decide",
+        "Eq",
+        "Eq.refl",
+        "Fintype.decidableInjectiveFintype",
+        "Function.Injective",
+        "Kuu.F112.Physical.Ring",
+        "Kuu.F112.Physical.Slot",
+        "Kuu.F112.Physical.instFintypeSlot",
+        "Kuu.F112.Physical.slotIndex",
+        "Nat",
+        "OfNat.ofNat",
+        "ZMod.decidableEq",
+        "id",
+        "instOfNatNat",
+        "of_decide_eq_true"
+      ],
+      "signature_preview_digest": "e7267ea61da04d16ec7a97f58018b930aa1d1b3b50c6d20d0644dad0f9aee27e",
+      "type_constants": [
+        "Function.Injective",
+        "Kuu.F112.Physical.Ring",
+        "Kuu.F112.Physical.Slot",
+        "Kuu.F112.Physical.slotIndex"
+      ],
+      "type_expr_sha256": "61c0ef905478cd21cad3dee2f01bd44bacdc61ad237c54712277e245964baa19",
+      "type_pretty": "@Function.Injective.{1, 1} Kuu.F112.Physical.Slot Kuu.F112.Physical.Ring Kuu.F112.Physical.slotIndex",
+      "universe_parameters": []
+    },
+    {
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "blob": "0286803a757835e69dde71383616a42828637137",
+      "expected_direct_refs": [
+        "KUOS.Architecture.WuxingCyclicPaths.rotation_injective"
+      ],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "a2ffbd574a05bf47caf978bf3c9a61be05fcfe074b7331fe9dac1443e1783e4a",
+      "line": 84,
+      "module": "KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1",
+      "name": "KUOS.Architecture.WuxingCyclicPaths.rotation_generation_ne_control",
+      "original_source_sha256": "cc5ab01f0e26c023f06a9268606a33b3f7eecddcd14367fa3a54107f98bb776d",
+      "path": "formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "AddGroupWithOne.toAddMonoidWithOne",
+        "AddMonoidWithOne.toNatCast",
+        "AddMonoidWithOne.toOne",
+        "Bool",
+        "Bool.true",
+        "CommRing.toRing",
+        "Decidable.decide",
+        "Eq",
+        "Eq.refl",
+        "Equiv",
+        "KUOS.Architecture.FivePhase",
+        "KUOS.Architecture.WuxingCyclicPaths.rotation",
+        "KUOS.Architecture.WuxingCyclicPaths.rotation_injective",
+        "Nat",
+        "Nat.instAtLeastTwoHAddOfNat",
+        "Nat.instNeZeroSucc",
+        "Ne",
+        "OfNat.ofNat",
+        "One.toOfNat1",
+        "Ring.toAddGroupWithOne",
+        "ZMod.commRing",
+        "ZMod.decidableEq",
+        "id",
+        "instDecidableNot",
+        "instOfNatAtLeastTwo",
+        "instOfNatNat",
+        "of_decide_eq_true"
+      ],
+      "signature_preview_digest": "5a5faf6bdd7e775101dadc36cddd6070aab934ad4c693d1d46d97cc0734cefd2",
+      "type_constants": [
+        "AddGroupWithOne.toAddMonoidWithOne",
+        "AddMonoidWithOne.toNatCast",
+        "AddMonoidWithOne.toOne",
+        "CommRing.toRing",
+        "Equiv",
+        "KUOS.Architecture.FivePhase",
+        "KUOS.Architecture.WuxingCyclicPaths.rotation",
+        "Nat",
+        "Nat.instAtLeastTwoHAddOfNat",
+        "Nat.instNeZeroSucc",
+        "Ne",
+        "OfNat.ofNat",
+        "One.toOfNat1",
+        "Ring.toAddGroupWithOne",
+        "ZMod.commRing",
+        "instOfNatAtLeastTwo",
+        "instOfNatNat"
+      ],
+      "type_expr_sha256": "c850168673bb385a5d26873a62be162aa915353c2742e157439c2811d1eb24c9",
+      "type_pretty": "@Ne.{1} (Equiv.{1, 1} KUOS.Architecture.FivePhase KUOS.Architecture.FivePhase)\n  (KUOS.Architecture.WuxingCyclicPaths.rotation\n    (@OfNat.ofNat.{0} KUOS.Architecture.FivePhase (nat_lit 1)\n      (@One.toOfNat1.{0} KUOS.Architecture.FivePhase\n        (@AddMonoidWithOne.toOne.{0} KUOS.Architecture.FivePhase\n          (@AddGroupWithOne.toAddMonoidWithOne.{0} KUOS.Architecture.FivePhase\n            (@Ring.toAddGroupWithOne.{0} KUOS.Architecture.FivePhase\n              (@CommRing.toRing.{0} KUOS.Architecture.FivePhase\n                (ZMod.commRing (@OfNat.ofNat.{0} Nat (nat_lit 5) (instOfNatNat (nat_lit 5)))))))))))\n  (KUOS.Architecture.WuxingCyclicPaths.rotation\n    (@OfNat.ofNat.{0} KUOS.Architecture.FivePhase (nat_lit 2)\n      (@instOfNatAtLeastTwo.{0} KUOS.Architecture.FivePhase (nat_lit 2)\n        (@AddMonoidWithOne.toNatCast.{0} KUOS.Architecture.FivePhase\n          (@AddGroupWithOne.toAddMonoidWithOne.{0} KUOS.Architecture.FivePhase\n            (@Ring.toAddGroupWithOne.{0} KUOS.Architecture.FivePhase\n              (@CommRing.toRing.{0} KUOS.Architecture.FivePhase\n                (ZMod.commRing (@OfNat.ofNat.{0} Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))))))\n        ⋯)))",
+      "universe_parameters": []
+    },
+    {
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "blob": "d3b03bffb1d0262ecc45080383510f3795cfa964",
+      "expected_direct_refs": [],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "66b975fe4c55bae8cc1afbafbcd4846ac039c7dc23c8245b7e566dae7783cdee",
+      "line": 34,
+      "module": "Kuu.F112.PolygonBoundary",
+      "name": "Kuu.F112.Physical.slotIndex_ringSlot",
+      "original_source_sha256": "bb082f30c49323ea9a4ae5a95554897f4a92e5d37fe62eff7fcfa8b1bb1927b9",
+      "path": "formal/Kuu/F112/PolygonBoundary.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Bool",
+        "Bool.true",
+        "Decidable.decide",
+        "Eq",
+        "Eq.refl",
+        "Fintype.decidableForallFintype",
+        "Kuu.F112.Physical.Ring",
+        "Kuu.F112.Physical.ringSlot",
+        "Kuu.F112.Physical.slotIndex",
+        "Nat",
+        "Nat.instNeZeroSucc",
+        "OfNat.ofNat",
+        "ZMod.decidableEq",
+        "ZMod.fintype",
+        "id",
+        "instOfNatNat",
+        "of_decide_eq_true"
+      ],
+      "signature_preview_digest": "a53b305b9f41aa0d06c36cae112ba4042ffd5fe053525b8ee8d73d62f2b3bc42",
+      "type_constants": [
+        "Eq",
+        "Kuu.F112.Physical.Ring",
+        "Kuu.F112.Physical.ringSlot",
+        "Kuu.F112.Physical.slotIndex"
+      ],
+      "type_expr_sha256": "7703c22a2d9a2c551db19730a9c907f7d68d3e0074c0504df15d7a0171638382",
+      "type_pretty": "∀ (i : Kuu.F112.Physical.Ring),\n  @Eq.{1} Kuu.F112.Physical.Ring (Kuu.F112.Physical.slotIndex (Kuu.F112.Physical.ringSlot i)) i",
+      "universe_parameters": []
+    },
+    {
+      "axioms": [
+        "Classical.choice"
+      ],
+      "blob": "089624693fadee9d7e592db7d04ce9a6f55b55b2",
+      "expected_direct_refs": [
+        "Kuu.LivingEngi.global_implies_compatible",
+        "Kuu.LivingEngi.glue_agrees"
+      ],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "6016097af18816fbb12fe7d41dd0adb98265510fdb005e7d39b1b158ac2ba323",
+      "line": 88,
+      "module": "Kuu.LivingEngi.ScopedGluing",
+      "name": "Kuu.LivingEngi.compatible_iff_hasGlobal",
+      "original_source_sha256": "36d7fd4421d2feab6e0ee983db3cd413ed09647a7435f4356e776cc07aa2c574",
+      "path": "formal/Kuu/LivingEngi/ScopedGluing.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Eq",
+        "Exists.intro",
+        "Iff.intro",
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.global_implies_compatible",
+        "Kuu.LivingEngi.glue",
+        "Kuu.LivingEngi.glue_agrees",
+        "Membership.mem",
+        "Set",
+        "Set.instMembership",
+        "Subtype",
+        "Subtype.val"
+      ],
+      "signature_preview_digest": "f6a15bfd6ebd9aefd167cee76c7f8295e1c5a7b6ea5f339c338f9d0d1377fb49",
+      "type_constants": [
+        "Iff",
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.Covers",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Set"
+      ],
+      "type_expr_sha256": "c90d1622ad9a7582b5f866513aaf2ad1b05ac2e843a4ee9dfc872609030abcda",
+      "type_pretty": "∀ {X : Type u} {I : Type v} {A : Type w} (U : I → Set.{u} X) (s : @Kuu.LivingEngi.LocalSections.{u, v, w} X I U A),\n  @Kuu.LivingEngi.Covers.{u, v} X I U →\n    Iff (@Kuu.LivingEngi.Compatible.{u, v, w} X I A U s) (@Kuu.LivingEngi.HasGlobal.{u, v, w} X I A U s)",
+      "universe_parameters": [
+        "u",
+        "v",
+        "w"
+      ]
+    },
+    {
+      "axioms": [],
+      "blob": "089624693fadee9d7e592db7d04ce9a6f55b55b2",
+      "expected_direct_refs": [],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "9748cd369403c8def07fab13370d12bcb2870ed3cec3d662556147b9a3f60bbf",
+      "line": 58,
+      "module": "Kuu.LivingEngi.ScopedGluing",
+      "name": "Kuu.LivingEngi.global_implies_compatible",
+      "original_source_sha256": "36d7fd4421d2feab6e0ee983db3cd413ed09647a7435f4356e776cc07aa2c574",
+      "path": "formal/Kuu/LivingEngi/ScopedGluing.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Eq",
+        "Eq.symm",
+        "Eq.trans",
+        "Exists.casesOn",
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Membership.mem",
+        "Set",
+        "Set.instMembership",
+        "Subtype",
+        "Subtype.mk",
+        "Subtype.val"
+      ],
+      "signature_preview_digest": "fc087bc0d7117e587418b65d77dc20ad5e12896bcc45ace7ff48512c84d8d6e3",
+      "type_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.HasGlobal",
+        "Kuu.LivingEngi.LocalSections",
+        "Set"
+      ],
+      "type_expr_sha256": "d3f089723e82d08525d6d039079aa2fc9cf86bb1e7f37e049820ff4bd39504bd",
+      "type_pretty": "∀ {X : Type u} {I : Type v} {A : Type w} (U : I → Set.{u} X) (s : @Kuu.LivingEngi.LocalSections.{u, v, w} X I U A),\n  @Kuu.LivingEngi.HasGlobal.{u, v, w} X I A U s → @Kuu.LivingEngi.Compatible.{u, v, w} X I A U s",
+      "universe_parameters": [
+        "u",
+        "v",
+        "w"
+      ]
+    },
+    {
+      "axioms": [],
+      "blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+      "expected_direct_refs": [],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "2d071fc259bbdb1eb601b67d148578e54fffae3bc86af78f0faefb6b5caefc5a",
+      "line": 78,
+      "module": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+      "name": "Kuu.LivingEngi.shadowCompatible_and_overlapFaithful_implies_sourceCompatible",
+      "original_source_sha256": "f06e9200667c1df611b8a18bfc97ea9b02e3c873a0ea329b03260f3d288a0077",
+      "path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowSections",
+        "Membership.mem",
+        "Set",
+        "Set.instMembership"
+      ],
+      "signature_preview_digest": "be3332a5c191d05f18fda3fb0640ec5dc251d85bae05874b7d766b4ab4ef36e2",
+      "type_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Kuu.LivingEngi.shadowSections",
+        "Set"
+      ],
+      "type_expr_sha256": "3f39d8e4eedce1d9cc30da6e048d8314ff4ef8725b72e42d04857b9355db33cf",
+      "type_pretty": "∀ {X : Type uLEC11X} {I : Type uLEC11I} {Raw : Type uLEC11Raw} {Obs : Type uLEC11Obs} (U : I → Set.{uLEC11X} X)\n  (q : Raw → Obs) (s : @Kuu.LivingEngi.LocalSections.{uLEC11X, uLEC11I, uLEC11Raw} X I U Raw),\n  @Kuu.LivingEngi.Compatible.{uLEC11X, uLEC11I, uLEC11Obs} X I Obs U\n      (@Kuu.LivingEngi.shadowSections.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s) →\n    @Kuu.LivingEngi.OverlapFiberFaithful.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s →\n      @Kuu.LivingEngi.Compatible.{uLEC11X, uLEC11I, uLEC11Raw} X I Raw U s",
+      "universe_parameters": [
+        "uLEC11X",
+        "uLEC11I",
+        "uLEC11Raw",
+        "uLEC11Obs"
+      ]
+    },
+    {
+      "axioms": [],
+      "blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+      "expected_direct_refs": [],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "d2e21eed3118f29064cf9056282db2059be620dda3c5e72e3e6063242b8add4b",
+      "line": 69,
+      "module": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+      "name": "Kuu.LivingEngi.sourceCompatible_implies_overlapFaithful",
+      "original_source_sha256": "f06e9200667c1df611b8a18bfc97ea9b02e3c873a0ea329b03260f3d288a0077",
+      "path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Eq",
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Membership.mem",
+        "Set",
+        "Set.instMembership",
+        "Subtype.mk"
+      ],
+      "signature_preview_digest": "4ea0e54e87488e7c4e6bcd81526b5b73366aa06fa4c01a1f2a20d21e7bd60829",
+      "type_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.OverlapFiberFaithful",
+        "Set"
+      ],
+      "type_expr_sha256": "aae29472760db7c71f76461909a1fba321d8394286b83945dfa118be0b5e8f6e",
+      "type_pretty": "∀ {X : Type uLEC11X} {I : Type uLEC11I} {Raw : Type uLEC11Raw} {Obs : Type uLEC11Obs} (U : I → Set.{uLEC11X} X)\n  (q : Raw → Obs) (s : @Kuu.LivingEngi.LocalSections.{uLEC11X, uLEC11I, uLEC11Raw} X I U Raw),\n  @Kuu.LivingEngi.Compatible.{uLEC11X, uLEC11I, uLEC11Raw} X I Raw U s →\n    @Kuu.LivingEngi.OverlapFiberFaithful.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s",
+      "universe_parameters": [
+        "uLEC11X",
+        "uLEC11I",
+        "uLEC11Raw",
+        "uLEC11Obs"
+      ]
+    },
+    {
+      "axioms": [],
+      "blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+      "expected_direct_refs": [
+        "congrArg"
+      ],
+      "frontier_role": "recorded_direct_reference",
+      "lexical_id": "f557f11a284b9769cea94ca5c30d17854dd82a143770586cc8c9cc8875f4ac28",
+      "line": 60,
+      "module": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+      "name": "Kuu.LivingEngi.sourceCompatible_implies_shadowCompatible",
+      "original_source_sha256": "f06e9200667c1df611b8a18bfc97ea9b02e3c873a0ea329b03260f3d288a0077",
+      "path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+      "prior_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+      "prior_packet_digests": {
+        "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+        "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+      },
+      "proof_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Membership.mem",
+        "Set",
+        "Set.instMembership",
+        "Subtype.mk",
+        "congrArg"
+      ],
+      "signature_preview_digest": "6441df10c8e157c0f017219479d729a6ecb1c0928fe906356a94e0f9f3033c49",
+      "type_constants": [
+        "Kuu.LivingEngi.Compatible",
+        "Kuu.LivingEngi.LocalSections",
+        "Kuu.LivingEngi.shadowSections",
+        "Set"
+      ],
+      "type_expr_sha256": "97f590c8abb56724f57d576199e5b4540f03b059c15c75992ce01f0250b268b1",
+      "type_pretty": "∀ {X : Type uLEC11X} {I : Type uLEC11I} {Raw : Type uLEC11Raw} {Obs : Type uLEC11Obs} (U : I → Set.{uLEC11X} X)\n  (q : Raw → Obs) (s : @Kuu.LivingEngi.LocalSections.{uLEC11X, uLEC11I, uLEC11Raw} X I U Raw),\n  @Kuu.LivingEngi.Compatible.{uLEC11X, uLEC11I, uLEC11Raw} X I Raw U s →\n    @Kuu.LivingEngi.Compatible.{uLEC11X, uLEC11I, uLEC11Obs} X I Obs U\n      (@Kuu.LivingEngi.shadowSections.{uLEC11X, uLEC11I, uLEC11Raw, uLEC11Obs} X I Raw Obs U q s)",
+      "universe_parameters": [
+        "uLEC11X",
+        "uLEC11I",
+        "uLEC11Raw",
+        "uLEC11Obs"
+      ]
+    }
+  ],
+  "parent_packet_digest": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac",
+  "pins": {
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+  },
+  "plan_digest": "12fb0bc36844ef2272ed268de63d3556fb2645ddc81d48849923267268504234",
+  "prior_packet_digests": {
+    "v0.4": "bfcf9fde9a27fea2e1bad35c44cf46544ae92f42bf54bed7db3f267327b1d271",
+    "v0.5": "23336f58b6613514063df5f1aad4e433fd9f98a461b2fae4152fd296054620ac"
+  },
+  "proof_authority": false,
+  "provenance": {
+    "direct_receipt_digest": "a21faff25607d162cdf7bb4f900a5c733784e2dc3b7af077b0b3c2519463ccf1",
+    "independent_artifact_id": 14989630413,
+    "independent_artifact_sha256": "cd49a4c0f9d6ca8200d11ce9b4cc7882fd305a39bf7e056a61abc6b06830aff0",
+    "independent_direct_receipt_digest": "a21faff25607d162cdf7bb4f900a5c733784e2dc3b7af077b0b3c2519463ccf1",
+    "independent_job": 138956949097,
+    "independent_receipt_digest": "197795f53cf2e600f1e449ad5927c0f96bb0d00c24b38b2ee6a768cd44eaf208",
+    "local_artifact_id": 14989101416,
+    "local_artifact_sha256": "075e27dfd6867ba3505619fb5529a38b408559374deb3dd6dcde82dea481b6a7",
+    "mcp_receipt_digest": "1e87bd3c24016437efe2b20536c5c49d8fc0c81bf6a29ea443f6ed0db3a4c070",
+    "mcp_version": "0.30.0",
+    "run_attempt": 1,
+    "run_id": 45539451502,
+    "sandbox_job": 138954083259
+  },
+  "schema": "kuuos.prior-proof-kernel-memory.v0.6",
+  "source_head": "8afa360f0eee06a8bc648e2957c9e4b9b4af7117",
+  "source_subtrees": {
+    "formal": "facf2c867536127e655fefd379e4224ea98a8c4b",
+    "lean": "e96df2a7e90a22bdfbea790e46bef4bad4d3eede"
+  },
+  "source_tree": "ee52f0a2805c012aae05fea0e20624f1e9ea00e3"
+}

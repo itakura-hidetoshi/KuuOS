@@ -1,0 +1,93 @@
+name: CodeAI v0.6 immutable combined memory and research admission replay
+on:
+  push:
+    branches: [main, research/codeai-library-kernel-frontier-v06-20261125]
+    paths:
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-6.yml"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_6.json"
+      - "memoryos/research_prior_proof_kernel_observation_v0_6.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_6.py"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_6.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_projection_v0_6.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_frontier_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_6.py"
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
+      - "memoryos/research_prior_proof_kernel_observation_v0_5.json"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/codeai-prior-proof-kernel-memory-v0-6.yml"
+      - "ci/check_registry.d/codeai_prior_proof_kernel_memory_v0_6.json"
+      - "memoryos/research_prior_proof_kernel_observation_v0_6.json"
+      - "runtime/kuuos_codeai_prior_proof_kernel_memory_v0_6.py"
+      - "runtime/kuuos_codeai_prior_proof_kernel_research_gate_v0_6.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_projection_v0_6.py"
+      - "scripts/codeai_prior_proof_kernel_frontier_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_frontier_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_memory_v0_6.py"
+      - "tests/test_codeai_prior_proof_kernel_research_gate_v0_6.py"
+      - "memoryos/research_prior_proof_kernel_observation_v0_4.json"
+      - "memoryos/research_prior_proof_kernel_observation_v0_5.json"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  replay-and-research-admission:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-local-45539451502-1
+          run-id: 45539451502
+          github-token: ${{ github.token }}
+          path: historical-v06/first
+      - uses: actions/download-artifact@v4
+        with:
+          name: prior-proof-kernel-independent-45539451502-1
+          run-id: 45539451502
+          github-token: ${{ github.token }}
+          path: historical-v06/independent
+      - name: Reproduce actual archived packet and compare committed projection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 scripts/codeai_prior_proof_kernel_frontier_projection_v0_6.py --first historical-v06/first --fresh historical-v06/independent --out artifacts/frontier-v06/packet.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          from runtime.kuuos_codeai_prior_proof_kernel_memory_v0_6 import load_packets
+          _, _, committed = load_packets(Path.cwd())
+          if json.loads(Path("artifacts/frontier-v06/packet.json").read_text()) != committed:
+              raise SystemExit("HOLD: actual projection differs from committed packet")
+          print("KUUOS_V06_COMMITTED_PACKET_REPRODUCED")
+          PY
+      - name: Combined exact-source recall and original CodeAI boundary regressions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KUUOS_KERNEL_FIRST: historical-v06/first
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_codeai_prior_proof_kernel_memory_v0_6 tests.test_codeai_prior_proof_kernel_research_gate_v0_6 2>&1 | tee combined-replay.log
+          grep -F 'KUUOS_V06_ACTUAL_COMBINED_RECALL 21/21' combined-replay.log
+          grep -F 'KUUOS_ACTUAL_CODEAI_V06_COMBINED_BOUNDARY_REPLAY' combined-replay.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prior-proof-kernel-combined-memory-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/frontier-v06/
+            combined-replay.log
+          retention-days: 30
+          if-no-files-found: warn
