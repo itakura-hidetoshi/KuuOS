@@ -1,0 +1,118 @@
+name: KuuOS certified Lean production artifact replay v1
+on:
+  push:
+    branches: [research/verified-lean-production-replay-v1-20261126]
+    paths:
+      - '.github/workflows/lean-certified-project-cache-production-replay-v1.yml'
+permissions:
+  contents: read
+  actions: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  KUUOS_BASE: '85be208ec9f0e1f7c6bfa0b4cfe670653af54057'
+jobs:
+  replay:
+    name: Independent fresh runner real canonical artifact reuse
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # No project cache or same-PR overlay is restored in this job.
+      - name: Restore actual certified canonical artifact (no other project cache)
+        id: restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test ! -e .lake/build
+          mkdir -p replay-evidence
+          python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$KUUOS_BASE" 2>&1 | tee replay-evidence/restore.log
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          lines=Path("replay-evidence/restore.log").read_text().splitlines()
+          prefix="KUUOS_VERIFIED_LEAN_PROJECT_RESTORED "
+          rows=[json.loads(l[len(prefix):]) for l in lines if l.startswith(prefix)]
+          assert len(rows)==1, "no actual canonical restore"
+          e=rows[0]
+          assert e["source_head"]=="85be208ec9f0e1f7c6bfa0b4cfe670653af54057"
+          assert e["run_id"]==45615980980 and e["job_id"]==139211364001
+          assert e["artifact_id"]==15038487740
+          assert e["artifact_digest"]=="faf2246b58340ec358b630c151f50c6988c30209d30e1e2c4ddafdabe4a57f2b"
+          assert e["scope_digest"]=="2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b"
+          print("KUUOS_PRODUCTION_ARTIFACT_EXACT_GREEN",json.dumps(e,sort_keys=True))
+          PY
+      - name: Record restored project artifact inventory before Lean
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path(".lake/build/lib/lean")
+          paths=[root/"KuuOSFormal.olean",
+              root/"Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.olean"]
+          def hashfile(p):
+              h=hashlib.sha256()
+              with p.open("rb") as f:
+                  for b in iter(lambda:f.read(1024**2),b""): h.update(b)
+              return h.hexdigest()
+          data={"inventory":{str(p.relative_to(root)): [p.stat().st_size,p.stat().st_mtime_ns]
+                            for p in sorted(root.rglob("*.olean"))},
+                "selected":{str(p):[p.stat().st_size,p.stat().st_mtime_ns,hashfile(p)] for p in paths}}
+          assert data["inventory"] and len(data["selected"])==2
+          Path("replay-evidence/before.json").write_text(json.dumps(data,sort_keys=True))
+          print("KUUOS_PRODUCTION_RESTORED_OLEAN_COUNT",len(data["inventory"]))
+          PY
+      - name: Install exact pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Resolve pinned dependencies only (not project build cache)
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml
+      - name: Execute unchanged full strict Lean build on restored project
+        run: |
+          set -euo pipefail
+          /usr/bin/time -f 'KUUOS_PRODUCTION_STRICT_WALL_SECONDS %e' -o replay-evidence/time.log timeout --signal=TERM --kill-after=30s 20m bash scripts/build_lean4.sh --no-update --no-cache --target KuuOSFormal 2>&1 | tee replay-evidence/strict.log
+          cat replay-evidence/time.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml formal lean
+      - name: Compare actual restored artifact reuse after full strict build
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path(".lake/build/lib/lean")
+          old=json.loads(Path("replay-evidence/before.json").read_text())
+          now={str(p.relative_to(root)):[p.stat().st_size,p.stat().st_mtime_ns]
+               for p in sorted(root.rglob("*.olean"))}
+          stable=sum(now.get(k)==v for k,v in old["inventory"].items())
+          missing=set(old["inventory"])-set(now)
+          selected={}
+          for name,before in old["selected"].items():
+              p=Path(name)
+              h=hashlib.sha256()
+              with p.open("rb") as f:
+                  for b in iter(lambda:f.read(1024**2),b""): h.update(b)
+              after=[p.stat().st_size,p.stat().st_mtime_ns,h.hexdigest()]
+              selected[name]={"before":before,"after":after,"unchanged":before==after}
+          result={"before":len(old["inventory"]),"after":len(now),
+                  "unchanged":stable,"missing":len(missing),"selected":selected}
+          Path("replay-evidence/reuse.json").write_text(json.dumps(result,sort_keys=True))
+          print("KUUOS_PRODUCTION_REUSE_OBSERVED",json.dumps(result,sort_keys=True))
+          assert not missing and all(r["unchanged"] for r in selected.values()), "heavy module/root was rebuilt or missing"
+          print("KUUOS_PRODUCTION_CROSS_RUNNER_REUSE_GREEN")
+          PY
+      - name: Preserve actual production replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: certified-production-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: replay-evidence/
+          retention-days: 30
+          if-no-files-found: warn
