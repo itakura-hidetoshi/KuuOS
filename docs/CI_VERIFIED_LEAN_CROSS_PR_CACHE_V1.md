@@ -47,9 +47,12 @@ necessary. Historical artifacts expire; renewal still runs strict Lean.
 
 The isolated research workflow tests negative origin/scope/transport
 cases and a real pinned Lean fixture .olean transferred between two
-runners and imported with strict options. The fixture is not a
-canonical proof or a production publication. Its synthetic log is
-only a transport test input. Only an actual main publisher success
+runners and imported with strict options. The isolated fixture uses
+a real minimal Lake build log and independently rejects sorry. The
+standalone weak sorryAsError option is necessary without Mathlib;
+warningAsError still rejects sorry. The fixture is not a canonical
+proof or a production publication. The independent runner tests live
+REST artifact digest/size and exact Git scope, and observes Lake reuse. Only an actual main publisher success
 and sibling PR restore followed by exact-head Strict Lean can establish
 operational reuse and speed. Old PR-only caches cannot be retroactively
 declared canonical. PR #3642 retains its own exact-head cache and

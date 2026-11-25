@@ -10,6 +10,7 @@ on:
       - '.github/workflows/pr-governance-gate.yml'
 permissions:
   contents: read
+  actions: read
 jobs:
   sandbox:
     name: Negative authority fixtures and actual pinned Lean transport fixture
@@ -27,22 +28,30 @@ jobs:
         run: python3 -m unittest -v tests.test_ci_verified_lean_project_cache_v1 tests.test_ci_lean_cache_topology tests.test_ci_f112_additive_root_route
       - name: Install exact pinned Lean
         run: bash scripts/bootstrap_pinned_lean_ci.sh
-      - name: Compile actual pinned Lean fixture (not canonical proof)
+      - name: Compile actual pinned Lake fixture (not canonical proof)
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/cache-fixture/lib/lean"
-          printf 'def cacheProbe : Nat := 42\n' > "$RUNNER_TEMP/cache-fixture/KuuOSFormal.lean"
+          mkdir -p "$RUNNER_TEMP/cache-fixture"
           cd "$RUNNER_TEMP/cache-fixture"
-          lean -DwarningAsError=true -DsorryAsError=true -o lib/lean/KuuOSFormal.olean KuuOSFormal.lean
-          printf 'Build completed successfully (1 jobs).\n' > fixture-only.log
-      - name: Pack fixture-only archive
+          printf 'name = "CacheTransportFixture"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nleanOptions = { warningAsError = true }\n' > lakefile.toml
+          printf 'def cacheProbe : Nat := 42\n' > KuuOSFormal.lean
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KuuOSFormal 2>&1 | tee fixture-only.log
+          test -s .lake/build/lib/lean/KuuOSFormal.olean
+          printf 'example : False := by sorry\n' > NegativeFixture.lean
+          if lean -DwarningAsError=true -Dweak.sorryAsError=true NegativeFixture.lean; then
+            echo 'Unexpected sorry acceptance' >&2
+            exit 1
+          fi
+          rm NegativeFixture.lean
+          echo KUUOS_FIXTURE_SORRY_REJECTED
+      - name: Pack fixture-only archive with actual build log
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import os
           from scripts.ci_verified_lean_project_cache_v1 import pack_payload
           p=Path(os.environ["RUNNER_TEMP"])/"cache-fixture"
-          pack_payload(p,Path("fixture-payload"),{"fixture_only":True},os.environ["GITHUB_SHA"],
+          pack_payload(p/".lake/build",Path("fixture-payload"),{"fixture_only":True},os.environ["GITHUB_SHA"],
                        int(os.environ["GITHUB_RUN_ID"]),int(os.environ["GITHUB_RUN_ATTEMPT"]),p/"fixture-only.log")
           PY
       - uses: actions/upload-artifact@v4
@@ -64,24 +73,69 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - uses: actions/download-artifact@v4
-        with:
-          name: isolated-cache-transport-fixture-${{ github.run_id }}-${{ github.run_attempt }}
-          path: fixture-payload
-      - name: Install exact pinned Lean
-        run: bash scripts/bootstrap_pinned_lean_ci.sh
-      - name: Validate fixture and import actual transported Lean artifact
+      - name: Verify real repository scope and actual REST artifact download
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
           import os
-          from scripts.ci_verified_lean_project_cache_v1 import verify_payload,digest
+          from scripts import ci_verified_lean_project_cache_v1 as c
+          head=os.environ["GITHUB_SHA"]
+          assert c.local_scope(Path.cwd(),head)==c.remote_scope(c.api,head)
+          print("KUUOS_FIXTURE_REAL_GIT_SCOPE_GREEN")
+          rid=int(os.environ["GITHUB_RUN_ID"])
+          attempt=int(os.environ["GITHUB_RUN_ATTEMPT"])
+          name=f"isolated-cache-transport-fixture-{rid}-{attempt}"
+          rows=c.api(f"actions/runs/{rid}/artifacts?per_page=100")["artifacts"]
+          matches=[x for x in rows if x["name"]==name]
+          assert len(matches)==1
+          a=matches[0]
+          live=c.api(f'actions/artifacts/{a["id"]}')
+          for key in ("id","name","digest","size_in_bytes","expired","workflow_run"):
+              assert live[key]==a[key]
+          assert a["expired"] is False
+          assert a["workflow_run"]["head_sha"]==head
+          assert a["workflow_run"]["head_branch"]!="main"
           scope={"fixture_only":True}
-          evidence={"source_head":os.environ["GITHUB_SHA"],"run_id":int(os.environ["GITHUB_RUN_ID"]),
-                    "run_attempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),"scope_digest":digest(scope)}
-          verify_payload(Path("fixture-payload"),Path("fixture-restored"),scope,evidence)
+          e={"artifact_id":a["id"],"artifact_digest":a["digest"][7:],
+             "artifact_size":a["size_in_bytes"],"source_head":head,
+             "run_id":rid,"run_attempt":attempt,"scope_digest":c.digest(scope)}
+          assert a["digest"].startswith("sha256:")
+          # Even a renamed research fixture must fail canonical admission.
+          forged=dict(a,name=c.PREFIX+c.digest(scope))
+          try:
+              c.admit_artifact(c.api,forged,scope,head,0)
+          except c.Miss:
+              print("KUUOS_FIXTURE_RESEARCH_ARTIFACT_REJECTED")
+          else:
+              raise AssertionError("research artifact admitted")
+          c.download_zip(e,Path("fixture.zip"))
+          c.unpack_zip(Path("fixture.zip"),Path("fixture-payload"))
+          project=Path(os.environ["RUNNER_TEMP"])/"cache-fixture"
+          (project/".lake").mkdir(parents=True)
+          c.verify_payload(Path("fixture-payload"),project/".lake/build",scope,e)
+          print("KUUOS_FIXTURE_REAL_REST_ARCHIVE_GREEN",a["id"],a["digest"])
           PY
-          printf 'import KuuOSFormal\nexample : cacheProbe = 42 := rfl\n' > "$RUNNER_TEMP/CacheProbeImport.lean"
-          LEAN_PATH="$PWD/fixture-restored/lib/lean" lean -DwarningAsError=true -DsorryAsError=true "$RUNNER_TEMP/CacheProbeImport.lean"
+      - name: Install exact pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Validate actual transported Lean import and Lake reuse
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/cache-fixture"
+          printf 'name = "CacheTransportFixture"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nleanOptions = { warningAsError = true }\n' > lakefile.toml
+          printf 'def cacheProbe : Nat := 42\n' > KuuOSFormal.lean
+          printf 'import KuuOSFormal\nexample : cacheProbe = 42 := rfl\n' > CacheProbeImport.lean
+          LEAN_PATH="$PWD/.lake/build/lib/lean" lean -DwarningAsError=true -Dweak.sorryAsError=true CacheProbeImport.lean
+          artifact=.lake/build/lib/lean/KuuOSFormal.olean
+          before="$(stat -c '%y' "$artifact")"
+          sha256sum "$artifact" > before.sha
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KuuOSFormal 2>&1 | tee independent.log
+          sha256sum -c before.sha
+          after="$(stat -c '%y' "$artifact")"
+          if [[ "$before" == "$after" ]]; then
+            echo KUUOS_FIXTURE_LAKE_REUSED_OLEAN
+          else
+            echo KUUOS_FIXTURE_LAKE_REBUILT_OLEAN
+          fi
           echo KUUOS_CACHE_ACTUAL_LEAN_FIXTURE_TRANSPORT_GREEN
