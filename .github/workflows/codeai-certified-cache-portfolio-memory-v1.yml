@@ -1,0 +1,67 @@
+name: CodeAI certified portfolio actual memory replay v1
+on:
+  push:
+    branches: [research/codeai-certified-cache-recall-v1-20261126]
+    paths:
+      - scripts/codeai_certified_cache_portfolio_memory_v1.py
+      - .github/workflows/codeai-certified-cache-portfolio-memory-v1.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONPATH: .
+jobs:
+  replay:
+    name: Verify actual archived receipts and replay original MemoryOS
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original memory and ensemble contracts
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_kuuos_codeai_subtask_level_version_bound_memory_v0_1
+      - name: Reobserve actual completed jobs, digest-verify archived evidence, enforce ensemble HOLD
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_certified_cache_portfolio_memory_v1.py --out artifacts/portfolio-memory
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-portfolio-memory-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/portfolio-memory/*.json
+          if-no-files-found: warn
+  independent:
+    name: Independently reconstruct exact historical MemoryOS receipt
+    needs: replay
+    if: needs.replay.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-portfolio-memory-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-replay
+      - name: Fetch historical evidence afresh and compare independent memory receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/codeai_certified_cache_portfolio_memory_v1.py --out artifacts/portfolio-memory --first first-replay/receipt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-portfolio-memory-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/portfolio-memory/*.json
+          if-no-files-found: warn
