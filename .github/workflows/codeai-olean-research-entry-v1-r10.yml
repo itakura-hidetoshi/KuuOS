@@ -1,0 +1,122 @@
+name: CodeAI versioned olean research entry v1 R10
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-research-entry-v1-r10.yml"
+      - "scripts/check_codeai_olean_research_entry_v1_r10.py"
+      - "runtime/kuuos_codeai_olean_research_synthesis_v1.py"
+      - "runtime/kuuos_codeai_research_structured_edit_synthesis_v0_1.py"
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: codeai-olean-research-entry-v1-r10
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R10 sandbox historical Lean/MCP evidence and real entry replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-aggregate-45774874136-1
+          path: r7-index
+          run-id: 45774874136
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-local-45777202786-1
+          path: r8-local
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-independent-45777202786-1
+          path: r8-independent
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-local-45779068886-1
+          path: r9-local
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-independent-45779068886-1
+          path: r9-independent
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - name: Replay R10 production research entry with historical actual Lean and MCP evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/check_codeai_olean_research_entry_v1_r10.py --index r7-index --r8-local r8-local --r8-independent r8-independent --r9-local r9-local --r9-independent r9-independent --out artifacts/r10
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeai-olean-r10-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/r10/
+  independent:
+    name: R10 independent entry replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-aggregate-45774874136-1
+          path: r7-index
+          run-id: 45774874136
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-local-45777202786-1
+          path: r8-local
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-independent-45777202786-1
+          path: r8-independent
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-local-45779068886-1
+          path: r9-local
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-independent-45779068886-1
+          path: r9-independent
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r10-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-r10
+      - name: Independently replay R10 and compare exact receipts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/check_codeai_olean_research_entry_v1_r10.py --index r7-index --r8-local r8-local --r8-independent r8-independent --r9-local r9-local --r9-independent r9-independent --out artifacts/r10 --first first-r10
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeai-olean-r10-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/r10/

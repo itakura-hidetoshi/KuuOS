@@ -79,3 +79,8 @@ def build_research_structured_edit_synthesis(
     )
     return {"status": "FORWARDED_TO_ORIGINAL_CODEAI", "issues": [],
             "recall_review": review, "synthesis": synthesis}
+
+# Versioned R10 research entry; the historical v0.1 function stays intact.
+# Existing callers are not silently migrated. Exact no-go and reuse routes
+# stop before the provider; a residual request is held for separate authority.
+from runtime.kuuos_codeai_olean_research_synthesis_v1 import build_olean_bound_research_synthesis
