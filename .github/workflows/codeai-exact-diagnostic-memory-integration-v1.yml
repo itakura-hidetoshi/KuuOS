@@ -1,0 +1,91 @@
+name: CodeAI immutable exact diagnostic memory integration v1
+on:
+  push:
+    branches: [research/codeai-exact-diagnostic-memory-v1-20261126]
+    paths:
+      - memoryos/codeai_exact_diagnostic_observation_v1.json
+      - runtime/kuuos_codeai_exact_diagnostic_memory_v1.py
+      - scripts/check_codeai_exact_diagnostic_memory_v1.py
+      - .github/workflows/codeai-exact-diagnostic-memory-integration-v1.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  HISTORICAL_MAIN: e1d754e8e0fc9382001a2e698751aa11d4272b84
+  PILOT_HEAD: 0e844381339f604ac016788b298f4815604752f7
+defaults:
+  run:
+    working-directory: canonical
+jobs:
+  sandbox:
+    name: Exact historical evidence projection and original native duplicate gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.HISTORICAL_MAIN }}
+          path: canonical
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.PILOT_HEAD }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate candidate runtime syntax
+        run: python3 -m py_compile ../runtime/kuuos_codeai_exact_diagnostic_memory_v1.py ../scripts/check_codeai_exact_diagnostic_memory_v1.py
+      - name: Actual archive projection, exact canonical recall, native regeneration rejects all three patches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 ../scripts/check_codeai_exact_diagnostic_memory_v1.py --head "$HISTORICAL_MAIN" --pilot ../pilot/scripts --out artifacts/exact-diagnostic-memory
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-exact-diagnostic-memory-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: canonical/artifacts/exact-diagnostic-memory/*.json
+          if-no-files-found: warn
+  independent:
+    name: Independent actual artifact and native duplicate-gate replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.HISTORICAL_MAIN }}
+          path: canonical
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.PILOT_HEAD }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-exact-diagnostic-memory-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-replay
+      - name: Independently reconstruct actual archive projection and original native gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 ../scripts/check_codeai_exact_diagnostic_memory_v1.py --head "$HISTORICAL_MAIN" --pilot ../pilot/scripts --out artifacts/exact-diagnostic-memory --first ../first-replay/integration-receipt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-exact-diagnostic-memory-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: canonical/artifacts/exact-diagnostic-memory/*.json
+          if-no-files-found: warn
