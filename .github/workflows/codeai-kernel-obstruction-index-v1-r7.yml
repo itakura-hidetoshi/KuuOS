@@ -1,0 +1,206 @@
+name: CodeAI full source olean index v1 R7
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-kernel-obstruction-index-v1-r7.yml"
+      - "scripts/check_codeai_kernel_obstruction_index_v1_r7.py"
+      - "scripts/codeai_olean_bounded_features_v1.py"
+      - "runtime/kuuos_codeai_olean_obstruction_preflight_v1.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: e1d754e8e0fc9382001a2e698751aa11d4272b84
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-kernel-obstruction-index-v1-r7
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R7 sandbox partition ${{ matrix.part }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        part: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r5-local-45762151506-1
+          path: r5-local
+          run-id: 45762151506
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r5-independent-45762151506-1
+          path: r5-independent
+          run-id: 45762151506
+          github-token: ${{ github.token }}
+      - name: Read partition and retain all holds
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PART: ${{ matrix.part }}
+        run: python3 pilot/scripts/check_codeai_kernel_obstruction_index_v1_r7.py --head "$CANONICAL_HEAD" --out artifacts/olean-r7 --part "$PART" --r5-local r5-local --r5-independent r5-independent
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r7-local-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/olean-r7/**/*.json
+            artifacts/olean-r7/**/*.lean
+            artifacts/olean-r7/**/*.log
+            artifacts/olean-r7/**/*.timing
+            artifacts/olean-r7/**/*.jsonl.gz
+            artifacts/olean-r7/**/modules.txt
+          if-no-files-found: warn
+  independent:
+    name: R7 independent partition ${{ matrix.part }}
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        part: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r5-local-45762151506-1
+          path: r5-local
+          run-id: 45762151506
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r5-independent-45762151506-1
+          path: r5-independent
+          run-id: 45762151506
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-local-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Read partition and retain all holds
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PART: ${{ matrix.part }}
+        run: python3 pilot/scripts/check_codeai_kernel_obstruction_index_v1_r7.py --head "$CANONICAL_HEAD" --out artifacts/olean-r7 --part "$PART" --r5-local r5-local --r5-independent r5-independent --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: codeai-olean-r7-independent-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/olean-r7/direct.json
+            artifacts/olean-r7/independent.json
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: codeai-olean-r7-independent-failure-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/olean-r7/**/*.json
+            artifacts/olean-r7/**/*.lean
+            artifacts/olean-r7/**/*.log
+            artifacts/olean-r7/**/*.timing
+            artifacts/olean-r7/**/*.jsonl.gz
+            artifacts/olean-r7/**/modules.txt
+          if-no-files-found: warn
+  aggregate:
+    name: R7 independent whole-source accounting and obstruction recall controls
+    needs: [sandbox, independent]
+    if: needs.sandbox.result == 'success' && needs.independent.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: codeai-olean-r7-local-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: local
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: codeai-olean-r7-independent-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: independent
+      - name: Assemble indexed SQLite catalog and test read-only candidate recall
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_kernel_obstruction_index_v1_r7.py --head "$CANONICAL_HEAD" --out artifacts/olean-r7-aggregate --aggregate --local local --independent independent --run "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r7-aggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r7-aggregate/
+          if-no-files-found: warn
