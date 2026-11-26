@@ -1,0 +1,147 @@
+name: CodeAI verified olean reader v1 R4
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-kernel-obstruction-index-v1-r4.yml"
+      - "scripts/check_codeai_kernel_obstruction_index_v1_r4.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: e1d754e8e0fc9382001a2e698751aa11d4272b84
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-kernel-obstruction-index-v1-r4
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R4 actual single and multipart olean reader and calibrated index
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-kernel-obstruction-r2-local-45752056242-1
+          path: r2-local
+          run-id: 45752056242
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-kernel-obstruction-r2-independent-45752056242-1
+          path: r2-independent
+          run-id: 45752056242
+          github-token: ${{ github.token }}
+      - name: Read actual verified olean data without project imports or mathlib setup
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_kernel_obstruction_index_v1_r4.py --head "$CANONICAL_HEAD" --out artifacts/olean-r4 --r2-local r2-local --r2-independent r2-independent --extra 64
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r4-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/olean-r4/**/*.json
+            artifacts/olean-r4/**/*.lean
+            artifacts/olean-r4/**/*.log
+            artifacts/olean-r4/**/*.timing
+            artifacts/olean-r4/**/*.jsonl.gz
+            artifacts/olean-r4/**/modules.txt
+          if-no-files-found: warn
+  independent:
+    name: Independent R4 verified olean reader replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-kernel-obstruction-r2-local-45752056242-1
+          path: r2-local
+          run-id: 45752056242
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-kernel-obstruction-r2-independent-45752056242-1
+          path: r2-independent
+          run-id: 45752056242
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r4-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently reconstruct calibrated raw index and compare receipts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_kernel_obstruction_index_v1_r4.py --head "$CANONICAL_HEAD" --out artifacts/olean-r4 --r2-local r2-local --r2-independent r2-independent --extra 64 --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r4-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/olean-r4/**/*.json
+            artifacts/olean-r4/**/*.lean
+            artifacts/olean-r4/**/*.log
+            artifacts/olean-r4/**/*.timing
+            artifacts/olean-r4/**/*.jsonl.gz
+            artifacts/olean-r4/**/modules.txt
+          if-no-files-found: warn
