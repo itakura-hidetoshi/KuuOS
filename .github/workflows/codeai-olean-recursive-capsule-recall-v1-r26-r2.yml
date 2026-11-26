@@ -1,0 +1,243 @@
+name: CodeAI recursive capsule recall v1 R26 R2
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-recursive-capsule-recall-v1-r26-r2.yml"
+      - "scripts/check_codeai_olean_recursive_capsule_recall_v1_r26_r2.py"
+      - "runtime/kuuos_codeai_olean_recursive_capsule_recall_v1_r2.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: e1d754e8e0fc9382001a2e698751aa11d4272b84
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-recursive-capsule-recall-v1-r26-r2
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R26 R2 sandbox recursive capsule recall and Lean application
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-local-45811079734-1
+          path: r20-local
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-independent-45811079734-1
+          path: r20-independent
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r25-local-45896476614-1
+          path: r25-local
+          run-id: 45896476614
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r25-independent-45896476614-1
+          path: r25-independent
+          run-id: 45896476614
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r24-local-45895057363-1
+          path: r24-local
+          run-id: 45895057363
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r24-independent-45895057363-1
+          path: r24-independent
+          run-id: 45895057363
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r23-r2-local-45893906832-1
+          path: r23-local
+          run-id: 45893906832
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r23-r2-independent-45893906832-1
+          path: r23-independent
+          run-id: 45893906832
+          github-token: ${{ github.token }}
+      - name: Verify R26 R2 recursive capsule recall and exact application
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_recursive_capsule_recall_v1_r26_r2.py --out artifacts/olean-r26-r2 --phase direct --r20-local r20-local --r20-independent r20-independent --r25-local r25-local --r25-independent r25-independent --r24-local r24-local --r24-independent r24-independent --r23-local r23-local --r23-independent r23-independent
+      - name: Install actual Lean MCP launcher
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Actual Lean MCP R26 R2 new application audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_recursive_capsule_recall_v1_r26_r2.py --out artifacts/olean-r26-r2 --phase mcp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r26-r2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r26-r2/
+          if-no-files-found: warn
+  independent:
+    name: R26 R2 independent recursive capsule recall and application
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-local-45811079734-1
+          path: r20-local
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-independent-45811079734-1
+          path: r20-independent
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r25-local-45896476614-1
+          path: r25-local
+          run-id: 45896476614
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r25-independent-45896476614-1
+          path: r25-independent
+          run-id: 45896476614
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r24-local-45895057363-1
+          path: r24-local
+          run-id: 45895057363
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r24-independent-45895057363-1
+          path: r24-independent
+          run-id: 45895057363
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r23-r2-local-45893906832-1
+          path: r23-local
+          run-id: 45893906832
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r23-r2-independent-45893906832-1
+          path: r23-independent
+          run-id: 45893906832
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r26-r2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently reconstruct R26 R2 recursive capsule recall and application
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_recursive_capsule_recall_v1_r26_r2.py --out artifacts/olean-r26-r2 --phase independent --r20-local r20-local --r20-independent r20-independent --r25-local r25-local --r25-independent r25-independent --r24-local r24-local --r24-independent r24-independent --r23-local r23-local --r23-independent r23-independent --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r26-r2-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r26-r2/
+          if-no-files-found: warn
