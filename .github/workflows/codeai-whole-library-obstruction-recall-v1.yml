@@ -1,0 +1,77 @@
+name: CodeAI whole-library obstruction retrieval v1
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-whole-library-obstruction-recall-v1.yml"
+      - "scripts/check_codeai_whole_library_obstruction_recall_v1.py"
+      - "runtime/kuuos_codeai_whole_library_obstruction_recall_v1.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: e1d754e8e0fc9382001a2e698751aa11d4272b84
+concurrency:
+  group: codeai-whole-library-obstruction-recall-v1
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: Whole-source obstruction inventory and review boundary
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan exact proof tree and test five cross-family obstruction queries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_whole_library_obstruction_recall_v1.py --head "$CANONICAL_HEAD" --out artifacts/whole-obstruction
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-whole-library-obstruction-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/whole-obstruction/*.json
+          if-no-files-found: warn
+  independent:
+    name: Independent whole-source obstruction inventory reconstruction
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-whole-library-obstruction-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently reconstruct all obstruction hints and compare receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_whole_library_obstruction_recall_v1.py --head "$CANONICAL_HEAD" --out artifacts/whole-obstruction --first first-recall/receipt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-whole-library-obstruction-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/whole-obstruction/*.json
+          if-no-files-found: warn
