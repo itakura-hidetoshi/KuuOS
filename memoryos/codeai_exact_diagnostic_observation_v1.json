@@ -1,0 +1,107 @@
+{
+  "schema": "kuuos.codeai.exact-diagnostic-observation.v1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "historical_source_head": "e1d754e8e0fc9382001a2e698751aa11d4272b84",
+  "historical_source_tree": "bdf2e81fc2cf702481b80e7079e59b1b47836013",
+  "proof_scope_digest": "2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b",
+  "toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+  "target": "Kuu.LivingEngi.sourceGlobal_implies_overlapFaithful",
+  "source_path": "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean",
+  "source_blob": "c3c989eff7b430faa5350d1300b4a17f531da757",
+  "type_expr_sha256": "5d51f89e0176d5794370e4d7cd7369769bec7a661f0b146d863aea4fbe632910",
+  "failed": {
+    "id": "a-missing-hypothesis",
+    "source_sha256": "42764b88e36159906de0eb8bd33c636b630976a53c657140a64da6a55534a7e8",
+    "patch_sha256": "6bab82a8396a8f7c2e0328327f58721956a81ea1163d8e14f899d125e5f66a39",
+    "log_sha256": "cb851aa6789a711999ed3271c19e3657dfd2a27e77e3824813b8a74f86a5af43",
+    "exit": 1,
+    "sorryAx": true,
+    "diagnostic": "Type mismatch",
+    "term": "sourceGlobal_implies_overlapFaithful U q s",
+    "actual_type": "HasGlobal U s → OverlapFiberFaithful U q s",
+    "expected_type": "OverlapFiberFaithful U q s"
+  },
+  "successful_alternative": {
+    "id": "b-exact-reuse",
+    "source_sha256": "4aeb245a664a31cf52cd45e9701f740c13139829d8407a532af4a81b3b6ab330",
+    "patch_sha256": "54a6f90b5e74786e9072f3acf448d62c55866dfd70c9720c34263164bdc646ff",
+    "log_sha256": "1609fbed66060e9cb1b1b7d092413ebb116659e8b2ba0b9e7d7103f9a825b5d5",
+    "axioms": []
+  },
+  "regenerated": {
+    "id": "c-diagnostic-explicit-exact",
+    "source_sha256": "cd15056adda9bf97e59f832629853eaa48b6c35c118b1bff496715816c683cfb",
+    "patch_sha256": "622c4513839640c8de8ab1269babee569b960841d1b673b37f4a075484ede288",
+    "axioms": [],
+    "direct_digest": "e24c5aabdd17f229369d382ecace635605d0bb57a2cf1f22401834c23bef1acf",
+    "feedback_digest": "c05e93413c84f398380557d0fc08962dc3e3365a503d4f7f50189eb5d79169e9",
+    "mcp_digest": "5ddedc522a696bd1eee4ecb2212e194cee81067cf842703e0cf46b6351928271",
+    "stale_binding_rejections": 7,
+    "tamper_rejected": true,
+    "native_duplicate_rejected": true,
+    "historical_seed_lean_executions": 0,
+    "new_candidate_lean_executions": 1
+  },
+  "observed_difference": "explicit final hypothesis h",
+  "provenance": {
+    "portfolio": {
+      "run_id": 45719609942,
+      "head": "f58b08eca16c13669d2b951fcbe755a610d23695",
+      "jobs": [
+        139574324619,
+        139576762337
+      ],
+      "artifact_ids": [
+        15071023603,
+        15071458472
+      ],
+      "portfolio_digest": "97a628794bed5c5ae7c582383cf907fcf16716772c26bce3a52f8c99cbf45a72"
+    },
+    "memory": {
+      "run_id": 45722237558,
+      "head": "014b1531846c3b4979901e9c5af3d10ac58c40aa",
+      "jobs": [
+        139583144014,
+        139583262360
+      ],
+      "artifact_ids": [
+        15073345157,
+        15072327855
+      ],
+      "receipt_digest": "4a43405db609338b03c0c84307d76e34a664286b2e27217cccc7f087aae53226",
+      "diagnostic_digest": "6c97fadde43e119b7fb892c1ccc07e04a3b51c9f055f32724b1f1dc5d9ba966d",
+      "evidence_digest": "c648a54c78d9e9d936b60563bf672b05146efdde61b742667e26d11f12d98c63"
+    },
+    "regeneration": {
+      "run_id": 45724163468,
+      "head": "0e844381339f604ac016788b298f4815604752f7",
+      "jobs": [
+        139589646025,
+        139591151648
+      ],
+      "artifacts": [
+        {
+          "id": 15074305638,
+          "size": 9910,
+          "sha256": "41639672e733f011ac634404f26568fdce6b3aa5c789443906c4446da5db2aaf",
+          "role": "local"
+        },
+        {
+          "id": 15073827709,
+          "size": 9184,
+          "sha256": "8972f5676a741064092d1797a3de1764870d3d4858179b668ed11131517d71d4",
+          "role": "independent"
+        }
+      ]
+    }
+  },
+  "verified_useful": false,
+  "global_verifier_ensemble": "HOLD",
+  "general_repair_usefulness": "NO_DATA",
+  "external_model": false,
+  "new_mathematical_result": false,
+  "proof_authority": false,
+  "execution_authority": false,
+  "merge_authority": false
+}
