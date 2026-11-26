@@ -1,0 +1,163 @@
+name: CodeAI same proof scope transport and Lake module closure R11
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-scope-transport-v1-r11.yml"
+      - "scripts/check_codeai_olean_scope_transport_v1_r11.py"
+      - "runtime/kuuos_codeai_olean_scope_transport_v1.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-scope-transport-v1-r11
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R11 sandbox scope transport and actual Lake module closure
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean for Lake module query
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-e1d754e8e0fc9382001a2e698751aa11d4272b84
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r10-local-45781051747-1
+          path: r10-local
+          run-id: 45781051747
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r10-independent-45781051747-1
+          path: r10-independent
+          run-id: 45781051747
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-aggregate-45774874136-1
+          path: r7-index
+          run-id: 45774874136
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-local-45777202786-1
+          path: r8-local
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-independent-45777202786-1
+          path: r8-independent
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-local-45779068886-1
+          path: r9-local
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-independent-45779068886-1
+          path: r9-independent
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - name: Observe scope transport and actual pinned Lake library module closure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/check_codeai_olean_scope_transport_v1_r11.py --index r7-index --r8-local r8-local --r8-independent r8-independent --r9-local r9-local --r9-independent r9-independent --r10-local r10-local --r10-independent r10-independent --out artifacts/r11
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeai-olean-r11-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/r11/
+  independent:
+    name: R11 independent scope and Lake closure replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean for Lake module query
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-e1d754e8e0fc9382001a2e698751aa11d4272b84
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r10-local-45781051747-1
+          path: r10-local
+          run-id: 45781051747
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r10-independent-45781051747-1
+          path: r10-independent
+          run-id: 45781051747
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-aggregate-45774874136-1
+          path: r7-index
+          run-id: 45774874136
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-local-45777202786-1
+          path: r8-local
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r8-independent-45777202786-1
+          path: r8-independent
+          run-id: 45777202786
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-local-45779068886-1
+          path: r9-local
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r9-independent-45779068886-1
+          path: r9-independent
+          run-id: 45779068886
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r11-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-r11
+      - name: Independently replay R11 and compare scope and Lake receipts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/check_codeai_olean_scope_transport_v1_r11.py --index r7-index --r8-local r8-local --r8-independent r8-independent --r9-local r9-local --r9-independent r9-independent --r10-local r10-local --r10-independent r10-independent --out artifacts/r11 --first first-r11
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeai-olean-r11-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/r11/
