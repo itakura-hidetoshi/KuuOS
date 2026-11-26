@@ -6,8 +6,8 @@ KuuOSは、空・縁起・二諦・中道をAIの推論と行為の規律とし�
 
 > **研究スナップショット：2026-11-27 JST（GitHub MCP観測）**  
 > 検証対象の正本：[`main` @ `e1d754e8e0fc`](https://github.com/itakura-hidetoshi/KuuOS/commit/e1d754e8e0fc9382001a2e698751aa11d4272b84)。  
-> 研究ブランチ：[`research/codeai-nogo-memory-v1-20261126`](https://github.com/itakura-hidetoshi/KuuOS/tree/research/codeai-nogo-memory-v1-20261126)。R27 R2まで限定範囲で独立認証済み、R28は観測時点でSandbox実行中。研究成果はmainへ未統合。  
-> この文書のHEADは観測対象のHEADと区別する。最新の実状態はGitHubのソース・CI・受領書を再観測する。
+> 研究ブランチ：[`research/codeai-nogo-memory-v1-20261126`](https://github.com/itakura-hidetoshi/KuuOS/tree/research/codeai-nogo-memory-v1-20261126)。R28まで限定範囲で独立認証済み（2026-11-27 07:19 JST）。研究成果はmainへ未統合。  
+> この文書のHEADは観測対象のHEADと区別する。R28の受領書は上記の旧観測正本に拘束される。文書更新でmain HEADが変わった後の研究再開には、同一proof scope・依存・来歴の照合と新HEADに対応する受入検証が必要である。最新の実状態はGitHubのソース・CI・受領書を再観測する。
 
 [ROADMAP.md](ROADMAP.md) は受入条件と未解決問題を示す。過去の記録は削除せず、[2026-11-22版README](docs/history/README-SNAPSHOT-20261122.md)・[同ROADMAP](docs/history/ROADMAP-SNAPSHOT-20261122.md)および[それ以前のREADME](docs/history/README-THROUGH-20261121.md)・[ROADMAP](docs/history/ROADMAP-THROUGH-20261121.md)に保存する。
 
@@ -67,9 +67,9 @@ KuuOSは、空・縁起・二諦・中道をAIの推論と行為の規律とし�
 | R23〜R25 | コンパイル済み証明カプセル、来歴固定登録簿、目標の完全型・`isDefEq`に基づく正・負の型付き再利用。R25 [CI #45896476614](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45896476614)：4新規証明項・6監査、2目標HOLD |
 | R26 R2 | [CI #45898216584](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45898216584) SUCCESS。再帰探索途中の前提にカプセル・No-Goを適用。17宣言監査、正の3経路、該当経路だけの遮断、代替経路保持 |
 | R27 R2 | [研究HEAD `4b3889aa3f5b`](https://github.com/itakura-hidetoshi/KuuOS/commit/4b3889aa3f5bb2c287721b772c4e9b580326cc5a)、[CI #45901313851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45901313851) SUCCESS。5候補（正3・負2）、7種類の閉じた目標、24宣言監査、再探索比較キャッシュヒット35回、カプセル再構築0・外部provider呼出し0 |
-| R28 | [研究HEAD `c05a986ecd57`](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709)、[CI #45902979815](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815) Sandbox実行中（観測時点）。別実行への完全型記憶の移送・来歴照合・新しい証明項の確認を検証中。独立認証未確認 |
+| R28 | [研究HEAD `c05a986ecd57`](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709)、[CI #45902979815](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815) SUCCESS。7件の記憶を別runnerへ同一バイトで移送し、新しい8目標中6件を型付き再適用（正4・負2）、11宣言監査、HOLD2件。候補比較探索・最上位探索・カプセル再構築・外部provider呼出し各0。改変・再ハッシュ・scope／登録簿／live型変更の5拒否試験成功 |
 
-**上記は研究ブランチの限定実験であり、mainの本番機構と同一ではない。** 既存の真正native C60 F55由来の値を使うR25〜R27の主要例はBool添字・Unit基底の抽象二局所モデルであり、C60の幾何学的被覆を証明するものではない。全探索、任意の依存型、全No-Goの網羅、異なるLean版への移送、外部モデルによる自律生成の性能は未認証。比較キャッシュは証明そのものではない。
+**上記は研究ブランチの限定実験であり、mainの本番機構と同一ではない。** 既存の真正native C60 F55由来の値を使うR25〜R28の主要例はBool添字・Unit基底の抽象二局所モデルであり、C60の幾何学的被覆を証明するものではない。全探索、任意の依存型、全No-Goの網羅、異なるLean版への移送、外部モデルによる自律生成の性能は未認証。比較キャッシュは証明そのものではない。
 
 ### C. その他の開いた研究
 
@@ -136,4 +136,4 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 
 研究・設計：**Hidetoshi Itakura（板倉英俊）**。著作権・ライセンスは各ファイルの表示と[LICENSE](LICENSE)（Apache License 2.0）を参照。
 
-**English overview:** KuuOS is a research project for evidence-bound AI reasoning, contextual dependency, typed proof reuse, explicit obstructions, and separated action authority. Its Lean formal results concern specified mathematical structures, not the truth of Buddhist philosophy. Canonical main includes a selected version-bound CodeAI kernel-memory system and verified cross-PR Lean artifact reuse. The separate R7–R28 research series studies typed proof and No-Go retrieval, AND–OR premise search, proof capsules, and portable recall; R27 R2 is independently verified in its bounded research scope, while R28 is not yet certified at this snapshot. General automatic theorem proving, complete semantic search, blanket hallucination elimination, and execution authority are not claimed.
+**English overview:** KuuOS is a research project for evidence-bound AI reasoning, contextual dependency, typed proof reuse, explicit obstructions, and separated action authority. Its Lean formal results concern specified mathematical structures, not the truth of Buddhist philosophy. Canonical main includes a selected version-bound CodeAI kernel-memory system and verified cross-PR Lean artifact reuse. The separate R7–R28 research series studies typed proof and No-Go retrieval, AND–OR premise search, proof capsules, and portable recall; R28 is independently verified in its bounded research scope (seven memory records, six newly checked applications, two HOLD outcomes, eleven audited declarations and byte-identical memory transport). General automatic theorem proving, complete semantic search, blanket hallucination elimination, and execution authority are not claimed.

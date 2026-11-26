@@ -61,26 +61,38 @@
 
 [認証済みR27実装（固定HEAD）](https://github.com/itakura-hidetoshi/KuuOS/blob/4b3889aa3f5bb2c287721b772c4e9b580326cc5a/runtime/kuuos_codeai_olean_multi_typed_recall_v1_r2.py)・[検査スクリプト](https://github.com/itakura-hidetoshi/KuuOS/blob/4b3889aa3f5bb2c287721b772c4e9b580326cc5a/scripts/check_codeai_olean_multi_typed_recall_v1_r27_r2.py)。未観測モジュール695、意味探索の完全性はfalse。
 
-### A2. 直近の研究 R28 — 実行間の版固定記憶
+### A2. R28 — 実行間の版固定記憶（独立認証済み・main未統合）
 
-[研究HEAD `c05a986ecd57`](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709)、[CI #45902979815](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815)。観測時点：Sandbox実行中、固定Leanと認証済み正本キャッシュの復元・scope照合成功、固定mathlib確認中。直接Lean・実Lean MCP・別runner独立CIは未確認。
+[研究HEAD `c05a986ecd57`](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709)、[CI #45902979815](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815) は2026-11-27 07:19 JSTにcompleted／SUCCESS。固定Lean・実Lean MCP・別runner独立再構成がすべて成功した。
 
-[R28実装（未認証）](https://github.com/itakura-hidetoshi/KuuOS/blob/c05a986ecd571a1b00da255a7552ee8a54b4a709/runtime/kuuos_codeai_olean_portable_exact_recall_v1.py) は、R27の独立認証受領書から7件の完全型記憶を生成し、別runnerで新しい完全型の観測と照合する設計。既存記憶は証明候補の選択に使い、実際の証明項は新たにLean検証する。
+[R28実装（認証HEAD）](https://github.com/itakura-hidetoshi/KuuOS/blob/c05a986ecd571a1b00da255a7552ee8a54b4a709/runtime/kuuos_codeai_olean_portable_exact_recall_v1.py) は、R27の独立認証受領書から7件の完全型記憶を生成し、別runnerで新たに観測した完全型と照合する。記憶は候補選択に使い、新しい証明項はLeanで実際に検証した。
 
-| 検証条件 | 期待結果（未認証） |
+| 検証条件 | 認証結果（指定fixture・scopeのみ） |
 | --- | --- |
-| 過去に観測した閉じた完全型6件 | 正4・負2の型付き再適用 |
+| 過去に観測した閉じた完全型6件 | 正4 REUSE_EXISTING・負2 REFUTED_EXACT_TARGET |
 | 過去の検索miss | HOLD_HISTORICAL_NO_MATCH（¬Pではない） |
 | 未観測の新規目標型 | HOLD_SEARCH_REQUIRED |
-| 記憶改変・再ハッシュ | HOLD。自己計算したハッシュは認証受領書の代わりにならない |
-| scope・登録簿・live型の変更 | HOLD／再認証 |
-| 同一受領書・同一source | 新しい候補比較探索、最上位探索、カプセル再構築を不要にする範囲を測定 |
+| 記憶改変・再ハッシュ | HOLD_MEMORY_INTEGRITY／HOLD_UNADMITTED_MEMORY |
+| scope・登録簿・live型の変更 | HOLD_SCOPE／HOLD_INVENTORY_INTEGRITY／HOLD_SOURCE_TYPE_DRIFT |
+| 別runnerへの記憶移送 | portable-memory.jsonのバイト列一致 |
+| 再探索・再構築 | 候補比較探索0、最上位探索0、カプセル再構築0、外部provider呼出し0 |
+| 公理監査 | 11宣言を実Lean MCPで監査 |
 
-**受入条件**：認証済みR27受領書・artifact・正本・pinを照合し、正負の新規証明項を直接Lean／実Lean MCPで検査、別runnerでsandbox成果物を再観測。独立受領書とソースの一致を確認する。それまでは採用禁止。
+**R28最終受領書：**
+
+- 研究HEAD `c05a986ecd571a1b00da255a7552ee8a54b4a709`、tree `09374564dedd47bd7a2fe1d44a05d99f5866fa0e`
+- 観測正本 `e1d754e8e0fc9382001a2e698751aa11d4272b84`、proof scopeは冒頭の値
+- Direct digest `8a7a2b551642cf22050defb202e4928e4716a8d61d194066a46478d9fe5a466e`
+- MCP digest `6a30a84ee4316548c972ed0aa18887c0791b179b9de55bb563e22649766c9bfc`
+- memory key `bff98533e4163be2961bede75782204d3822e3e2275f049bdd953e150f28c339`、inventory keyはR27と同一
+- Sandbox job 140192957037、artifact 15156164812（SHA-256 `c70156caa2cca261c94796353f5ae065ebf9398e13f52fdd22458f745397f77e`）
+- 独立job 140194736625、artifact 15156941455（SHA-256 `9f8f6c5274bdae9e3d4f07565868f33d7f77c6c9675b945a7d391e3556b671d7`）
+
+R28の成功は、同じ固定環境における7件の記憶と8目標の限定実験に対する認証である。一般的な永続化検索や任意の目標型への適用、mainへの正式採用は未認証。文書更新後のmain HEADには旧認証を直接移さない。
 
 ### A3. その次の研究（計画・未着手として扱う）
 
-1. R28の結果を確認後、永続化記憶をR26/R27の再帰探索途中へ接続する。型・文脈・scopeに合う部分だけを再利用し、未解決前提のみを探索する。
+1. **次段R29（計画）**：文書更新後のcanonical mainを再観測し、R28の旧HEAD・新HEADの祖先関係、formal/lean subtree、固定proof scope・pins・依存・受領書を照合する。旧受領書は書き換えず、新HEADで再利用するための独立した受入記録を構成する。その条件を満たした後に、永続化記憶をR26/R27の再帰探索途中へ接続する。型・文脈・scopeに合う部分だけを再利用し、未解決前提のみを探索する。
 2. 同じ目標に複数の正の証明経路がある場合、候補と来歴を保持する。負の証明はその必要前提を持つ経路に限定し、代替を不正に排除しない。
 3. 47,705件の型構造索引の完全型観測を拡張する。対象2,815モジュール中2,120観測、695 HOLD、完全型2,390件、否定構造候補5,558件。字句的No-Go候補6,380件は別の観測であり、数を足して反証の総数としない。
 4. 候補生成・実修復・既存証明検索を単一の汎用経路に接続し、再利用・HOLD・反証・時間・計算量・依存変更・失敗再発率を検証する。
