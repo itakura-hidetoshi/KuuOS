@@ -1,0 +1,50 @@
+{
+  "schema": "kuuos.codeai.selected-no-go-certified-lineage.v1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "historical_source_head": "e1d754e8e0fc9382001a2e698751aa11d4272b84",
+  "historical_source_tree": "bdf2e81fc2cf702481b80e7079e59b1b47836013",
+  "scope_digest": "2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b",
+  "subject": "native-f55-two-chart-source-descent",
+  "source_blobs": {
+    "formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean": "c3c989eff7b430faa5350d1300b4a17f531da757",
+    "formal/Kuu/LivingEngi/NativeF55CechSourceGluingObstruction.lean": "eed8c043b0ffad67572a2938329b8f1feeaf583a"
+  },
+  "run_id": 45740675607,
+  "run_attempt": 1,
+  "head": "2007ad2d69b3b073e43e04522dc12880910e43f1",
+  "sandbox_job": 139644601837,
+  "independent_job": 139646153429,
+  "direct_digest": "84feb3de775f8cf8f49183936cf231ab7f31f933d4b40b31bf52f1980ff11305",
+  "mcp_digest": "ea21d96fc2c82c3f790201fe5252a63e6182290304d7e553ffe8a4de74555328",
+  "route_digest": "0709b71b985b66be0b36e2b1fd136f8631ff07ce59a79d7afe337c7087a89224",
+  "artifacts": [
+    {
+      "id": 15081490987,
+      "role": "local",
+      "size": 33633,
+      "sha256": "93110d39786b54fb06622cde75026728b5dba4e87b5aab6139ec1e462f56c6ae"
+    },
+    {
+      "id": 15081312362,
+      "role": "independent",
+      "size": 23160,
+      "sha256": "ecdfaad0189133a45b0bbb81fd9c279b87292727ca38b91c14a59dadfcd64eef"
+    }
+  ],
+  "routes": {
+    "alternative_raw": "REUSE_EXISTING",
+    "alternative_refined": "REUSE_EXISTING",
+    "original_faithfulness": "REFUTED_EXACT_TARGET",
+    "original_raw": "REFUTED_EXACT_TARGET",
+    "original_refined": "REFUTED_EXACT_TARGET",
+    "shadow": "REUSE_EXISTING"
+  },
+  "conditional_without_premise": "HOLD_NO_GO_REVIEW",
+  "observed_declarations": 22,
+  "anchors": 15,
+  "semantic_search_complete": false,
+  "proof_authority": false,
+  "novelty_certified": false,
+  "execution_authority": false,
+  "merge_authority": false
+}
