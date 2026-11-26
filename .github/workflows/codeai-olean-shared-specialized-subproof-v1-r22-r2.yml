@@ -1,0 +1,160 @@
+name: CodeAI shared specialized subproof v1 R22 R2
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-shared-specialized-subproof-v1-r22-r2.yml"
+      - "scripts/check_codeai_olean_shared_specialized_subproof_v1_r22_r2.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: e1d754e8e0fc9382001a2e698751aa11d4272b84
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-shared-specialized-subproof-v1-r22-r2
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R22 R2 admit unchanged GREEN sandbox and verify JSON transport
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r22-local-45817298015-1
+          path: r22-local
+          run-id: 45817298015
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r22-independent-45817298015-1
+          path: r22-independent
+          run-id: 45817298015
+          github-token: ${{ github.token }}
+      - name: Verify R22 R2 original sandbox evidence and exact JSON transport
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_shared_specialized_subproof_v1_r22_r2.py --out artifacts/olean-r22-r2-gate --phase reuse-sandbox --r22-local r22-local --r22-independent r22-independent
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeai-olean-r22-r2-gate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r22-r2-gate/
+          if-no-files-found: error
+  independent:
+    name: R22 R2 independent shared specialized subproof and application
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r7-aggregate-45774874136-1
+          path: r7-index
+          run-id: 45774874136
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-local-45811079734-1
+          path: r20-local
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r20-r2-independent-45811079734-1
+          path: r20-independent
+          run-id: 45811079734
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r21-local-45813837876-1
+          path: r21-local
+          run-id: 45813837876
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r21-independent-45813837876-1
+          path: r21-independent
+          run-id: 45813837876
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r22-local-45817298015-1
+          path: r22-local
+          run-id: 45817298015
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r22-independent-45817298015-1
+          path: r22-independent
+          run-id: 45817298015
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r22-r2-gate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: r22-r2-gate
+      - name: Independently reconstruct R22 R2 unchanged Lean proof and verify receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_shared_specialized_subproof_v1_r22_r2.py --out artifacts/olean-r22-r2 --phase independent --index r7-index --r20-local r20-local --r20-independent r20-independent --r21-local r21-local --r21-independent r21-independent --r22-local r22-local --r22-independent r22-independent --gate r22-r2-gate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r22-r2-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r22-r2/
+          if-no-files-found: warn
