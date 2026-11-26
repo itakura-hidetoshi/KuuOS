@@ -1,0 +1,35 @@
+name: CodeAI no-go MCP archived diagnostic
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths: [.github/workflows/codeai-no-go-mcp-diagnostic-v1.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 1928158206e06431751123e5b52ebcb02fbc8c6c
+          persist-credentials: false
+      - name: Inspect exact preserved MCP failure and matching direct receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, tempfile, zipfile
+          from scripts import ci_verified_lean_project_cache_v1 as cache
+          with tempfile.TemporaryDirectory() as td:
+              p=pathlib.Path(td)/"failure.zip"
+              cache.download_zip({"artifact_id":15080457601,"artifact_size":33011,"artifact_digest":"b14862b4ac55e4af1a39e04dd18ef553faea575486397b8c0d88a6bfc5789104"},p)
+              with zipfile.ZipFile(p) as z:
+                  d=json.loads(z.read("direct.json"))
+                  for name in z.namelist():
+                      if name.startswith("mcp-verify-"):
+                          i=int(name.removeprefix("mcp-verify-").removesuffix(".json"))
+                          print("KUUOS_MCP_ARCHIVED",json.dumps({"name":d["observations"][i]["name"],"expected_axioms":d["observations"][i]["axioms"],"response":json.loads(z.read(name))},ensure_ascii=False))
+                  print("KUUOS_MCP_DIAG",z.read("mcp-diagnostics.json").decode()[:4000])
+          PY
