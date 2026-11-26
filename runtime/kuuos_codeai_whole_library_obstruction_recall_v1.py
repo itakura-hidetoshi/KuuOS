@@ -223,6 +223,7 @@ def review_obstruction_receipt(receipt,review,synthesis_request,repository_files
     by_id={r["id"]:r for r in receipt["matches"]}
     seen=set()
     missing_sources=set()
+    verified_sources={}
     issues=[]
     comparisons=review.get("obstruction_comparisons")
     if not isinstance(comparisons,list):
@@ -246,12 +247,14 @@ def review_obstruction_receipt(receipt,review,synthesis_request,repository_files
             # exact typed witness, rather than trusting this review.
             issues.append("typed_applicability_unresolved:"+i)
         path=expected["path"]
-        data=repository_files.get(path)
-        local=root/path
-        if (not isinstance(data,str) or local.is_symlink()
-                or not local.resolve().is_relative_to(root.resolve())
-                or git_blob(data.encode("utf-8"))!=expected["source_blob"]
-                or local.read_bytes()!=data.encode("utf-8")):
+        if path not in verified_sources:
+            data=repository_files.get(path)
+            local=root/path
+            verified_sources[path]=(isinstance(data,str) and not local.is_symlink()
+                and local.resolve().is_relative_to(root.resolve())
+                and git_blob(data.encode("utf-8"))==expected["source_blob"]
+                and local.read_bytes()==data.encode("utf-8"))
+        if not verified_sources[path]:
             missing_sources.add(path)
     if seen!=set(by_id):
         issues.append("unreviewed_obstruction_hits:"+str(len(set(by_id)-seen)))
@@ -269,8 +272,15 @@ def review_obstruction_receipt(receipt,review,synthesis_request,repository_files
             "downstream_prior_proof_review_required":True,
             "proof_authority":False,"novelty_certified":False,"semantic_search_complete":False}
 
+def obstruction_context_text(review):
+    # Exclude the binding to the final synthesis request from the text
+    # inside that request; otherwise a digest self-reference is required.
+    context={k:v for k,v in review.items() if k!="synthesis_request_binding"}
+    return "KuuOS obstruction review (assertions only, not proof):\n"+json.dumps(
+        context,ensure_ascii=False,sort_keys=True,separators=(",",":"))
+
 def build_obstruction_reviewed_research_synthesis(*,root,observation,kernel_receipt,
-        mathematical_review,recall_receipt,obstruction_receipt,obstruction_review,
+        mathematical_review,recall_receipt,obstruction_receipt=None,obstruction_review=None,
         subject_receipt=None,**kwargs):
     """Additive pre-provider boundary for residual research.
 
@@ -290,8 +300,7 @@ def build_obstruction_reviewed_research_synthesis(*,root,observation,kernel_rece
             return {**check,"obstruction_receipt_digest":fresh["receipt_digest"]}
         # The obstruction review must be present in the same provider
         # intent that all older gates bind. Do not mutate/reseal it here.
-        context="KuuOS obstruction review (assertions only, not proof):\n"+json.dumps(
-            obstruction_review,ensure_ascii=False,sort_keys=True,separators=(",",":"))
+        context=obstruction_context_text(obstruction_review)
         intent=kwargs["synthesis_request"].get("intent_text")
         if not isinstance(intent,str) or context not in intent:
             return hold("obstruction_context_missing_from_provider_intent")
