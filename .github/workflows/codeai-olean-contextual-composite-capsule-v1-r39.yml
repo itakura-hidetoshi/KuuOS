@@ -1,0 +1,171 @@
+name: CodeAI contextual composite capsule v1 R39
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-contextual-composite-capsule-v1-r39.yml"
+      - "scripts/check_codeai_olean_contextual_composite_capsule_v1_r39.py"
+      - "runtime/kuuos_codeai_olean_contextual_composite_capsule_v1.py"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-contextual-composite-capsule-v1-r39
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R39 sandbox composite capsule and Lean replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r38-local-45937019627-1
+          path: r38-local
+          run-id: 45937019627
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r38-independent-45937019627-1
+          path: r38-independent
+          run-id: 45937019627
+          github-token: ${{ github.token }}
+      - name: Verify R39 composite capsule and exact replay
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_contextual_composite_capsule_v1_r39.py --out artifacts/olean-r39 --phase direct --r38-local r38-local --r38-independent r38-independent
+      - name: Install actual Lean MCP launcher
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Actual Lean MCP R39 capsule replay audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_contextual_composite_capsule_v1_r39.py --out artifacts/olean-r39 --phase mcp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r39-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r39/
+          if-no-files-found: warn
+  independent:
+    name: R39 independent composite capsule and Lean replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r38-local-45937019627-1
+          path: r38-local
+          run-id: 45937019627
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r38-independent-45937019627-1
+          path: r38-independent
+          run-id: 45937019627
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r39-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently reconstruct R39 composite capsule and replay
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_contextual_composite_capsule_v1_r39.py --out artifacts/olean-r39 --phase independent --r38-local r38-local --r38-independent r38-independent --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r39-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r39/
+          if-no-files-found: warn
