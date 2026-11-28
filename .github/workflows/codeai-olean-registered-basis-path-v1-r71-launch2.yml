@@ -1,0 +1,227 @@
+name: CodeAI registered basis path v1 R71 launch2
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-registered-basis-path-v1-r71-launch2.yml"
+permissions:
+  contents: read
+  actions: read
+env:
+  R71_PROOF_HEAD: 6bd354e686bc4b75d3d33091e8b452b81166e124
+  CANONICAL_HEAD: a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-registered-basis-path-v1-r71
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R71 sandbox registered basis path
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.R71_PROOF_HEAD }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Require original R71 run absent before retry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          head=os.environ["R71_PROOF_HEAD"]
+          url=os.environ["GITHUB_API_URL"]+"/repos/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs?head_sha="+head
+          req=urllib.request.Request(url,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+          with urllib.request.urlopen(req,timeout=60) as response:
+              data=json.load(response)
+          if data["total_count"]!=0 or data["workflow_runs"]:
+              raise SystemExit("HOLD: original R71 workflow has appeared; do not duplicate")
+          print("KUUOS_R71_LAUNCH2_NO_ORIGINAL_RUN",head)
+          PY
+      - name: Verify exact original R71 proof inputs
+        run: |
+          set -euo pipefail
+          test "$(git -C pilot rev-parse HEAD)" = "$R71_PROOF_HEAD"
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          entries={
+              "scripts/lean_probes/codeai_registered_basis_path_v1.lean":"a1ace9d58fa85e03308e6a0df2458112c3847344",
+              "scripts/check_codeai_olean_registered_basis_path_v1_r71.py":"cf62f4f9e15fb81f85ca59e7656097f22f514331",
+              ".github/workflows/codeai-olean-registered-basis-path-v1-r71.yml":"06edc8f2a295f4d2c722eec2a112b9dc49cf9c87",
+          }
+          for name,expected in entries.items():
+              blob=(Path("pilot")/name).read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(blob)).encode()+b"\0"+blob).hexdigest()
+              assert actual==expected, (name,actual)
+          print("KUUOS_R71_LAUNCH2_EXACT_SOURCE",entries)
+          PY
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r70-r2-local-46109656399-1
+          path: r70-local
+          run-id: 46109656399
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r70-r2-independent-46109656399-1
+          path: r70-independent
+          run-id: 46109656399
+          github-token: ${{ github.token }}
+      - name: Verify R71 registered basis path
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registered_basis_path_v1_r71.py --out artifacts/olean-r71 --phase direct --r70-local r70-local --r70-independent r70-independent
+      - name: Install actual Lean MCP launcher
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv==0.13.10
+          if ! command -v rg >/dev/null 2>&1; then
+            test -f /etc/apt/sources.list.d/ubuntu.sources
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- update -qq
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- install -y -qq ripgrep
+          fi
+          uv --version
+          rg --version
+      - name: Actual Lean MCP R71 new declarations and exact prior receipt reuse
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registered_basis_path_v1_r71.py --out artifacts/olean-r71 --phase mcp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r71-launch2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r71/
+          if-no-files-found: warn
+  independent:
+    name: R71 independent registered basis path
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.R71_PROOF_HEAD }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact original R71 proof inputs
+        run: |
+          set -euo pipefail
+          test "$(git -C pilot rev-parse HEAD)" = "$R71_PROOF_HEAD"
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          entries={
+              "scripts/lean_probes/codeai_registered_basis_path_v1.lean":"a1ace9d58fa85e03308e6a0df2458112c3847344",
+              "scripts/check_codeai_olean_registered_basis_path_v1_r71.py":"cf62f4f9e15fb81f85ca59e7656097f22f514331",
+              ".github/workflows/codeai-olean-registered-basis-path-v1-r71.yml":"06edc8f2a295f4d2c722eec2a112b9dc49cf9c87",
+          }
+          for name,expected in entries.items():
+              blob=(Path("pilot")/name).read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(blob)).encode()+b"\0"+blob).hexdigest()
+              assert actual==expected, (name,actual)
+          print("KUUOS_R71_LAUNCH2_EXACT_SOURCE",entries)
+          PY
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r70-r2-local-46109656399-1
+          path: r70-local
+          run-id: 46109656399
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r70-r2-independent-46109656399-1
+          path: r70-independent
+          run-id: 46109656399
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r71-launch2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently verify R71 registered basis path
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registered_basis_path_v1_r71.py --out artifacts/olean-r71 --phase independent --r70-local r70-local --r70-independent r70-independent --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r71-launch2-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r71/
+          if-no-files-found: warn
