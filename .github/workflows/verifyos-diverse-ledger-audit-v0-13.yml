@@ -1,0 +1,25 @@
+name: VerifyOS diverse ledger audit v0.13
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_verifyos_diverse_ledger_audit_v0_13.py'
+      - 'runtime/kuuos_verifyos_execution_witness_v0_12.py'
+      - 'tests/test_kuuos_verifyos_diverse_ledger_audit_v0_13.py'
+      - '.github/workflows/verifyos-diverse-ledger-audit-v0-13.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: openssl version
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_diverse_ledger_audit_v0_13.py -v
+  independent-regression:
+    needs: isolated-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: openssl version
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_diverse_ledger_audit_v0_13.py -v
