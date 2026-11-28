@@ -1,0 +1,79 @@
+name: VerifyOS typed projection v0.15
+on:
+  pull_request:
+    branches: [main, research/verifyos-method-sound-coverage-v0-14-r3]
+    paths:
+      - 'scripts/lean_probes/verifyos_typed_projection_v0_15.lean'
+      - 'scripts/check_verifyos_typed_projection_v0_15.py'
+      - '.github/workflows/verifyos-typed-projection-v0-15.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    name: Sandbox typed projection and actual Lean MCP
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Direct Lean and runtime-derived fixture audit
+        run: python3 scripts/check_verifyos_typed_projection_v0_15.py --phase direct --out "$RUNNER_TEMP/verifyos-v015"
+      - name: Prepare minimal Lake project and actual MCP
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv==0.13.10
+          if ! command -v rg >/dev/null 2>&1; then
+            test -f /etc/apt/sources.list.d/ubuntu.sources
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- update -qq
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- install -y -qq ripgrep
+          fi
+          rg --version
+          cd "$RUNNER_TEMP/verifyos-v015/project"
+          lake build TypedProjection
+      - name: Actual Lean MCP diagnostics and theorem audit
+        run: python3 scripts/check_verifyos_typed_projection_v0_15.py --phase mcp --out "$RUNNER_TEMP/verifyos-v015"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v015-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v015/*.json
+            ${{ runner.temp }}/verifyos-v015/*.log
+            ${{ runner.temp }}/verifyos-v015/project/*.lean
+          if-no-files-found: warn
+  independent:
+    name: Independent typed projection replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/download-artifact@v4
+        with:
+          name: verifyos-v015-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/verifyos-v015-first
+      - name: Regenerate typed cases and independently replay exact Lean evidence
+        run: python3 scripts/check_verifyos_typed_projection_v0_15.py --phase independent --out "$RUNNER_TEMP/verifyos-v015-independent" --first "$RUNNER_TEMP/verifyos-v015-first"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v015-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v015-independent/*.json
+            ${{ runner.temp }}/verifyos-v015-independent/*.log
+            ${{ runner.temp }}/verifyos-v015-independent/project/*.lean
+          if-no-files-found: warn
