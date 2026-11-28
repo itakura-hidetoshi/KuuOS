@@ -1,0 +1,64 @@
+name: CodeAI R77 R1 retained Lean diagnostics
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - '.github/workflows/codeai-olean-registry-recovery-frontier-v1-r77-r1-diagnostics.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  retained-diagnostics:
+    name: R77 R1 exact retained log diagnostics (no Lean execution)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify immutable failed run and artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          def api(path):
+              req=urllib.request.Request("https://api.github.com/repos/itakura-hidetoshi/KuuOS/"+path,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+              with urllib.request.urlopen(req,timeout=30) as r:
+                  return json.load(r)
+          run=api("actions/runs/46142177287")
+          assert run["head_sha"]=="1fd322b33bf530581ade77b54a12ff2c6bc831be" and run["status"]=="completed" and run["conclusion"]=="failure" and run["run_attempt"]==1
+          a=api("actions/artifacts/15262740626")
+          assert a["id"]==15262740626 and a["name"]=="codeai-olean-r77-local-46142177287-1" and a["digest"]=="sha256:3c79ce1bfa8fcc9d6859cf80e8e67de10e02aa121f4940d9e6515b47079476a7" and not a["expired"] and a["workflow_run"]["id"]==46142177287 and a["workflow_run"]["head_sha"]=="1fd322b33bf530581ade77b54a12ff2c6bc831be"
+          print("R77_R1_EXACT_ARTIFACT_IDENTITY")
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r77-local-46142177287-1
+          path: retained-r1
+          run-id: 46142177287
+          github-token: ${{ github.token }}
+      - name: Extract all retained Lean diagnostics without replay
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,re
+          from pathlib import Path
+          root=Path("retained-r1")
+          p=root/"RecoveryFrontierR77.log"
+          src=root/"RecoveryFrontierR77.lean"
+          assert p.is_file() and src.is_file()
+          raw=p.read_bytes()
+          lines=raw.decode("utf-8").splitlines()
+          source=src.read_text().splitlines()
+          print("R77_R1_RETAINED",json.dumps({"run":46142177287,"artifact":15262740626,"log_sha256":hashlib.sha256(raw).hexdigest(),"source_sha256":hashlib.sha256(src.read_bytes()).hexdigest(),"log_lines":len(lines),"source_lines":len(source),"lean_executions":0}))
+          starts=[i for i,l in enumerate(lines) if re.search(r"(?:\berror:|\bwarning:|PANIC at |Lean panicked)",l,re.I) and not l.startswith(("KUUOS_","@"))]
+          for i in starts:
+              print("R77_R1_DIAGNOSTIC_START",i+1)
+              for l in lines[i:min(i+18,len(lines))]:
+                  if l.startswith(("KUUOS_","@")): break
+                  print(l[:1500])
+              m=re.search(r"\.lean:(\d+):",lines[i])
+              if m:
+                  n=int(m.group(1))
+                  for j in range(max(1,n-3),min(n+3,len(source))+1):
+                      print(f"SOURCE {j}: {source[j-1][:500]}")
+          print("R77_R1_DIAGNOSTIC_COUNT",len(starts))
+          assert starts, "No retained diagnostic matches; inspect actual log artifact"
+          PY
