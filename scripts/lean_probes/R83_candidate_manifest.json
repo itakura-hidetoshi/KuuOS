@@ -1,0 +1,140 @@
+{
+  "status": "R83_R1_SOURCE_CANDIDATE_UNVERIFIED",
+  "parent": {
+    "run_id": 46154204957,
+    "head": "7f2b19796ef27e6625f718f96f60b4ce4619e9f3",
+    "tree": "26961211b75342f2fb39acfd62707ae2f48feb9d",
+    "module": "artifacts.«olean-r82».CheckedChainR82",
+    "olean_sha256": "2fc857dbd7f6ad189c1b30b18fcce5f2e8c634343f8f71fae5c48a39c81c5d2c",
+    "olean_bytes": 339544,
+    "artifact_local_id": 15267372310,
+    "artifact_local_name": "codeai-olean-r82-r2-local-46154204957-1",
+    "artifact_local_sha256": "99c67fdfe4387e0d252e5430d0e84a68cba1782ddf8f5f7923f6ca5623ec63ad",
+    "artifact_independent_id": 15267122827,
+    "artifact_independent_name": "codeai-olean-r82-r2-independent-46154204957-1",
+    "artifact_independent_sha256": "7014d0f5a6edaf8b4a28a4e0c4338f05d6c21f553a963a558c3a0135a6abddad",
+    "direct_digest": "eb934bf606c9e9adbcb9d3fc6bf983fd1848da25a352309bf6cd0b18f24f1648",
+    "mcp_digest": "6e2c2afe5d16c64350060e98cbfc7ecc80196d2e829ab9666ba9ba9e75ce3467",
+    "key": "43ab539355491ce3ce3d579454310d8479c614c50d8f0254662eac834b3f17fa",
+    "diagnostics_digest": "52be1e57129d24bb2cbd5fee92f70a6a6caa3299b62120e576364fea5b2e4dd3",
+    "manifest_digest": "f9726258a1a21e0f12d80a9983467ce20f604776d2afc94bfe72bbb094703b05",
+    "replay_digest": "57d0f7b320042ae92a076c0458d2a9c6bf11504450a499039b365ce0cc3767ee",
+    "r1_failure_evidence_digest": "8970f19f1d4bba9d81f840fdb31ee0a79e4213ce44aea38bab2e9c065b21e646",
+    "sandbox_job_id": 141007130878,
+    "independent_job_id": 141008786462,
+    "certified_audits": 427,
+    "complete_proofs": 328
+  },
+  "new_theorem_candidates": [
+    "KuuOSR83.trace_append",
+    "KuuOSR83.check_batches_append",
+    "KuuOSR83.append_after_complete",
+    "KuuOSR83.append_after_hold",
+    "KuuOSR83.hold_append_terminal",
+    "KuuOSR83.hold_append_cache",
+    "KuuOSR83.hold_append_first_failure",
+    "KuuOSR83.complete_append_terminal",
+    "KuuOSR83.complete_append_cache",
+    "KuuOSR83.checked_chunks_associative",
+    "KuuOSR83.actual_hold_append_cache",
+    "KuuOSR83.actual_complete_append_cache"
+  ],
+  "expected_comparison_count": 16,
+  "expected_comparison_names": [
+    "empty_left",
+    "empty_right",
+    "complete_chunk_exact",
+    "complete_terminal_bindings",
+    "failure_in_right_chunk",
+    "blocked_append_exact",
+    "blocked_pending_order",
+    "blocked_position_retained",
+    "blocked_atomic_and_later_untouched",
+    "blocked_reason_retained",
+    "complete_cache_composition",
+    "blocked_cache_retained",
+    "chunk_association",
+    "none_is_not_empty",
+    "actual_complete_cache_exact",
+    "actual_blocked_cache_exact"
+  ],
+  "files": [
+    {
+      "name": "codeai_registry_checked_chunks_v1.lean",
+      "sha256": "bd7b0b2ea98384e829a56a0a7e745b2abe34ee38253d5480b77f23ae1ee2b905",
+      "bytes": 7788
+    },
+    {
+      "name": "codeai_registry_checked_chunks_v1_tests.lean",
+      "sha256": "5bce51123c29d6c4daa4b1ec4bce4003954a82948fe46497f8570e0e25436ce8",
+      "bytes": 4844
+    }
+  ],
+  "fixed_scope": {
+    "canonical_head": "a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063",
+    "canonical_tree": "c6686a052dd0b26728e1d784520db5d07f965784",
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "standard_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "required_direct_references": {
+    "KuuOSR83.trace_append": [
+      "KuuOSR82.check_batches_trace"
+    ],
+    "KuuOSR83.check_batches_append": [
+      "KuuOSR82.trace_deterministic",
+      "KuuOSR82.check_batches_trace",
+      "KuuOSR83.trace_append"
+    ],
+    "KuuOSR83.append_after_complete": [
+      "KuuOSR83.check_batches_append"
+    ],
+    "KuuOSR83.append_after_hold": [
+      "KuuOSR83.check_batches_append"
+    ],
+    "KuuOSR83.hold_append_terminal": [
+      "KuuOSR83.append_after_hold"
+    ],
+    "KuuOSR83.hold_append_cache": [
+      "KuuOSR83.append_after_hold"
+    ],
+    "KuuOSR83.hold_append_first_failure": [
+      "KuuOSR83.hold_append_terminal",
+      "KuuOSR82.trace_first_failure"
+    ],
+    "KuuOSR83.complete_append_terminal": [
+      "KuuOSR83.append_after_complete",
+      "KuuOSR81.chain_end_append"
+    ],
+    "KuuOSR83.complete_append_cache": [
+      "KuuOSR83.append_after_complete",
+      "KuuOSR81.refresh_chain_append"
+    ],
+    "KuuOSR83.checked_chunks_associative": [
+      "KuuOSR83.check_batches_append"
+    ],
+    "KuuOSR83.actual_hold_append_cache": [
+      "KuuOSR83.hold_append_cache"
+    ],
+    "KuuOSR83.actual_complete_append_cache": [
+      "KuuOSR83.complete_append_cache"
+    ]
+  },
+  "expected_after_all_gates_pass": {
+    "cumulative_audits": 439,
+    "complete_proofs": 340,
+    "new_mcp": 12,
+    "reused_mcp": 427
+  },
+  "authority": {
+    "live_registry_writes": false,
+    "current_main_certification_transferred": false,
+    "registry_authentication_proved": false,
+    "proof_authority": false,
+    "action_authority": false
+  }
+}
