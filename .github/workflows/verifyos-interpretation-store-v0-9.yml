@@ -1,0 +1,22 @@
+name: VerifyOS interpretation store v0.9
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_verifyos_*.py'
+      - 'tests/test_kuuos_verifyos_interpretation_store_v0_9.py'
+      - '.github/workflows/verifyos-interpretation-store-v0-9.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_interpretation_store_v0_9.py -v
+  independent-regression:
+    needs: isolated-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_interpretation_store_v0_9.py -v
