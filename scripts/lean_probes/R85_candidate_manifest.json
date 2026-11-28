@@ -1,0 +1,147 @@
+{
+  "status": "R85_R1_SOURCE_CANDIDATE_UNVERIFIED",
+  "parent": {
+    "run_id": 46158040325,
+    "head": "66a8368bd5870ed9e45b71523830f8b047330b91",
+    "tree": "a4e2c00417e0efd1a2101ba51c9ca0031849e0a7",
+    "module": "artifacts.«olean-r84».StreamCacheR84",
+    "olean_sha256": "be6642256811a6dc2fdbb6a546adef3bf6058e108e14911714f9105002fb04e2",
+    "olean_bytes": 205728,
+    "artifact_local_id": 15268163016,
+    "artifact_local_name": "codeai-olean-r84-local-46158040325-1",
+    "artifact_local_sha256": "15a9c546124a7699b34d2e1d2ba6fd58cf249d2fed65f8ed1b2a9bfc69be3f4b",
+    "artifact_independent_id": 15269137318,
+    "artifact_independent_name": "codeai-olean-r84-independent-46158040325-1",
+    "artifact_independent_sha256": "c667e777dc722aab2d550262bb7e0d7b94bd81f00e8ea8676c99fcca671794b1",
+    "direct_digest": "94561f8cee15eefdad670f8be113f844037429c8efef7d19aedf171d706c94d4",
+    "mcp_digest": "de3effdb54c843cf8d40da8014972d901c55e7e344c8ed5450acd893e531ba01",
+    "key": "d4916992ac19cc1b1db01e9e101b8913daf875a2dbdbe966f62962f27b0f928f",
+    "diagnostics_digest": "1a2dffa2e8185e481116023aa584c64d9e5e9993b3eaa909edcec228d9303c70",
+    "manifest_digest": "865f754537b62277d2b85941cfa93de21c7d040e947c1a8a76cfffe0d5970dd7",
+    "replay_digest": "a5bb0a6cfc3ec59065608a28e5fc991a1372898d0ada2c68d74a46d848f976a9",
+    "r1_failure_evidence_digest": "8970f19f1d4bba9d81f840fdb31ee0a79e4213ce44aea38bab2e9c065b21e646",
+    "sandbox_job_id": 141018912251,
+    "independent_job_id": 141021016974,
+    "certified_audits": 453,
+    "complete_proofs": 354
+  },
+  "new_theorem_candidates": [
+    "KuuOSR85.advance_checkpoint_hold",
+    "KuuOSR85.advance_checkpoint_lift",
+    "KuuOSR85.endpoint_consistent_iff",
+    "KuuOSR85.advance_endpoint_consistent",
+    "KuuOSR85.checkpoint_chunks_lift",
+    "KuuOSR85.checkpoint_chunks_exact",
+    "KuuOSR85.checkpoint_terminal_exact",
+    "KuuOSR85.checkpoint_trace_exact",
+    "KuuOSR85.checkpoint_cache_fresh",
+    "KuuOSR85.checkpoint_frontier_fresh",
+    "KuuOSR85.checkpoint_hold_cache",
+    "KuuOSR85.checkpoint_hold_suffix",
+    "KuuOSR85.actual_checkpoint_cache_fresh",
+    "KuuOSR85.actual_checkpoint_frontier_fresh"
+  ],
+  "expected_comparison_count": 16,
+  "expected_comparison_names": [
+    "empty_checkpoint_stream",
+    "empty_checkpoint_chunk",
+    "finite_checkpoint_exact",
+    "checkpoint_split_exact",
+    "terminal_consistency_observed",
+    "terminal_bindings",
+    "fresh_cache_exact",
+    "fresh_frontier_exact",
+    "blocked_checkpoint_exact",
+    "blocked_suffix_and_position",
+    "blocked_cache_and_terminal_unchanged",
+    "blocked_atomic_no_later",
+    "none_is_not_empty",
+    "inconsistent_endpoint_changes_result",
+    "actual_checkpoint_cache_exact",
+    "actual_checkpoint_hold_and_frontier"
+  ],
+  "files": [
+    {
+      "name": "codeai_registry_endpoint_checkpoint_v1.lean",
+      "sha256": "e34fbb0f1841d079ae456d8e5d6d2226dd914ce7df10f7d195c2d324eb7c74be",
+      "bytes": 9025
+    },
+    {
+      "name": "codeai_registry_endpoint_checkpoint_v1_tests.lean",
+      "sha256": "e0f2f29d064be10a6d49c498014e5a0fc37e7214f4ef2be0819bc8c210b1322c",
+      "bytes": 4874
+    }
+  ],
+  "fixed_scope": {
+    "canonical_head": "a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063",
+    "canonical_tree": "c6686a052dd0b26728e1d784520db5d07f965784",
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "standard_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "required_direct_references": {
+    "KuuOSR85.advance_checkpoint_lift": [
+      "KuuOSR84.advance_stream_complete",
+      "KuuOSR84.advance_stream_hold",
+      "KuuOSR81.chain_end_append"
+    ],
+    "KuuOSR85.advance_endpoint_consistent": [
+      "KuuOSR85.endpoint_consistent_iff",
+      "KuuOSR85.advance_checkpoint_lift"
+    ],
+    "KuuOSR85.checkpoint_chunks_lift": [
+      "KuuOSR85.advance_checkpoint_lift"
+    ],
+    "KuuOSR85.checkpoint_chunks_exact": [
+      "KuuOSR85.checkpoint_chunks_lift",
+      "KuuOSR84.stream_chunks_exact"
+    ],
+    "KuuOSR85.checkpoint_terminal_exact": [
+      "KuuOSR85.checkpoint_chunks_exact"
+    ],
+    "KuuOSR85.checkpoint_trace_exact": [
+      "KuuOSR85.checkpoint_chunks_exact"
+    ],
+    "KuuOSR85.checkpoint_cache_fresh": [
+      "KuuOSR85.checkpoint_chunks_lift",
+      "KuuOSR84.stream_cache_fresh"
+    ],
+    "KuuOSR85.checkpoint_frontier_fresh": [
+      "KuuOSR85.checkpoint_chunks_lift",
+      "KuuOSR84.stream_frontier_fresh"
+    ],
+    "KuuOSR85.checkpoint_hold_cache": [
+      "KuuOSR85.checkpoint_chunks_lift",
+      "KuuOSR84.stream_hold_cache"
+    ],
+    "KuuOSR85.checkpoint_hold_suffix": [
+      "KuuOSR85.checkpoint_chunks_lift",
+      "KuuOSR84.stream_hold_suffix"
+    ],
+    "KuuOSR85.actual_checkpoint_cache_fresh": [
+      "KuuOSR85.checkpoint_cache_fresh"
+    ],
+    "KuuOSR85.actual_checkpoint_frontier_fresh": [
+      "KuuOSR85.checkpoint_frontier_fresh"
+    ]
+  },
+  "expected_after_all_gates_pass": {
+    "cumulative_audits": 467,
+    "complete_proofs": 368,
+    "new_mcp": 14,
+    "reused_mcp": 453
+  },
+  "authority": {
+    "live_registry_writes": false,
+    "current_main_certification_transferred": false,
+    "registry_authentication_proved": false,
+    "proof_authority": false,
+    "action_authority": false,
+    "arbitrary_checkpoint_admission": false,
+    "runtime_complexity_proved": false
+  }
+}
