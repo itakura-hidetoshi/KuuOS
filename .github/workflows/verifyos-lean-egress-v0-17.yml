@@ -1,0 +1,43 @@
+name: VerifyOS Lean egress v0.17
+on:
+  pull_request:
+    branches: [main, research/verifyos-json-projection-v0-16-r3]
+    paths:
+      - 'runtime/kuuos_verifyos_lean_egress_v0_17.py'
+      - 'tests/test_kuuos_verifyos_lean_egress_v0_17.py'
+      - '.github/workflows/verifyos-lean-egress-v0-17.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    name: Sandbox actual pinned Lean egress
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Actual Lean egress and fail-closed regression
+        run: python3 -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_lean_egress_v0_17.py -v
+  independent:
+    name: Independent actual Lean egress replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Independently execute and replay actual Lean egress
+        run: python3 -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_lean_egress_v0_17.py -v
