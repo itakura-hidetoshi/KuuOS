@@ -1,0 +1,139 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec05_06_verified",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "researcher_copyright_holder": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "proof_scope_and_exact_source_ci_receipt_not_executable_runtime",
+  "proof_record": "docs/formal/LEC-05-06-typed-transport-bhava-verified-20261107.md",
+  "main_merged_sha": "99861ff740c08a933922337fa0ed75116eadf410",
+  "toolchain": {
+    "lean": "v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+  },
+  "public_root_count": 107,
+  "units": [
+    {
+      "lec": "LEC-05",
+      "scope": "supplied typed frames into common conventional A; flat/trivializable transport",
+      "pr": 3247,
+      "source": "formal/Kuu/LivingEngi/FrameTransport.lean",
+      "source_head": "8a399cdaa8ebea9eeac21f9b67d7dfc08731fc41",
+      "test_merge": "122668d622a1ccd906b7563cea75734d4371e49d",
+      "identical_tree": "4f4f5782b3499fcaba493e4bc142d8ddafdc8d6d",
+      "ci_run": 42340476422,
+      "ci_conclusion": "success",
+      "lean_successes": 10310,
+      "lean_jobs": 10310,
+      "new_theorems": 13,
+      "axiom_audits": 13,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "sorryAx": false,
+      "main_merge": "18daa92b3e3eeb0200e533413cd1a392b5b41966",
+      "theorems": [
+        "frameTransport_self",
+        "frameTransport_comp",
+        "frameTransport_symm",
+        "frameTransport_four",
+        "gaugeTransport_covariant",
+        "transportCompatible_iff_readoutCompatible",
+        "transportCompatible_iff_hasFramedGlobal",
+        "framedGlue_agrees",
+        "noFramedGlobal_of_transport_disagreement",
+        "gaugeReadout_invariant",
+        "gaugeGlobal_iff",
+        "gaugeCompatible_iff",
+        "transportFailure_blocks_promotion"
+      ],
+      "limits": [
+        "does_not_construct_frames_on_arbitrary_bundle",
+        "not_general_nontrivial_holonomy_flattening",
+        "not_higher_stack_effectivity",
+        "not_original_F55_Type_history_equivalence"
+      ]
+    },
+    {
+      "lec": "LEC-06",
+      "scope": "certified conventional Bhava in declared framed cover and append-only certified snapshots",
+      "pr": 3248,
+      "source": "formal/Kuu/LivingEngi/ConditionedBhava.lean",
+      "source_head": "f60d9c51c7ba7dd2e27afb0c8e1aa035a6d91574",
+      "test_merge": "2beb99fae7c712d0cdb363c8d398b21ad97ed54c",
+      "identical_tree": "7ac9e26dab3f3de25cb784df5ed19577055ca6fc",
+      "ci_run": 42340907095,
+      "ci_conclusion": "success",
+      "lean_successes": 10311,
+      "lean_jobs": 10311,
+      "new_theorems": 15,
+      "axiom_audits": 15,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "sorryAx": false,
+      "main_merge": "99861ff740c08a933922337fa0ed75116eadf410",
+      "theorems": [
+        "FramedSnapshot.hasFramedGlobal",
+        "certifiedSnapshot_source",
+        "certifiedSnapshot_support",
+        "historyExtends_refl",
+        "historyExtends_trans",
+        "revision_history_exact",
+        "revision_extends_history",
+        "revision_preserves_previous_snapshot",
+        "revision_preserves_previous_readout_and_source",
+        "revision_source_exact",
+        "revision_source_supported",
+        "bhava_implies_transport_compatible",
+        "no_bhava_for_incompatible_source",
+        "compatible_source_admits_bhava",
+        "birth_after_revision_uses_updated_history"
+      ],
+      "limits": [
+        "not_live_AI_training",
+        "not_empirical_nonMarkov_recurrence",
+        "not_biological_birth",
+        "not_ActOS_execution",
+        "not_exact_WORLD_truth",
+        "not_original_F55_P77_GK5CG_history_equivalence"
+      ]
+    }
+  ],
+  "shared_result": {
+    "governance": "success",
+    "independent_kuu_api": "success",
+    "workflow_integrity": "success",
+    "new_source_errors": 0,
+    "new_source_warnings": 0
+  },
+  "remaining_open": [
+    "LEC-05 arbitrary curved/higher stack effectivity",
+    "LEC-07 BirthCandidate to separately authorized ActOS request",
+    "LEC-08 nonMarkov empirical and dynamical repair",
+    "LEC-09 faithful original-source higher Type history descent"
+  ],
+  "invariants": [
+    "Preference does not entail descent",
+    "Descent does not entail unlimited authority",
+    "Bhava is not born action",
+    "Candidates never grant external authority",
+    "No historical source is overwritten",
+    "No arbitrary global frame is postulated without caller input",
+    "Exact frame readout is conventional not ultimate",
+    "Old typed source/readout/certificate lineage remains visible"
+  ],
+  "repo_integrity": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "independent_Kuu_no_Qi_import",
+    "KuuOSFormal_root107_unchanged",
+    "strict_L4_pin_unchanged",
+    "protected_PR_1558_Draft_Open_unmerged"
+  ]
+}

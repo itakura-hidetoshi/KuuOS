@@ -1,0 +1,85 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec13b_original_swallowtail_witness_transport",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3263,
+  "source": "formal/KuuOSFormal/SwallowtailWitnessTransportLEC13.lean",
+  "verified_source_sha": "26c4a856d415ee03215e0faee4667eb29ef2ad61",
+  "theorem_module_blob_sha": "9209f004ebc16b2eef28948a2ed888a423280727",
+  "test_merge_sha": "ee405af51a63fe3fff44a5a9ab6657b6e9dad649",
+  "equal_source_test_merge_tree": "b789374a8ad30155ae08fd7e35f660ed9e1e7a7f",
+  "merged_main_sha": "703d5c1aa6d8b7da5f66accaea377d85e84dbff4",
+  "ci": {
+    "run_id": 42366081346,
+    "conclusion": "success",
+    "lean_jobs": 10319,
+    "lean_completed": 10319,
+    "governance_jobs": 30,
+    "governance_success": 30,
+    "other_workflow_conclusions": "success_or_expected_skipped",
+    "checks_total": 42,
+    "checks_failed_or_pending": 0,
+    "new_theorems": 17,
+    "explicit_print_axioms": 20,
+    "audited_constructions": 3,
+    "sorryAx": false,
+    "new_axiom_declared": false,
+    "changed_lean_warnings": 0,
+    "changed_lean_errors": 0,
+    "transitive_axioms_standard_only": true,
+    "transitive_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "recovery": {
+    "initial_failure_run_id": 42363560669,
+    "initial_failed_line_numbers": [
+      232,
+      249
+    ],
+    "initial_reason": "rw cannot match reassociated categorical composites beneath outer interchanger inverse",
+    "proof_repair_sha": "1159cd6cb6220c42d3d23377be840cbc65477107",
+    "proof_fix": "congrArg lifting of original V5.112 exchange equations with forward symmetry and reverse direct orientation, followed by genuine isomorphism cancellation",
+    "subsequent_ci_blocker": "pull_request merge conflict (mergeable_state=dirty): competing imports into formal/KuuOSFormal.lean",
+    "conflict_resolved_merge_sha": "26c4a856d415ee03215e0faee4667eb29ef2ad61",
+    "preserved_main_import": "KuuOSFormal.HistoricalNativeF54F47SupportLEC13",
+    "preserved_new_import": "KuuOSFormal.SwallowtailWitnessTransportLEC13",
+    "temporary_ci_reentry_pr": 3265,
+    "temporary_pr_closed_unmerged": true
+  },
+  "formal_scope": {
+    "witnessConjugation": "(a ⟶ a) ≃ (b ⟶ b), f -> e.inv ≫ f ≫ e.hom",
+    "exact_reversible_histories": true,
+    "reflects_equality_and_overlap_compatibility": true,
+    "ordinary_function_sheaf_HasGlobal_equivalence": true,
+    "swallowtail_defects_normalized": true,
+    "forward_reverse_unit_counit_exchange_using_original_D": true,
+    "typed_actual_lift_instantiation": true,
+    "original_F55_shadow_collision_persists_after_reversible_receiver_transport": true
+  },
+  "non_claims": [
+    "no historical F54-to-independent native F54 faithful functor or all-nine-F55-source equivalence",
+    "no automatic real C60 physical support identification or higher P77/GK5CG descent",
+    "no higher-stack effectivity or nonzero Cech H1",
+    "no ActOS authority, clinical claim or AI parameter update",
+    "the separate physical 90-edge LEC-13A proof retains six preexisting native_decide axioms; not inherited by this module's 20 reports"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "independent_KuuOSStrict_untouched",
+    "original_F54_F55_P77_GK5CG_preserved",
+    "KuuOSFormal_public_root107",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "PR_1558_Draft_Open_Unmerged"
+  ],
+  "formal_record": "docs/formal/LEC-13B-original-swallowtail-witness-transport-verified-20261107.md",
+  "next": "LEC-14 inhabited historical F47 original F55 square versus independently sourced native C60 hexagon square, typed boundary and physical-support comparison"
+}
