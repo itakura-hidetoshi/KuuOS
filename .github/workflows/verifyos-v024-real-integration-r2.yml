@@ -1,0 +1,98 @@
+name: VerifyOS v0.24 R2 actual synthetic integration
+on:
+  pull_request:
+    branches: [research/verifyos-lean-egress-v0-17]
+    paths:
+      - 'research/verifyos_v024_integration/**'
+      - '.github/workflows/verifyos-v024-real-integration-r2.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    name: Sandbox actual Lean v0.24 synthetic integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check fixed source blobs and actual merge checkout
+        run: python -B research/verifyos_v024_integration/audit_ci_evidence_r2.py preflight --repo . --job sandbox
+      - name: Test evidence audit without invoking Lean
+        run: python -B -W error::ResourceWarning -m unittest discover -s research/verifyos_v024_integration -p test_audit_ci_evidence_r2.py -v
+      - name: Verify exact audited bootstrap blob before execution
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          raw=Path('scripts/bootstrap_pinned_lean_ci.sh').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()=='434dae14bd0be17f16c0e61f7dd3c97db0cf0d4e'
+          PY
+      - name: Install pinned Lean through unchanged audited bootstrap
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install candidate Python dependencies
+        run: |
+          python -m pip install --only-binary=:all: cryptography==46.0.4 cffi==2.0.0 pycparser==3.00
+      - name: Actual Lean baseline and integrated egress plus protocol tests
+        run: python -B research/verifyos_v024_integration/run_candidate.py --mode real --repo . --out "$RUNNER_TEMP/v024-sandbox"
+      - name: Bind successful Sandbox to all actual logs and checkout identity
+        run: python -B research/verifyos_v024_integration/audit_ci_evidence_r2.py seal --repo . --job sandbox --evidence "$RUNNER_TEMP/v024-sandbox"
+      - name: Preserve synthetic sandbox execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v024-r2-sandbox-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v024-sandbox/
+          if-no-files-found: warn
+  independent:
+    name: Separate runner actual Lean v0.24 replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check fixed source blobs and actual merge checkout
+        run: python -B research/verifyos_v024_integration/audit_ci_evidence_r2.py preflight --repo . --job independent
+      - name: Test evidence audit without invoking Lean
+        run: python -B -W error::ResourceWarning -m unittest discover -s research/verifyos_v024_integration -p test_audit_ci_evidence_r2.py -v
+      - name: Verify exact audited bootstrap blob before execution
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          raw=Path('scripts/bootstrap_pinned_lean_ci.sh').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()=='434dae14bd0be17f16c0e61f7dd3c97db0cf0d4e'
+          PY
+      - name: Install pinned Lean through unchanged audited bootstrap
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install candidate Python dependencies
+        run: |
+          python -m pip install --only-binary=:all: cryptography==46.0.4 cffi==2.0.0 pycparser==3.00
+      - uses: actions/download-artifact@v4
+        with:
+          name: v024-r2-sandbox-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v024-prior
+      - name: Audit same-run Sandbox receipts and all log bytes
+        run: python -B research/verifyos_v024_integration/audit_ci_evidence_r2.py verify-prior --repo . --job independent --evidence "$RUNNER_TEMP/v024-prior"
+      - name: Recheck source identity and independently run all tests
+        run: python -B research/verifyos_v024_integration/run_candidate.py --mode real --repo . --expect-sandbox-receipt "$RUNNER_TEMP/v024-prior/receipt.json" --out "$RUNNER_TEMP/v024-independent"
+      - name: Bind independently executed logs and compare exact Lean binary
+        run: python -B research/verifyos_v024_integration/audit_ci_evidence_r2.py seal --repo . --job independent --evidence "$RUNNER_TEMP/v024-independent" --prior "$RUNNER_TEMP/v024-prior"
+      - name: Preserve independent synthetic execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v024-r2-independent-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v024-independent/
+          if-no-files-found: warn
