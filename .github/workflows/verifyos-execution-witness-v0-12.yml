@@ -1,0 +1,25 @@
+name: VerifyOS execution witness v0.12
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_verifyos_*.py'
+      - 'tests/test_kuuos_verifyos_execution_witness_v0_12.py'
+      - 'tests/test_kuuos_verifyos_public_receipt_v0_11.py'
+      - '.github/workflows/verifyos-execution-witness-v0-12.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: openssl version
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_execution_witness_v0_12.py -v
+  independent-regression:
+    needs: isolated-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: openssl version
+      - run: python -B -W error::ResourceWarning -m unittest discover -s tests -p test_kuuos_verifyos_execution_witness_v0_12.py -v
