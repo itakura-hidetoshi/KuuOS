@@ -1,178 +1,154 @@
-# KuuOS / 空OS — Research ROADMAP
+# KuuOS / 空OS — Research Roadmap
 
-**研究地図（GitHub MCP観測：2026-11-27 JST）**
+This roadmap describes the research program from its fourfold foundations through its mathematical models, operational architecture, and selected implementations. It is organized by structural role, not by which branch happens to have the most recent activity. The tracks are complementary and may progress in parallel; ordering them here does not authorize a change in research priorities or suspend any ongoing work.
 
-この文書は認証済み範囲、研究ブランチ上の成果、公開root、未解決obstruction、次の受入条件を同時に読むためのロードマップである。[README](README.md) は目的・利用方法・全体構造を案内する。
+[README](README.md) · [Fourfold Core](docs/KUOS_FOURFOLD_CORE_v0_1.md) · [Core Charter](docs/KUOS_CORE_CHARTER_v0_1.md)
 
-- 観測正本：[`main` @ `e1d754e8e0fc`](https://github.com/itakura-hidetoshi/KuuOS/commit/e1d754e8e0fc9382001a2e698751aa11d4272b84)（tree `bdf2e81fc2cf702481b80e7079e59b1b47836013`）
-- 固定環境：Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。proof scope `2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b`
-- 保護：[PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) Draft／OPEN／未マージ。変更禁止
-- 旧版は[2026-11-22 README](docs/history/README-SNAPSHOT-20261122.md)・[ROADMAP](docs/history/ROADMAP-SNAPSHOT-20261122.md)・[2026-11-21以前のREADME](docs/history/README-THROUGH-20261121.md)・[ROADMAP](docs/history/ROADMAP-THROUGH-20261121.md)へ元blobのまま保存
+## 0. Recorded baseline and evidence discipline
 
-## 0. 証拠と状態の読み方
+- Recorded canonical snapshot (28 November 2026 JST): [`main` at `ecfb8b1a1aaa684bebcc3420f38b8b060a407c7a`](https://github.com/itakura-hidetoshi/KuuOS/commit/ecfb8b1a1aaa684bebcc3420f38b8b060a407c7a). This revision of the roadmap retains that observation; it is not a live status report.
+- Pinned Lean `v4.30.0-rc2`, mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`.
+- [Protected PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558), Lean 4.31 validation, was observed draft/open and must remain protected.
 
-| 状態 | 意味 |
+| Evidence state | Meaning |
 | --- | --- |
-| MERGED / canonical | 対象ソースがmainに採用された。以後の新規定理・実行権限を保証しない |
-| LOCAL VERIFIED | 固定Leanでの直接検証・実Lean MCP成功。独立認証とは異なる |
-| CI CERTIFIED (scoped) | 指定HEAD・指定宣言・指定環境の独立認証成功 |
-| REUSE_EXISTING | 指定した完全型について証明項を構成・確認した範囲での再利用 |
-| REFUTED_EXACT_TARGET | 指定命題Pに対する¬Pの実証明。別条件・別目標には移さない |
-| HOLD / NO_DATA | 条件・証拠不足、探索miss、実行障害。数学的反証ではない |
+| Canonical / merged | The source is adopted into `main` at an identified revision, not a guarantee about all runtime behavior. |
+| Locally verified | The specified direct Lean or runtime checks succeeded; independent verification is a separate result. |
+| Independently checked (scoped) | The observed independent run checked the specified source, environment, statements and declared inventory. |
+| Refuted in scope | The relevant negation is proved for the exact proposition and conditions; other routes are not thereby excluded. |
+| HOLD / NO_DATA | Required evidence is missing, context has changed, or a check did not establish the claim. This is not a mathematical refutation. |
 
-`Preference ⇏ Descent ⇏ Authority`。候補の選好、局所貼合、形式証明、runtime妥当性、Memory昇格、行為権限、正本へのマージを別々に判定する。
+Philosophical interpretation, formal mathematical statements, empirical observations, software behavior, and authorization are distinct. `Preference ⇏ Descent ⇏ Authority`. Retain original conditions and source values. A successful check cannot authorize a different proposition or world effect.
 
-## 1. canonical main：既に採用された基盤
+## A. Fourfold foundations and Living Engi Cycle
 
-| 領域 | 採用済み成果 | 次に必要な条件 |
+**Objective:** give precise mathematical content to selected operational distinctions associated with emptiness, dependent origination, two truths, and the middle way, without claiming a formal proof of the philosophical concepts themselves.
+
+Representative formal structures in the recorded public roots:
+
+| Source | Existing formal direction | Further research |
 | --- | --- | --- |
-| Lean→Python | v0.60 [PR #3622](https://github.com/itakura-hidetoshi/KuuOS/pull/3622)、v0.61 adapter [PR #3626](https://github.com/itakura-hidetoshi/KuuOS/pull/3626)、候補Aの同一blob Lean 8宣言 [PR #3628](https://github.com/itakura-hidetoshi/KuuOS/pull/3628) | [PR #3629](https://github.com/itakura-hidetoshi/KuuOS/pull/3629) の公開rootと全体Strict Lean・Governance、元Pythonとの一般精密化 |
-| CodeAI候補検証 | v0.61研究基盤 [PR #3623](https://github.com/itakura-hidetoshi/KuuOS/pull/3623)・[PR #3625](https://github.com/itakura-hidetoshi/KuuOS/pull/3625)・[PR #3626](https://github.com/itakura-hidetoshi/KuuOS/pull/3626)、`simpa` locator修正 [PR #3630](https://github.com/itakura-hidetoshi/KuuOS/pull/3630) | 4検証系統の独立受領書と同一candidate/source/contextの真正性、Memory昇格を別審査 |
-| 既存証明検索 | [PR #3638](https://github.com/itakura-hidetoshi/KuuOS/pull/3638) 必須prior-proof gate、[PR #3639](https://github.com/itakura-hidetoshi/KuuOS/pull/3639) v0.3全ソース字句索引、[PR #3640](https://github.com/itakura-hidetoshi/KuuOS/pull/3640) v0.4、[PR #3641](https://github.com/itakura-hidetoshi/KuuOS/pull/3641) v0.5合計13既存宣言のカーネル記憶 | 未観測・推移依存の欠落を明示。新規性・実行権限に昇格させない |
-| 共有Lean artifact | [PR #3643](https://github.com/itakura-hidetoshi/KuuOS/pull/3643)・[PR #3644](https://github.com/itakura-hidetoshi/KuuOS/pull/3644) の認証済み正本キャッシュ・別runner実再利用 | source・scope・pins・artifact digest・producer/verifierを照合し、missは既存Strict Leanへ戻す |
-| Qi / C60 / F112 | [PR #3631](https://github.com/itakura-hidetoshi/KuuOS/pull/3631) Qi v5.99、[PR #3632](https://github.com/itakura-hidetoshi/KuuOS/pull/3632)・[PR #3633](https://github.com/itakura-hidetoshi/KuuOS/pull/3633) 真正物理gauge／五行／K5条件付き橋、[PR #3636](https://github.com/itakura-hidetoshi/KuuOS/pull/3636) 元F45五段階の構成 | [PR #3635](https://github.com/itakura-hidetoshi/KuuOS/pull/3635) 公開root、[PR #3637](https://github.com/itakura-hidetoshi/KuuOS/pull/3637) phase-sector同値の正式採用、異なるgaugeの同一性を仮定しない |
+| [ScopedGluing](formal/Kuu/LivingEngi/ScopedGluing.lean) | Exact function-sheaf gluing, quotient factorization, scoped positive/negative/unchecked evidence. | Extend to additional explicitly specified families; preserve counterexamples to invalid descent. |
+| [SourceAwareOverlapDescentCriterion](formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean) | Source gluing iff observed gluing plus overlap-fiber faithfulness on a cover. | Characterize which original values and histories are lost under specific observers. |
+| [FrameTransport](formal/Kuu/LivingEngi/FrameTransport.lean) | Dependent fibers and supplied common frames give transport coherence and gauge-invariant readouts. | Separate trivializable cases from genuine higher or non-flat compatibility obligations. |
+| [ConditionedBhava](formal/Kuu/LivingEngi/ConditionedBhava.lean) | Certified source-retaining snapshots and future-only revision. | Strengthen conditions for transferring evidence between changing contexts. |
+| [BirthAuthorization](formal/Kuu/LivingEngi/BirthAuthorization.lean) | Candidate birth, policy and external authorization, and effect evidence are distinct. | Study admission and authorization composition without manufacturing witnesses. |
+| [HistoryFeedbackRepair](formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) | A finite history-sensitive counterexample and a source-preserving repair. | Investigate qualified feedback and revision in larger explicit models; no universal stability claim. |
 
-正本v0.5では13宣言の既存証明記憶を正本上で参照できるが、元[検証記録](docs/CodeAI/PRIOR_PROOF_KERNEL_MEMORY_v0_5.md)にあるproviderは決定的HOLDの試験用callbackであり、外部モデルによる新規証明生成は確認していない。従来の4系統独立検証器v0.2のHOLDを、この成功だけで解除しない。
+Acceptance: retain exact source, support, context, and history; identify necessary and sufficient conditions where possible; preserve obstructions; separate a changed observation from a changed underlying value. The mathematical results concern specified constructions, not all sheaves, stacks, dynamics, or external worlds. The native F55 witnesses in the abstract two-chart Living Engi example do not constitute a geometric C60 cover.
 
-## 2. Track A — 次世代CodeAI：検索・No-Go・再利用
+## B. General dependent origination and higher mathematical structure
 
-### A1. 独立認証された研究成果（main未統合）
+**Objective:** develop relations between typed presentations, original values, genuine endpoints, transport, localization, and higher-dimensional coherence. Study when a local construction extends globally and when such extension is obstructed.
 
-研究ブランチ：[`research/codeai-nogo-memory-v1-20261126`](https://github.com/itakura-hidetoshi/KuuOS/tree/research/codeai-nogo-memory-v1-20261126)。各段の成功は対応する研究HEADの範囲のみ。
+The [strict formal root](formal/KuuOSStrict.lean) and [public formal root](formal/KuuOSFormal.lean) provide entry points to presentation, incidence, paths, nerve, localization, kernel equivalence, overlap, higher cells, and related formal work. Source-level existence of a module, inclusion in a public root, and CI certification of a proposed extension are different facts.
 
-| 段階 | 実装・認証内容 | 根拠 |
-| --- | --- | --- |
-| R7 | `.olean`カーネル型構造の分割収集・集約。全対象の未観測部分を保持 | [CI #45774874136](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45774874136) |
-| R17–R19 | 再帰前提探索・二／三前提AND–OR・全索引由来の型構造選定と文脈限定No-Go | 後続R20のadmitted inventory |
-| R20 R2 | 最上位定理名を指定せず、閉じた前提を型付きで選択 | [CI #45811079734](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45811079734) |
-| R21–R22 R2 | 閉じた末端証明DAG、特殊化部分証明の共有 | [CI #45813837876](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45813837876)、[CI #45882835148](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45882835148) |
-| R23 R2–R24 | 証明カプセルのコンパイル済みbyte移送、完全型・証明項・来歴固定の登録簿 | [CI #45893906832](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45893906832)、[CI #45895057363](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45895057363) |
-| R25 | 新目標に対する完全型／定義的等価性照合。正・負4証明項、6宣言監査、HOLD2件 | [CI #45896476614](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45896476614) |
-| R26 R2 | 再帰探索内カプセル再利用、No-Goによる経路単位の遮断、別経路の証明、17宣言監査 | [CI #45898216584](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45898216584) |
-| R27 R2 | 正3・負2候補、7種類の目標型、完全型・公理・来歴を固定した比較メモ。24宣言監査、35再利用ヒット | [CI #45901313851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45901313851) |
+Higher dependent origination [PR #3555](https://github.com/itakura-hidetoshi/KuuOS/pull/3555) was observed draft/open at `a637438ceebdcb5b0247f30f14479b85b3bd0e1f`. Historical [v1.35](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343467773) and [v1.70](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343469142) checks succeeded within their own scope; the [v1.73 probe](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343467763) failed. The earlier [#3548](https://github.com/itakura-hidetoshi/KuuOS/pull/3548) result is validation-only. No whole-PR admission follows from these observations.
 
-**R27 R2最終受領書：**
+Research directions include typed Duskin transport, whiskering, coherence, endpoint conditions, and the Type-(A), Type-(B), and Type-(C) scaling and right lifting property families. Recover original dependent types rather than replacing them with convenient surrogates. Establish precise domain and codomain conditions, preserve alternative presentations, and characterize obstruction rather than assuming global descent.
 
-- research HEAD `4b3889aa3f5bb2c287721b772c4e9b580326cc5a`、tree `468beac80257b8b11a897d659c4b265bcc2ee34a`
-- Direct digest `f6c1a4d1b1ef6548af45b86f8b12ea430a5a1cde1e655e3822cd1736d81a0750`
-- MCP digest `da1c151e133d62a644eb3d3491ec21f90139cd6a1500e4dcebbefe614ac01c2f`
-- inventory key `e8c2432768ea3dd062a0db14cf845e860f86335c19281e301294f8ec38ff905b`
-- Sandbox job 140187492000／独立job 140189131473、artifact 15155193581／15156532332。両runner Direct digest一致、外部provider呼出し0、カプセル再構築0
+Acceptance: inspect complete changed Lean sources, imports, dependent signatures and pinned mathlib APIs; retain all assumptions and exact endpoints; verify repair without weakening, new axioms, or `sorry`; require independent checking, public-root admission where appropriate, and Governance before adoption.
 
-[認証済みR27実装（固定HEAD）](https://github.com/itakura-hidetoshi/KuuOS/blob/4b3889aa3f5bb2c287721b772c4e9b580326cc5a/runtime/kuuos_codeai_olean_multi_typed_recall_v1_r2.py)・[検査スクリプト](https://github.com/itakura-hidetoshi/KuuOS/blob/4b3889aa3f5bb2c287721b772c4e9b580326cc5a/scripts/check_codeai_olean_multi_typed_recall_v1_r27_r2.py)。未観測モジュール695、意味探索の完全性はfalse。
+## C. Concrete presentations: Qi, Yin–Yang, five phases, mandala, C60 and F112
 
-### A2. R28 — 実行間の版固定記憶（独立認証済み・main未統合）
+**Objective:** investigate concrete finite, geometric, relational, and higher-dimensional presentations as mathematically defined models. They are not interchangeable, and general dependent origination is not reducible to any one of them.
 
-[研究HEAD `c05a986ecd57`](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709)、[CI #45902979815](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815) は2026-11-27 07:19 JSTにcompleted／SUCCESS。固定Lean・実Lean MCP・別runner独立再構成がすべて成功した。
+Selected integrated work in the recorded snapshot:
 
-[R28実装（認証HEAD）](https://github.com/itakura-hidetoshi/KuuOS/blob/c05a986ecd571a1b00da255a7552ee8a54b4a709/runtime/kuuos_codeai_olean_portable_exact_recall_v1.py) は、R27の独立認証受領書から7件の完全型記憶を生成し、別runnerで新たに観測した完全型と照合する。記憶は候補選択に使い、新しい証明項はLeanで実際に検証した。
-
-| 検証条件 | 認証結果（指定fixture・scopeのみ） |
+| Research result | Source and recorded admission |
 | --- | --- |
-| 過去に観測した閉じた完全型6件 | 正4 REUSE_EXISTING・負2 REFUTED_EXACT_TARGET |
-| 過去の検索miss | HOLD_HISTORICAL_NO_MATCH（¬Pではない） |
-| 未観測の新規目標型 | HOLD_SEARCH_REQUIRED |
-| 記憶改変・再ハッシュ | HOLD_MEMORY_INTEGRITY／HOLD_UNADMITTED_MEMORY |
-| scope・登録簿・live型の変更 | HOLD_SCOPE／HOLD_INVENTORY_INTEGRITY／HOLD_SOURCE_TYPE_DRIFT |
-| 別runnerへの記憶移送 | portable-memory.jsonのバイト列一致 |
-| 再探索・再構築 | 候補比較探索0、最上位探索0、カプセル再構築0、外部provider呼出し0 |
-| 公理監査 | 11宣言を実Lean MCPで監査 |
+| Qi v5.99: selected five-phase observation, physical gauge structure and original typed source bridge | [Lean module](formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean), [PR #3631](https://github.com/itakura-hidetoshi/KuuOS/pull/3631). |
+| North C60 physical gauge and K5 boundary | [Lean module](formal/Kuu/F112/PolygonNativeC60NorthK5GaugeBoundaryBridge.lean), [PR #3632](https://github.com/itakura-hidetoshi/KuuOS/pull/3632). |
+| Conditional bridge between selected five-phase, physical and K5 gauges | [Lean module](formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean), [PR #3633](https://github.com/itakura-hidetoshi/KuuOS/pull/3633). |
+| Original F45 five-stage construction | [Lean module](formal/Kuu/F112/PolygonNativeC60NorthWuxingK5ActualFiveStageGauge.lean), [PR #3636](https://github.com/itakura-hidetoshi/KuuOS/pull/3636). |
 
-**R28最終受領書：**
+[Public-root PR #3635](https://github.com/itakura-hidetoshi/KuuOS/pull/3635) and [phase–sector equivalence PR #3637](https://github.com/itakura-hidetoshi/KuuOS/pull/3637) remain draft/open in the snapshot. The historical [six-declaration phase–sector check](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45251598224) does not certify a later test-merge tree. [#3634](https://github.com/itakura-hidetoshi/KuuOS/pull/3634) is validation-only. The wider F112 library includes higher-cell coherence and explicit non-descent research; do not promote a selected cell or local proof into universal coherence.
 
-- 研究HEAD `c05a986ecd571a1b00da255a7552ee8a54b4a709`、tree `09374564dedd47bd7a2fe1d44a05d99f5866fa0e`
-- 観測正本 `e1d754e8e0fc9382001a2e698751aa11d4272b84`、proof scopeは冒頭の値
-- Direct digest `8a7a2b551642cf22050defb202e4928e4716a8d61d194066a46478d9fe5a466e`
-- MCP digest `6a30a84ee4316548c972ed0aa18887c0791b179b9de55bb563e22649766c9bfc`
-- memory key `bff98533e4163be2961bede75782204d3822e3e2275f049bdd953e150f28c339`、inventory keyはR27と同一
-- Sandbox job 140192957037、artifact 15156164812（SHA-256 `c70156caa2cca261c94796353f5ae065ebf9398e13f52fdd22458f745397f77e`）
-- 独立job 140194736625、artifact 15156941455（SHA-256 `9f8f6c5274bdae9e3d4f07565868f33d7f77c6c9675b945a7d391e3556b671d7`）
+Next research: compare precisely typed presentation maps, kernels, invariants, and genuine source-fiber information; investigate where observation loses original data; extend higher coherence under the actual hypotheses. Yin–Yang, five-phase and mandala-related research should be documented by exact model and evidence rather than by names or broad equivalence claims. This roadmap has not freshly audited every model family.
 
-R28の成功は、同じ固定環境における7件の記憶と8目標の限定実験に対する認証である。一般的な永続化検索や任意の目標型への適用、mainへの正式採用は未認証。文書更新後のmain HEADには旧認証を直接移さない。
+## D. WORLD and inter-component operational architecture
 
-### A3. その次の研究（計画・未着手として扱う）
+**Objective:** connect observation, memory, beliefs, alternatives, verification, plans, action, effects, reflection and learning as condition-dependent operations with distinct responsibilities. The architecture must make correction possible without erasing prior observations or granting authority by inference alone.
 
-1. **次段R29（計画）**：文書更新後のcanonical mainを再観測し、R28の旧HEAD・新HEADの祖先関係、formal/lean subtree、固定proof scope・pins・依存・受領書を照合する。旧受領書は書き換えず、新HEADで再利用するための独立した受入記録を構成する。その条件を満たした後に、永続化記憶をR26/R27の再帰探索途中へ接続する。型・文脈・scopeに合う部分だけを再利用し、未解決前提のみを探索する。
-2. 同じ目標に複数の正の証明経路がある場合、候補と来歴を保持する。負の証明はその必要前提を持つ経路に限定し、代替を不正に排除しない。
-3. 47,705件の型構造索引の完全型観測を拡張する。対象2,815モジュール中2,120観測、695 HOLD、完全型2,390件、否定構造候補5,558件。字句的No-Go候補6,380件は別の観測であり、数を足して反証の総数としない。
-4. 候補生成・実修復・既存証明検索を単一の汎用経路に接続し、再利用・HOLD・反証・時間・計算量・依存変更・失敗再発率を検証する。
-5. 研究ブランチの正式採用は別の統合PRで行う。元ソース・pins・scope、独立受領書、test-merge tree、既存回帰、公開root（該当時）、Governance、採用権限を確認する。全研究ブランチや失敗候補を一括で本番へ昇格させない。
-
-**保留**：一般的な完全探索、任意の依存型・universeに対する自動証明、全No-Goの網羅、異なるLean版での互換性、外部モデルの実運用性能、4検証系統の真正な独立性、`verified_useful`昇格。検索候補数だけで有効な証明の数を評価しない。
-
-## 3. Track B — 高次縁起・元Type値・降下
-
-**[PR #3555](https://github.com/itakura-hidetoshi/KuuOS/pull/3555)：Draft／OPEN／未マージ。** 観測HEAD `a637438ceebdcb5b0247f30f14479b85b3bd0e1f`。同HEADで個別のv1.35 [CI #45343467773](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343467773)、v1.70 [CI #45343469142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343469142) はSUCCESSだが、v1.73候補probe [CI #45343467763](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45343467763) はFAILURE。PR全体の認証を主張しない。[PR #3548](https://github.com/itakura-hidetoshi/KuuOS/pull/3548) のv1.111具体的4D type-(A)はvalidation-only、正式統合とは区別。
-
-研究目標は型付きpresentation、元のType値、真正endpoint、型付き輸送、whiskering、coherence、Type-(A)/(B)/(C)のscaling・RLPを、元定義と仮定を保ったまま接続すること。
-
-受入条件：対象Lean全文、imports、dependent signatures、固定mathlib API、elaboration failureの構造原因、独立CIと公理監査、公開root、Governanceを確認する。仮定弱化・空虚witness・新規公理・sorry・別presentationの無断同一化は禁止。
-
-## 4. Track C — Qi／五行／C60／F112
-
-### C1. 採用済みの数学
-
-- Qi v5.99 [PR #3631](https://github.com/itakura-hidetoshi/KuuOS/pull/3631)：選択した五相shadowと真正C60 physical Slot/Dart/Edge、gauge共変性、元18D bracket・型付きpayloadの忠実なjoint observation、物理shadow単独の非忠実性。[Lean source](formal/KUOS/Architecture/QiWuxingGK5CHP77C60GaugeOriginalSourceBridgeV5_99.lean)には19個の公理監査対象がある。
-- [PR #3632](https://github.com/itakura-hidetoshi/KuuOS/pull/3632) [north C60物理gaugeとK5境界](formal/Kuu/F112/PolygonNativeC60NorthK5GaugeBoundaryBridge.lean)：2定理。
-- [PR #3633](https://github.com/itakura-hidetoshi/KuuOS/pull/3633) [五相＋物理gauge＋K5の条件付き橋](formal/Kuu/F112/PolygonNativeC60NorthWuxingK5TripleGaugeBridge.lean)：1定理。
-- [PR #3636](https://github.com/itakura-hidetoshi/KuuOS/pull/3636) [元のF45五段階の構成と14個のK5括弧付け](formal/Kuu/F112/PolygonNativeC60NorthWuxingK5ActualFiveStageGauge.lean)：2定理。
-
-異なる型付きgauge構造を単一の作用としない。五相shadowの選び方は明示したinterfaceであり、あらゆる元証拠がその商から復元できるという主張ではない。
-
-### C2. 未統合・公開root
-
-| 対象 | 現在の状態と次条件 |
+| Interface | Research and acceptance goal |
 | --- | --- |
-| [PR #3635](https://github.com/itakura-hidetoshi/KuuOS/pull/3635) | Draft・OPEN、既存の二つのmodule importを公開rootへ追加する別PR。元ソース採用済みであることと公開rootの認証を区別する |
-| [PR #3637](https://github.com/itakura-hidetoshi/KuuOS/pull/3637) | Draft・OPEN、phase↔sector同値の6宣言は [CI #45251598224](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45251598224) SUCCESS、旧HEADのGovernance [CI #45277272929](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45277272929) SUCCESS。現在のbase/test-merge tree・採用権限の確認が必要 |
-| [PR #3634](https://github.com/itakura-hidetoshi/KuuOS/pull/3634) | validation-only。元PR #3631がマージされていても子PRの無条件マージは禁止 |
-| 13/14-cell等 | 既存形式ソースと公開rootの範囲を尊重し、新規分割・heartbeat・timeoutは対象別に監査。局所結果を全高次coherenceへ昇格しない |
+| ObserveOS → MemoryOS / Plural / Wa | Preserve source evidence, observation context, uncertainty, provenance, and distinct presentations. Verify exact transfer rather than only summary equality. |
+| MemoryOS → BeliefOS → DecisionOS | Support context-bound belief revisions and comparison of alternatives. Retain rejected or unresolved candidates and the reason for preference. |
+| DecisionOS / VerifyOS → PlanOS | Bind typed goals, conditions, prerequisites and blockers to actual runtime operations. A chosen plan is not an approved action. |
+| PlanOS → ActOS → ObserveOS | Distinguish authorization, execution, reported effect, independently collected observation, verification and world update. |
+| ReflectionOS / ExplanationOS | Investigate source-grounded explanation, disagreement, re-observation, and correction. Distinguish interpretation from independently observed evidence. |
+| LearnOS / Self-EvolutionOS / WORLD | Preserve prior states and histories while constructing bounded revision proposals, stopping and recovery conditions, and separately authorized adoption. |
 
-C60は一般縁起理論のテストベッドであって、一般理論はC60に還元しない。次の新規提案前にはQi・GK5・F112等の既存Lean宣言・型・仮定・依存・No-Goを横断照合する。
+Concrete entry points are the [PlanOS external commit grant model](formal/KUOS/PlanOS/ExternalCommitAuthorizationGrantV0_45.lean), [ObserveOS effect observation receipt](formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean), and [WORLD bounded supervisor](formal/KUOS/WORLD/KuuOSBoundedSelfOrganizationSupervisorV0_78.lean). In the recorded formal root, WORLD research also includes gauge connections, memory selection and rollback, repository alignment and revision DAGs, checkpoint transitions and recovery, and lifecycle review. These are research structures; their validity fields, authorization propositions and receipt types are not self-authenticating external evidence.
 
-## 5. Track D — Lean→Python・各OSの接続
+Integrated Lean-to-Python work includes [v0.60 #3622](https://github.com/itakura-hidetoshi/KuuOS/pull/3622), [v0.61 adapter #3626](https://github.com/itakura-hidetoshi/KuuOS/pull/3626), and [eight-declaration Lean module #3628](https://github.com/itakura-hidetoshi/KuuOS/pull/3628). [Public-root #3629](https://github.com/itakura-hidetoshi/KuuOS/pull/3629) remains draft/open; its historical [failed CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44980424064) and [successful public-root check](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44980424086) are distinct.
 
-v0.60 Lean、v0.61 adapterと元候補Aの正式Leanファイルはmain採用済み。[PR #3629](https://github.com/itakura-hidetoshi/KuuOS/pull/3629) の公開rootはDraft・OPEN、[CI #44980424064](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44980424064) FAILURE、Public Proof Roots [CI #44980424086](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44980424086) SUCCESSを区別する。
+Next research: build and test exact component-to-component contracts, distinguish runtime implementations from Type-level models, strengthen local refinement results, and study bounded revision and re-observation. Full bidirectional Python–Lean refinement, a correspondence between formal WORLD and the external world, organizational independence, and general autonomous action remain unestablished.
 
-| 接続 | 次の証明・試験条件 |
+## E. Specialized implementations: CodeAI and VerifyOS
+
+These tracks operationalize selected principles in tractable research settings. They are neither the root of KuuOS nor substitutes for its other mathematical and architectural research.
+
+### E1. CodeAI — contextual proof reuse and obstruction-aware search
+
+Canonical infrastructure includes candidate verification [#3623](https://github.com/itakura-hidetoshi/KuuOS/pull/3623), [#3625](https://github.com/itakura-hidetoshi/KuuOS/pull/3625), [#3626](https://github.com/itakura-hidetoshi/KuuOS/pull/3626), and [#3630](https://github.com/itakura-hidetoshi/KuuOS/pull/3630); prior-proof review and lexical indexing [#3638](https://github.com/itakura-hidetoshi/KuuOS/pull/3638)–[#3639](https://github.com/itakura-hidetoshi/KuuOS/pull/3639); and version-bound kernel memory [#3640](https://github.com/itakura-hidetoshi/KuuOS/pull/3640)–[#3641](https://github.com/itakura-hidetoshi/KuuOS/pull/3641). The latter covers 13 selected declarations. Its deterministic HOLD callback replay is not an evaluation of an external generative model. Earlier multi-verifier admission HOLDs are not waived.
+
+Selected evidence from the separate [research branch](https://github.com/itakura-hidetoshi/KuuOS/tree/research/codeai-nogo-memory-v1-20261126):
+
+| Milestone | Recorded scoped result |
 | --- | --- |
-| MemoryOS / Plural / Wa → BeliefOS | 元観測、出典、文脈、型、履歴の保存。要約の一致を元証拠の一致にしない |
-| DecisionOS → VerifyOS → PlanOS | 元Pythonの操作とLeanの型・仮定・保存量を個別に対応させる。6経路等の局所回帰を全体意味保存にしない |
-| PlanOS → ActOS → ObserveOS | 計画・許可・実行・効果・独立再観測を分離 |
-| LearnOS / CodeAI → MemoryOS | exact version／依存／subtask／独立受領書。旧v0.61の4系統不足のHOLDを維持 |
+| [R7](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45774874136) | 47,705 type-structure entries, 2,120/2,815 modules observed, 695 unobserved, 2,390 complete types, and 5,558 negative-structure candidates. Candidate counts are not counts of certified refutations. |
+| R17–R27 | Recursive premise search, AND–OR composition, proof DAGs, compiled capsules, typed applications and scoped negative recall; [R20](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45811079734), [R25](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45896476614), [R26](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45898216584), [R27](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45901313851). |
+| [R28 source](https://github.com/itakura-hidetoshi/KuuOS/commit/c05a986ecd571a1b00da255a7552ee8a54b4a709), [CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45902979815) | Seven memory records, eight targets, four positive and two negative exact-target applications, two HOLDs, 11 audited declarations and byte-identical memory transport. |
+| [R73 R3 source](https://github.com/itakura-hidetoshi/KuuOS/commit/b5c2535327eecb5158368bfb85ad13b34953dba9), [CI attempt 2](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/46121677458/attempts/2) | Ten general and six concrete new theorems, 313 cumulative audited declarations (16 fresh and 297 reused MCP audits), two retained paths. Abstract registry extension, recovery and rejection; no live registration or policy change. |
+| [R74 source](https://github.com/itakura-hidetoshi/KuuOS/blob/880d06b1b3836c13c548fdc063c0d020e2df6206/scripts/lean_probes/codeai_registry_batch_readiness_v1.lean) | Candidate readiness, frame and permutation laws for a checked registry batch. Independent verification not established in this snapshot. Registry equality does not erase ordered histories. |
 
-全OSのLean↔Python双方向意味保存、実WORLDと形式WORLDの同一性、外部行為の権限付与は未証明である。
+A proposed controlled benchmark compares proof search with and without stored obstruction certificates, holding positive proof memory, retrieval/search budget, model configuration and pinned Lean environment fixed. Use multiple held-out instances of valid reuse, a certified blocked route with a viable alternative, and insufficient evidence. Measure repeated failed attempts, false route exclusions, Lean-checked completion, HOLD rates and verification costs. Revalidate all obstructions in context. Timeouts, missing premises and failed retrieval are not formal No-Go certificates. Existing pilots do not establish performance improvement or cross-domain generalization.
 
-## 6. Track E — 検証インフラ・運用
+Next gates: complete scoped R74 verification, improve dependency and type coverage, preserve alternatives and prior evidence, and separately establish current-main admission before integrating experimental machinery. No automatic registration, general prover completeness, or execution authority is claimed.
 
-### E1. 実際に成功した認証済み共有キャッシュ
+### E2. VerifyOS — question-bound evidence and publication
 
-[PR #3643](https://github.com/itakura-hidetoshi/KuuOS/pull/3643)・[PR #3644](https://github.com/itakura-hidetoshi/KuuOS/pull/3644) MERGED。[producer/verifier](scripts/ci_verified_lean_project_cache_v1.py)は正本由来・固定proof scope・pins・source ancestry・artifact SHA-256/size・manifestを検証して安全に復元する。
+The recorded integrated [v0.17 implementation](runtime/kuuos_verifyos_lean_egress_v0_17.py) extends bounded interpretation and correction histories, signed receipt checks, separate-key witnesses, diverse audit, typed claim projection, and trusted-host egress. It recomputes evidence checks and compiles four pinned Lean modules to compare all 18 projected claim values with Python; fresh display replay compares exact publication bytes while preserving original status, branches and HOLDs.
 
-| 実測 | 結果 |
-| --- | --- |
-| 正本publisher [CI #45615980980](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45615980980) | full Strict KuuOSFormal 10,433/10,433、artifact 15038487740（940,848,666 bytes） |
-| 別runner [CI #45700676928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45700676928) | 同一artifact復元、同一full Strict Lakeコマンド4.74秒、2,120 olean size/mtime保持 |
-| #3644後の正本 | [CI #45711044342](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45711044342) Runtime full check SUCCESS、[CI #45711044643](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45711044643) sharded Governance SUCCESS |
+[Dedicated CI #46105861375](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/46105861375) completed both sandbox and independent jobs successfully; independent regression 10/10. [Governance #46105861382](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/46105861382) succeeded with the Strict Lean job skipped. No new full-library build is inferred from that run.
 
-これは上記の観測範囲の実績であり、変更されたLean sourceの無検証再利用ではない。別PRの証明や期限切れartifactを正本扱いしない。未知・不一致は通常Strict Leanへ戻す。
+Next gates: extend explicitly typed interpretation and claim domains, retain ambiguous branches and exclusions, strengthen source/host trust and replay conditions, distinguish structural agreement from independent execution provenance, and investigate scoped runtime-to-formal refinement. Production integration requires a separately authorized and verified execution path. No arbitrary natural-language completeness, global freshness, external truth, production ChatGPT interception, or action authority follows. Use synthetic public CI fixtures, not private evidence or keys. See [v0.17 scope](docs/KUUOS_VERIFYOS_LEAN_EGRESS_v0_17.md).
 
-### E2. 固定運用
+## F. Verification infrastructure and governance
 
-1. GitHub MCPで対象HEAD・main・保護PRを固定し、既存形式成果物を検索する。
-2. 認証済み完全型・証明カプセル・No-Goを再利用し、未解決部分だけ候補生成する。
-3. GitHub隔離Sandboxで直接Lean、実Lean MCP、宣言公理監査を行う。GREEN前に独立CIを起動しない。可能な限り同じ作業単位内で修復から独立CI起動へ接続する。
-4. 別runner独立CI、source／test-merge tree一致、必要時の公開root・Governance、採用権限を検査する。workflow/job/Lean stepの終了・実ログを確認する。
-5. 失敗理由・scope・修復・再観測を版固定のappend-only記憶へ保存する。失敗候補を認証済みにしない。認証済み同一ソースを不要に再計算しない。
+Certified cross-PR Lean artifact reuse is integrated in [#3643](https://github.com/itakura-hidetoshi/KuuOS/pull/3643) and [#3644](https://github.com/itakura-hidetoshi/KuuOS/pull/3644). The [producer and verifier](scripts/ci_verified_lean_project_cache_v1.py) validate source provenance, proof scope, dependencies, manifest, and artifact digests. The historical [producer](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45615980980) completed 10,433 strict build jobs; [independent restoration](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/45700676928) completed the same strict build command in 4.74 seconds. These are recorded measurements, not universal performance guarantees.
 
-文書専用の更新には新規Lean定理の認証を要求しない。ただし、研究実験がexact canonical HEADを固定している場合、README等だけの正本変更でもそのHEAD照合を壊し得る。現行の実行を完了させ、旧観測HEAD・新HEAD・formal/lean subtree・固定proof scopeの関係を明示してから変更する。正本変更後も旧HEADの認証はその旧HEADに限定する。
+The verification process must support all research tracks, not only CodeAI:
 
-## 7. 長期目標と残る境界
+1. Fix the exact source, conditions, dependencies, protected branches and prior evidence; search existing positive and negative results before new work.
+2. Generate or repair only the unresolved part. Keep original statements, assumptions, source values, and failure histories.
+3. For new formal candidates, check the fixed environment with direct Lean, actual Lean MCP and axiom audits in the isolated sandbox. Separate-runner CI follows sandbox success.
+4. Check independent workflow/job/step completion, real logs, source/test-merge tree agreement, applicable public roots and Governance. Keep evidence admission and merge or action authorization distinct.
+5. Re-observe and preserve append-only history. Missing or mismatched cache evidence returns to normal verification. Do not rerun unchanged certified work unnecessarily or weaken checks to avoid a failure.
 
-一般縁起の型付きpresentation間の必要十分なcompatibility・降下・obstructionを広げ、Lean形式化と元Python OSの対応、証明の再利用、独立再観測、権限ゲートを結ぶ。別正本[4d-mass-gap](https://github.com/itakura-hidetoshi/4d-mass-gap)への適用は研究実験として扱う。
+Docs-only revisions need not trigger new Strict Lean proof certification. However, even documentation changes to `main` may invalidate exact-HEAD research workflows. Before adoption, coordinate with running fixed-HEAD work and check source ancestry, proof scope, dependencies and new-HEAD admission. Historical receipts retain their historical scope.
 
-**全KuuOSの完成、任意数学の自動証明、AIのハルシネーション消滅、仏教思想の形式証明、AIの無条件自律行為を宣言しない。** 現行ソース・形式成果物・実CIログが文書・記憶・モデル出力に優先する。
+## G. Cross-domain validation, evaluation, and collaboration
+
+### Publication and research dissemination
+
+**Itakura, Hidetoshi.** *KuuOS: Beyond Hallucination Mitigation — Lean-checked foundations for evidence-governed AI, with an ongoing Yang–Mills mass gap case study.* Zenodo preprint, v1.2, 25 November 2026. [Zenodo record](https://zenodo.org/records/24521959) · [Reported DOI: 10.5281/zenodo.24521959](https://doi.org/10.5281/zenodo.24521959).
+
+Preserve this publication as a versioned research record. Future revisions should explicitly distinguish new formal results, runtime observations, scoped independent verification, unresolved conditions, and proposed evaluations. Do not retrospectively attribute later repository results to the preprint or treat its release as independent certification.
+
+*Bibliographic details follow the project’s recorded citation; the live Zenodo metadata and DOI resolution have not been independently rechecked for this revision.*
+
+### Cross-domain evaluation and collaboration
+
+The separate [4d-mass-gap](https://github.com/itakura-hidetoshi/4d-mass-gap) project may serve as a future cross-domain evaluation setting for selected KuuOS methods. It has its own mathematical objectives and source of truth. Define the scope, held-out tasks, evidence and comparative criteria before claiming any transfer of performance. A checked finite-lattice result does not resolve the continuum Yang–Mills mass gap problem.
+
+Across the tracks, collaboration can focus on independent mathematical reconstruction, counterexamples and obstructions, comparison of distinct presentations, precise runtime/formal contracts, observation and feedback, and reproducible experiments. Progress in one track must not replace the outstanding conditions in another.
+
+The long-term aim is a coherent research architecture grounded in conditional relations, preserving original evidence and plurality, enabling responsible conventional operation and correction without reification. No claim is made that all components are complete, that philosophical doctrine is formally proved, that arbitrary mathematics can be proved automatically, that hallucinations are eliminated, or that autonomous external action is unrestricted.
 
 ---
 
-履歴：旧版の相対リンクを元の配置で開く場合は[観測正本の旧README](https://github.com/itakura-hidetoshi/KuuOS/blob/e1d754e8e0fc9382001a2e698751aa11d4272b84/README.md)・[旧ROADMAP](https://github.com/itakura-hidetoshi/KuuOS/blob/e1d754e8e0fc9382001a2e698751aa11d4272b84/ROADMAP.md)を使用する。各時点の「最新」「次段」「SUCCESS」は当時のHEADと範囲の記録として保持する。
+Research and design: **Hidetoshi Itakura (板倉英俊)**. See [LICENSE](LICENSE) and the relevant attribution notices.
+
+Historical evidence and exact earlier receipt references remain available in the [previous canonical roadmap](https://github.com/itakura-hidetoshi/KuuOS/blob/ecfb8b1a1aaa684bebcc3420f38b8b060a407c7a/ROADMAP.md), [previous canonical README](https://github.com/itakura-hidetoshi/KuuOS/blob/ecfb8b1a1aaa684bebcc3420f38b8b060a407c7a/README.md), [22 November roadmap](docs/history/ROADMAP-SNAPSHOT-20261122.md), [22 November README](docs/history/README-SNAPSHOT-20261122.md), [earlier roadmap](docs/history/ROADMAP-THROUGH-20261121.md), and [earlier README](docs/history/README-THROUGH-20261121.md).
