@@ -1,0 +1,27 @@
+name: VerifyOS interpretation family v0.6
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_verifyos_interpretation_family_v0_6.py'
+      - 'runtime/kuuos_verifyos_question_translation_v0_5.py'
+      - 'runtime/kuuos_verifyos_question_claim_contract_v0_4.py'
+      - 'runtime/kuuos_verifyos_claim_evidence_binding_v0_3.py'
+      - 'runtime/kuuos_verifyos_answer_publication_v0_2.py'
+      - 'runtime/kuuos_verifyos_execution_answer_binding_v0_1.py'
+      - 'tests/test_kuuos_verifyos_interpretation_family_v0_6.py'
+      - '.github/workflows/verifyos-interpretation-family-v0-6.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -B -m unittest discover -s tests -p test_kuuos_verifyos_interpretation_family_v0_6.py -v
+  independent-regression:
+    needs: isolated-regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -B -m unittest discover -s tests -p test_kuuos_verifyos_interpretation_family_v0_6.py -v
