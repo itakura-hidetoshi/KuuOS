@@ -1,0 +1,82 @@
+name: VerifyOS method sound coverage v0.14
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/lean_probes/verifyos_method_sound_coverage_v0_14.lean'
+      - 'scripts/check_verifyos_method_sound_coverage_v0_14.py'
+      - '.github/workflows/verifyos-method-sound-coverage-v0-14.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    name: Sandbox direct fixed Lean and actual Lean MCP
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Require fixed canonical base
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: test "$BASE" = 5c282fd5a34573f326d74a2b6e933fc616f09f96
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Direct Lean and full declaration axiom audit
+        run: python3 scripts/check_verifyos_method_sound_coverage_v0_14.py --phase direct --out "$RUNNER_TEMP/verifyos-v014"
+      - name: Prepare minimal Lake project and actual MCP launcher
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv==0.13.10
+          command -v rg
+          cd "$RUNNER_TEMP/verifyos-v014/project"
+          lake build MethodSoundCoverage
+      - name: Actual Lean MCP diagnostics and theorem axiom audit
+        run: python3 scripts/check_verifyos_method_sound_coverage_v0_14.py --phase mcp --out "$RUNNER_TEMP/verifyos-v014"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v014-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v014/*.json
+            ${{ runner.temp }}/verifyos-v014/*.log
+            ${{ runner.temp }}/verifyos-v014/project/MethodSoundCoverage.lean
+          if-no-files-found: warn
+  independent:
+    name: Independent runner strict Lean and evidence reconciliation
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Require fixed canonical base
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: test "$BASE" = 5c282fd5a34573f326d74a2b6e933fc616f09f96
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/download-artifact@v4
+        with:
+          name: verifyos-v014-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/verifyos-v014-first
+      - name: Independently re-elaborate and reconcile actual MCP evidence
+        run: python3 scripts/check_verifyos_method_sound_coverage_v0_14.py --phase independent --out "$RUNNER_TEMP/verifyos-v014-independent" --first "$RUNNER_TEMP/verifyos-v014-first"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v014-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v014-independent/*.json
+            ${{ runner.temp }}/verifyos-v014-independent/*.log
+            ${{ runner.temp }}/verifyos-v014-independent/project/MethodSoundCoverage.lean
+          if-no-files-found: warn
