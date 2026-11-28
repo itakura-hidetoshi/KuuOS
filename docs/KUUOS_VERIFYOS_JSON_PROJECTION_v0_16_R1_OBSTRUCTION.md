@@ -1,0 +1,7 @@
+# VerifyOS v0.16 R1 obstruction and R2 source diagnosis
+
+R1 diagnostic PR #3664, submitted head f63584509714899647fffc03f3a800c65e471edd, tested merge 22cfa2d5488d36507ce22347183ba7c1dbba525a, workflow 46103680204, job 140851556485. Pinned Lean installation succeeded. The source preflight failed with SOURCE_PIN:scripts/lean_probes/verifyos_json_projection_cli_v0_16.lean, before any direct Lean or fixture execution. No artifact was produced, and MCP and independent replay were skipped.
+
+The submitted head and tested merge were compared by GitHub MCP with no changed files. The CLI content was fetched from both refs with the same reported Git blob 34ad19e18f73866754fe9678b808ad4c0e4e2891. Independently hashing the retrieved UTF-8 text with the Git blob header produced that same digest (911 bytes). The main Lean source and runner pin were also compared. No .gitattributes was returned at the root or parent script directories. This does not explain the runner mismatch; its actual byte digest and size were not emitted by R1.
+
+R2 retains both Lean files and their exact expected digests, adds the actual read byte size and computed blob digest to the runner's existing fail-closed source preflight, and repeats validation. No observed mismatch is accepted, no source pin is weakened, and no theorem statement changes. R1 source and failure history remain available. Direct Lean, actual MCP and independent replay are still required. The branch remains a dependent diagnostic, not permission to merge into the predecessor branch.
