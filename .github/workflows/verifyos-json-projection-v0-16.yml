@@ -1,0 +1,82 @@
+name: VerifyOS JSON projection v0.16 R3
+on:
+  pull_request:
+    branches: [main, research/verifyos-typed-projection-v0-15-r2]
+    paths:
+      - 'scripts/lean_probes/verifyos_json_projection_v0_16.lean'
+      - 'scripts/lean_probes/verifyos_json_projection_cli_v0_16.lean'
+      - 'scripts/check_verifyos_json_projection_v0_16.py'
+      - '.github/workflows/verifyos-json-projection-v0-16.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    name: Sandbox raw JSON projection and actual Lean MCP
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Direct Lean and actual raw JSON projection
+        run: python3 scripts/check_verifyos_json_projection_v0_16.py --phase direct --out "$RUNNER_TEMP/verifyos-v016"
+      - name: Prepare minimal Lake project and actual MCP
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv==0.13.10
+          if ! command -v rg >/dev/null 2>&1; then
+            test -f /etc/apt/sources.list.d/ubuntu.sources
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- update -qq
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- install -y -qq ripgrep
+          fi
+          rg --version
+          cd "$RUNNER_TEMP/verifyos-v016/project"
+          lake build JsonProjection
+      - name: Actual Lean MCP diagnostics and theorem audit
+        run: python3 scripts/check_verifyos_json_projection_v0_16.py --phase mcp --out "$RUNNER_TEMP/verifyos-v016"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v016-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v016/*.json
+            ${{ runner.temp }}/verifyos-v016/*.log
+            ${{ runner.temp }}/verifyos-v016/project/*.lean
+            ${{ runner.temp }}/verifyos-v016/cases/*.json
+          if-no-files-found: warn
+  independent:
+    name: Independent fresh and exact JSON replay
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/download-artifact@v4
+        with:
+          name: verifyos-v016-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/verifyos-v016-first
+      - name: Independently compile and replay fresh and original JSON bytes
+        run: python3 scripts/check_verifyos_json_projection_v0_16.py --phase independent --out "$RUNNER_TEMP/verifyos-v016-independent" --first "$RUNNER_TEMP/verifyos-v016-first"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verifyos-v016-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/verifyos-v016-independent/*.json
+            ${{ runner.temp }}/verifyos-v016-independent/*.log
+            ${{ runner.temp }}/verifyos-v016-independent/project/*.lean
+            ${{ runner.temp }}/verifyos-v016-independent/cases/*.json
+          if-no-files-found: warn
