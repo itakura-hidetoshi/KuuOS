@@ -1,0 +1,90 @@
+name: VerifyOS v0.25 actual synthetic local IPC
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'research/verifyos_v025_local_host/**'
+      - '.github/workflows/verifyos-v025-local-host.yml'
+permissions:
+  contents: read
+jobs:
+  sandbox:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify submitted and actual merge tree
+        run: python -B research/verifyos_v025_local_host/audit_v025_ci.py preflight --repo . --job sandbox
+      - name: Verify audited Lean bootstrap source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          raw=Path('scripts/bootstrap_pinned_lean_ci.sh').read_bytes()
+          if hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()!='434dae14bd0be17f16c0e61f7dd3c97db0cf0d4e':raise SystemExit('BOOTSTRAP_BLOB_MISMATCH')
+          PY
+      - name: Install fixed Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Python dependencies
+        run: |
+          python -m pip install --only-binary=:all: cryptography==46.0.4 cffi==2.0.0 pycparser==3.00
+      - name: Execute protocol and actual synthetic IPC integration
+        run: python -B research/verifyos_v025_local_host/run_actual_v025.py --mode real --repo . --out "$RUNNER_TEMP/v025-sandbox"
+      - name: Seal exact Sandbox logs and identity
+        run: python -B research/verifyos_v025_local_host/audit_v025_ci.py seal --repo . --job sandbox --evidence "$RUNNER_TEMP/v025-sandbox"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v025-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v025-sandbox/
+          if-no-files-found: warn
+  independent:
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify submitted and actual merge tree
+        run: python -B research/verifyos_v025_local_host/audit_v025_ci.py preflight --repo . --job independent
+      - name: Verify audited Lean bootstrap source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          raw=Path('scripts/bootstrap_pinned_lean_ci.sh').read_bytes()
+          if hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()!='434dae14bd0be17f16c0e61f7dd3c97db0cf0d4e':raise SystemExit('BOOTSTRAP_BLOB_MISMATCH')
+          PY
+      - name: Install fixed Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - name: Install pinned Python dependencies
+        run: |
+          python -m pip install --only-binary=:all: cryptography==46.0.4 cffi==2.0.0 pycparser==3.00
+      - uses: actions/download-artifact@v4
+        with:
+          name: v025-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v025-prior
+      - name: Audit same-run Sandbox evidence
+        run: python -B research/verifyos_v025_local_host/audit_v025_ci.py verify-prior --repo . --job independent --evidence "$RUNNER_TEMP/v025-prior"
+      - name: Independently execute all protocol and actual integration tests
+        run: python -B research/verifyos_v025_local_host/run_actual_v025.py --mode real --repo . --out "$RUNNER_TEMP/v025-independent"
+      - name: Seal independent result and recheck Sandbox evidence
+        run: python -B research/verifyos_v025_local_host/audit_v025_ci.py seal --repo . --job independent --evidence "$RUNNER_TEMP/v025-independent" --prior "$RUNNER_TEMP/v025-prior"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v025-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/v025-independent/
+          if-no-files-found: warn
