@@ -1,0 +1,70 @@
+name: CodeAI R78 R1 retained dependency diagnostics
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - '.github/workflows/codeai-olean-registry-residual-frontier-v1-r78-r1-diagnostics.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  retained-diagnostics:
+    name: R78 R1 exact kernel dependency inventory (no Lean execution)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 29631d8d91f6b205980e40155a27998326b0a640
+          persist-credentials: false
+      - name: Verify failed run and artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          def api(path):
+              req=urllib.request.Request("https://api.github.com/repos/itakura-hidetoshi/KuuOS/"+path,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+              with urllib.request.urlopen(req,timeout=30) as r: return json.load(r)
+          run=api("actions/runs/46144113299")
+          assert run["head_sha"]=="29631d8d91f6b205980e40155a27998326b0a640" and run["status"]=="completed" and run["conclusion"]=="failure" and run["run_attempt"]==1
+          a=api("actions/artifacts/15263221075")
+          assert a["id"]==15263221075 and a["name"]=="codeai-olean-r78-local-46144113299-1" and a["digest"]=="sha256:d10c16de11806c513af2ab5ebc7bf4c7c3085c1c627e8a87ecdc690cd7c1cbc0" and not a["expired"] and a["workflow_run"]["id"]==46144113299 and a["workflow_run"]["head_sha"]=="29631d8d91f6b205980e40155a27998326b0a640"
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r78-local-46144113299-1
+          path: retained-r1
+          run-id: 46144113299
+          github-token: ${{ github.token }}
+      - name: Extract exact kernel inventory and compare required dependencies
+        run: |
+          python3 - <<'PY'
+          import ast,hashlib,json
+          from pathlib import Path
+          root=Path("retained-r1")
+          p=root/"ResidualFrontierR78.log"
+          src=root/"ResidualFrontierR78.lean"
+          assert p.is_file() and src.is_file()
+          raw=p.read_bytes()
+          lines=raw.decode("utf-8").splitlines()
+          script=Path("scripts/check_codeai_olean_registry_residual_frontier_v1_r78.py")
+          tree=ast.parse(script.read_text())
+          env={"NS":"KuuOSR78."}
+          for n in tree.body:
+              if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in ("GENERAL","CONTROL","ACTUAL","REFS") for t in n.targets):
+                  exec(compile(ast.Module(body=[n],type_ignores=[]),str(script),"exec"),{"__builtins__":{}},env)
+          expected={env["NS"]+n:env["REFS"].get(n,[]) for n in env["GENERAL"]+env["CONTROL"]+env["ACTUAL"]}
+          prefix="KUUOS_RECALL_KERNEL "
+          rows=[json.loads(l[len(prefix):]) for l in lines if l.startswith(prefix)]
+          assert len(rows)==len(expected)==12 and set(r["name"] for r in rows)==set(expected)
+          print("R78_R1_RETAINED",json.dumps({"run":46144113299,"artifact":15263221075,"log_sha256":hashlib.sha256(raw).hexdigest(),"source_sha256":hashlib.sha256(src.read_bytes()).hexdigest(),"kernel_rows":len(rows),"lean_executions":0}))
+          missing=0
+          for r in rows:
+              refs=set(r["proof_constants"])
+              absent=sorted(set(expected[r["name"]])-refs)
+              missing+=len(absent)
+              print("R78_R1_DEPENDENCY",json.dumps({"name":r["name"],"missing":absent,"required":expected[r["name"]],"proof_constants":sorted(refs),"axioms":r["axioms"]},sort_keys=True))
+          print("R78_R1_MISSING_COUNT",missing)
+          assert missing>0
+          PY
