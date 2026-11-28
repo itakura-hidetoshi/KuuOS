@@ -1,0 +1,144 @@
+{
+  "status": "R84_R1_SOURCE_CANDIDATE_UNVERIFIED",
+  "parent": {
+    "run_id": 46156125724,
+    "head": "d04199c86fc2de4c2570cf103fe20e72adacf2b7",
+    "tree": "781892d5020ce75866ae6d7a1cb0d5c13c22214b",
+    "module": "artifacts.«olean-r83».CheckedChunksR83",
+    "olean_sha256": "634b8524b6eb9dd3d2a2fb8bbc24d9f713aa78798bb0637d312d672d1d7362d4",
+    "olean_bytes": 126440,
+    "artifact_local_id": 15267882683,
+    "artifact_local_name": "codeai-olean-r83-local-46156125724-1",
+    "artifact_local_sha256": "a43420539c2409805bfa14583645c6cfc163eac705e899cd30f9f652e77296ab",
+    "artifact_independent_id": 15267594768,
+    "artifact_independent_name": "codeai-olean-r83-independent-46156125724-1",
+    "artifact_independent_sha256": "07d079744d36a377db8fa3a62c8e565a50d40598fb3defe2ce46c1248ad5d2a4",
+    "direct_digest": "c0145e54c196b800d431cbe5173a4d61b127d07c3e0070f7a31fa2a7992a5ba1",
+    "mcp_digest": "9b23cb520ba97111716e7515cfad0322c223b9b5d2d001fb638919ce0cafdde1",
+    "key": "b401170808a408fb5a27ec5f4e835c346fd2bba3d22dc7ee781cfde65a67a676",
+    "diagnostics_digest": "537e0f804c76b98b6a06c31dd170e5aff4d49a946795fedcd5b2ecfdd89caade",
+    "manifest_digest": "a897acc23e99a6e65c36f7d3d2a9c949d086ae8e95c027f379ab03685f92dc54",
+    "replay_digest": "9e2b08aa1211c74280835e720d1623081cea024f12a8e9f88626bda4f71e2e31",
+    "r1_failure_evidence_digest": "8970f19f1d4bba9d81f840fdb31ee0a79e4213ce44aea38bab2e9c065b21e646",
+    "sandbox_job_id": 141013057949,
+    "independent_job_id": 141014977314,
+    "certified_audits": 439,
+    "complete_proofs": 340
+  },
+  "new_theorem_candidates": [
+    "KuuOSR84.advance_stream_hold",
+    "KuuOSR84.advance_stream_complete",
+    "KuuOSR84.advance_stream_exact",
+    "KuuOSR84.stream_chunks_append",
+    "KuuOSR84.stream_chunks_from",
+    "KuuOSR84.stream_chunks_exact",
+    "KuuOSR84.stream_trace_exact",
+    "KuuOSR84.stream_cache_fresh",
+    "KuuOSR84.stream_frontier_fresh",
+    "KuuOSR84.stream_registry_extends",
+    "KuuOSR84.stream_hold_cache",
+    "KuuOSR84.stream_hold_suffix",
+    "KuuOSR84.actual_stream_cache_fresh",
+    "KuuOSR84.actual_stream_frontier_fresh"
+  ],
+  "expected_comparison_count": 16,
+  "expected_comparison_names": [
+    "empty_stream",
+    "empty_chunk",
+    "finite_stream_exact",
+    "chunk_split_exact",
+    "complete_trace_length",
+    "complete_terminal_bindings",
+    "fresh_cache_exact",
+    "fresh_frontier_exact",
+    "blocked_stream_exact",
+    "blocked_pending_suffix",
+    "blocked_cache_unchanged",
+    "blocked_position_unchanged",
+    "blocked_atomic_no_later",
+    "none_is_not_empty",
+    "actual_stream_cache_exact",
+    "actual_stream_hold_and_frontier"
+  ],
+  "files": [
+    {
+      "name": "codeai_registry_stream_cache_v1.lean",
+      "sha256": "f39d53b6693a8d8e8c733193d9a132b85b5cc8a905184fe32e48f235e56fe34f",
+      "bytes": 9012
+    },
+    {
+      "name": "codeai_registry_stream_cache_v1_tests.lean",
+      "sha256": "d4e0bb3678a0d130eb9014ff8cbf5d4fdf67956928cd2f7d6d3276597bd7a6e9",
+      "bytes": 4378
+    }
+  ],
+  "fixed_scope": {
+    "canonical_head": "a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063",
+    "canonical_tree": "c6686a052dd0b26728e1d784520db5d07f965784",
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "standard_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "required_direct_references": {
+    "KuuOSR84.advance_stream_exact": [
+      "KuuOSR84.advance_stream_complete",
+      "KuuOSR84.advance_stream_hold",
+      "KuuOSR83.append_after_complete",
+      "KuuOSR83.complete_append_cache",
+      "KuuOSR83.append_after_hold",
+      "KuuOSR83.hold_append_cache"
+    ],
+    "KuuOSR84.stream_chunks_from": [
+      "KuuOSR84.advance_stream_exact"
+    ],
+    "KuuOSR84.stream_chunks_exact": [
+      "KuuOSR84.stream_chunks_from"
+    ],
+    "KuuOSR84.stream_trace_exact": [
+      "KuuOSR84.stream_chunks_exact"
+    ],
+    "KuuOSR84.stream_cache_fresh": [
+      "KuuOSR84.stream_chunks_exact",
+      "KuuOSR82.checked_chain_cache_exact"
+    ],
+    "KuuOSR84.stream_frontier_fresh": [
+      "KuuOSR84.stream_chunks_exact",
+      "KuuOSR82.checked_chain_frontier_exact"
+    ],
+    "KuuOSR84.stream_registry_extends": [
+      "KuuOSR84.stream_trace_exact",
+      "KuuOSR82.checked_chain_extends"
+    ],
+    "KuuOSR84.stream_hold_cache": [
+      "KuuOSR84.stream_chunks_from",
+      "KuuOSR83.hold_append_cache"
+    ],
+    "KuuOSR84.stream_hold_suffix": [
+      "KuuOSR84.stream_chunks_from",
+      "KuuOSR83.append_after_hold"
+    ],
+    "KuuOSR84.actual_stream_cache_fresh": [
+      "KuuOSR84.stream_cache_fresh"
+    ],
+    "KuuOSR84.actual_stream_frontier_fresh": [
+      "KuuOSR84.stream_frontier_fresh"
+    ]
+  },
+  "expected_after_all_gates_pass": {
+    "cumulative_audits": 453,
+    "complete_proofs": 354,
+    "new_mcp": 14,
+    "reused_mcp": 439
+  },
+  "authority": {
+    "live_registry_writes": false,
+    "current_main_certification_transferred": false,
+    "registry_authentication_proved": false,
+    "proof_authority": false,
+    "action_authority": false
+  }
+}
