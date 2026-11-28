@@ -1,0 +1,73 @@
+name: CodeAI R79 R1 retained complete diagnostics
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - '.github/workflows/codeai-olean-registry-cached-frontier-v1-r79-r1-diagnostics.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  retained-diagnostics:
+    name: R79 R1 retained complete diagnostic inventory (no Lean execution)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify immutable failed run and artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          def api(path):
+              req=urllib.request.Request("https://api.github.com/repos/itakura-hidetoshi/KuuOS/"+path,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+              with urllib.request.urlopen(req,timeout=30) as r: return json.load(r)
+          run=api("actions/runs/46146339391")
+          assert run["head_sha"]=="9a839e159a8f85045de2964df4d5fb4f03dea8f3" and run["status"]=="completed" and run["conclusion"]=="failure" and run["run_attempt"]==1
+          a=api("actions/artifacts/15263398052")
+          assert a["id"]==15263398052 and a["name"]=="codeai-olean-r79-local-46146339391-1" and a["digest"]=="sha256:61b21350be5d5ae1d4cb553b19734500e5a60f8355e714ca241e95e5714c5a7e" and not a["expired"] and a["workflow_run"]["id"]==46146339391 and a["workflow_run"]["head_sha"]=="9a839e159a8f85045de2964df4d5fb4f03dea8f3"
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r79-local-46146339391-1
+          path: retained-r1
+          run-id: 46146339391
+          github-token: ${{ github.token }}
+      - name: Extract retained diagnostic prefix and all marker summaries
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,re
+          from pathlib import Path
+          root=Path("retained-r1")
+          p=root/"CachedFrontierR79.log";src=root/"CachedFrontierR79.lean"
+          assert p.is_file() and src.is_file()
+          raw=p.read_bytes();lines=raw.decode("utf-8").splitlines()
+          source=src.read_text().splitlines()
+          print("R79_R1_RETAINED",json.dumps({"run":46146339391,"artifact":15263398052,"log_sha256":hashlib.sha256(raw).hexdigest(),"source_sha256":hashlib.sha256(src.read_bytes()).hexdigest(),"log_lines":len(lines),"source_lines":len(source),"lean_executions":0,"compiled_files":[str(x.relative_to(root)) for x in root.glob("audit-capsule/*")]}))
+          print("R79_R1_PREFIX_BEGIN")
+          for i,line in enumerate(lines[:120],1):
+              if line.startswith(("KUUOS_R76_RAW ","KUUOS_RECALL_KERNEL ")):
+                  pref,body=line.split(" ",1)
+                  try:
+                      r=json.loads(body)
+                      print(i,pref,json.dumps({"name":r.get("name"),"axioms":r.get("axioms"),"proof_constants":r.get("proof_constants")},ensure_ascii=False))
+                  except Exception:
+                      print(i,repr(line[:500]))
+              else:
+                  print(i,repr(line[:2000]))
+          print("R79_R1_PREFIX_END")
+          hits=[i for i,l in enumerate(lines) if any(x in l.lower() for x in ("error:","warning:","panic at","lean panicked","unsolved goals","unexpected","failed"))]
+          for i in hits:
+              l=lines[i]
+              print("R79_R1_HIT",i+1,repr(l[:1000]))
+              if not l.startswith("KUUOS_"):
+                  for j in range(i+1,min(i+15,len(lines))):
+                      if lines[j].startswith(("KUUOS_","@")): break
+                      print("CONTEXT",j+1,repr(lines[j][:1000]))
+                  m=re.search(r"\.lean:(\d+):",l)
+                  if m:
+                      n=int(m.group(1))
+                      for j in range(max(1,n-3),min(n+3,len(source))+1):
+                          print("SOURCE",j,source[j-1][:1000])
+          print("R79_R1_HIT_COUNT",len(hits))
+          PY
