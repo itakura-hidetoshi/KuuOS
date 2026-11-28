@@ -248,6 +248,8 @@ import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
 import Kuu.F112.PolygonNativeC60FlagGaugeClassCurvature
 import Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence
+import Kuu.F112.PolygonNativeC60NorthK5GaugeBoundaryBridge
+import Kuu.F112.PolygonNativeC60NorthWuxingK5TripleGaugeBridge
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
