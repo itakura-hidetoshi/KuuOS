@@ -1,0 +1,191 @@
+name: CodeAI checked registry extension chain v1 R82 R2
+on:
+  push:
+    branches: [research/codeai-nogo-memory-v1-20261126]
+    paths:
+      - ".github/workflows/codeai-olean-registry-checked-chain-v1-r82-r2.yml"
+permissions:
+  contents: read
+  actions: read
+env:
+  CANONICAL_HEAD: a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+concurrency:
+  group: codeai-olean-registry-checked-chain-v1-r82-r2
+  cancel-in-progress: false
+jobs:
+  sandbox:
+    name: R82 sandbox checked registry extension chain
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r81-local-46150781768-1
+          path: r81-local
+          run-id: 46150781768
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r81-independent-46150781768-1
+          path: r81-independent
+          run-id: 46150781768
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r82-local-46153204862-1
+          path: r82-r1-failure
+          run-id: 46153204862
+          github-token: ${{ github.token }}
+      - name: Verify fixed R82 candidate source hashes
+        run: python3 pilot/scripts/check_codeai_olean_registry_checked_chain_v1_r82_r2.py --phase preflight
+      - name: Verify R82 checked registry extension chain
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registry_checked_chain_v1_r82_r2.py --out artifacts/olean-r82 --phase direct --r81-local r81-local --r81-independent r81-independent --r82-r1-failure r82-r1-failure
+      - name: Install actual Lean MCP launcher
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check uv==0.13.10
+          if ! command -v rg >/dev/null 2>&1; then
+            test -f /etc/apt/sources.list.d/ubuntu.sources
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- update -qq
+            sudo apt-get -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=- install -y -qq ripgrep
+          fi
+          uv --version
+          rg --version
+      - name: Actual Lean MCP R82 new declarations and exact prior receipt reuse
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registry_checked_chain_v1_r82_r2.py --out artifacts/olean-r82 --phase mcp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r82-r2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r82/
+          if-no-files-found: warn
+  independent:
+    name: R82 independent checked registry extension chain
+    needs: sandbox
+    if: needs.sandbox.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          path: pilot
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.CANONICAL_HEAD }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore verified canonical project olean archive
+        id: cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: GITHUB_SHA="$CANONICAL_HEAD" python3 scripts/ci_verified_lean_project_cache_v1.py restore --base "$CANONICAL_HEAD"
+      - name: Require verified archive and fixed proof scope
+        env:
+          RESTORED: ${{ steps.cache.outputs.restored }}
+          SCOPE: ${{ steps.cache.outputs.scope_digest }}
+        run: |
+          set -euo pipefail
+          test "$RESTORED" = true
+          test "$SCOPE" = 2d9d0c313b6f7d8e4df0900fd0977324999a4200c1ed3c1adb178706370dbd6b
+          test -f .lake/build/lib/lean/KuuOSFormal.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - name: Require pinned mathlib for selected typed application
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          test -f .lake/build/lib/lean/KUOS/WORLD/KuuOSRepositoryAlignmentNormalFormV0_80.olean
+          git diff --exit-code -- formal lean lakefile.toml lake-manifest.json lean-toolchain
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r81-local-46150781768-1
+          path: r81-local
+          run-id: 46150781768
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r81-independent-46150781768-1
+          path: r81-independent
+          run-id: 46150781768
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r82-local-46153204862-1
+          path: r82-r1-failure
+          run-id: 46153204862
+          github-token: ${{ github.token }}
+      - name: Verify fixed R82 candidate source hashes
+        run: python3 pilot/scripts/check_codeai_olean_registry_checked_chain_v1_r82_r2.py --phase preflight
+      - uses: actions/download-artifact@v4
+        with:
+          name: codeai-olean-r82-r2-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: first-recall
+      - name: Independently verify R82 checked registry extension chain
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 pilot/scripts/check_codeai_olean_registry_checked_chain_v1_r82_r2.py --out artifacts/olean-r82 --phase independent --r81-local r81-local --r81-independent r81-independent --r82-r1-failure r82-r1-failure --first first-recall
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeai-olean-r82-r2-independent-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/olean-r82/
+          if-no-files-found: warn
