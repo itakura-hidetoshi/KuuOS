@@ -1,0 +1,131 @@
+{
+  "status": "R82_R1_SOURCE_CANDIDATE_UNVERIFIED",
+  "parent": {
+    "run_id": 46150781768,
+    "head": "0874fa76a85489ee057c4b827cf3e1fafe0baee7",
+    "tree": "666496d0d1cffb6543c49bf2e621fa53f3249260",
+    "module": "artifacts.«olean-r81».FiniteChainR81",
+    "olean_sha256": "45088b4a7ef72ac4146c965dbd9a9125b6c3fc68cacbe456cbb5635b26885759",
+    "artifact_local_id": 15266255185,
+    "artifact_independent_id": 15265722503,
+    "certified_audits": 411,
+    "complete_proofs": 312,
+    "artifact_local_name": "codeai-olean-r81-local-46150781768-1",
+    "artifact_local_sha256": "8fe38057a9a9fd32bbb690b210a8db0f8b97267e24b76758117299dc78d5df4a",
+    "artifact_independent_name": "codeai-olean-r81-independent-46150781768-1",
+    "artifact_independent_sha256": "25f034d3d0cb6c30416c29dd68d2fdb8d16e62b09cb722fc93816c4a2a84b9a3",
+    "direct_digest": "6f26809dfa9a2aeaaf0c3b75aefec76ea34b04fafbe7128176264ce724e50e98",
+    "mcp_digest": "f1d343fb0ace46b8996d0ae191a9e577b6bbc9c15ef58d53dbe9b49416834392",
+    "key": "66051cbbf37c32476d897567c4c1fe6a91daa213de8b481a1f4b28fc38f6ae27",
+    "diagnostics_digest": "0495ca766a9fe191fef74c831fe09f00a745b40f1f3bb5989c138c4874d9a2c6",
+    "manifest_digest": "d81854a309e57023afbf943cf69a54f898b7c28398db7e60fb560bd437f44f54",
+    "replay_digest": "b1122335022add67b24cae70dcdb8afb10fe53de63c134b72eb12a5092af1f17",
+    "olean_bytes": 99568,
+    "sandbox_job_id": 140996747535,
+    "independent_job_id": 140998156725
+  },
+  "new_theorem_candidates": [
+    "KuuOSR82.check_batches_trace",
+    "KuuOSR82.trace_deterministic",
+    "KuuOSR82.trace_registry_chain",
+    "KuuOSR82.trace_suffix",
+    "KuuOSR82.trace_length",
+    "KuuOSR82.trace_pending_blocked",
+    "KuuOSR82.failure_flags_exact",
+    "KuuOSR82.trace_first_failure",
+    "KuuOSR82.trace_prefix_flatten",
+    "KuuOSR82.trace_complete_flatten",
+    "KuuOSR82.checked_chain_extends",
+    "KuuOSR82.checked_chain_cache_exact",
+    "KuuOSR82.checked_chain_one_shot",
+    "KuuOSR82.checked_chain_frontier_exact",
+    "KuuOSR82.actual_checked_chain_cache_exact",
+    "KuuOSR82.actual_checked_chain_frontier_exact"
+  ],
+  "expected_comparison_count": 17,
+  "lean_executed": false,
+  "mcp_executed": false,
+  "independent_ci_executed": false,
+  "github_written": false,
+  "files": [
+    {
+      "name": "codeai_registry_checked_chain_v1.lean",
+      "sha256": "e951af0407528a3c1e502652033c72fcf2c8c3a9cda2fef363c84840511db3a5",
+      "bytes": 10371
+    },
+    {
+      "name": "codeai_registry_checked_chain_v1_tests.lean",
+      "sha256": "8ae3e007acb5b8e903aa78155dfc9edef85470f1343092e247f86c106ffd65e9",
+      "bytes": 4286
+    }
+  ],
+  "fixed_scope": {
+    "canonical_head": "a316e66f8a3a3f8dca2ae5177e4f04e7cc1dd063",
+    "canonical_tree": "c6686a052dd0b26728e1d784520db5d07f965784",
+    "lean": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "standard_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "required_direct_references": {
+    "KuuOSR82.trace_registry_chain": [
+      "KuuOSR73.checked_batch_extends"
+    ],
+    "KuuOSR82.trace_pending_blocked": [
+      "KuuOSR74.checked_batch_hold_iff"
+    ],
+    "KuuOSR82.failure_flags_exact": [
+      "KuuOSR74.batch_ready_check_iff"
+    ],
+    "KuuOSR82.trace_prefix_flatten": [
+      "KuuOSR73.checked_batch_append"
+    ],
+    "KuuOSR82.trace_complete_flatten": [
+      "KuuOSR73.checked_batch_append"
+    ],
+    "KuuOSR82.checked_chain_extends": [
+      "KuuOSR81.chain_end_extends",
+      "KuuOSR82.trace_registry_chain",
+      "KuuOSR82.check_batches_trace"
+    ],
+    "KuuOSR82.checked_chain_cache_exact": [
+      "KuuOSR81.refresh_chain_exact",
+      "KuuOSR82.trace_registry_chain",
+      "KuuOSR82.check_batches_trace"
+    ],
+    "KuuOSR82.checked_chain_one_shot": [
+      "KuuOSR81.refresh_chain_one_shot",
+      "KuuOSR82.trace_registry_chain",
+      "KuuOSR82.check_batches_trace"
+    ],
+    "KuuOSR82.checked_chain_frontier_exact": [
+      "KuuOSR81.refresh_chain_frontier_exact",
+      "KuuOSR82.trace_registry_chain",
+      "KuuOSR82.check_batches_trace"
+    ],
+    "KuuOSR82.actual_checked_chain_cache_exact": [
+      "KuuOSR82.checked_chain_cache_exact"
+    ],
+    "KuuOSR82.actual_checked_chain_frontier_exact": [
+      "KuuOSR82.checked_chain_frontier_exact"
+    ]
+  },
+  "expected_after_all_gates_pass": {
+    "cumulative_audits": 427,
+    "complete_proofs": 328,
+    "new_mcp": 16,
+    "reused_mcp": 411
+  },
+  "runner_verifier_implemented": false,
+  "parent_artifact_internal_bytes_rechecked": false,
+  "authority": {
+    "live_registry_writes": false,
+    "current_main_certification_transferred": false,
+    "registry_authentication_proved": false,
+    "proof_authority": false,
+    "action_authority": false
+  }
+}
